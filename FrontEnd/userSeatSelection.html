@@ -161,6 +161,23 @@
             color: rgba(229, 189, 190, 0.3);
             cursor: not-allowed;
         }
+        
+        /* Seat Types */
+        .seat-vip.seat-available {
+            background-color: #f59e0b;
+            color: #fff;
+            box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2);
+        }
+        .seat-couple.seat-available {
+            background-color: #8b5cf6;
+            color: #fff;
+            box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2);
+        }
+        .seat-imax.seat-available {
+            background-color: #0ea5e9;
+            color: #fff;
+            box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2);
+        }
     </style>
 </head>
 
@@ -240,8 +257,8 @@
             <main class="flex-grow pt-0 relative z-10 w-full flex flex-col">
                 <!-- Movie Info Header -->
                 <header class="px-lg lg:px-2xl pt-xl pb-lg bg-background border-b border-outline-variant/10 text-center">
-                    <h1 class="font-headline-lg text-headline-lg text-white mb-xs">Laskar Pelangi</h1>
-                    <p class="text-on-surface-variant font-body-md text-body-md">Studio 1 • Today, 19:30</p>
+                    <h1 class="font-headline-lg text-headline-lg text-white mb-xs" id="movie-title">Loading...</h1>
+                    <p class="text-on-surface-variant font-body-md text-body-md" id="schedule-info">...</p>
                 </header>
 
                 <div class="flex-1 flex flex-col items-center justify-center p-lg lg:p-2xl max-w-4xl mx-auto w-full">
@@ -253,98 +270,8 @@
                     </div>
 
                     <!-- Seat Grid -->
-                    <div class="flex flex-col gap-md mb-2xl">
-                        <!-- Row F -->
-                        <div class="flex items-center gap-md">
-                            <span class="text-on-surface-variant font-bold w-6 text-center">F</span>
-                            <div class="flex gap-sm">
-                                <div class="seat seat-available">1</div>
-                                <div class="seat seat-available">2</div>
-                                <div class="w-8"></div> <!-- Aisle -->
-                                <div class="seat seat-available">3</div>
-                                <div class="seat seat-available">4</div>
-                                <div class="seat seat-available">5</div>
-                                <div class="seat seat-available">6</div>
-                                <div class="seat seat-available">7</div>
-                                <div class="seat seat-available">8</div>
-                                <div class="w-8"></div> <!-- Aisle -->
-                                <div class="seat seat-available">9</div>
-                                <div class="seat seat-available">10</div>
-                                <div class="seat seat-available">11</div>
-                                <div class="seat seat-available">12</div>
-                                <div class="seat seat-available">13</div>
-                                <div class="seat seat-available">14</div>
-                            </div>
-                        </div>
-                        
-                        <!-- Row E -->
-                        <div class="flex items-center gap-md">
-                            <span class="text-on-surface-variant font-bold w-6 text-center">E</span>
-                            <div class="flex gap-sm">
-                                <div class="seat seat-available">1</div>
-                                <div class="seat seat-available">2</div>
-                                <div class="w-8"></div>
-                                <div class="seat seat-booked">3</div>
-                                <div class="seat seat-booked">4</div>
-                                <div class="seat seat-available">5</div>
-                                <div class="seat seat-available">6</div>
-                                <div class="seat seat-available">7</div>
-                                <div class="seat seat-available">8</div>
-                                <div class="w-8"></div>
-                                <div class="seat seat-available">9</div>
-                                <div class="seat seat-available">10</div>
-                                <div class="seat seat-available">11</div>
-                                <div class="seat seat-available">12</div>
-                                <div class="seat seat-available">13</div>
-                                <div class="seat seat-available">14</div>
-                            </div>
-                        </div>
-
-                        <!-- Row D -->
-                        <div class="flex items-center gap-md">
-                            <span class="text-on-surface-variant font-bold w-6 text-center">D</span>
-                            <div class="flex gap-sm">
-                                <div class="seat seat-available">1</div>
-                                <div class="seat seat-available">2</div>
-                                <div class="w-8"></div>
-                                <div class="seat seat-available">3</div>
-                                <div class="seat seat-available">4</div>
-                                <div class="seat seat-booked">5</div>
-                                <div class="seat seat-booked">6</div>
-                                <div class="seat seat-booked">7</div>
-                                <div class="seat seat-available">8</div>
-                                <div class="w-8"></div>
-                                <div class="seat seat-available">9</div>
-                                <div class="seat seat-booked">10</div>
-                                <div class="seat seat-booked">11</div>
-                                <div class="seat seat-available">12</div>
-                                <div class="seat seat-available">13</div>
-                                <div class="seat seat-available">14</div>
-                            </div>
-                        </div>
-                        
-                        <!-- Row C -->
-                        <div class="flex items-center gap-md">
-                            <span class="text-on-surface-variant font-bold w-6 text-center">C</span>
-                            <div class="flex gap-sm">
-                                <div class="seat seat-booked">1</div>
-                                <div class="seat seat-booked">2</div>
-                                <div class="w-8"></div>
-                                <div class="seat seat-booked">3</div>
-                                <div class="seat seat-booked">4</div>
-                                <div class="seat seat-available">5</div>
-                                <div class="seat seat-available">6</div>
-                                <div class="seat seat-available">7</div>
-                                <div class="seat seat-available">8</div>
-                                <div class="w-8"></div>
-                                <div class="seat seat-available">9</div>
-                                <div class="seat seat-available">10</div>
-                                <div class="seat seat-available">11</div>
-                                <div class="seat seat-available">12</div>
-                                <div class="seat seat-available">13</div>
-                                <div class="seat seat-available">14</div>
-                            </div>
-                        </div>
+                    <div class="flex flex-col gap-md mb-2xl" id="seat-grid">
+                        <!-- Dynamically loaded seats will go here -->
                     </div>
 
                     <!-- Legend -->
@@ -360,6 +287,21 @@
                         <div class="flex items-center gap-sm">
                             <div class="w-5 h-5 rounded-md bg-surface-container-high border border-outline-variant/10"></div>
                             <span class="text-label-md text-on-surface-variant/50">Booked</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center justify-center gap-xl mt-md w-full max-w-2xl flex-wrap">
+                        <div class="flex items-center gap-sm">
+                            <div class="w-4 h-4 rounded-full bg-[#f59e0b] shadow-[0_0_8px_rgba(245,158,11,0.5)]"></div>
+                            <span class="text-label-sm text-on-surface-variant">VIP</span>
+                        </div>
+                        <div class="flex items-center gap-sm">
+                            <div class="w-4 h-4 rounded-full bg-[#8b5cf6] shadow-[0_0_8px_rgba(139,92,246,0.5)]"></div>
+                            <span class="text-label-sm text-on-surface-variant">Couple</span>
+                        </div>
+                        <div class="flex items-center gap-sm">
+                            <div class="w-4 h-4 rounded-full bg-[#0ea5e9] shadow-[0_0_8px_rgba(14,165,233,0.5)]"></div>
+                            <span class="text-label-sm text-on-surface-variant">IMAX</span>
                         </div>
                     </div>
 
@@ -396,52 +338,149 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const seats = document.querySelectorAll('.seat:not(.seat-booked)');
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const scheduleId = urlParams.get('scheduleId') || localStorage.getItem('selectedScheduleId');
+            if (!scheduleId) {
+                alert('No schedule selected. Returning to home.');
+                window.location.href = 'userHome.html';
+                return;
+            }
+            
+            // Save to localStorage just in case
+            localStorage.setItem('selectedScheduleId', scheduleId);
+
             const selectedListEl = document.getElementById('selected-seats-list');
             const totalPriceEl = document.getElementById('total-price');
-            const pricePerSeat = 55000;
+            const seatGrid = document.getElementById('seat-grid');
             
             let selectedSeats = [];
+            let pricePerSeat = 55000;
 
-            seats.forEach(seat => {
-                seat.addEventListener('click', () => {
-                    const rowElement = seat.closest('.flex.items-center').querySelector('span');
-                    if (!rowElement) return;
-                    
-                    const seatId = rowElement.textContent + seat.textContent;
-
-                    if (seat.classList.contains('seat-selected')) {
-                        // Deselect
-                        seat.classList.remove('seat-selected');
-                        seat.classList.add('seat-available');
-                        selectedSeats = selectedSeats.filter(s => s !== seatId);
-                    } else {
-                        // Select
-                        seat.classList.remove('seat-available');
-                        seat.classList.add('seat-selected');
-                        selectedSeats.push(seatId);
-                    }
-                    
-                    updateSummary();
+            try {
+                const res = await fetch(`/api/schedules/${scheduleId}/seats`);
+                const data = await res.json();
+                
+                if (data.message) {
+                    alert(data.message);
+                    return;
+                }
+                
+                // Update header info
+                document.getElementById('movie-title').textContent = data.judul || 'Movie';
+                const showDate = new Date(data.waktu_tayang);
+                const dateStr = showDate.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short' });
+                const timeStr = showDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+                document.getElementById('schedule-info').textContent = `${data.nama_cabang}, Studio ${data.nomor_studio} • ${dateStr}, ${timeStr}`;
+                
+                pricePerSeat = data.harga || 55000;
+                
+                // Render seats
+                seatGrid.innerHTML = '';
+                
+                // Group by row
+                const rows = {};
+                data.seats.forEach(seat => {
+                    if (!rows[seat.baris]) rows[seat.baris] = [];
+                    rows[seat.baris].push(seat);
                 });
-            });
+                
+                // Sort rows ascending (A to Z), so A is closest to the screen (top) and G is at the back (bottom)
+                const rowKeys = Object.keys(rows).sort();
+                
+                rowKeys.forEach(row => {
+                    const rowDiv = document.createElement('div');
+                    rowDiv.className = 'flex items-center gap-md justify-center';
+                    rowDiv.innerHTML = `<span class="text-on-surface-variant font-bold w-6 text-center">${row}</span>`;
+                    
+                    const seatsDiv = document.createElement('div');
+                    seatsDiv.className = 'flex gap-sm';
+                    
+                    // Sort seats in row by kolom
+                    rows[row].sort((a, b) => parseInt(a.kolom) - parseInt(b.kolom));
+                    
+                    let prevKolom = 0;
+                    rows[row].forEach(seat => {
+                        const currentKolom = parseInt(seat.kolom);
+                        // Add aisle if gap is > 1
+                        if (currentKolom - prevKolom > 1 && prevKolom !== 0) {
+                            seatsDiv.innerHTML += `<div class="w-8"></div>`;
+                        }
+                        prevKolom = currentKolom;
+                        
+                        const seatEl = document.createElement('div');
+                        let typeClass = '';
+                        if (seat.tipe_kursi === 'VIP') typeClass = 'seat-vip';
+                        else if (seat.tipe_kursi === 'Couple') typeClass = 'seat-couple';
+                        else if (seat.tipe_kursi === 'IMAX') typeClass = 'seat-imax';
+                        
+                        seatEl.className = `seat ${seat.isBooked ? 'seat-booked' : 'seat-available'} ${typeClass}`;
+                        seatEl.textContent = currentKolom;
+                        seatEl.title = `${seat.tipe_kursi} - Rp ${parseFloat(seat.tarif_tipe || pricePerSeat).toLocaleString('id-ID')}`;
+                        seatEl.dataset.id = seat.id_kursi;
+                        seatEl.dataset.name = seat.nomor_kursi;
+                        seatEl.dataset.price = seat.tarif_tipe || pricePerSeat;
+                        
+                        if (!seat.isBooked) {
+                            seatEl.addEventListener('click', () => {
+                                const seatData = {
+                                    id_kursi: seat.id_kursi,
+                                    nomor_kursi: seat.nomor_kursi,
+                                    price: parseFloat(seat.tarif_tipe) || pricePerSeat
+                                };
+                                
+                                if (seatEl.classList.contains('seat-selected')) {
+                                    seatEl.classList.remove('seat-selected');
+                                    seatEl.classList.add('seat-available');
+                                    selectedSeats = selectedSeats.filter(s => s.id_kursi !== seat.id_kursi);
+                                } else {
+                                    seatEl.classList.remove('seat-available');
+                                    seatEl.classList.add('seat-selected');
+                                    selectedSeats.push(seatData);
+                                }
+                                updateSummary();
+                            });
+                        }
+                        seatsDiv.appendChild(seatEl);
+                    });
+                    
+                    rowDiv.appendChild(seatsDiv);
+                    seatGrid.appendChild(rowDiv);
+                });
+                
+            } catch (err) {
+                console.error(err);
+                seatGrid.innerHTML = '<p class="text-on-surface-variant text-center">Failed to load seats.</p>';
+            }
 
             function updateSummary() {
                 if (selectedSeats.length === 0) {
                     selectedListEl.textContent = '-';
                     totalPriceEl.textContent = 'Rp 0';
                 } else {
-                    // Sort seats
                     selectedSeats.sort((a, b) => {
-                        if (a[0] === b[0]) return parseInt(a.slice(1)) - parseInt(b.slice(1));
-                        return a[0].localeCompare(b[0]);
+                        if (a.nomor_kursi[0] === b.nomor_kursi[0]) return parseInt(a.nomor_kursi.slice(1)) - parseInt(b.nomor_kursi.slice(1));
+                        return a.nomor_kursi[0].localeCompare(b.nomor_kursi[0]);
                     });
                     
-                    selectedListEl.textContent = selectedSeats.join(', ');
-                    const total = selectedSeats.length * pricePerSeat;
+                    selectedListEl.textContent = selectedSeats.map(s => s.nomor_kursi).join(', ');
+                    const total = selectedSeats.reduce((sum, s) => sum + s.price, 0);
                     totalPriceEl.textContent = 'Rp ' + total.toLocaleString('id-ID');
                 }
+                
+                // Save to localStorage immediately so snacks page can read it
+                localStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
+            }
+            
+            // "Continue to Snacks" button
+            const continueBtn = document.querySelector('a[href="userSnacks.html"]');
+            if (continueBtn) {
+                continueBtn.addEventListener('click', (e) => {
+                    if (selectedSeats.length === 0) {
+                        e.preventDefault();
+                        alert('Please select at least one seat before continuing.');
+                    }
+                });
             }
         });
     </script>

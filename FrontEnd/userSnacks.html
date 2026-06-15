@@ -320,13 +320,8 @@
                             <!-- Tickets Section -->
                             <div>
                                 <h4 class="text-label-sm text-on-surface-variant uppercase tracking-wider mb-sm">Tickets</h4>
-                                <div class="bg-surface-container border border-outline-variant/20 rounded-xl p-md">
-                                    <div class="flex justify-between items-start mb-xs">
-                                        <p class="font-bold text-white text-body-md">Laskar Pelangi</p>
-                                        <p class="font-bold text-white text-body-md">Rp 110.000</p>
-                                    </div>
-                                    <p class="text-label-sm text-on-surface-variant">Seats: F12, F13 (2x Rp 55.000)</p>
-                                    <p class="text-label-sm text-on-surface-variant">Studio 1 • Today, 19:30</p>
+                                <div class="bg-surface-container border border-outline-variant/20 rounded-xl p-md" id="ticket-info-container">
+                                    <p class="text-label-sm text-on-surface-variant">Loading ticket info...</p>
                                 </div>
                             </div>
 
@@ -355,10 +350,10 @@
                                 <span id="total-price" class="text-display-sm font-display font-bold text-primary text-[32px] leading-none">Rp 112.000</span>
                             </div>
                             
-                            <a href="userPayment.html" class="w-full bg-primary text-white py-4 rounded-xl font-bold btn-glow transition-all active:scale-95 text-body-md shadow-[0_4px_20px_rgba(225,29,72,0.4)] flex items-center justify-center gap-sm">
+                            <button id="checkout-btn" class="w-full bg-primary text-white py-4 rounded-xl font-bold btn-glow transition-all active:scale-95 text-body-md shadow-[0_4px_20px_rgba(225,29,72,0.4)] flex items-center justify-center gap-sm">
                                 Continue to Checkout
                                 <span class="material-symbols-outlined">payments</span>
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </aside>
@@ -385,8 +380,28 @@
             const taxesPriceEl = document.getElementById('taxes-price');
             const totalPriceEl = document.getElementById('total-price');
             
-            const ticketsSubtotal = 110000;
-            const taxes = 2000;
+            // Read from localStorage
+            const movie = JSON.parse(localStorage.getItem('selectedMovie')) || {};
+            const seats = JSON.parse(localStorage.getItem('selectedSeats')) || [];
+            
+            const ticketsSubtotal = seats.reduce((sum, s) => sum + s.price, 0);
+            const bookingFee = seats.length > 0 ? 5000 : 0;
+            
+            // Populate Ticket UI
+            const ticketContainer = document.getElementById('ticket-info-container');
+            if (seats.length > 0) {
+                const seatNames = seats.map(s => s.nomor_kursi).join(', ');
+                ticketContainer.innerHTML = `
+                    <div class="flex justify-between items-start mb-xs">
+                        <p class="font-bold text-white text-body-md">${movie.judul || 'Movie'}</p>
+                        <p class="font-bold text-white text-body-md">Rp ${ticketsSubtotal.toLocaleString('id-ID')}</p>
+                    </div>
+                    <p class="text-label-sm text-on-surface-variant">Seats: ${seatNames}</p>
+                `;
+            } else {
+                ticketContainer.innerHTML = `<p class="text-label-sm text-on-surface-variant">No tickets selected</p>`;
+            }
+
             let cart = []; // Array of { id, name, price, img, qty }
 
             addToCartBtns.forEach(btn => {
@@ -442,14 +457,29 @@
                 });
                 
                 const finalSubtotal = ticketsSubtotal + snacksSubtotal;
-                const finalTotal = finalSubtotal + taxes;
+                const taxesAndFees = bookingFee + (finalSubtotal * 0.10); // 10% tax
+                const finalTotal = finalSubtotal + taxesAndFees;
                 
                 subtotalPriceEl.textContent = 'Rp ' + finalSubtotal.toLocaleString('id-ID');
+                taxesPriceEl.textContent = 'Rp ' + taxesAndFees.toLocaleString('id-ID');
                 totalPriceEl.textContent = 'Rp ' + finalTotal.toLocaleString('id-ID');
+                
+                // Save to localStorage so payment page can read it
+                const canteenItems = cart.map(item => ({
+                    id_produk: item.id,
+                    name: item.name,
+                    qty: item.qty,
+                    subtotal: item.price * item.qty
+                }));
+                localStorage.setItem('selectedCanteenItems', JSON.stringify(canteenItems));
+                localStorage.setItem('totalBill', finalTotal.toString());
             }
             
-            // Expose updateQty globally for inline onclick
-            window.updateQty = function(id, change) {
+            // Run once on load to set initial state
+            renderCart();
+            
+            // Expose updateQty to window for inline onclick handler
+            window.updateQty = (id, change) => {
                 const item = cart.find(i => i.id === id);
                 if (item) {
                     item.qty += change;
@@ -459,6 +489,10 @@
                     renderCart();
                 }
             };
+            
+            document.getElementById('checkout-btn').addEventListener('click', () => {
+                window.location.href = 'userPayment.html';
+            });
         });
     </script>
     <script>
