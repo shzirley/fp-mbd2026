@@ -191,12 +191,12 @@
         <!-- Top Bar -->
         <header class="sticky top-0 w-full z-40 flex justify-between items-center px-10 h-20 bg-surface/70 backdrop-blur-xl border-b border-outline-variant/30">
             <div>
-                <h2 class="text-headline-md font-bold text-on-surface">Overview</h2>
+                <h2 class="text-headline-md font-bold text-on-surface">Manage Movies</h2>
             </div>
             <div class="flex items-center gap-6">
                 <div class="relative">
                     <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
-                    <input class="bg-surface-container-low border border-outline-variant/30 rounded-full py-2 pl-10 pr-4 text-label-md w-64 focus:outline-none focus:border-primary/50 transition-colors" placeholder="Global search..." type="text">
+                    <input class="bg-surface-container-low border border-outline-variant/30 rounded-full py-2 pl-10 pr-4 text-label-md w-64 focus:outline-none focus:border-primary/50 transition-colors" placeholder="Search movies..." type="text">
                 </div>
                 <button class="p-2 rounded-full hover:bg-surface-variant transition-colors relative">
                     <span class="material-symbols-outlined text-on-surface-variant">notifications</span>
@@ -459,6 +459,18 @@
             });
         });
     
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const userStr = localStorage.getItem('user');
+            if (userStr) {
+                const user = JSON.parse(userStr);
+                const headerUser = document.querySelector('header .text-right p.font-bold');
+                if (headerUser) headerUser.innerText = user.name;
+                const sidebarAvatar = document.querySelector('aside .w-10.h-10');
+                if (sidebarAvatar) sidebarAvatar.innerText = user.name.substring(0, 2).toUpperCase();
+            }
+        });
+
         async function deleteAccount() {
             if (!confirm('Are you sure you want to delete your Admin account? This action cannot be undone.')) return;
             const userStr = localStorage.getItem('user');
