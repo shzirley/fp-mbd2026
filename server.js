@@ -37,8 +37,8 @@ pool.query('SELECT 1')
   .catch(err => console.error('Database connection error:', err));
 
 // Helper: Auto-increment ID generator
-async function getNextId(prefix, tableName, columnName) {
-  const [rows] = await pool.query(`SELECT ${columnName} FROM ${tableName} ORDER BY ${columnName} DESC LIMIT 1`);
+async function getNextId(prefix, tableName, columnName, conn = pool) {
+  const [rows] = await conn.query(`SELECT ${columnName} FROM ${tableName} ORDER BY ${columnName} DESC LIMIT 1`);
   if (rows.length === 0) {
     // Determine target length based on standard seeds
     // Standard formats: PL0001 (6 chars), TX0001 (6 chars), FM0001 (6 chars)
@@ -461,14 +461,14 @@ app.post('/api/checkout', async (req, res) => {
     await connection.beginTransaction();
 
     // 1. Create a payment record
-    const paymentId = await getNextId('PB', 'pembayaran', 'id_pembayaran');
+    const paymentId = await getNextId('PB', 'pembayaran', 'id_pembayaran', connection);
     await connection.query(
       'INSERT INTO pembayaran (id_pembayaran, metode_pembayaran, status_pembayaran) VALUES (?, ?, ?)',
       [paymentId, paymentMethod || 'E-Wallet', 'Success']
     );
 
     // 2. Create the main transaction
-    const transactionId = await getNextId('TX', 'transaksi', 'id_transaksi');
+    const transactionId = await getNextId('TX', 'transaksi', 'id_transaksi', connection);
     // Cashier default employee is PG0001 (Ops Director/Admin)
     await connection.query(
       'INSERT INTO transaksi (id_transaksi, tanggal_transaksi, total_tagihan, pelanggan_id_pelanggan, pembayaran_id_pembayaran, pegawai_id_pegawai) VALUES (?, NOW(), ?, ?, ?, ?)',
@@ -477,7 +477,7 @@ app.post('/api/checkout', async (req, res) => {
 
     // 3. Create ticket records (Trigger trg_cegah_double_booking & trg_kalkulasi_harga_tiket will execute)
     for (const seatId of seats) {
-      const ticketId = await getNextId('TK', 'tiket', 'id_tiket');
+      const ticketId = await getNextId('TK', 'tiket', 'id_tiket', connection);
       // Insert with temporary dummy price, which is automatically overwritten by the BEFORE INSERT trigger
       await connection.query(
         'INSERT INTO tiket (id_tiket, harga_beli, jadwal_tayang_id_jadwal, transaksi_id_transaksi, kursi_id_kursi) VALUES (?, 0, ?, ?, ?)',
