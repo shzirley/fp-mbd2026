@@ -241,11 +241,7 @@
                         <span class="material-symbols-outlined text-[20px]" data-icon="download">download</span>
                         Export CSV
                     </button>
-                    <button
-                        class="flex items-center gap-2 px-6 py-2.5 bg-primary text-on-primary rounded-lg text-label-md font-bold hover:opacity-90 transition-all shadow-md">
-                        <span class="material-symbols-outlined text-[20px]" data-icon="add">add</span>
-                        Add New Branch
-                    </button>
+                    <button onclick="openModal()" class="flex items-center gap-2 bg-primary-container text-on-primary-container px-6 py-2 rounded-lg font-label-md hover:brightness-110 active:scale-95 transition-all shadow-sm"><span class="material-symbols-outlined" data-icon="add">add</span>Add New Branch</button>
                 </div>
             </div>
             <!-- Branches Table -->
@@ -421,6 +417,7 @@
                 if (headerUser) headerUser.innerText = user.name;
                 const sidebarAvatar = document.querySelector('aside .w-10.h-10');
                 if (sidebarAvatar) sidebarAvatar.innerText = user.name.substring(0, 2).toUpperCase();
+            fetchBranches();
             }
         });
 
@@ -451,6 +448,48 @@
             }
         }
     </script>
+
+    <!-- Branch Modal -->
+    <div id="branchModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm">
+        <div class="bg-surface-container-high border border-outline-variant/50 rounded-2xl p-6 w-[500px] shadow-2xl relative">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-on-surface-variant hover:text-white transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+            <h3 id="modalTitle" class="text-headline-md font-bold mb-6">Add New Branch</h3>
+            <form id="branchForm" onsubmit="handleFormSubmit(event)" class="space-y-4">
+                <input type="hidden" id="branchId" />
+                
+                <div class="space-y-1">
+                    <label class="text-label-sm text-on-surface-variant font-bold uppercase tracking-wider">Nama Cabang</label>
+                    <input id="nama_cabang" type="text" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 focus:border-primary focus:outline-none transition-colors" placeholder="e.g. Cinetrack Tunjungan">
+                </div>
+                
+                <div class="space-y-1">
+                    <label class="text-label-sm text-on-surface-variant font-bold uppercase tracking-wider">Alamat</label>
+                    <textarea id="alamat" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 focus:border-primary focus:outline-none transition-colors" placeholder="Jl. Basuki Rahmat No.8"></textarea>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="text-label-sm text-on-surface-variant font-bold uppercase tracking-wider">Nomor Telepon</label>
+                        <input id="nomor_telepon" type="text" class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 focus:border-primary focus:outline-none transition-colors" placeholder="031-1234567">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-label-sm text-on-surface-variant font-bold uppercase tracking-wider">Email Cabang</label>
+                        <input id="email_cabang" type="email" class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 focus:border-primary focus:outline-none transition-colors" placeholder="tunjungan@cinetrack.com">
+                    </div>
+                </div>
+
+                <div class="flex justify-end gap-3 mt-8">
+                    <button type="button" onclick="closeModal()" class="px-5 py-2.5 rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container-highest transition-colors font-bold">Cancel</button>
+                    <button type="submit" class="px-5 py-2.5 rounded-lg bg-primary text-on-primary hover:brightness-110 shadow-lg transition-colors font-bold flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[20px]">save</span> Save Branch
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
 </body>
 
 </html>

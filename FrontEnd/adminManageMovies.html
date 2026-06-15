@@ -240,11 +240,7 @@
                             class="w-full pl-10 pr-4 py-2 bg-surface-container-high border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary-container focus:border-transparent outline-none transition-all font-body-md"
                             id="desktopSearch" placeholder="Search movies, genres, IDs..." type="text">
                     </div>
-                    <button
-                        class="flex items-center gap-2 bg-primary-container text-on-primary-container px-6 py-2 rounded-lg font-label-md hover:brightness-110 active:scale-95 transition-all shadow-sm">
-                        <span class="material-symbols-outlined" data-icon="add">add</span>
-                        Add New Movie
-                    </button>
+                    <button onclick="openModal()" class="flex items-center gap-2 bg-primary-container text-on-primary-container px-6 py-2 rounded-lg font-label-md hover:brightness-110 active:scale-95 transition-all shadow-sm"><span class="material-symbols-outlined" data-icon="add">add</span>Add New Movie</button>
                 </div>
             </div>
             <!-- Movie Desktop Grid (5 columns for wider screens) -->
@@ -383,70 +379,151 @@
             if (sidebarUser) sidebarUser.innerText = user.name;
             const sidebarAvatar = document.querySelector('aside .w-10.h-10');
             if (sidebarAvatar) sidebarAvatar.innerText = user.name.substring(0, 2).toUpperCase();
+            fetchMovies();
 
-            // Load Movies
+            
+        let moviesData = [];
+
+        async function fetchMovies() {
             try {
                 const res = await fetch('/api/admin/movies');
-                const movies = await res.json();
-                
-                const grid = document.getElementById('movies-grid');
-                grid.innerHTML = '';
-                
-                movies.forEach(movie => {
-                    const card = document.createElement('div');
-                    card.className = 'group bg-surface-bright border border-outline-variant rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col min-h-[300px]';
-                    card.innerHTML = `
-                        <div class="relative aspect-[2/3] overflow-hidden">
-                            <img alt="${movie.judul}"
-                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                src="${movie.poster_url || '/assets/posters/default.jpg'}">
-                            <div class="absolute top-3 right-3 flex flex-col gap-2">
-                                <span
-                                    class="bg-secondary-container text-on-secondary-container text-[11px] font-bold px-2 py-0.5 rounded flex items-center gap-1 shadow-sm uppercase">
-                                    <span class="material-symbols-outlined text-[12px]" data-icon="star"
-                                        style="font-variation-settings: 'FILL' 1;">star</span>
-                                    ${parseFloat(movie.rating_score || 0).toFixed(1)}
-                                </span>
-                            </div>
-                        </div>
-                        <div class="p-4 flex-grow flex flex-col">
-                            <div class="mb-4">
-                                <span class="text-primary font-label-sm uppercase tracking-wider text-[11px]">${movie.rating_usia || 'SU'} • ${movie.durasi || 120}m</span>
-                                <h3 class="font-headline-md text-body-lg font-bold text-on-surface mt-1 line-clamp-1">${movie.judul}</h3>
-                            </div>
-                            <div class="mt-auto flex flex-col gap-2">
-                                <button onclick="alert('Edit movie: ${movie.id_film}')"
-                                    class="w-full flex items-center justify-center gap-1 py-1.5 rounded border border-outline-variant text-on-surface-variant hover:bg-surface-container-high transition-colors text-sm font-label-md">
-                                    <span class="material-symbols-outlined text-[16px]" data-icon="edit">edit</span>
-                                    Edit Details
-                                </button>
-                                <button onclick="window.location.href='adminManageSchedules.html'"
-                                    class="w-full flex items-center justify-center gap-1 py-1.5 rounded bg-surface-container-highest text-white hover:bg-on-surface transition-colors text-sm font-label-md">
-                                    <span class="material-symbols-outlined text-[16px]"
-                                        data-icon="calendar_month">calendar_month</span>
-                                    Schedule
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                    grid.appendChild(card);
-                });
-
-                // Add the placeholder button back
-                const addButton = document.createElement('button');
-                addButton.className = 'group border-2 border-dashed border-outline-variant rounded-xl hover:border-primary/50 hover:bg-primary/5 transition-all flex flex-col items-center justify-center gap-4 text-on-surface-variant min-h-[300px]';
-                addButton.innerHTML = `
-                    <span class="material-symbols-outlined text-4xl group-hover:scale-110 transition-transform"
-                        data-icon="add_circle">add_circle</span>
-                    <span class="font-label-md">Quick Add Movie</span>
-                `;
-                grid.appendChild(addButton);
-
+                moviesData = await res.json();
+                renderMoviesGrid(moviesData);
             } catch (err) {
                 console.error('Error fetching movies:', err);
             }
+        }
 
-            // Search filter logic for desktop
+        function renderMoviesGrid(movies) {
+            const grid = document.getElementById('movies-grid');
+            grid.innerHTML = '';
+            
+            movies.forEach(movie => {
+                const card = document.createElement('div');
+                card.className = 'group bg-surface-bright border border-outline-variant rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col min-h-[300px]';
+                card.innerHTML = `
+                    <div class="relative aspect-[2/3] overflow-hidden">
+                        <img alt="${movie.judul}"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            src="${movie.poster_url || '/assets/posters/default.jpg'}">
+                        <div class="absolute top-3 right-3 flex flex-col gap-2">
+                            <span
+                                class="bg-secondary-container text-on-secondary-container text-[11px] font-bold px-2 py-0.5 rounded flex items-center gap-1 shadow-sm uppercase">
+                                <span class="material-symbols-outlined text-[12px]" data-icon="star"
+                                    style="font-variation-settings: 'FILL' 1;">star</span>
+                                ${parseFloat(movie.rating_score || 0).toFixed(1)}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-4 flex-grow flex flex-col">
+                        <div class="mb-4">
+                            <span class="text-primary font-label-sm uppercase tracking-wider text-[11px]">${movie.rating_usia || 'SU'} • ${movie.durasi || 120}m</span>
+                            <h3 class="font-headline-md text-body-lg font-bold text-on-surface mt-1 line-clamp-1">${movie.judul}</h3>
+                            <p class="text-[12px] text-tertiary mt-1">${movie.daftar_genre || 'No Genre'}</p>
+                        </div>
+                        <div class="mt-auto flex flex-col gap-2">
+                            <button onclick="openModal('${movie.id_film}')"
+                                class="w-full flex items-center justify-center gap-1 py-1.5 rounded border border-outline-variant text-on-surface-variant hover:bg-surface-container-high transition-colors text-sm font-label-md">
+                                <span class="material-symbols-outlined text-[16px]" data-icon="edit">edit</span>
+                                Edit Details
+                            </button>
+                            <button onclick="deleteMovie('${movie.id_film}')"
+                                class="w-full flex items-center justify-center gap-1 py-1.5 rounded border border-red-500/30 text-red-400 hover:bg-red-500/10 transition-colors text-sm font-label-md">
+                                <span class="material-symbols-outlined text-[16px]" data-icon="delete">delete</span>
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            // Add the placeholder button back
+            const addButton = document.createElement('button');
+            addButton.onclick = () => openModal();
+            addButton.className = 'group border-2 border-dashed border-outline-variant rounded-xl hover:border-primary/50 hover:bg-primary/5 transition-all flex flex-col items-center justify-center gap-4 text-on-surface-variant min-h-[300px] cursor-pointer';
+            addButton.innerHTML = `
+                <span class="material-symbols-outlined text-4xl group-hover:scale-110 transition-transform"
+                    data-icon="add_circle">add_circle</span>
+                <span class="font-label-md">Quick Add Movie</span>
+            `;
+            grid.appendChild(addButton);
+        }
+
+        function openModal(id = null) {
+            const modal = document.getElementById('movieModal');
+            const form = document.getElementById('movieForm');
+            const title = document.getElementById('modalTitle');
+            
+            form.reset();
+            document.getElementById('movieId').value = '';
+
+            if (id) {
+                title.innerText = 'Edit Movie';
+                const movie = moviesData.find(m => m.id_film === id);
+                if (movie) {
+                    document.getElementById('movieId').value = movie.id_film;
+                    document.getElementById('judul').value = movie.judul;
+                    document.getElementById('sutradara').value = movie.sutradara || '';
+                    document.getElementById('durasi').value = movie.durasi || '';
+                    document.getElementById('rating_usia').value = movie.rating_usia || 'SU';
+                    document.getElementById('status_tayang').value = movie.status_tayang || 'Now Showing';
+                    document.getElementById('poster_url').value = movie.poster_url || '';
+                }
+            } else {
+                title.innerText = 'Add New Movie';
+            }
+            
+            modal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('movieModal').classList.add('hidden');
+        }
+
+        async function handleFormSubmit(e) {
+            e.preventDefault();
+            const id = document.getElementById('movieId').value;
+            const payload = {
+                judul: document.getElementById('judul').value,
+                sutradara: document.getElementById('sutradara').value,
+                durasi: document.getElementById('durasi').value,
+                rating_usia: document.getElementById('rating_usia').value,
+                status_tayang: document.getElementById('status_tayang').value,
+                poster_url: document.getElementById('poster_url').value,
+            };
+
+            const url = id ? '/api/admin/movies/' + id : '/api/admin/movies';
+            const method = id ? 'PUT' : 'POST';
+
+            try {
+                const res = await fetch(url, {
+                    method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                if (res.ok) {
+                    closeModal();
+                    fetchMovies();
+                } else {
+                    alert('Failed to save movie');
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        async function deleteMovie(id) {
+            if (!confirm('Are you sure you want to delete this movie? All related schedules and tickets will be deleted.')) return;
+            try {
+                const res = await fetch('/api/admin/movies/' + id, { method: 'DELETE' });
+                if (res.ok) fetchMovies();
+                else alert('Failed to delete movie');
+            } catch (err) {
+                console.error(err);
+            }
+        }
+// Search filter logic for desktop
             const searchInput = document.getElementById('desktopSearch');
             searchInput.addEventListener('input', (e) => {
                 const query = e.target.value.toLowerCase();
@@ -508,6 +585,68 @@
             }
         }
     </script>
+
+    <!-- Movie Modal -->
+    <div id="movieModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm">
+        <div class="bg-surface-container-high border border-outline-variant/50 rounded-2xl p-6 w-[500px] shadow-2xl relative">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-on-surface-variant hover:text-white transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+            <h3 id="modalTitle" class="text-headline-md font-bold mb-6">Add New Movie</h3>
+            <form id="movieForm" onsubmit="handleFormSubmit(event)" class="space-y-4">
+                <input type="hidden" id="movieId" />
+                
+                <div class="space-y-1">
+                    <label class="text-label-sm text-on-surface-variant font-bold uppercase tracking-wider">Judul Film</label>
+                    <input id="judul" type="text" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 focus:border-primary focus:outline-none transition-colors" placeholder="e.g. Inception">
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="text-label-sm text-on-surface-variant font-bold uppercase tracking-wider">Sutradara</label>
+                        <input id="sutradara" type="text" class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 focus:border-primary focus:outline-none transition-colors" placeholder="Christopher Nolan">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-label-sm text-on-surface-variant font-bold uppercase tracking-wider">Durasi (Menit)</label>
+                        <input id="durasi" type="number" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 focus:border-primary focus:outline-none transition-colors" placeholder="120">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="text-label-sm text-on-surface-variant font-bold uppercase tracking-wider">Rating Usia</label>
+                        <select id="rating_usia" class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 focus:border-primary focus:outline-none transition-colors text-white">
+                            <option value="SU">SU (Semua Umur)</option>
+                            <option value="R13+">R13+ (Remaja)</option>
+                            <option value="D17+">D17+ (Dewasa)</option>
+                            <option value="D21+">D21+ (Dewasa 21+)</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-label-sm text-on-surface-variant font-bold uppercase tracking-wider">Status Tayang</label>
+                        <select id="status_tayang" class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 focus:border-primary focus:outline-none transition-colors text-white">
+                            <option value="Now Showing">Now Showing</option>
+                            <option value="Coming Soon">Coming Soon</option>
+                            <option value="Ended">Ended</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="space-y-1">
+                    <label class="text-label-sm text-on-surface-variant font-bold uppercase tracking-wider">Poster URL</label>
+                    <input id="poster_url" type="text" class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 focus:border-primary focus:outline-none transition-colors" placeholder="/assets/posters/movie.jpg">
+                </div>
+
+                <div class="flex justify-end gap-3 mt-8">
+                    <button type="button" onclick="closeModal()" class="px-5 py-2.5 rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container-highest transition-colors font-bold">Cancel</button>
+                    <button type="submit" class="px-5 py-2.5 rounded-lg bg-primary text-on-primary hover:brightness-110 shadow-lg transition-colors font-bold flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[20px]">save</span> Save Movie
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
 </body>
 
 </html>

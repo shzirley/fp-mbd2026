@@ -565,18 +565,7 @@ app.get('/api/admin/branches-performance', async (req, res) => {
 app.get('/api/admin/transactions', async (req, res) => {
   try {
     const [transactions] = await pool.query(
-      `SELECT 
-        tx.id_transaksi, 
-        tx.tanggal_transaksi, 
-        tx.total_tagihan, 
-        pl.nama_pelanggan, 
-        pb.metode_pembayaran, 
-        pg.nama_pegawai
-      FROM transaksi tx
-      JOIN pelanggan pl ON tx.pelanggan_id_pelanggan = pl.id_pelanggan
-      JOIN pembayaran pb ON tx.pembayaran_id_pembayaran = pb.id_pembayaran
-      JOIN pegawai pg ON tx.pegawai_id_pegawai = pg.id_pegawai
-      ORDER BY tx.tanggal_transaksi DESC`
+      `SELECT * FROM vw_transaksi_lengkap ORDER BY tanggal_transaksi DESC`
     );
     return res.json(transactions);
   } catch (err) {
@@ -588,7 +577,7 @@ app.get('/api/admin/transactions', async (req, res) => {
 // 1. Movie CRUD
 app.get('/api/admin/movies', async (req, res) => {
   try {
-    const [movies] = await pool.query('SELECT * FROM film ORDER BY id_film DESC');
+    const [movies] = await pool.query('SELECT * FROM vw_film_genre ORDER BY id_film DESC');
     return res.json(movies);
   } catch (err) {
     console.error(err);
@@ -796,22 +785,7 @@ app.delete('/api/admin/employees/:id', async (req, res) => {
 app.get('/api/admin/schedules', async (req, res) => {
   try {
     const [schedules] = await pool.query(
-      `SELECT 
-        jt.id_jadwal, 
-        jt.waktu_tayang, 
-        jt.harga_dasar, 
-        st.id_studio, 
-        st.nomor_studio, 
-        st.kelas_studio, 
-        f.id_film, 
-        f.judul AS judul_film, 
-        cb.nama_cabang
-      FROM jadwal_tayang jt
-      JOIN studio st ON jt.studio_id_studio = st.id_studio
-      JOIN cabang cb ON st.cabang_id_cabang = cb.id_cabang
-      LEFT JOIN jadwal_tayang_film jtf ON jt.id_jadwal = jtf.jadwal_tayang_id_jadwal
-      LEFT JOIN film f ON jtf.film_id_film = f.id_film
-      ORDER BY jt.waktu_tayang DESC`
+      `SELECT * FROM vw_detail_jadwal ORDER BY waktu_tayang DESC`
     );
     return res.json(schedules);
   } catch (err) {

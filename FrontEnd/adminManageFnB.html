@@ -266,6 +266,7 @@
             if (sidebarUser) sidebarUser.innerText = user.name;
             const sidebarAvatar = document.querySelector('aside .w-10.h-10');
             if (sidebarAvatar) sidebarAvatar.innerText = user.name.substring(0, 2).toUpperCase();
+            fetchFnB();
 
             try {
                 const res = await fetch('/api/admin/fnb');
@@ -411,6 +412,66 @@
             }
         }
     </script>
+
+    <!-- FnB Modal -->
+    <div id="fnbModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm">
+        <div class="bg-surface-container-high border border-outline-variant/50 rounded-2xl p-6 w-[500px] shadow-2xl relative">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-on-surface-variant hover:text-white transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+            <h3 id="modalTitle" class="text-headline-md font-bold mb-6">Add New Product</h3>
+            <form id="fnbForm" onsubmit="handleFormSubmit(event)" class="space-y-4">
+                <input type="hidden" id="fnbId" />
+                
+                <div class="space-y-1">
+                    <label class="text-label-sm text-on-surface-variant font-bold uppercase tracking-wider">Nama Produk</label>
+                    <input id="nama_produk" type="text" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 focus:border-primary focus:outline-none transition-colors" placeholder="e.g. Popcorn Caramel">
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="text-label-sm text-on-surface-variant font-bold uppercase tracking-wider">Kategori</label>
+                        <select id="kategori_id_kategori" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 focus:border-primary focus:outline-none transition-colors text-white">
+                            <option value="KT0001">Popcorn</option>
+                            <option value="KT0002">Drinks</option>
+                            <option value="KT0003">Snacks</option>
+                            <option value="KT0004">Combo</option>
+                            <option value="KT0005">Hot Food</option>
+                            <option value="KT0006">Others</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-label-sm text-on-surface-variant font-bold uppercase tracking-wider">Harga (Rp)</label>
+                        <input id="harga_satuan" type="number" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 focus:border-primary focus:outline-none transition-colors" placeholder="35000">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="text-label-sm text-on-surface-variant font-bold uppercase tracking-wider">Stok</label>
+                        <input id="stok" type="number" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 focus:border-primary focus:outline-none transition-colors" placeholder="100">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-label-sm text-on-surface-variant font-bold uppercase tracking-wider">Image URL</label>
+                        <input id="image_url" type="text" class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 focus:border-primary focus:outline-none transition-colors" placeholder="/assets/foodImages/popcorn.jpg">
+                    </div>
+                </div>
+
+                <div class="space-y-1">
+                    <label class="text-label-sm text-on-surface-variant font-bold uppercase tracking-wider">Deskripsi</label>
+                    <textarea id="deskripsi" class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 focus:border-primary focus:outline-none transition-colors" placeholder="Deskripsi produk..."></textarea>
+                </div>
+
+                <div class="flex justify-end gap-3 mt-8">
+                    <button type="button" onclick="closeModal()" class="px-5 py-2.5 rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container-highest transition-colors font-bold">Cancel</button>
+                    <button type="submit" class="px-5 py-2.5 rounded-lg bg-primary text-on-primary hover:brightness-110 shadow-lg transition-colors font-bold flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[20px]">save</span> Save Item
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
 </body>
 
 </html>
