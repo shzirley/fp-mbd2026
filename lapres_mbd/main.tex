@@ -115,12 +115,6 @@
  
 \clearpage
 
-\tableofcontents
-\listoftables
-\listoffigures
-
-\clearpage
-
 % ============================================================
 % SECTION 1: STUDI KASUS
 % ============================================================
@@ -1045,5 +1039,17 @@ ORDER BY jt.waktu_tayang;
 \end{figure}
 
 \clearpage
+
+\section{Demo Aplikasi Web CineTrack}
+Demo web untuk mengimplementasikan fungsionalitas database secara utuh dapat dilihat pada link berikut: \url{https://its.id/m/CineTrack}
+
+\section{Kesimpulan}
+Berdasarkan perancangan dan implementasi yang telah dilakukan, dapat disimpulkan bahwa:
+\begin{enumerate}
+    \item \textbf{Perancangan Basis Data:} Sistem Basis Data CineTrack telah berhasil dirancang melalui tahapan Conceptual Data Model (CDM) dan Physical Data Model (PDM), serta telah dinormalisasi hingga Bentuk Normal Ketiga (3NF) guna mencegah redundansi dan anomali data.
+    \item \textbf{Implementasi Fungsionalitas:} Seluruh aturan bisnis operasional bioskop telah diimplementasikan dengan sukses melalui 5 \textit{Query Cases} untuk pelaporan, 3 SQL \textit{Functions} untuk kalkulasi data baca, 3 \textit{Stored Procedures} untuk modifikasi massal, dan 3 \textit{Triggers} untuk otomatisasi seperti pencegahan \textit{double-booking} kursi.
+    \item \textbf{Evaluasi dan Optimasi Kinerja:} Pembuatan \textit{Index} pada kolom-kolom yang sering digunakan untuk \textit{filtering} (WHERE) dan pengurutan (ORDER BY) terbukti secara signifikan meningkatkan kecepatan eksekusi \textit{query}, yang divalidasi melalui hasil \texttt{EXPLAIN}.
+    \item \textbf{Pengujian dan Integrasi:} Keseluruhan sistem basis data telah berhasil diuji dan diintegrasikan secara \textit{Full-Stack} ke dalam aplikasi web CineTrack, yang membuktikan bahwa arsitektur basis data yang dibangun solid, responsif, dan siap digunakan untuk operasi bioskop berskala multi-cabang.
+\end{enumerate}
 
 \end{document}

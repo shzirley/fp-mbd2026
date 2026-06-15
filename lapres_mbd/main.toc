@@ -1,0 +1,49 @@
+\babel@toc {bahasa}{}\relax 
+\contentsline {section}{\numberline {1}Studi Kasus}{4}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Latar Belakang}{4}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Studio dan Film}{4}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Jadwal Tayang}{4}{subsection.1.3}%
+\contentsline {subsection}{\numberline {1.4}Transaksi dan Pembayaran}{4}{subsection.1.4}%
+\contentsline {subsection}{\numberline {1.5}Kebutuhan Laporan}{5}{subsection.1.5}%
+\contentsline {section}{\numberline {2}Perancangan Basis Data}{6}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Entity Relationship Diagram (ERD)}{6}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Conceptual Data Model (CDM)}{6}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Physical Data Model (PDM)}{7}{subsection.2.3}%
+\contentsline {section}{\numberline {3}Analisis Normalisasi hingga Bentuk Normal Ketiga (3NF)}{9}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Definisi 3NF}{9}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Analisis Per Tabel}{9}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Keputusan Desain yang Mendukung 3NF}{11}{subsection.3.3}%
+\contentsline {subsubsection}{\numberline {3.3.1}Pemisahan Entitas \texttt {genre} dari \texttt {film}}{11}{subsubsection.3.3.1}%
+\contentsline {subsubsection}{\numberline {3.3.2}Pemisahan Entitas \texttt {kategori} dari \texttt {produk\_kantin}}{11}{subsubsection.3.3.2}%
+\contentsline {subsubsection}{\numberline {3.3.3}Tabel \textit {Junction} \texttt {produk\_kantin\_transaksi}}{12}{subsubsection.3.3.3}%
+\contentsline {subsubsection}{\numberline {3.3.4}Atribut \textit {Snapshot}: \texttt {harga\_beli} dan \texttt {subtotal}}{12}{subsubsection.3.3.4}%
+\contentsline {subsubsection}{\numberline {3.3.5}Pemisahan Relasi \texttt {pegawai}--\texttt {shift} menjadi \textit {Many-to-Many}}{12}{subsubsection.3.3.5}%
+\contentsline {subsection}{\numberline {3.4}Kesimpulan Normalisasi}{12}{subsection.3.4}%
+\contentsline {section}{\numberline {4}Implementasi SQL dan Data Record}{13}{section.4}%
+\contentsline {section}{\numberline {5}Implementasi SQL Query}{14}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Kasus Query pada Sistem CineTrack}{14}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Kasus 1: Menampilkan Film \textit {Now Showing} Beserta Genre-nya}{16}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Kasus 2: Menampilkan Jadwal Tayang Lengkap}{17}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Kasus 3: Menampilkan Transaksi dengan Total Tagihan di Atas Rp200.000}{18}{subsection.5.4}%
+\contentsline {subsection}{\numberline {5.5}Kasus 4: Rekap Penjualan Produk Kantin per Kategori}{19}{subsection.5.5}%
+\contentsline {subsection}{\numberline {5.6}Kasus 5: Menampilkan Pelanggan yang Belum Pernah Bertransaksi}{20}{subsection.5.6}%
+\contentsline {section}{\numberline {6}Implementasi SQL \textit {Function}}{21}{section.6}%
+\contentsline {subsection}{\numberline {6.1}\textit {Function} 1: \texttt {GetTotalTiketByPelanggan}}{21}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}\textit {Function} 2: \texttt {GetPendapatanByStudio}}{22}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}\textit {Function} 3: \texttt {GetDurasiTayang}}{23}{subsection.6.3}%
+\contentsline {section}{\numberline {7}Implementasi \textit {Stored Procedure}}{25}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Kasus 1: \textit {NaikkanHargaInflasi}}{25}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Kasus 2: \textit {TambahJadwalMidnight}}{26}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}Kasus 3: \textit {TambahStokKantin}}{27}{subsection.7.3}%
+\contentsline {section}{\numberline {8}Implementasi \textit {Trigger}}{29}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Kasus 1: Pencegahan \textit {Double-Booking} Kursi}{29}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}Kasus 2: Auto-Kalkulasi Harga Beli Tiket}{30}{subsection.8.2}%
+\contentsline {subsection}{\numberline {8.3}Kasus 3: Pengurangan Stok Kantin Otomatis}{30}{subsection.8.3}%
+\contentsline {section}{\numberline {9}Implementasi \textit {Indexing}}{32}{section.9}%
+\contentsline {subsection}{\numberline {9.1}Deskripsi}{32}{subsection.9.1}%
+\contentsline {subsection}{\numberline {9.2}\textit {Index} 1: \texttt {idx\_film\_status\_tayang}}{32}{subsection.9.2}%
+\contentsline {subsection}{\numberline {9.3}\textit {Index} 2: \texttt {idx\_jtf\_film}}{33}{subsection.9.3}%
+\contentsline {subsection}{\numberline {9.4}\textit {Index} 3: \texttt {idx\_transaksi\_total\_tagihan}}{33}{subsection.9.4}%
+\contentsline {subsection}{\numberline {9.5}\textit {Index} 4: \texttt {idx\_jadwal\_waktu\_tayang}}{34}{subsection.9.5}%
+\contentsline {section}{\numberline {10}Demo Aplikasi Web CineTrack}{35}{section.10}%
+\contentsline {section}{\numberline {11}Kesimpulan}{35}{section.11}%

@@ -14,9 +14,13 @@ app.get('/', (req, res) => {
     res.json({ message: 'Welcome to CineTrack API' });
 });
 
-// Import Routes (Nanti Shirley & Jorell akan menambahkan route masing-masing di sini)
-// const authRoutes = require('./src/routes/authRoutes');
-// app.use('/api/auth', authRoutes);
+const authRoutes = require('./src/routes/authRoutes');
+const dashboardRoutes = require('./src/routes/dashboardRoutes');
+const pegawaiRoutes = require('./src/routes/pegawaiRoutes');
+
+app.use('/api/auth', authRoutes);
+app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/pegawai', pegawaiRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);

@@ -1,0 +1,28 @@
+\babel@toc {bahasa}{}\relax 
+\contentsline {figure}{\numberline {1}{\ignorespaces ERD Sistem Basis Data Bioskop CineTrack}}{6}{figure.1}%
+\contentsline {figure}{\numberline {2}{\ignorespaces CDM Sistem Basis Data Bioskop CineTrack}}{7}{figure.2}%
+\contentsline {figure}{\numberline {3}{\ignorespaces PDM Sistem Basis Data Bioskop CineTrack}}{8}{figure.3}%
+\contentsline {figure}{\numberline {4}{\ignorespaces Hasil Query Kasus 1 --- Film \textit {Now Showing} Beserta Genre}}{17}{figure.4}%
+\contentsline {figure}{\numberline {5}{\ignorespaces Hasil Query Kasus 2 --- Jadwal Tayang Lengkap}}{18}{figure.5}%
+\contentsline {figure}{\numberline {6}{\ignorespaces Hasil Query Kasus 3 --- Transaksi di Atas Rp200.000}}{19}{figure.6}%
+\contentsline {figure}{\numberline {7}{\ignorespaces Hasil Query Kasus 4 --- Rekap Penjualan Produk Kantin per Kategori}}{19}{figure.7}%
+\contentsline {figure}{\numberline {8}{\ignorespaces Hasil Query Kasus 5 --- Pelanggan Belum Pernah Bertransaksi}}{20}{figure.8}%
+\contentsline {figure}{\numberline {9}{\ignorespaces Hasil Eksekusi \textit {Function} 1 --- \texttt {GetTotalTiketByPelanggan}}}{22}{figure.9}%
+\contentsline {figure}{\numberline {10}{\ignorespaces Hasil Eksekusi \textit {Function} 2 --- \texttt {GetPendapatanByStudio}}}{23}{figure.10}%
+\contentsline {figure}{\numberline {11}{\ignorespaces Hasil Eksekusi \textit {Function} 3 --- \texttt {GetDurasiTayang}}}{24}{figure.11}%
+\contentsline {figure}{\numberline {12}{\ignorespaces Harga Tiket Sebelum Eksekusi \texttt {NaikkanHargaInflasi}}}{25}{figure.12}%
+\contentsline {figure}{\numberline {13}{\ignorespaces Harga Makanan Sebelum Eksekusi \texttt {NaikkanHargaInflasi}}}{25}{figure.13}%
+\contentsline {figure}{\numberline {14}{\ignorespaces Harga Tiket Sesudah Eksekusi \texttt {NaikkanHargaInflasi}}}{26}{figure.14}%
+\contentsline {figure}{\numberline {15}{\ignorespaces Harga Makanan Sesudah Eksekusi \texttt {NaikkanHargaInflasi}}}{26}{figure.15}%
+\contentsline {figure}{\numberline {16}{\ignorespaces Hasil Eksekusi \texttt {TambahJadwalMidnight}}}{27}{figure.16}%
+\contentsline {figure}{\numberline {17}{\ignorespaces Stok Kantin Sebelum Eksekusi \texttt {TambahStokKantin}}}{28}{figure.17}%
+\contentsline {figure}{\numberline {18}{\ignorespaces Stok Kantin Sesudah Eksekusi \texttt {TambahStokKantin}}}{28}{figure.18}%
+\contentsline {figure}{\numberline {19}{\ignorespaces Uji Coba \textit {Insert} Tiket Baru (Kondisi Berhasil)}}{29}{figure.19}%
+\contentsline {figure}{\numberline {20}{\ignorespaces Pesan \textit {Error} Saat Terjadi Indikasi \textit {Double Booking}}}{30}{figure.20}%
+\contentsline {figure}{\numberline {21}{\ignorespaces Hasil Kalkulasi Otomatis Harga Tiket pada Basis Data}}{30}{figure.21}%
+\contentsline {figure}{\numberline {22}{\ignorespaces Stok Produk Kantin Sebelum Terjadi Transaksi}}{31}{figure.22}%
+\contentsline {figure}{\numberline {23}{\ignorespaces Stok Produk Kantin Berkurang Secara Otomatis Setelah Transaksi}}{31}{figure.23}%
+\contentsline {figure}{\numberline {24}{\ignorespaces Hasil \texttt {EXPLAIN} \textit {Index} 1}}{32}{figure.24}%
+\contentsline {figure}{\numberline {25}{\ignorespaces Hasil \texttt {EXPLAIN} \textit {Index} 2}}{33}{figure.25}%
+\contentsline {figure}{\numberline {26}{\ignorespaces Hasil \texttt {EXPLAIN} \textit {Index} 3}}{34}{figure.26}%
+\contentsline {figure}{\numberline {27}{\ignorespaces Hasil \texttt {EXPLAIN} \textit {Index} 4}}{34}{figure.27}%
