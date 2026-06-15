@@ -4,9 +4,9 @@
 --  Kelompok: Maleka Ghaniya · Jorell Ramos Sinaga · Angela Vania Sugiyono
 -- ============================================================
 
-DROP DATABASE IF EXISTS MBD_FP;
-CREATE DATABASE MBD_FP CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE MBD_FP;
+DROP DATABASE IF EXISTS mbdfp_db;
+CREATE DATABASE mbdfp_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE mbdfp_db;
 
 -- ============================================================
 -- SECTION 1 — DDL (Schema)
@@ -946,7 +946,7 @@ DELIMITER ;
 --  composite PK yang belum memiliki index otomatis.
 -- ============================================================
 
-USE MBD_FP;
+USE mbdfp_db;
 
 
 -- ============================================================

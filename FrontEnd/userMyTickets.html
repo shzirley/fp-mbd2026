@@ -115,15 +115,14 @@
     </script>
     <style>
         body {
-            background-color: #f8fafc;
-            /* Light Theme override for Clarity */
-            color: #1e293b;
+            background-color: #0b1326;
+            color: #dae2fd;
         }
 
         .glass-card {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(226, 232, 240, 0.8);
+            background: rgba(23, 31, 51, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .ticket-tear {
@@ -137,7 +136,7 @@
             left: -12px;
             width: 24px;
             height: 24px;
-            background: #f8fafc;
+            background: #0b1326;
             border-radius: 50%;
             z-index: 10;
         }
@@ -151,8 +150,8 @@
         }
 
         .modal-overlay {
-            background: rgba(11, 19, 38, 0.4);
-            backdrop-filter: blur(4px);
+            background: rgba(11, 19, 38, 0.8);
+            backdrop-filter: blur(8px);
             display: none;
         }
 
@@ -173,103 +172,152 @@
     </style>
 </head>
 
-<body class="font-body-md text-body-md min-h-screen flex flex-col">
-    <!-- TopNavBar -->
-    <nav
-        class="fixed top-0 w-full bg-white/70 backdrop-blur-xl border-b border-slate-200 z-50 h-16 flex justify-between items-center px-margin_desktop">
-        <div class="flex items-center gap-xl">
-            <a href="userHome.html"
-                class="text-headline-md font-headline-md font-extrabold text-primary-container tracking-tighter">Cinetrack</a>
-            <div class="hidden md:flex items-center gap-lg">
-                <a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md"
-                    href="userNowShowing.html">Movies</a>
-                <a class="text-primary border-b-2 border-primary font-bold pb-1 font-label-md text-label-md"
-                    href="userMyTickets.html">Tickets</a>
-                <a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md"
-                    href="#">VIP</a>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col">
+
+    <!-- Sidebar Layout Container -->
+    <div class="flex flex-1 overflow-hidden relative">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="w-64 bg-surface-container-lowest border-r border-outline-variant/20 hidden lg:flex flex-col z-40 relative">
+            <div class="h-16 flex items-center px-lg border-b border-outline-variant/20 mb-xl">
+                <a href="userHome.html" class="text-headline-md font-headline-md font-extrabold text-primary-container tracking-tighter">Cinetrack</a>
             </div>
-        </div>
-        <div class="flex items-center gap-md">
-            <button class="p-2 hover:bg-slate-100 rounded-lg transition-all"><span
-                    class="material-symbols-outlined text-slate-600">search</span></button>
-            <button class="p-2 hover:bg-slate-100 rounded-lg transition-all"><span
-                    class="material-symbols-outlined text-slate-600">notifications</span></button>
-            <a href="login.html" title="Logout" class="w-8 h-8 rounded-full overflow-hidden border border-slate-200 cursor-pointer block hover:opacity-80 transition-opacity">
-                <img alt="User"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAHKRybaP9TtJFoCN24d843z_4BnalPx2_m9MLvSoI_wSEn4I2Gkb6TbbxNgNA3XJw3PcBbAYmj2DbE2euJgU5TIEpXgQztLydUAAq_Ow2USaaz8VEcVX6vwnZFYDvyg1SJiSN0_WsiuhfU8UjmmtJcRfMbhYmnPAsOsrL_JQtbMaJZfbr1Q-okItgoW0Facacy40B1b7o11JQsZvzsGhxMsAYu_DXXcXr6_1nvyusVfQGjjWSxo0DJ_T5nUjVgVNQERjjFcOtD7cb" />
-            </a>
-        </div>
-    </nav>
+            <nav class="flex-1 px-md space-y-sm">
+                <a href="userHome.html" class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-bright/5 rounded-lg font-label-md transition-colors border-l-4 border-transparent">
+                    <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">home</span>
+                    Home
+                </a>
+                <a href="userMyTickets.html" class="flex items-center gap-md px-md py-sm bg-surface-bright/10 text-primary-fixed rounded-lg font-label-md transition-colors border-l-4 border-primary">
+                    <span class="material-symbols-outlined text-[20px]">local_activity</span>
+                    My Tickets
+                </a>
+                <a href="userNowShowing.html" class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-bright/5 rounded-lg font-label-md transition-colors border-l-4 border-transparent">
+                    <span class="material-symbols-outlined text-[20px]">movie</span>
+                    Movies
+                </a>
+                <a href="#" class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-bright/5 rounded-lg font-label-md transition-colors border-l-4 border-transparent">
+                    <span class="material-symbols-outlined text-[20px]">diamond</span>
+                    VIP
+                </a>
+            </nav>
+            <!-- Bottom sidebar content -->
+            <div class="p-md mt-auto">
+                <div class="bg-surface-container-high/50 p-md rounded-xl border border-outline-variant/10">
+                    <p class="text-label-sm text-on-surface-variant mb-xs">Cinetrack Rewards</p>
+                    <div class="flex items-center gap-xs">
+                        <span class="material-symbols-outlined text-secondary-container text-[18px]" style="font-variation-settings: 'FILL' 1;">stars</span>
+                        <span class="font-bold text-secondary text-label-md">2,450 pts</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Wrapper -->
+        <div class="flex-1 flex flex-col h-screen overflow-y-auto overflow-x-hidden relative">
+            
+            <!-- Top Header -->
+            <header class="sticky top-0 z-50 bg-surface-container-low/80 backdrop-blur-xl border-b border-outline-variant/20 h-16 flex justify-between items-center px-lg lg:px-2xl w-full">
+                
+                <!-- Mobile Logo & Menu -->
+                <div class="flex lg:hidden items-center gap-md">
+                    <button class="p-2 -ml-2 text-on-surface-variant hover:text-on-surface">
+                        <span class="material-symbols-outlined">menu</span>
+                    </button>
+                    <a href="userHome.html" class="text-headline-md font-headline-md font-extrabold text-primary-container tracking-tighter">Cinetrack</a>
+                </div>
+
+                <!-- Center/Left: Search Bar & Location -->
+                <div class="hidden md:flex items-center gap-xl flex-1 lg:ml-0">
+                    <div class="relative group max-w-md w-full">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <span class="material-symbols-outlined text-on-surface-variant text-[20px]">search</span>
+                        </div>
+                        <input type="text" class="block w-full pl-10 pr-3 py-2 border border-outline-variant/30 rounded-full leading-5 bg-surface-container-lowest text-on-surface placeholder-on-surface-variant/50 focus:outline-none focus:bg-surface-container focus:ring-1 focus:ring-primary focus:border-primary sm:text-sm transition-colors" placeholder="Search tickets...">
+                    </div>
+                </div>
+
+                <!-- Right: Actions -->
+                <div class="flex items-center gap-md ml-auto">
+                    <!-- Branch Dropdown -->
+                    <button class="hidden sm:flex items-center gap-xs px-md py-1.5 bg-surface-bright/10 rounded-full hover:bg-white/10 transition-all text-label-md border border-outline-variant/20">
+                        <span class="material-symbols-outlined text-primary text-[18px]" data-icon="location_on">location_on</span>
+                        <span>Downtown Grand</span>
+                        <span class="material-symbols-outlined text-[18px]" data-icon="expand_more">expand_more</span>
+                    </button>
+                    
+                    <button class="p-2 hover:bg-white/5 rounded-full transition-all relative">
+                        <span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+                        <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-primary rounded-full border-2 border-surface-container-low"></span>
+                    </button>
+                    
+                    <div class="w-px h-6 bg-outline-variant/30 mx-xs hidden sm:block"></div>
+
+                    <a href="login.html" title="Logout" class="w-9 h-9 rounded-full overflow-hidden border-2 border-surface-bright hover:border-primary transition-colors block cursor-pointer">
+                        <img alt="User profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAHKRybaP9TtJFoCN24d843z_4BnalPx2_m9MLvSoI_wSEn4I2Gkb6TbbxNgNA3XJw3PcBbAYmj2DbE2euJgU5TIEpXgQztLydUAAq_Ow2USaaz8VEcVX6vwnZFYDvyg1SJiSN0_WsiuhfU8UjmmtJcRfMbhYmnPAsOsrL_JQtbMaJZfbr1Q-okItgoW0Facacy40B1b7o11JQsZvzsGhxMsAYu_DXXcXr6_1nvyusVfQGjjWSxo0DJ_T5nUjVgVNQERjjFcOtD7cb" />
+                    </a>
+                </div>
+            </header>
     <!-- Main Content -->
-    <main class="mt-16 flex-grow px-margin_desktop py-xl max-w-7xl mx-auto w-full">
+    <main class="flex-grow px-lg py-xl lg:px-2xl max-w-7xl w-full mx-auto relative z-10">
         <!-- User Profile Header -->
         <header class="mb-2xl flex flex-col md:flex-row md:items-end justify-between gap-lg">
             <div>
-                <h1 class="text-display-lg font-display-lg text-slate-900">My Tickets</h1>
-                <p class="text-slate-500 font-body-lg text-body-lg">Manage your upcoming movie experiences and viewing
-                    history.</p>
+                <h1 class="text-display-lg font-display-lg text-white">My Tickets</h1>
+                <p class="text-on-surface-variant font-body-lg text-body-lg">Manage your upcoming movie experiences and viewing history.</p>
             </div>
             <div class="flex gap-md">
-                <div class="bg-white px-lg py-md rounded-xl border border-slate-200 shadow-sm flex items-center gap-md">
-                    <span class="material-symbols-outlined text-secondary-container"
-                        style="font-variation-settings: 'FILL' 1;">stars</span>
+                <div class="bg-surface-container px-lg py-md rounded-xl border border-outline-variant/30 shadow-sm flex items-center gap-md">
+                    <span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">stars</span>
                     <div>
-                        <p class="text-label-sm font-label-sm text-slate-400 uppercase tracking-wider">Loyalty Points
-                        </p>
-                        <p class="text-headline-md font-headline-md text-slate-900">2,450</p>
+                        <p class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">Loyalty Points</p>
+                        <p class="text-headline-md font-headline-md text-white">2,450</p>
                     </div>
                 </div>
             </div>
         </header>
+        
         <!-- Upcoming Tickets Section -->
         <section class="mb-2xl">
             <div class="flex items-center justify-between mb-lg">
-                <h2 class="text-headline-md font-headline-md text-slate-800">Upcoming Tickets</h2>
-                <span
-                    class="bg-primary-container/10 text-primary-container px-md py-1 rounded-full text-label-md font-label-md">2
-                    Bookings</span>
+                <h2 class="text-headline-md font-headline-md text-white">Upcoming Tickets</h2>
+                <span class="bg-primary-container text-white px-md py-1 rounded-full text-label-md font-label-md">2 Bookings</span>
             </div>
             <div class="grid grid-cols-1 gap-lg">
                 <!-- Ticket Card 1 -->
-                <div
-                    class="glass-card rounded-2xl overflow-hidden flex flex-col lg:flex-row group transition-all hover:shadow-md">
+                <div class="bg-surface-container-high rounded-2xl overflow-hidden flex flex-col lg:flex-row group transition-all hover:border-outline-variant/50 border border-outline-variant/20 shadow-lg">
                     <div class="w-full lg:w-64 h-48 lg:h-auto overflow-hidden">
                         <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                            data-alt="A cinematic movie poster for a futuristic sci-fi film featuring a sleek neon metropolis at dusk. The lighting is dominated by deep violets and electric blues with sharp crimson highlights. The aesthetic is high-gloss and atmospheric, evoking a sense of mystery and advanced technology. The composition is dynamic and professionally balanced for a premium theater experience."
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBeOCr7ksgiJtRXEXHpYblOvlxoBqu9QgK_nBRsehWI510hcYNPKd2PcNco518-EBSHYRixxP5k1PnhhQcb4EkdlTv4jwcn38ZC3gQJEhVei-x9dE6EyjkKWONKJWwYiz3wt6nGp8O_IjxkeI_k9SBgVPkrhrTTqFjxglT9RXAF6HikBMQ45iiRjYxIK_sn1KargERKKFrwPnGZFBLQPn9LweV2u-CMwZ5mbIpHd9t9lq67hPJ_-X53hSmUqD98nglKHxOlCN4Uk69J" />
+                            alt="Laskar Pelangi"
+                            src="/assets/posters/Laskar_Pelangi_film.jpg" />
                     </div>
                     <div class="flex-grow p-xl flex flex-col md:flex-row">
                         <div class="flex-grow">
                             <div class="flex items-center gap-sm mb-base">
-                                <span
-                                    class="bg-slate-100 text-slate-600 px-sm py-0.5 rounded text-label-sm font-label-sm uppercase">Sci-Fi
-                                    / Action</span>
-                                <span class="text-slate-400">•</span>
-                                <span class="text-slate-500 text-label-sm font-label-sm">2h 15m</span>
+                                <span class="bg-surface-container-highest text-on-surface-variant px-sm py-0.5 rounded text-label-sm font-label-sm uppercase border border-outline-variant/30">Drama / Family</span>
+                                <span class="text-outline-variant">•</span>
+                                <span class="text-on-surface-variant text-label-sm font-label-sm">2h 04m</span>
                             </div>
-                            <h3 class="text-headline-lg font-headline-lg text-slate-900 mb-md">Neon Horizon: Genesis
-                            </h3>
+                            <h3 class="text-headline-lg font-headline-lg text-white mb-md">Laskar Pelangi</h3>
                             <div class="grid grid-cols-2 md:grid-cols-4 gap-xl">
                                 <div>
-                                    <p class="text-label-sm font-label-sm text-slate-400 uppercase">Branch</p>
-                                    <p class="text-body-md font-body-md text-slate-700">Downtown Cinema 12</p>
+                                    <p class="text-label-sm font-label-sm text-on-surface-variant uppercase">Branch</p>
+                                    <p class="text-body-md font-body-md text-white">Downtown Cinema 12</p>
                                 </div>
                                 <div>
-                                    <p class="text-label-sm font-label-sm text-slate-400 uppercase">Studio</p>
-                                    <p class="text-body-md font-body-md text-slate-700">Studio 4 (IMAX)</p>
+                                    <p class="text-label-sm font-label-sm text-on-surface-variant uppercase">Studio</p>
+                                    <p class="text-body-md font-body-md text-white">Studio 4 (IMAX)</p>
                                 </div>
                                 <div>
-                                    <p class="text-label-sm font-label-sm text-slate-400 uppercase">Date &amp; Time</p>
-                                    <p class="text-body-md font-body-md text-slate-700">Oct 24 • 19:30</p>
+                                    <p class="text-label-sm font-label-sm text-on-surface-variant uppercase">Date &amp; Time</p>
+                                    <p class="text-body-md font-body-md text-white">Oct 24 • 19:30</p>
                                 </div>
                                 <div>
-                                    <p class="text-label-sm font-label-sm text-slate-400 uppercase">Seats</p>
-                                    <p class="text-body-md font-body-md text-slate-700 font-bold">F12, F13</p>
+                                    <p class="text-label-sm font-label-sm text-on-surface-variant uppercase">Seats</p>
+                                    <p class="text-body-md font-body-md text-white font-bold">F12, F13</p>
                                 </div>
                             </div>
                         </div>
-                        <div
-                            class="mt-lg md:mt-0 md:ml-xl flex flex-col justify-center items-center md:items-end border-t md:border-t-0 md:border-l border-slate-200 pt-lg md:pt-0 md:pl-xl">
+                        <div class="mt-lg md:mt-0 md:ml-xl flex flex-col justify-center items-center md:items-end border-t md:border-t-0 md:border-l border-outline-variant/20 pt-lg md:pt-0 md:pl-xl">
                             <button
                                 class="primary-button flex items-center gap-sm px-xl py-md rounded-xl font-label-md text-label-md w-full md:w-auto justify-center"
                                 onclick="toggleModal('ticket-modal')">
@@ -280,45 +328,40 @@
                     </div>
                 </div>
                 <!-- Ticket Card 2 (VIP) -->
-                <div
-                    class="glass-card rounded-2xl overflow-hidden flex flex-col lg:flex-row group transition-all border-l-4 border-secondary-container hover:shadow-md">
+                <div class="bg-surface-container-high rounded-2xl overflow-hidden flex flex-col lg:flex-row group transition-all border-l-4 border-secondary hover:border-secondary shadow-lg">
                     <div class="w-full lg:w-64 h-48 lg:h-auto overflow-hidden">
                         <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                            data-alt="An artistic film still featuring a high-fashion, vintage cinematic style with a focus on dramatic noir lighting. The scene shows a classic theater interior with velvet curtains and gold accents. The color palette is rich and warm, featuring deep maroons and golden ambers. The atmosphere is sophisticated, elegant, and timelessly professional."
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhT6OpPjCMzKi3C7Ze4---FgfKTiVOWvPt0VDpvORt9_WfkFS6bx8iuYuZgcnqI24dQ4Cn6VsSpMx5QGYpV_F89jxCPg6cwIuI2o-7rofdiQKj3-dmrzcYlFo8EBc0QufxR8IrgXTxlchCSGyxD-A1i8Cjes9-q92YjImx7PGzK--ZCUVQf6qnKRXHgw_jq2Eep1StWB0TFTq9T2QPFKqdjYTJOi2Ae7f0-HuOTgsxmCiJ0V04eQmNwlrWnlABhmCxEiA_W0YhLjuO" />
+                            alt="Bumi Manusia"
+                            src="/assets/posters/bumi-manusia.jpg" />
                     </div>
                     <div class="flex-grow p-xl flex flex-col md:flex-row">
                         <div class="flex-grow">
                             <div class="flex items-center gap-sm mb-base">
-                                <span
-                                    class="bg-secondary-container/10 text-secondary-container px-sm py-0.5 rounded text-label-sm font-label-sm uppercase">VIP
-                                    Experience</span>
-                                <span class="text-slate-400">•</span>
-                                <span class="text-slate-500 text-label-sm font-label-sm">Drama</span>
+                                <span class="bg-secondary/20 text-secondary px-sm py-0.5 rounded text-label-sm font-label-sm uppercase border border-secondary/30">VIP Experience</span>
+                                <span class="text-outline-variant">•</span>
+                                <span class="text-on-surface-variant text-label-sm font-label-sm">Drama / History</span>
                             </div>
-                            <h3 class="text-headline-lg font-headline-lg text-slate-900 mb-md">Midnight in Versailles
-                            </h3>
+                            <h3 class="text-headline-lg font-headline-lg text-white mb-md">Bumi Manusia</h3>
                             <div class="grid grid-cols-2 md:grid-cols-4 gap-xl">
                                 <div>
-                                    <p class="text-label-sm font-label-sm text-slate-400 uppercase">Branch</p>
-                                    <p class="text-body-md font-body-md text-slate-700">The Grand Plaza</p>
+                                    <p class="text-label-sm font-label-sm text-on-surface-variant uppercase">Branch</p>
+                                    <p class="text-body-md font-body-md text-white">The Grand Plaza</p>
                                 </div>
                                 <div>
-                                    <p class="text-label-sm font-label-sm text-slate-400 uppercase">Studio</p>
-                                    <p class="text-body-md font-body-md text-slate-700">Gold Suite 1</p>
+                                    <p class="text-label-sm font-label-sm text-on-surface-variant uppercase">Studio</p>
+                                    <p class="text-body-md font-body-md text-white">Gold Suite 1</p>
                                 </div>
                                 <div>
-                                    <p class="text-label-sm font-label-sm text-slate-400 uppercase">Date &amp; Time</p>
-                                    <p class="text-body-md font-body-md text-slate-700">Oct 28 • 20:15</p>
+                                    <p class="text-label-sm font-label-sm text-on-surface-variant uppercase">Date &amp; Time</p>
+                                    <p class="text-body-md font-body-md text-white">Oct 28 • 20:15</p>
                                 </div>
                                 <div>
-                                    <p class="text-label-sm font-label-sm text-slate-400 uppercase">Seats</p>
-                                    <p class="text-body-md font-body-md text-slate-700 font-bold">VIP-A4</p>
+                                    <p class="text-label-sm font-label-sm text-on-surface-variant uppercase">Seats</p>
+                                    <p class="text-body-md font-body-md text-white font-bold">VIP-A4</p>
                                 </div>
                             </div>
                         </div>
-                        <div
-                            class="mt-lg md:mt-0 md:ml-xl flex flex-col justify-center items-center md:items-end border-t md:border-t-0 md:border-l border-slate-200 pt-lg md:pt-0 md:pl-xl">
+                        <div class="mt-lg md:mt-0 md:ml-xl flex flex-col justify-center items-center md:items-end border-t md:border-t-0 md:border-l border-outline-variant/20 pt-lg md:pt-0 md:pl-xl">
                             <button
                                 class="primary-button flex items-center gap-sm px-xl py-md rounded-xl font-label-md text-label-md w-full md:w-auto justify-center"
                                 onclick="toggleModal('ticket-modal')">
@@ -332,45 +375,39 @@
         </section>
         <!-- Past Bookings Section -->
         <section>
-            <h2 class="text-headline-md font-headline-md text-slate-800 mb-lg">Past Bookings</h2>
-            <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+            <h2 class="text-headline-md font-headline-md text-white mb-lg">Past Bookings</h2>
+            <div class="bg-surface-container rounded-2xl border border-outline-variant/30 overflow-hidden shadow-sm">
                 <table class="w-full text-left border-collapse">
                     <thead>
-                        <tr class="bg-slate-50 border-b border-slate-200">
-                            <th class="px-lg py-md text-label-sm font-label-sm text-slate-500 uppercase">Movie</th>
-                            <th class="px-lg py-md text-label-sm font-label-sm text-slate-500 uppercase">Date</th>
-                            <th class="px-lg py-md text-label-sm font-label-sm text-slate-500 uppercase">Location</th>
-                            <th class="px-lg py-md text-label-sm font-label-sm text-slate-500 uppercase">Amount</th>
-                            <th class="px-lg py-md text-label-sm font-label-sm text-slate-500 uppercase">Status</th>
+                        <tr class="bg-surface-container-high border-b border-outline-variant/20">
+                            <th class="px-lg py-md text-label-sm font-label-sm text-on-surface-variant uppercase">Movie</th>
+                            <th class="px-lg py-md text-label-sm font-label-sm text-on-surface-variant uppercase">Date</th>
+                            <th class="px-lg py-md text-label-sm font-label-sm text-on-surface-variant uppercase">Location</th>
+                            <th class="px-lg py-md text-label-sm font-label-sm text-on-surface-variant uppercase">Amount</th>
+                            <th class="px-lg py-md text-label-sm font-label-sm text-on-surface-variant uppercase">Status</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-100">
-                        <tr class="hover:bg-slate-50 transition-colors">
-                            <td class="px-lg py-md font-bold text-slate-700">The Silent Echo</td>
-                            <td class="px-lg py-md text-slate-600">Oct 12, 2024</td>
-                            <td class="px-lg py-md text-slate-600">Downtown Cinema 12</td>
-                            <td class="px-lg py-md text-slate-600">$32.00</td>
-                            <td class="px-lg py-md"><span
-                                    class="bg-slate-100 text-slate-500 px-md py-1 rounded-full text-label-sm font-label-sm">Completed</span>
-                            </td>
+                    <tbody class="divide-y divide-outline-variant/20">
+                        <tr class="hover:bg-surface-container-high transition-colors">
+                            <td class="px-lg py-md font-bold text-white">Dilan 1990</td>
+                            <td class="px-lg py-md text-on-surface-variant">Oct 12, 2024</td>
+                            <td class="px-lg py-md text-on-surface-variant">Downtown Cinema 12</td>
+                            <td class="px-lg py-md text-on-surface-variant">Rp 35.000</td>
+                            <td class="px-lg py-md"><span class="bg-primary/20 text-primary px-md py-1 rounded-full text-label-sm font-label-sm border border-primary/30">Completed</span></td>
                         </tr>
-                        <tr class="hover:bg-slate-50 transition-colors">
-                            <td class="px-lg py-md font-bold text-slate-700">Velocity X</td>
-                            <td class="px-lg py-md text-slate-600">Oct 05, 2024</td>
-                            <td class="px-lg py-md text-slate-600">Northside IMAX</td>
-                            <td class="px-lg py-md text-slate-600">$45.50</td>
-                            <td class="px-lg py-md"><span
-                                    class="bg-slate-100 text-slate-500 px-md py-1 rounded-full text-label-sm font-label-sm">Completed</span>
-                            </td>
+                        <tr class="hover:bg-surface-container-high transition-colors">
+                            <td class="px-lg py-md font-bold text-white">The Raid</td>
+                            <td class="px-lg py-md text-on-surface-variant">Oct 05, 2024</td>
+                            <td class="px-lg py-md text-on-surface-variant">Northside IMAX</td>
+                            <td class="px-lg py-md text-on-surface-variant">Rp 45.000</td>
+                            <td class="px-lg py-md"><span class="bg-primary/20 text-primary px-md py-1 rounded-full text-label-sm font-label-sm border border-primary/30">Completed</span></td>
                         </tr>
-                        <tr class="hover:bg-slate-50 transition-colors">
-                            <td class="px-lg py-md font-bold text-slate-700">Starbound Voyagers</td>
-                            <td class="px-lg py-md text-slate-600">Sep 28, 2024</td>
-                            <td class="px-lg py-md text-slate-600">Downtown Cinema 12</td>
-                            <td class="px-lg py-md text-slate-600">$18.00</td>
-                            <td class="px-lg py-md"><span
-                                    class="bg-slate-100 text-slate-500 px-md py-1 rounded-full text-label-sm font-label-sm">Completed</span>
-                            </td>
+                        <tr class="hover:bg-surface-container-high transition-colors">
+                            <td class="px-lg py-md font-bold text-white">Susi Susanti</td>
+                            <td class="px-lg py-md text-on-surface-variant">Sep 28, 2024</td>
+                            <td class="px-lg py-md text-on-surface-variant">Downtown Cinema 12</td>
+                            <td class="px-lg py-md text-on-surface-variant">Rp 18.000</td>
+                            <td class="px-lg py-md"><span class="bg-primary/20 text-primary px-md py-1 rounded-full text-label-sm font-label-sm border border-primary/30">Completed</span></td>
                         </tr>
                     </tbody>
                 </table>
@@ -378,13 +415,11 @@
         </section>
     </main>
     <!-- Footer -->
-    <footer class="bg-surface-container-low border-t border-slate-200 mt-2xl py-xl px-margin_desktop">
+    <footer class="bg-surface-container-low border-t border-outline-variant/20 mt-2xl py-xl px-lg lg:px-2xl">
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-gutter">
             <div class="col-span-1">
-                <span
-                    class="text-headline-md font-headline-md text-primary-container font-extrabold block mb-md">Cinetrack</span>
-                <p class="text-slate-400 text-label-sm font-label-sm">© 2024 Cinetrack Logistics &amp; Cinema Systems.
-                    All rights reserved.</p>
+                <span class="text-headline-md font-headline-md text-primary-container font-extrabold block mb-md">Cinetrack</span>
+                <p class="text-on-surface-variant text-label-sm font-label-sm">© 2024 Cinetrack Logistics &amp; Cinema Systems. All rights reserved.</p>
             </div>
             <div>
                 <h4 class="text-white font-bold mb-md text-label-md">Branch Locations</h4>
@@ -479,6 +514,8 @@
             </div>
         </div>
     </div>
+        </div> <!-- End Main Content Wrapper -->
+    </div> <!-- End Sidebar Layout Container -->
     <script>
         function toggleModal(id) {
             const modal = document.getElementById(id);
@@ -498,6 +535,27 @@
                 toggleModal('ticket-modal');
             }
         }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const userStr = localStorage.getItem('user');
+            if (userStr) {
+                try {
+                    const user = JSON.parse(userStr);
+                    const avatarBtn = document.querySelector('a[title="Logout"]');
+                    if (avatarBtn) {
+                        if (user.picture) {
+                            avatarBtn.innerHTML = `<img alt="User profile" class="w-full h-full object-cover" src="${user.picture}" />`;
+                        } else if (user.name) {
+                            const initials = user.name.substring(0, 2).toUpperCase();
+                            avatarBtn.innerHTML = `<div class="w-full h-full flex items-center justify-center bg-primary-container text-on-primary-container font-bold text-sm">${initials}</div>`;
+                        }
+                    }
+                } catch (e) {
+                    console.error('Error parsing user data', e);
+                }
+            }
+        });
     </script>
 </body>
 

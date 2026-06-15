@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Snacks &amp; Drinks | Cinetrack Global Cinemas</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#93000a",
+                        "surface-container-low": "#131b2e",
+                        "on-tertiary-fixed": "#002019",
+                        "surface-bright": "#31394d",
+                        "on-primary-fixed-variant": "#920028",
+                        "primary-container": "#e11d48",
+                        "tertiary-fixed": "#90f5d9",
+                        "surface-container": "#171f33",
+                        "secondary-container": "#eec200",
+                        "primary": "#ffb3b6",
+                        "on-surface-variant": "#e5bdbe",
+                        "on-error": "#690005",
+                        "on-secondary-container": "#645000",
+                        "surface-dim": "#0b1326",
+                        "primary-fixed-dim": "#ffb3b6",
+                        "tertiary-container": "#00836c",
+                        "surface-container-highest": "#2d3449",
+                        "inverse-primary": "#be0037",
+                        "on-tertiary-container": "#eefff7",
+                        "on-secondary-fixed-variant": "#574500",
+                        "surface": "#0b1326",
+                        "surface-variant": "#2d3449",
+                        "surface-tint": "#ffb3b6",
+                        "secondary": "#ffe083",
+                        "outline-variant": "#5c3f40",
+                        "on-surface": "#dae2fd",
+                        "on-secondary-fixed": "#231b00",
+                        "outline": "#ac8889",
+                        "on-secondary": "#3c2f00",
+                        "inverse-on-surface": "#283044",
+                        "background": "#0b1326",
+                        "on-tertiary": "#00382d",
+                        "surface-container-high": "#222a3d",
+                        "secondary-fixed-dim": "#eec200",
+                        "on-background": "#dae2fd",
+                        "tertiary-fixed-dim": "#74d8bd",
+                        "tertiary": "#74d8bd",
+                        "primary-fixed": "#ffdada",
+                        "surface-container-lowest": "#060e20",
+                        "on-primary": "#68001a",
+                        "on-error-container": "#ffdad6",
+                        "on-primary-container": "#fffaf9",
+                        "secondary-fixed": "#ffe083",
+                        "on-primary-fixed": "#40000c",
+                        "error": "#ffb4ab",
+                        "on-tertiary-fixed-variant": "#005142",
+                        "inverse-surface": "#dae2fd"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "md": "16px",
+                        "xs": "4px",
+                        "sm": "8px",
+                        "lg": "24px",
+                        "grid_columns": "12",
+                        "margin_mobile": "16px",
+                        "base": "4px",
+                        "gutter": "24px",
+                        "margin_desktop": "64px",
+                        "2xl": "48px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Outfit"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Outfit"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Outfit"],
+                        "label-sm": ["Inter"],
+                        "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body { background-color: #0b1326; color: #dae2fd; }
+        .font-display { font-family: 'Outfit', sans-serif; }
+        .custom-shadow { box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.5); }
+        .btn-glow:hover { box-shadow: 0 0 15px rgba(225, 29, 72, 0.4); }
+        
+        /* Custom scrollbar for cart */
+        .cart-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .cart-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .cart-scroll::-webkit-scrollbar-thumb {
+            background: #2d3449;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col">
+
+    <div class="flex flex-1 overflow-hidden relative">
+        <!-- Sidebar Navigation -->
+        <aside class="w-64 bg-surface-container-lowest border-r border-outline-variant/20 hidden lg:flex flex-col z-40 relative">
+            <div class="h-16 flex items-center px-lg border-b border-outline-variant/20 mb-xl">
+                <a href="userHome.html" class="text-headline-md font-headline-md font-extrabold text-primary-container tracking-tighter">Cinetrack</a>
+            </div>
+            <nav class="flex-1 px-md space-y-sm">
+                <a href="userHome.html" class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-bright/5 rounded-lg font-label-md transition-colors border-l-4 border-transparent">
+                    <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">home</span>
+                    Home
+                </a>
+                <a href="userMyTickets.html" class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-bright/5 rounded-lg font-label-md transition-colors border-l-4 border-transparent">
+                    <span class="material-symbols-outlined text-[20px]">local_activity</span>
+                    My Tickets
+                </a>
+                <a href="userNowShowing.html" class="flex items-center gap-md px-md py-sm bg-surface-bright/10 text-primary-fixed rounded-lg font-label-md transition-colors border-l-4 border-primary">
+                    <span class="material-symbols-outlined text-[20px]">movie</span>
+                    Movies
+                </a>
+                <a href="#" class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-bright/5 rounded-lg font-label-md transition-colors border-l-4 border-transparent">
+                    <span class="material-symbols-outlined text-[20px]">diamond</span>
+                    VIP
+                </a>
+            </nav>
+            <div class="p-md mt-auto">
+                <div class="bg-surface-container-high/50 p-md rounded-xl border border-outline-variant/10">
+                    <p class="text-label-sm text-on-surface-variant mb-xs">Cinetrack Rewards</p>
+                    <div class="flex items-center gap-xs">
+                        <span class="material-symbols-outlined text-secondary-container text-[18px]" style="font-variation-settings: 'FILL' 1;">stars</span>
+                        <span class="font-bold text-secondary text-label-md">2,450 pts</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Wrapper -->
+        <div class="flex-1 flex flex-col h-screen overflow-y-auto overflow-x-hidden relative">
+            
+            <!-- Top Header -->
+            <header class="sticky top-0 z-50 bg-surface-container-low/80 backdrop-blur-xl border-b border-outline-variant/20 h-16 flex justify-between items-center px-lg lg:px-2xl w-full">
+                <div class="flex lg:hidden items-center gap-md">
+                    <button class="p-2 -ml-2 text-on-surface-variant hover:text-on-surface">
+                        <span class="material-symbols-outlined">menu</span>
+                    </button>
+                    <a href="userHome.html" class="text-headline-md font-headline-md font-extrabold text-primary-container tracking-tighter">Cinetrack</a>
+                </div>
+                <div class="hidden md:flex items-center gap-xl flex-1 lg:ml-0">
+                    <div class="relative group max-w-md w-full">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <span class="material-symbols-outlined text-on-surface-variant text-[20px]">search</span>
+                        </div>
+                        <input type="text" class="block w-full pl-10 pr-3 py-2 border border-outline-variant/30 rounded-full leading-5 bg-surface-container-lowest text-on-surface placeholder-on-surface-variant/50 focus:outline-none focus:bg-surface-container focus:ring-1 focus:ring-primary focus:border-primary sm:text-sm transition-colors" placeholder="Search movies...">
+                    </div>
+                </div>
+                <div class="flex items-center gap-md ml-auto">
+                    <button class="hidden sm:flex items-center gap-xs px-md py-1.5 bg-surface-bright/10 rounded-full hover:bg-white/10 transition-all text-label-md border border-outline-variant/20">
+                        <span class="material-symbols-outlined text-primary text-[18px]" data-icon="location_on">location_on</span>
+                        <span>Downtown Grand</span>
+                        <span class="material-symbols-outlined text-[18px]" data-icon="expand_more">expand_more</span>
+                    </button>
+                    <button class="p-2 hover:bg-white/5 rounded-full transition-all relative">
+                        <span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+                        <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-primary rounded-full border-2 border-surface-container-low"></span>
+                    </button>
+                    <div class="w-px h-6 bg-outline-variant/30 mx-xs hidden sm:block"></div>
+                    <a href="login.html" title="Logout" class="w-9 h-9 rounded-full overflow-hidden border-2 border-surface-bright hover:border-primary transition-colors block cursor-pointer">
+                        <img alt="User profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDehjakR6EsQrGDZ8gd5ERgzFNlyRwvl4Tx2VjQuTN68NP5eygD7kkoxsdOphn_ccCXrlGg4ybuFVHVVUmiITufDyFyNgTjSRQoMRpE4mkKNrDf1_TivWLHQodzqD-824UBtgA-XPVg18FpdzeOjW1HFwnj9C2Gr__gAiQuDI2uaQehVrMDhtFfG58yBruuvhttOnoln6bflADD9seqeOguGXQVm6z6Zfm4di74906j-NhO-OZ0hNp4-9IlN0nGXXJnU6PMWhemN26P" />
+                    </a>
+                </div>
+            </header>
+
+            <main class="flex-grow relative w-full flex flex-col lg:flex-row gap-xl p-lg lg:p-2xl bg-background z-10">
+                
+                <!-- Snacks Grid Area -->
+                <div class="flex-1 flex flex-col min-w-0">
+                    <div class="mb-xl flex flex-col md:flex-row md:items-end justify-between gap-md">
+                        <div>
+                            <h1 class="font-headline-lg text-headline-lg text-white mb-xs">Order Snacks &amp; Drinks</h1>
+                            <p class="text-on-surface-variant font-body-md text-body-md max-w-xl">Enhance your cinema experience with our premium food and beverages.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Filters -->
+                    <div class="flex flex-wrap items-center gap-sm mb-xl">
+                        <button class="bg-primary/20 text-primary border border-primary/30 px-xl py-2 rounded-full font-label-md transition-colors hover:bg-primary hover:text-white">All Items</button>
+                        <button class="bg-surface-container text-on-surface-variant border border-outline-variant/30 px-xl py-2 rounded-full font-label-md transition-colors hover:bg-surface-container-high hover:text-on-surface">Combos</button>
+                        <button class="bg-surface-container text-on-surface-variant border border-outline-variant/30 px-xl py-2 rounded-full font-label-md transition-colors hover:bg-surface-container-high hover:text-on-surface">Popcorn</button>
+                        <button class="bg-surface-container text-on-surface-variant border border-outline-variant/30 px-xl py-2 rounded-full font-label-md transition-colors hover:bg-surface-container-high hover:text-on-surface">Hot Snacks</button>
+                        <button class="bg-surface-container text-on-surface-variant border border-outline-variant/30 px-xl py-2 rounded-full font-label-md transition-colors hover:bg-surface-container-high hover:text-on-surface">Drinks</button>
+                    </div>
+
+                    <!-- Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-lg pb-2xl">
+                        <!-- Snack Card 1 -->
+                        <div class="bg-surface-container rounded-2xl border border-outline-variant/30 overflow-hidden custom-shadow group flex flex-col">
+                            <div class="h-48 overflow-hidden relative">
+                                <img src="/assets/foodImages/pop-corn+soda.jpg" alt="Combo Popcorn+Soda" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                <div class="absolute top-sm right-sm bg-secondary text-on-secondary px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">Combo</div>
+                            </div>
+                            <div class="p-lg flex flex-col flex-1">
+                                <h3 class="text-headline-md font-headline-md text-white mb-xs line-clamp-1">Combo Popcorn+Soda</h3>
+                                <p class="text-label-sm text-on-surface-variant line-clamp-2 mb-md">Large Popcorn, 2 Medium Drinks, and a box of M&amp;Ms.</p>
+                                <div class="mt-auto flex items-center justify-between">
+                                    <span class="text-headline-md font-bold text-primary">Rp 40.000</span>
+                                    <button class="add-to-cart-btn bg-surface-bright text-on-surface px-md py-2 rounded-lg font-label-md hover:bg-primary hover:text-white transition-all shadow-sm" data-id="1" data-name="Combo Popcorn+Soda" data-price="40000" data-img="/assets/foodImages/pop-corn+soda.jpg">Add to Cart</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Snack Card 2 -->
+                        <div class="bg-surface-container rounded-2xl border border-outline-variant/30 overflow-hidden custom-shadow group flex flex-col">
+                            <div class="h-48 overflow-hidden relative">
+                                <img src="/assets/foodImages/popcorn-original.jpg" alt="Popcorn Original" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            </div>
+                            <div class="p-lg flex flex-col flex-1">
+                                <h3 class="text-headline-md font-headline-md text-white mb-xs line-clamp-1">Popcorn Original</h3>
+                                <p class="text-label-sm text-on-surface-variant line-clamp-2 mb-md">Classic salty cinema popcorn.</p>
+                                <div class="mt-auto flex items-center justify-between">
+                                    <span class="text-headline-md font-bold text-primary">Rp 25.000</span>
+                                    <button class="add-to-cart-btn bg-surface-bright text-on-surface px-md py-2 rounded-lg font-label-md hover:bg-primary hover:text-white transition-all shadow-sm" data-id="2" data-name="Popcorn Original" data-price="25000" data-img="/assets/foodImages/popcorn-original.jpg">Add to Cart</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Snack Card 3 -->
+                        <div class="bg-surface-container rounded-2xl border border-outline-variant/30 overflow-hidden custom-shadow group flex flex-col">
+                            <div class="h-48 overflow-hidden relative">
+                                <img src="/assets/foodImages/nachos+keju.jpg" alt="Nachos + Keju" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            </div>
+                            <div class="p-lg flex flex-col flex-1">
+                                <h3 class="text-headline-md font-headline-md text-white mb-xs line-clamp-1">Nachos + Keju</h3>
+                                <p class="text-label-sm text-on-surface-variant line-clamp-2 mb-md">Served with warm jalapeño cheese and fresh salsa.</p>
+                                <div class="mt-auto flex items-center justify-between">
+                                    <span class="text-headline-md font-bold text-primary">Rp 32.000</span>
+                                    <button class="add-to-cart-btn bg-surface-bright text-on-surface px-md py-2 rounded-lg font-label-md hover:bg-primary hover:text-white transition-all shadow-sm" data-id="3" data-name="Nachos + Keju" data-price="32000" data-img="/assets/foodImages/nachos+keju.jpg">Add to Cart</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Snack Card 4 -->
+                        <div class="bg-surface-container rounded-2xl border border-outline-variant/30 overflow-hidden custom-shadow group flex flex-col">
+                            <div class="h-48 overflow-hidden relative">
+                                <img src="/assets/foodImages/roti-bakar-cokelat.jpg" alt="Roti Bakar Cokelat" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            </div>
+                            <div class="p-lg flex flex-col flex-1">
+                                <h3 class="text-headline-md font-headline-md text-white mb-xs line-clamp-1">Roti Bakar Cokelat</h3>
+                                <p class="text-label-sm text-on-surface-variant line-clamp-2 mb-md">Grilled toast with sweet chocolate filling.</p>
+                                <div class="mt-auto flex items-center justify-between">
+                                    <span class="text-headline-md font-bold text-primary">Rp 18.000</span>
+                                    <button class="add-to-cart-btn bg-surface-bright text-on-surface px-md py-2 rounded-lg font-label-md hover:bg-primary hover:text-white transition-all shadow-sm" data-id="4" data-name="Roti Bakar Cokelat" data-price="18000" data-img="/assets/foodImages/roti-bakar-cokelat.jpg">Add to Cart</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Snack Card 5 -->
+                        <div class="bg-surface-container rounded-2xl border border-outline-variant/30 overflow-hidden custom-shadow group flex flex-col">
+                            <div class="h-48 overflow-hidden relative">
+                                <img src="/assets/foodImages/es-krim-vanilla.jpg" alt="Es Krim Vanilla" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            </div>
+                            <div class="p-lg flex flex-col flex-1">
+                                <h3 class="text-headline-md font-headline-md text-white mb-xs line-clamp-1">Es Krim Vanilla</h3>
+                                <p class="text-label-sm text-on-surface-variant line-clamp-2 mb-md">Creamy vanilla bean ice cream.</p>
+                                <div class="mt-auto flex items-center justify-between">
+                                    <span class="text-headline-md font-bold text-primary">Rp 22.000</span>
+                                    <button class="add-to-cart-btn bg-surface-bright text-on-surface px-md py-2 rounded-lg font-label-md hover:bg-primary hover:text-white transition-all shadow-sm" data-id="5" data-name="Es Krim Vanilla" data-price="22000" data-img="/assets/foodImages/es-krim-vanilla.jpg">Add to Cart</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Snack Card 6 -->
+                        <div class="bg-surface-container rounded-2xl border border-outline-variant/30 overflow-hidden custom-shadow group flex flex-col">
+                            <div class="h-48 overflow-hidden relative">
+                                <img src="/assets/foodImages/coca-cola-reguler.jpg" alt="Coca Cola Regular" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            </div>
+                            <div class="p-lg flex flex-col flex-1">
+                                <h3 class="text-headline-md font-headline-md text-white mb-xs line-clamp-1">Coca Cola Regular</h3>
+                                <p class="text-label-sm text-on-surface-variant line-clamp-2 mb-md">Refreshing cold fountain carbonated beverage.</p>
+                                <div class="mt-auto flex items-center justify-between">
+                                    <span class="text-headline-md font-bold text-primary">Rp 15.000</span>
+                                    <button class="add-to-cart-btn bg-surface-bright text-on-surface px-md py-2 rounded-lg font-label-md hover:bg-primary hover:text-white transition-all shadow-sm" data-id="6" data-name="Coca Cola Regular" data-price="15000" data-img="/assets/foodImages/coca-cola-reguler.jpg">Add to Cart</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Sidebar: Your Cart -->
+                <aside class="w-full lg:w-[400px] flex-shrink-0">
+                    <div class="bg-surface-container-high rounded-2xl border border-outline-variant/30 p-lg lg:sticky lg:top-[88px] custom-shadow flex flex-col max-h-[calc(100vh-120px)]">
+                        <h2 class="text-headline-md font-headline-md text-white mb-lg pb-sm border-b border-outline-variant/20">Your Cart</h2>
+                        
+                        <div class="flex-1 overflow-y-auto cart-scroll pr-sm mb-lg flex flex-col gap-lg">
+                            
+                            <!-- Tickets Section -->
+                            <div>
+                                <h4 class="text-label-sm text-on-surface-variant uppercase tracking-wider mb-sm">Tickets</h4>
+                                <div class="bg-surface-container border border-outline-variant/20 rounded-xl p-md">
+                                    <div class="flex justify-between items-start mb-xs">
+                                        <p class="font-bold text-white text-body-md">Laskar Pelangi</p>
+                                        <p class="font-bold text-white text-body-md">Rp 110.000</p>
+                                    </div>
+                                    <p class="text-label-sm text-on-surface-variant">Seats: F12, F13 (2x Rp 55.000)</p>
+                                    <p class="text-label-sm text-on-surface-variant">Studio 1 • Today, 19:30</p>
+                                </div>
+                            </div>
+
+                            <!-- Snacks Section -->
+                            <div>
+                                <h4 class="text-label-sm text-on-surface-variant uppercase tracking-wider mb-sm">Snacks</h4>
+                                <div id="cart-snacks-list" class="space-y-sm">
+                                    <!-- Cart Items will be injected here -->
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Summary Footer -->
+                        <div class="pt-lg border-t border-outline-variant/20 mt-auto">
+                            <div class="flex justify-between items-center mb-sm text-on-surface-variant">
+                                <span class="text-body-md">Subtotal</span>
+                                <span id="subtotal-price" class="text-body-md font-bold">Rp 110.000</span>
+                            </div>
+                            <div class="flex justify-between items-center mb-lg text-on-surface-variant">
+                                <span class="text-label-sm">Taxes &amp; Fees</span>
+                                <span id="taxes-price" class="text-label-sm font-bold">Rp 2.000</span>
+                            </div>
+                            <div class="flex justify-between items-end mb-lg">
+                                <span class="text-headline-md font-bold text-white">Total</span>
+                                <span id="total-price" class="text-display-sm font-display font-bold text-primary text-[32px] leading-none">Rp 112.000</span>
+                            </div>
+                            
+                            <a href="userPayment.html" class="w-full bg-primary text-white py-4 rounded-xl font-bold btn-glow transition-all active:scale-95 text-body-md shadow-[0_4px_20px_rgba(225,29,72,0.4)] flex items-center justify-center gap-sm">
+                                Continue to Checkout
+                                <span class="material-symbols-outlined">payments</span>
+                            </a>
+                        </div>
+                    </div>
+                </aside>
+
+            </main>
+            
+            <!-- Footer -->
+            <footer class="bg-surface-container-low border-t border-outline-variant/20 py-xl px-lg lg:px-2xl mt-auto">
+                <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-gutter">
+                    <div class="col-span-1">
+                        <span class="text-headline-md font-headline-md text-primary-container font-extrabold block mb-md">Cinetrack</span>
+                        <p class="text-on-surface-variant text-label-sm font-label-sm">© 2024 Cinetrack Logistics &amp; Cinema Systems. All rights reserved.</p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const addToCartBtns = document.querySelectorAll('.add-to-cart-btn');
+            const cartSnacksList = document.getElementById('cart-snacks-list');
+            const subtotalPriceEl = document.getElementById('subtotal-price');
+            const taxesPriceEl = document.getElementById('taxes-price');
+            const totalPriceEl = document.getElementById('total-price');
+            
+            const ticketsSubtotal = 110000;
+            const taxes = 2000;
+            let cart = []; // Array of { id, name, price, img, qty }
+
+            addToCartBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const item = {
+                        id: btn.getAttribute('data-id'),
+                        name: btn.getAttribute('data-name'),
+                        price: parseInt(btn.getAttribute('data-price')),
+                        img: btn.getAttribute('data-img'),
+                        qty: 1
+                    };
+                    
+                    const existingItem = cart.find(i => i.id === item.id);
+                    if (existingItem) {
+                        existingItem.qty += 1;
+                    } else {
+                        cart.push(item);
+                    }
+                    
+                    renderCart();
+                });
+            });
+
+            function renderCart() {
+                cartSnacksList.innerHTML = '';
+                
+                let snacksSubtotal = 0;
+                
+                cart.forEach((item) => {
+                    snacksSubtotal += item.price * item.qty;
+                    
+                    const html = `
+                        <div class="bg-surface-container border border-outline-variant/20 rounded-xl p-md flex items-center gap-md">
+                            <div class="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
+                                <img src="${item.img}" class="w-full h-full object-cover">
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="font-bold text-white text-label-md line-clamp-1">${item.name}</p>
+                                <p class="text-primary font-bold text-label-sm">Rp ${item.price.toLocaleString('id-ID')}</p>
+                            </div>
+                            <div class="flex items-center gap-2 bg-surface-container-highest rounded-lg p-1 border border-outline-variant/30">
+                                <button onclick="updateQty('${item.id}', -1)" class="w-6 h-6 flex items-center justify-center text-on-surface-variant hover:text-white rounded hover:bg-surface-bright transition-colors">
+                                    <span class="material-symbols-outlined text-[16px]">remove</span>
+                                </button>
+                                <span class="text-label-md text-white font-bold w-4 text-center">${item.qty}</span>
+                                <button onclick="updateQty('${item.id}', 1)" class="w-6 h-6 flex items-center justify-center text-on-surface-variant hover:text-white rounded hover:bg-surface-bright transition-colors">
+                                    <span class="material-symbols-outlined text-[16px]">add</span>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    cartSnacksList.insertAdjacentHTML('beforeend', html);
+                });
+                
+                const finalSubtotal = ticketsSubtotal + snacksSubtotal;
+                const finalTotal = finalSubtotal + taxes;
+                
+                subtotalPriceEl.textContent = 'Rp ' + finalSubtotal.toLocaleString('id-ID');
+                totalPriceEl.textContent = 'Rp ' + finalTotal.toLocaleString('id-ID');
+            }
+            
+            // Expose updateQty globally for inline onclick
+            window.updateQty = function(id, change) {
+                const item = cart.find(i => i.id === id);
+                if (item) {
+                    item.qty += change;
+                    if (item.qty <= 0) {
+                        cart = cart.filter(i => i.id !== id);
+                    }
+                    renderCart();
+                }
+            };
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const userStr = localStorage.getItem('user');
+            if (userStr) {
+                try {
+                    const user = JSON.parse(userStr);
+                    const avatarBtn = document.querySelector('a[title="Logout"]');
+                    if (avatarBtn) {
+                        if (user.picture) {
+                            avatarBtn.innerHTML = `<img alt="User profile" class="w-full h-full object-cover" src="${user.picture}" />`;
+                        } else if (user.name) {
+                            const initials = user.name.substring(0, 2).toUpperCase();
+                            avatarBtn.innerHTML = `<div class="w-full h-full flex items-center justify-center bg-primary-container text-on-primary-container font-bold text-sm">${initials}</div>`;
+                        }
+                    }
+                } catch (e) {
+                    console.error('Error parsing user data', e);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
