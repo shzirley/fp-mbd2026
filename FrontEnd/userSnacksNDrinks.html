@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Snacks &amp; Drinks | Cinetrack</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#93000a",
+                        "surface-container-low": "#131b2e",
+                        "on-tertiary-fixed": "#002019",
+                        "surface-bright": "#31394d",
+                        "on-primary-fixed-variant": "#920028",
+                        "primary-container": "#e11d48",
+                        "tertiary-fixed": "#90f5d9",
+                        "surface-container": "#171f33",
+                        "secondary-container": "#eec200",
+                        "primary": "#ffb3b6",
+                        "on-surface-variant": "#e5bdbe",
+                        "on-error": "#690005",
+                        "on-secondary-container": "#645000",
+                        "surface-dim": "#0b1326",
+                        "primary-fixed-dim": "#ffb3b6",
+                        "tertiary-container": "#00836c",
+                        "surface-container-highest": "#2d3449",
+                        "inverse-primary": "#be0037",
+                        "on-tertiary-container": "#eefff7",
+                        "on-secondary-fixed-variant": "#574500",
+                        "surface": "#0b1326",
+                        "surface-variant": "#2d3449",
+                        "surface-tint": "#ffb3b6",
+                        "secondary": "#ffe083",
+                        "outline-variant": "#5c3f40",
+                        "on-surface": "#dae2fd",
+                        "on-secondary-fixed": "#231b00",
+                        "outline": "#ac8889",
+                        "on-secondary": "#3c2f00",
+                        "inverse-on-surface": "#283044",
+                        "background": "#0b1326",
+                        "on-tertiary": "#00382d",
+                        "surface-container-high": "#222a3d",
+                        "secondary-fixed-dim": "#eec200",
+                        "on-background": "#dae2fd",
+                        "tertiary-fixed-dim": "#74d8bd",
+                        "tertiary": "#74d8bd",
+                        "primary-fixed": "#ffdada",
+                        "surface-container-lowest": "#060e20",
+                        "on-primary": "#68001a",
+                        "on-error-container": "#ffdad6",
+                        "on-primary-container": "#fffaf9",
+                        "secondary-fixed": "#ffe083",
+                        "on-primary-fixed": "#40000c",
+                        "error": "#ffb4ab",
+                        "on-tertiary-fixed-variant": "#005142",
+                        "inverse-surface": "#dae2fd"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "lg": "24px",
+                        "margin_desktop": "64px",
+                        "md": "16px",
+                        "sm": "8px",
+                        "margin_mobile": "16px",
+                        "base": "4px",
+                        "grid_columns": "12",
+                        "xs": "4px",
+                        "gutter": "24px",
+                        "2xl": "48px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Outfit"],
+                        "headline-lg": ["Outfit"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "label-md": ["Inter"],
+                        "display-lg": ["Outfit"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f8fafc;
+            /* Operational Clarity Light Theme */
+            color: #1e293b;
+        }
+
+        .light .glass-sidebar {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border-left: 1px solid #e2e8f0;
+        }
+
+        .concession-card {
+            transition: all 0.2s ease-in-out;
+        }
+
+        .concession-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .primary-btn {
+            background-color: #be0037;
+            /* Crimson primary */
+            color: white;
+            transition: background-color 0.2s;
+        }
+
+        .primary-btn:hover {
+            background-color: #920028;
+        }
+
+        .gold-btn {
+            background-color: #eec200;
+            /* Gold premium */
+            color: #231b00;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .category-pill.active {
+            background-color: #be0037;
+            color: white;
+        }
+    </style>
+</head>
+
+<body class="font-body-md text-body-md antialiased overflow-x-hidden">
+    <!-- TopNavBar -->
+    <header
+        class="fixed top-0 w-full bg-white/70 backdrop-blur-xl border-b border-slate-200 z-50 h-16 flex justify-between items-center px-margin_desktop">
+        <div class="flex items-center gap-xl">
+            <a href="userHome.html"
+                class="text-headline-md font-headline-md font-extrabold text-[#be0037] tracking-tighter">Cinetrack</a>
+            <nav class="hidden md:flex gap-lg items-center">
+                <a class="text-on-surface-variant hover:text-[#be0037] transition-colors font-label-md text-label-md"
+                    href="userNowShowing.html">Movies</a>
+                <a class="text-on-surface-variant hover:text-[#be0037] transition-colors font-label-md text-label-md"
+                    href="userMyTickets.html">Tickets</a>
+                <a class="text-on-surface-variant hover:text-[#be0037] transition-colors font-label-md text-label-md"
+                    href="#">VIP</a>
+            </nav>
+        </div>
+        <div class="flex items-center gap-md">
+            <div class="relative hidden lg:block">
+                <input
+                    class="bg-slate-100 border-none rounded-full px-lg py-sm w-64 text-label-md focus:ring-2 focus:ring-[#be0037] transition-all"
+                    placeholder="Search menu..." type="text" />
+                <span
+                    class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+            </div>
+            <button class="p-2 hover:bg-slate-100 rounded-lg transition-all active:scale-95">
+                <span class="material-symbols-outlined text-slate-600">notifications</span>
+            </button>
+            <a href="login.html" title="Logout" class="h-8 w-8 rounded-full overflow-hidden border border-slate-200 cursor-pointer block hover:opacity-80 transition-opacity">
+                <img alt="User"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNomQw1ugxOp2TI2s2no1yIwGgoF8ZUeCFIfxgpAt1VoF7U0VsECE1eyOSTQqxZad4OggiSTeb57Ficno_rOR7OFNdl3K2FxCvES3dXJDmh4dv6cTxG7akOZwJcIP6jUr44730oKuxioPFIgJsqfK-zjPAlP6z3i308XfwJDgDXhFr8Pq4N9FlLQzudyyrHedWNymvPNRNpcxBzmqjRUSAceBdXXmqRdH6xNoAUZsUvQN-0vdHadHVDtGXK2-6NNaox4y8h5BkXnUM" />
+            </a>
+        </div>
+    </header>
+    <main class="pt-24 pb-xl px-margin_desktop flex gap-gutter">
+        <!-- Main Content Area -->
+        <div class="flex-grow max-w-5xl">
+            <header class="mb-xl">
+                <h1 class="text-display-lg font-display-lg text-slate-900 mb-xs">Snacks &amp; Drinks</h1>
+                <p class="text-body-lg font-body-lg text-slate-500">Fuel your cinematic experience with our premium
+                    selection.</p>
+            </header>
+            <!-- Categories -->
+            <div class="flex gap-md mb-xl overflow-x-auto pb-2 scrollbar-hide">
+                <button
+                    class="category-pill active px-lg py-sm rounded-full font-label-md text-label-md transition-all">All
+                    Items</button>
+                <button
+                    class="category-pill bg-white border border-slate-200 text-slate-600 px-lg py-sm rounded-full font-label-md text-label-md hover:border-[#be0037] transition-all">Combos</button>
+                <button
+                    class="category-pill bg-white border border-slate-200 text-slate-600 px-lg py-sm rounded-full font-label-md text-label-md hover:border-[#be0037] transition-all">Popcorn</button>
+                <button
+                    class="category-pill bg-white border border-slate-200 text-slate-600 px-lg py-sm rounded-full font-label-md text-label-md hover:border-[#be0037] transition-all">Drinks</button>
+                <button
+                    class="category-pill bg-white border border-slate-200 text-slate-600 px-lg py-sm rounded-full font-label-md text-label-md hover:border-[#be0037] transition-all">Candy</button>
+            </div>
+            <!-- Concessions Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+                <!-- Item 1: Combo -->
+                <div class="concession-card bg-white rounded-xl border border-slate-200 overflow-hidden flex flex-col">
+                    <div class="h-48 w-full relative">
+                        <img class="w-full h-full object-cover"
+                            data-alt="A premium cinema combo set featuring a large bucket of buttery yellow popcorn and two tall frosted sodas with straws, arranged on a clean white marble surface. The lighting is bright and crisp, highlighting the texture of the popcorn and the condensation on the glasses. The background is a soft-focus modern cinema lobby with warm accent lights."
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4bwUBka6HJzR5ljqiJEyMSlBqvOrWwnI2nl1AKNWIDUeN38R7XBOm7eq9Vw1eczePWDLR1JLKPBWsW6UlX6qgNxKSJo-84WJe_LODex6XRmSVy8NPSdWcLy34Owya4TJ3AowOWZYAcFvsOuDWdWo0NwzOUHU4DbKDx7dDOHXFCrSeCSJ-6q_gs9UCFVb-DbnfyJAecCfy1h4AICMv4RHQi9yV6IBnp5yElBKOSlCxycninx7iDzNNzNtJ9RHAXTRtYt7rwnSXI8x-" />
+                        <span
+                            class="absolute top-3 right-3 gold-btn text-[10px] uppercase tracking-wider font-bold px-2 py-1 rounded">Best
+                            Seller</span>
+                    </div>
+                    <div class="p-lg flex-grow">
+                        <h3 class="text-headline-md font-headline-md text-slate-900 mb-1">Director's Combo</h3>
+                        <p class="text-label-sm font-label-sm text-slate-500 mb-lg leading-relaxed">Large Popcorn, 2
+                            Medium Drinks, and a box of M&amp;Ms.</p>
+                        <div class="flex items-center justify-between mt-auto">
+                            <span class="text-headline-md font-headline-md text-[#be0037]">$24.50</span>
+                            <button
+                                class="primary-btn px-md py-2 rounded-lg flex items-center gap-xs font-label-md text-label-md active:scale-95 transition-transform"
+                                onclick="addToOrder('Director\'s Combo', 24.50)">
+                                <span class="material-symbols-outlined text-[20px]">add</span> Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Item 2: Popcorn -->
+                <div class="concession-card bg-white rounded-xl border border-slate-200 overflow-hidden flex flex-col">
+                    <div class="h-48 w-full relative">
+                        <img class="w-full h-full object-cover"
+                            data-alt="A close-up shot of golden-yellow movie theater popcorn overflowing from a classic red and white striped bucket. The image captures the glistening butter and fine salt grains under high-key, warm professional lighting. The aesthetic is clean and appetizing, following a modern corporate food photography style with sharp focus and high contrast."
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3NjmjOdCVo1_Hz7iXwZaW5freBTTBjSNNvFJUYPiP654ZYar16hv-6x9YsMaZFZ2k-r6Acnekm1m0zpbIUSLzHubtav1fDG43pW7wRYbEWNltaxXNidUnS5g-_-Dd4j7G7oYVi3u8JgXZ7-VJlw3mC_GBzQaCywOmJml0Bs0JTZbeVhgMQ1FeUPaCUT_Q61daYO3mPq5hcLQMyPTnRvg7YlSKMYM_pQANbZNpNID7SOFsE98FwxSDBfAuBEUMAj0ThS-sqENJqGkI" />
+                    </div>
+                    <div class="p-lg flex-grow">
+                        <h3 class="text-headline-md font-headline-md text-slate-900 mb-1">Caramel Crunch</h3>
+                        <p class="text-label-sm font-label-sm text-slate-500 mb-lg leading-relaxed">Large bucket of
+                            handcrafted caramel-glazed kernels.</p>
+                        <div class="flex items-center justify-between mt-auto">
+                            <span class="text-headline-md font-headline-md text-[#be0037]">$9.00</span>
+                            <button
+                                class="primary-btn px-md py-2 rounded-lg flex items-center gap-xs font-label-md text-label-md active:scale-95 transition-transform"
+                                onclick="addToOrder('Caramel Crunch', 9.00)">
+                                <span class="material-symbols-outlined text-[20px]">add</span> Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Item 3: Drink -->
+                <div class="concession-card bg-white rounded-xl border border-slate-200 overflow-hidden flex flex-col">
+                    <div class="h-48 w-full relative">
+                        <img class="w-full h-full object-cover"
+                            data-alt="A refreshing large fountain soda glass filled with dark cola and plenty of ice cubes, showing vibrant condensation on the outside of the glass. The glass is placed on a sleek black slate coaster against a bright, minimalist white background. The lighting is crisp and cool, emphasizing the effervescence of the beverage and the clarity of the ice."
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbD5pI2F2WxiAPSVune1GOLV0A2z_y7dgRr_uc9CGG2W2iu1IKyynaAxPlzwlWurxDZOxxTmmGuHRI3M0YgccFNRP3IRJx6jpZDtiLTBm3pm6Olp17aNl3xGCiPeZOVIoNONtVsXG7g9nfBLvLsiSdDC8Khe-h0lFRbeGcxRqCO5Xl0nYIDYWsXlKSvNe9z7hK6XNUQuW6zYRbybWzaNyXlA9i2qiS4Fof9ObjKmc4TrSAqlkDPf3cxDoWYLgoUh9n26dYrSYuvA7m" />
+                    </div>
+                    <div class="p-lg flex-grow">
+                        <h3 class="text-headline-md font-headline-md text-slate-900 mb-1">ICEE Fusion</h3>
+                        <p class="text-label-sm font-label-sm text-slate-500 mb-lg leading-relaxed">Blue Raspberry &amp;
+                            Cherry frozen carbonated beverage.</p>
+                        <div class="flex items-center justify-between mt-auto">
+                            <span class="text-headline-md font-headline-md text-[#be0037]">$6.50</span>
+                            <button
+                                class="primary-btn px-md py-2 rounded-lg flex items-center gap-xs font-label-md text-label-md active:scale-95 transition-transform"
+                                onclick="addToOrder('ICEE Fusion', 6.50)">
+                                <span class="material-symbols-outlined text-[20px]">add</span> Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Item 4: Nachos -->
+                <div class="concession-card bg-white rounded-xl border border-slate-200 overflow-hidden flex flex-col">
+                    <div class="h-48 w-full relative">
+                        <img class="w-full h-full object-cover"
+                            data-alt="A generous serving of crispy yellow corn tortilla chips served in a tray with a separate compartment for warm, melted nacho cheese sauce and jalapeño slices. The lighting is bright and detailed, showing the crunchy texture of the chips and the smooth gloss of the cheese. The scene is presented on a clean slate table in a high-contrast modern style."
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBS_J2nTcqncTtLRqNyzk5wlm6p6s5Z1bdSDj4h522db7Gj1JYCRpb-xC6-ttXMuGSC-x4plr-FdtSsWsaa4Od9rsUG_MN2328E9Ec9nKZyMjejO9FLOIJ4DNdDPoDZiNJ8amBrhWSKMNZ0yP0mWbTJFLHayZpZDD4j-QjKhXCBO3NtWUzMIruqoZ0jJNkaHSPTtqzoZEVAVtGbRS_KV9cJCYk7AxwGowzDIiN0J4WPsYVrftkoCEEEObSvaxRLDI1Ks5s03RyQ33Oh" />
+                    </div>
+                    <div class="p-lg flex-grow">
+                        <h3 class="text-headline-md font-headline-md text-slate-900 mb-1">Loaded Nachos</h3>
+                        <p class="text-label-sm font-label-sm text-slate-500 mb-lg leading-relaxed">Served with warm
+                            jalapeño cheese and fresh salsa.</p>
+                        <div class="flex items-center justify-between mt-auto">
+                            <span class="text-headline-md font-headline-md text-[#be0037]">$12.00</span>
+                            <button
+                                class="primary-btn px-md py-2 rounded-lg flex items-center gap-xs font-label-md text-label-md active:scale-95 transition-transform"
+                                onclick="addToOrder('Loaded Nachos', 12.00)">
+                                <span class="material-symbols-outlined text-[20px]">add</span> Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Item 5: VIP Selection -->
+                <div
+                    class="concession-card bg-white rounded-xl border-2 border-[#eec200] overflow-hidden flex flex-col">
+                    <div class="h-48 w-full relative">
+                        <img class="w-full h-full object-cover"
+                            data-alt="A sophisticated gourmet charcuterie board arranged for one, featuring aged cheeses, artisanal crackers, and fresh grapes. The board is made of dark walnut wood and sits on a pristine white tablecloth. The lighting is elegant and dramatic, evoking a luxury VIP cinema lounge atmosphere. The color palette is rich with golds, deep reds, and creamy whites."
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuXccG9GTqG3DnEc_D40M9ZRxZqPfaEtIUErYBXaY0VU3_EKQkO9Fr-VRCTZnH2NsFKXofzEWl4RUEZ3U7PNVQ01grLOFd3UNgIxlcVwxHWsDGqDnTpqzW_A_vCnvMFhT8qQNmYsxJhMhquRQW7HxyDB337aJ28_OhgSsIN1WWktBjXSX_ssLvxkzKV8cZbJhR_mRV9eVZjxsfAYT32LTBpWzUrZyMfveyJ_i8D7Ih2WSCXxYYU0k0hNBrLEuUBGKULerjB2tQjRth" />
+                        <span
+                            class="absolute top-3 right-3 bg-[#be0037] text-white text-[10px] uppercase tracking-wider font-bold px-2 py-1 rounded">VIP
+                            ONLY</span>
+                    </div>
+                    <div class="p-lg flex-grow">
+                        <h3 class="text-headline-md font-headline-md text-slate-900 mb-1">Artisan Platter</h3>
+                        <p class="text-label-sm font-label-sm text-slate-500 mb-lg leading-relaxed">Selection of premium
+                            cheeses, nuts, and dried fruits.</p>
+                        <div class="flex items-center justify-between mt-auto">
+                            <span class="text-headline-md font-headline-md text-[#eec200]">$18.50</span>
+                            <button
+                                class="gold-btn px-md py-2 rounded-lg flex items-center gap-xs font-label-md text-label-md active:scale-95 transition-transform shadow-sm"
+                                onclick="addToOrder('Artisan Platter', 18.50)">
+                                <span class="material-symbols-outlined text-[20px]">workspace_premium</span> Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Item 6: Candy -->
+                <div class="concession-card bg-white rounded-xl border border-slate-200 overflow-hidden flex flex-col">
+                    <div class="h-48 w-full relative">
+                        <img class="w-full h-full object-cover"
+                            data-alt="A vibrant and colorful variety of movie theater candy boxes, including chocolate-covered raisins and colorful button-shaped candies, stacked neatly on a bright white shelf. The lighting is clean and commercial-grade, emphasizing the vivid branding and saturated colors. The background is a soft blur of a modern concession stand."
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAoBNEq4c5C7_lYHG9qAnI3rrQpZujMDaJAejzGIN6wGCEBdl4YzZ02NTBBl6felph8aRRV_enqqPHnBBLs4tQLjQEFEQzx10EXLJgsKbYpQkNIRjKZgEjZaHsfNc6LId7RfibK2NwuuNlbJMHrVwyiTkwBeV5WiFcJC_d1XcdmWJMK9CbKt-B-ue6OQR_aMVAQ9J6VU93qzReOHgNkidUwoWYNn81g1XiXnikrjQd1f1aOEyJI6hOdoCfrhGV23XesKp56I3rcHRxy" />
+                    </div>
+                    <div class="p-lg flex-grow">
+                        <h3 class="text-headline-md font-headline-md text-slate-900 mb-1">Sweet Box</h3>
+                        <p class="text-label-sm font-label-sm text-slate-500 mb-lg leading-relaxed">Your choice of
+                            classic cinema box candy.</p>
+                        <div class="flex items-center justify-between mt-auto">
+                            <span class="text-headline-md font-headline-md text-[#be0037]">$5.25</span>
+                            <button
+                                class="primary-btn px-md py-2 rounded-lg flex items-center gap-xs font-label-md text-label-md active:scale-95 transition-transform"
+                                onclick="addToOrder('Sweet Box', 5.25)">
+                                <span class="material-symbols-outlined text-[20px]">add</span> Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Order Summary Sidebar -->
+        <aside class="w-80 h-[calc(100vh-120px)] sticky top-24 glass-sidebar rounded-xl p-lg flex flex-col shadow-lg">
+            <div class="flex items-center justify-between mb-lg border-b border-slate-200 pb-sm">
+                <h2 class="text-headline-md font-headline-md text-slate-900">Your Order</h2>
+                <span class="bg-slate-100 text-slate-600 text-xs font-bold px-2 py-1 rounded-full"
+                    id="item-count">0</span>
+            </div>
+            <!-- Empty State -->
+            <div class="flex-grow flex flex-col items-center justify-center text-center p-xl" id="empty-state">
+                <span class="material-symbols-outlined text-slate-300 text-[64px] mb-md">shopping_basket</span>
+                <p class="text-label-md text-slate-400">Your basket is empty. Add some snacks to start your journey!</p>
+            </div>
+            <!-- Order Items List -->
+            <div class="flex-grow overflow-y-auto hidden space-y-md pr-2" id="order-items">
+                <!-- Dynamically populated -->
+            </div>
+            <!-- Summary -->
+            <div class="mt-auto pt-lg border-t border-slate-200">
+                <div class="flex justify-between mb-xs">
+                    <span class="text-label-md text-slate-500 font-label-md">Subtotal</span>
+                    <span class="text-label-md text-slate-900 font-label-md" id="subtotal">$0.00</span>
+                </div>
+                <div class="flex justify-between mb-lg">
+                    <span class="text-label-md text-slate-500 font-label-md">Tax (8%)</span>
+                    <span class="text-label-md text-slate-900 font-label-md" id="tax">$0.00</span>
+                </div>
+                <div class="flex justify-between mb-xl">
+                    <span class="text-headline-md font-headline-md text-slate-900">Total</span>
+                    <span class="text-headline-md font-headline-md text-[#be0037]" id="total">$0.00</span>
+                </div>
+                <button
+                    onclick="window.location.href='userOrderSummary.html'"
+                    class="w-full primary-btn py-lg rounded-xl font-headline-md text-headline-md flex items-center justify-center gap-md shadow-xl shadow-pink-100 active:scale-[0.98] transition-all">
+                    Proceed to Payment
+                    <span class="material-symbols-outlined">arrow_forward</span>
+                </button>
+            </div>
+        </aside>
+    </main>
+    <!-- Footer Component -->
+    <footer class="w-full mt-auto bg-slate-50 border-t border-slate-200">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin_desktop py-xl w-full">
+            <div class="col-span-1">
+                <span class="text-headline-md font-headline-md text-[#be0037] mb-md block">Cinetrack</span>
+                <p class="text-label-sm font-label-sm text-slate-500 leading-relaxed">Advanced cinematic logistics and
+                    ticketing systems for the modern age.</p>
+            </div>
+            <div>
+                <h4 class="text-label-md font-label-md text-slate-900 mb-lg uppercase tracking-wider">Company</h4>
+                <ul class="space-y-sm">
+                    <li><a class="text-label-sm font-label-sm text-slate-500 hover:text-[#be0037] transition-colors"
+                            href="#">Branch Locations</a></li>
+                    <li><a class="text-label-sm font-label-sm text-slate-500 hover:text-[#be0037] transition-colors"
+                            href="#">Quick Links</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-label-md font-label-md text-slate-900 mb-lg uppercase tracking-wider">Support</h4>
+                <ul class="space-y-sm">
+                    <li><a class="text-label-sm font-label-sm text-slate-500 hover:text-[#be0037] transition-colors"
+                            href="#">Support Center</a></li>
+                    <li><a class="text-label-sm font-label-sm text-slate-500 hover:text-[#be0037] transition-colors"
+                            href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-label-md font-label-md text-slate-900 mb-lg uppercase tracking-wider">Legal</h4>
+                <ul class="space-y-sm">
+                    <li><a class="text-label-sm font-label-sm text-slate-500 hover:text-[#be0037] transition-colors"
+                            href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="px-margin_desktop py-md border-t border-slate-200 flex justify-between items-center">
+            <p class="text-label-sm font-label-sm text-slate-400">© 2024 Cinetrack Logistics &amp; Cinema Systems. All
+                rights reserved.</p>
+            <div class="flex gap-md">
+                <span
+                    class="material-symbols-outlined text-slate-400 text-lg cursor-pointer hover:text-[#be0037]">language</span>
+                <span
+                    class="material-symbols-outlined text-slate-400 text-lg cursor-pointer hover:text-[#be0037]">share</span>
+            </div>
+        </div>
+    </footer>
+    <script>
+        let cart = [];
+        let menuItems = [];
+
+        // Initialize User Info
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user) {
+            const profileLink = document.querySelector('header a[title="Logout"]');
+            if (profileLink) {
+                profileLink.innerHTML = `
+                    <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary font-bold text-xs uppercase cursor-pointer">
+                        ${user.name.substring(0, 2)}
+                    </div>
+                `;
+            }
+        }
+
+        async function loadMenu() {
+            try {
+                const res = await fetch('/api/canteen/items');
+                if (!res.ok) throw new Error('Failed to fetch menu');
+                menuItems = await res.json();
+
+                renderMenu('all');
+                setupCategoryFilters();
+            } catch (err) {
+                console.error(err);
+                const grid = document.querySelector('.grid.grid-cols-1');
+                if (grid) {
+                    grid.innerHTML = '<p class="col-span-full text-center text-red-500 py-8">Failed to load canteen items from server.</p>';
+                }
+            }
+        }
+
+        function renderMenu(categoryFilter = 'all') {
+            const grid = document.querySelector('.grid.grid-cols-1');
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            let filtered = menuItems;
+            if (categoryFilter !== 'all') {
+                filtered = menuItems.filter(item => {
+                    const cat = (item.nama_kategori || '').toLowerCase();
+                    if (categoryFilter === 'combos') return cat.includes('combo');
+                    if (categoryFilter === 'popcorn') return cat.includes('popcorn') || cat.includes('makanan');
+                    if (categoryFilter === 'drinks') return cat.includes('minuman') || cat.includes('drink');
+                    if (categoryFilter === 'candy') return cat.includes('snack') || cat.includes('candy') || cat.includes('cemilan') || cat.includes('kategori');
+                    return false;
+                });
+            }
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '<p class="col-span-full text-center text-slate-500 py-8">No items found in this category.</p>';
+                return;
+            }
+
+            filtered.forEach(item => {
+                const card = document.createElement('div');
+                const isVip = (item.nama_kategori || '').toLowerCase().includes('vip') || (item.nama_produk || '').toLowerCase().includes('platter');
+                
+                // Fallback image if image_url is empty
+                const imgUrl = item.image_url || '/assets/foodImages/pop-corn+soda.jpg';
+                
+                card.className = isVip
+                    ? 'concession-card bg-white rounded-xl border-2 border-[#eec200] overflow-hidden flex flex-col shadow-sm'
+                    : 'concession-card bg-white rounded-xl border border-slate-200 overflow-hidden flex flex-col shadow-sm';
+                
+                let badgeHtml = '';
+                if (isVip) {
+                    badgeHtml = `<span class="absolute top-3 right-3 bg-[#be0037] text-white text-[10px] uppercase tracking-wider font-bold px-2 py-1 rounded">VIP ONLY</span>`;
+                } else if (item.stok <= 5) {
+                    badgeHtml = `<span class="absolute top-3 right-3 bg-orange-500 text-white text-[10px] uppercase tracking-wider font-bold px-2 py-1 rounded">Low Stock (${item.stok})</span>`;
+                }
+
+                card.innerHTML = `
+                    <div class="h-48 w-full relative">
+                        <img class="w-full h-full object-cover" src="${imgUrl}" alt="${item.nama_produk}" />
+                        ${badgeHtml}
+                    </div>
+                    <div class="p-lg flex-grow flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-headline-md font-headline-md text-slate-900 mb-1">${item.nama_produk}</h3>
+                            <p class="text-label-sm font-label-sm text-slate-500 mb-lg leading-relaxed">${item.deskripsi || 'Freshly prepared at the cinema counter.'}</p>
+                        </div>
+                        <div class="flex items-center justify-between mt-auto">
+                            <span class="text-headline-md font-headline-md text-[#be0037]">Rp ${parseFloat(item.harga_satuan).toLocaleString('id-ID')}</span>
+                            <button
+                                class="${isVip ? 'gold-btn' : 'primary-btn'} px-md py-2 rounded-lg flex items-center gap-xs font-label-md text-label-md active:scale-95 transition-transform"
+                                onclick="addToOrder('${item.id_produk}', '${item.nama_produk.replace(/'/g, "\\'")}', ${item.harga_satuan})">
+                                <span class="material-symbols-outlined text-[20px]">${isVip ? 'workspace_premium' : 'add'}</span> Add
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function setupCategoryFilters() {
+            const buttons = document.querySelectorAll('.category-pill');
+            buttons.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    buttons.forEach(b => {
+                        b.className = 'category-pill bg-white border border-slate-200 text-slate-600 px-lg py-sm rounded-full font-label-md text-label-md hover:border-[#be0037] transition-all';
+                    });
+                    btn.className = 'category-pill active px-lg py-sm rounded-full font-label-md text-label-md transition-all text-white bg-[#be0037]';
+                    
+                    const filter = btn.innerText.toLowerCase().trim();
+                    if (filter.includes('all')) renderMenu('all');
+                    else if (filter.includes('combo')) renderMenu('combos');
+                    else if (filter.includes('popcorn')) renderMenu('popcorn');
+                    else if (filter.includes('drink')) renderMenu('drinks');
+                    else if (filter.includes('candy')) renderMenu('candy');
+                });
+            });
+        }
+
+        function addToOrder(id, name, price) {
+            const existingItem = cart.find(item => item.productId === id);
+            if (existingItem) {
+                existingItem.qty += 1;
+                existingItem.subtotal = existingItem.qty * price;
+            } else {
+                cart.push({ productId: id, name, price, qty: 1, subtotal: price });
+            }
+            updateCartUI();
+        }
+
+        function removeFromOrder(id) {
+            const index = cart.findIndex(item => item.productId === id);
+            if (index !== -1) {
+                if (cart[index].qty > 1) {
+                    cart[index].qty -= 1;
+                    cart[index].subtotal = cart[index].qty * cart[index].price;
+                } else {
+                    cart.splice(index, 1);
+                }
+            }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const orderList = document.getElementById('order-items');
+            const emptyState = document.getElementById('empty-state');
+            const subtotalEl = document.getElementById('subtotal');
+            const taxEl = document.getElementById('tax');
+            const totalEl = document.getElementById('total');
+            const countEl = document.getElementById('item-count');
+
+            if (cart.length === 0) {
+                orderList.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+                countEl.textContent = '0';
+            } else {
+                orderList.classList.remove('hidden');
+                emptyState.classList.add('hidden');
+
+                orderList.innerHTML = cart.map(item => `
+                    <div class="flex items-center justify-between bg-white p-md rounded-lg border border-slate-100 shadow-sm transition-all">
+                        <div class="flex flex-col">
+                            <span class="text-label-md font-label-md text-slate-900">${item.name}</span>
+                            <span class="text-label-sm font-label-sm text-slate-500">Rp ${item.price.toLocaleString('id-ID')} x ${item.qty}</span>
+                        </div>
+                        <div class="flex items-center gap-sm">
+                            <button onclick="removeFromOrder('${item.productId}')" class="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 hover:text-red-500 hover:border-red-200 transition-colors">
+                                <span class="material-symbols-outlined text-[18px]">remove</span>
+                            </button>
+                            <span class="font-bold text-slate-700 min-w-[20px] text-center">${item.qty}</span>
+                            <button onclick="addToOrder('${item.productId}', '${item.name.replace(/'/g, "\\'")}', ${item.price})" class="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 hover:text-green-500 hover:border-green-200 transition-colors">
+                                <span class="material-symbols-outlined text-[18px]">add</span>
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+
+                const count = cart.reduce((acc, curr) => acc + curr.qty, 0);
+                countEl.textContent = count;
+            }
+
+            const subtotal = cart.reduce((acc, curr) => acc + curr.subtotal, 0);
+            const tax = subtotal * 0.08;
+            const total = subtotal + tax;
+
+            subtotalEl.textContent = `Rp ${subtotal.toLocaleString('id-ID')}`;
+            taxEl.textContent = `Rp ${tax.toLocaleString('id-ID')}`;
+            totalEl.textContent = `Rp ${total.toLocaleString('id-ID')}`;
+        }
+
+        // Global functions for click bindings
+        window.addToOrder = addToOrder;
+        window.removeFromOrder = removeFromOrder;
+
+        // Custom checkout click handler to bypass inline onclick
+        document.addEventListener('DOMContentLoaded', () => {
+            loadMenu();
+            
+            const proceedBtn = document.querySelector('aside button');
+            if (proceedBtn) {
+                // Remove existing click handlers by replacing the element
+                const newBtn = proceedBtn.cloneNode(true);
+                newBtn.removeAttribute('onclick');
+                newBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    // Save cart to localStorage
+                    localStorage.setItem('selectedCanteenItems', JSON.stringify(cart));
+                    window.location.href = 'userOrderSummary.html';
+                });
+                proceedBtn.parentNode.replaceChild(newBtn, proceedBtn);
+            }
+        });
+    </script>
+</body>
+
+</html>

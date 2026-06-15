@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>My Tickets - Cinetrack</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#93000a",
+                        "surface-container-low": "#131b2e",
+                        "on-tertiary-fixed": "#002019",
+                        "surface-bright": "#31394d",
+                        "on-primary-fixed-variant": "#920028",
+                        "primary-container": "#e11d48",
+                        "tertiary-fixed": "#90f5d9",
+                        "surface-container": "#171f33",
+                        "secondary-container": "#eec200",
+                        "primary": "#ffb3b6",
+                        "on-surface-variant": "#e5bdbe",
+                        "on-error": "#690005",
+                        "on-secondary-container": "#645000",
+                        "surface-dim": "#0b1326",
+                        "primary-fixed-dim": "#ffb3b6",
+                        "tertiary-container": "#00836c",
+                        "surface-container-highest": "#2d3449",
+                        "inverse-primary": "#be0037",
+                        "on-tertiary-container": "#eefff7",
+                        "on-secondary-fixed-variant": "#574500",
+                        "surface": "#0b1326",
+                        "surface-variant": "#2d3449",
+                        "surface-tint": "#ffb3b6",
+                        "secondary": "#ffe083",
+                        "outline-variant": "#5c3f40",
+                        "on-surface": "#dae2fd",
+                        "on-secondary-fixed": "#231b00",
+                        "outline": "#ac8889",
+                        "on-secondary": "#3c2f00",
+                        "inverse-on-surface": "#283044",
+                        "background": "#0b1326",
+                        "on-tertiary": "#00382d",
+                        "surface-container-high": "#222a3d",
+                        "secondary-fixed-dim": "#eec200",
+                        "on-background": "#dae2fd",
+                        "tertiary-fixed-dim": "#74d8bd",
+                        "tertiary": "#74d8bd",
+                        "primary-fixed": "#ffdada",
+                        "surface-container-lowest": "#060e20",
+                        "on-primary": "#68001a",
+                        "on-error-container": "#ffdad6",
+                        "on-primary-container": "#fffaf9",
+                        "secondary-fixed": "#ffe083",
+                        "on-primary-fixed": "#40000c",
+                        "error": "#ffb4ab",
+                        "on-tertiary-fixed-variant": "#005142",
+                        "inverse-surface": "#dae2fd"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "lg": "24px",
+                        "margin_desktop": "64px",
+                        "md": "16px",
+                        "sm": "8px",
+                        "margin_mobile": "16px",
+                        "base": "4px",
+                        "grid_columns": "12",
+                        "xs": "4px",
+                        "gutter": "24px",
+                        "2xl": "48px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Outfit"],
+                        "headline-lg-mobile": ["Outfit"],
+                        "headline-lg": ["Outfit"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "label-md": ["Inter"],
+                        "display-lg": ["Outfit"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f8fafc;
+            /* Light Theme override for Clarity */
+            color: #1e293b;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .ticket-tear {
+            position: relative;
+        }
+
+        .ticket-tear::before,
+        .ticket-tear::after {
+            content: '';
+            position: absolute;
+            left: -12px;
+            width: 24px;
+            height: 24px;
+            background: #f8fafc;
+            border-radius: 50%;
+            z-index: 10;
+        }
+
+        .ticket-tear::before {
+            top: -12px;
+        }
+
+        .ticket-tear::after {
+            bottom: -12px;
+        }
+
+        .modal-overlay {
+            background: rgba(11, 19, 38, 0.4);
+            backdrop-filter: blur(4px);
+            display: none;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .primary-button {
+            background-color: #e11d48;
+            color: white;
+            transition: all 0.2s ease;
+        }
+
+        .primary-button:hover {
+            background-color: #be123c;
+            box-shadow: 0 4px 12px rgba(225, 29, 72, 0.3);
+        }
+    </style>
+</head>
+
+<body class="font-body-md text-body-md min-h-screen flex flex-col">
+    <!-- TopNavBar -->
+    <nav
+        class="fixed top-0 w-full bg-white/70 backdrop-blur-xl border-b border-slate-200 z-50 h-16 flex justify-between items-center px-margin_desktop">
+        <div class="flex items-center gap-xl">
+            <a href="userHome.html"
+                class="text-headline-md font-headline-md font-extrabold text-primary-container tracking-tighter">Cinetrack</a>
+            <div class="hidden md:flex items-center gap-lg">
+                <a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md"
+                    href="userNowShowing.html">Movies</a>
+                <a class="text-primary border-b-2 border-primary font-bold pb-1 font-label-md text-label-md"
+                    href="userMyTickets.html">Tickets</a>
+                <a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md"
+                    href="#">VIP</a>
+            </div>
+        </div>
+        <div class="flex items-center gap-md">
+            <button class="p-2 hover:bg-slate-100 rounded-lg transition-all"><span
+                    class="material-symbols-outlined text-slate-600">search</span></button>
+            <button class="p-2 hover:bg-slate-100 rounded-lg transition-all"><span
+                    class="material-symbols-outlined text-slate-600">notifications</span></button>
+            <a href="login.html" title="Logout" class="w-8 h-8 rounded-full overflow-hidden border border-slate-200 cursor-pointer block hover:opacity-80 transition-opacity">
+                <img alt="User"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAHKRybaP9TtJFoCN24d843z_4BnalPx2_m9MLvSoI_wSEn4I2Gkb6TbbxNgNA3XJw3PcBbAYmj2DbE2euJgU5TIEpXgQztLydUAAq_Ow2USaaz8VEcVX6vwnZFYDvyg1SJiSN0_WsiuhfU8UjmmtJcRfMbhYmnPAsOsrL_JQtbMaJZfbr1Q-okItgoW0Facacy40B1b7o11JQsZvzsGhxMsAYu_DXXcXr6_1nvyusVfQGjjWSxo0DJ_T5nUjVgVNQERjjFcOtD7cb" />
+            </a>
+        </div>
+    </nav>
+    <!-- Main Content -->
+    <main class="mt-16 flex-grow px-margin_desktop py-xl max-w-7xl mx-auto w-full">
+        <!-- User Profile Header -->
+        <header class="mb-2xl flex flex-col md:flex-row md:items-end justify-between gap-lg">
+            <div>
+                <h1 class="text-display-lg font-display-lg text-slate-900">My Tickets</h1>
+                <p class="text-slate-500 font-body-lg text-body-lg">Manage your upcoming movie experiences and viewing
+                    history.</p>
+            </div>
+            <div class="flex gap-md">
+                <div class="bg-white px-lg py-md rounded-xl border border-slate-200 shadow-sm flex items-center gap-md">
+                    <span class="material-symbols-outlined text-secondary-container"
+                        style="font-variation-settings: 'FILL' 1;">stars</span>
+                    <div>
+                        <p class="text-label-sm font-label-sm text-slate-400 uppercase tracking-wider">Loyalty Points
+                        </p>
+                        <p class="text-headline-md font-headline-md text-slate-900">2,450</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Upcoming Tickets Section -->
+        <section class="mb-2xl">
+            <div class="flex items-center justify-between mb-lg">
+                <h2 class="text-headline-md font-headline-md text-slate-800">Upcoming Tickets</h2>
+                <span
+                    class="bg-primary-container/10 text-primary-container px-md py-1 rounded-full text-label-md font-label-md">2
+                    Bookings</span>
+            </div>
+            <div class="grid grid-cols-1 gap-lg">
+                <!-- Ticket Card 1 -->
+                <div
+                    class="glass-card rounded-2xl overflow-hidden flex flex-col lg:flex-row group transition-all hover:shadow-md">
+                    <div class="w-full lg:w-64 h-48 lg:h-auto overflow-hidden">
+                        <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            data-alt="A cinematic movie poster for a futuristic sci-fi film featuring a sleek neon metropolis at dusk. The lighting is dominated by deep violets and electric blues with sharp crimson highlights. The aesthetic is high-gloss and atmospheric, evoking a sense of mystery and advanced technology. The composition is dynamic and professionally balanced for a premium theater experience."
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBeOCr7ksgiJtRXEXHpYblOvlxoBqu9QgK_nBRsehWI510hcYNPKd2PcNco518-EBSHYRixxP5k1PnhhQcb4EkdlTv4jwcn38ZC3gQJEhVei-x9dE6EyjkKWONKJWwYiz3wt6nGp8O_IjxkeI_k9SBgVPkrhrTTqFjxglT9RXAF6HikBMQ45iiRjYxIK_sn1KargERKKFrwPnGZFBLQPn9LweV2u-CMwZ5mbIpHd9t9lq67hPJ_-X53hSmUqD98nglKHxOlCN4Uk69J" />
+                    </div>
+                    <div class="flex-grow p-xl flex flex-col md:flex-row">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-sm mb-base">
+                                <span
+                                    class="bg-slate-100 text-slate-600 px-sm py-0.5 rounded text-label-sm font-label-sm uppercase">Sci-Fi
+                                    / Action</span>
+                                <span class="text-slate-400">•</span>
+                                <span class="text-slate-500 text-label-sm font-label-sm">2h 15m</span>
+                            </div>
+                            <h3 class="text-headline-lg font-headline-lg text-slate-900 mb-md">Neon Horizon: Genesis
+                            </h3>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-xl">
+                                <div>
+                                    <p class="text-label-sm font-label-sm text-slate-400 uppercase">Branch</p>
+                                    <p class="text-body-md font-body-md text-slate-700">Downtown Cinema 12</p>
+                                </div>
+                                <div>
+                                    <p class="text-label-sm font-label-sm text-slate-400 uppercase">Studio</p>
+                                    <p class="text-body-md font-body-md text-slate-700">Studio 4 (IMAX)</p>
+                                </div>
+                                <div>
+                                    <p class="text-label-sm font-label-sm text-slate-400 uppercase">Date &amp; Time</p>
+                                    <p class="text-body-md font-body-md text-slate-700">Oct 24 • 19:30</p>
+                                </div>
+                                <div>
+                                    <p class="text-label-sm font-label-sm text-slate-400 uppercase">Seats</p>
+                                    <p class="text-body-md font-body-md text-slate-700 font-bold">F12, F13</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="mt-lg md:mt-0 md:ml-xl flex flex-col justify-center items-center md:items-end border-t md:border-t-0 md:border-l border-slate-200 pt-lg md:pt-0 md:pl-xl">
+                            <button
+                                class="primary-button flex items-center gap-sm px-xl py-md rounded-xl font-label-md text-label-md w-full md:w-auto justify-center"
+                                onclick="toggleModal('ticket-modal')">
+                                <span class="material-symbols-outlined">qr_code_2</span>
+                                View QR Code
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Ticket Card 2 (VIP) -->
+                <div
+                    class="glass-card rounded-2xl overflow-hidden flex flex-col lg:flex-row group transition-all border-l-4 border-secondary-container hover:shadow-md">
+                    <div class="w-full lg:w-64 h-48 lg:h-auto overflow-hidden">
+                        <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            data-alt="An artistic film still featuring a high-fashion, vintage cinematic style with a focus on dramatic noir lighting. The scene shows a classic theater interior with velvet curtains and gold accents. The color palette is rich and warm, featuring deep maroons and golden ambers. The atmosphere is sophisticated, elegant, and timelessly professional."
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhT6OpPjCMzKi3C7Ze4---FgfKTiVOWvPt0VDpvORt9_WfkFS6bx8iuYuZgcnqI24dQ4Cn6VsSpMx5QGYpV_F89jxCPg6cwIuI2o-7rofdiQKj3-dmrzcYlFo8EBc0QufxR8IrgXTxlchCSGyxD-A1i8Cjes9-q92YjImx7PGzK--ZCUVQf6qnKRXHgw_jq2Eep1StWB0TFTq9T2QPFKqdjYTJOi2Ae7f0-HuOTgsxmCiJ0V04eQmNwlrWnlABhmCxEiA_W0YhLjuO" />
+                    </div>
+                    <div class="flex-grow p-xl flex flex-col md:flex-row">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-sm mb-base">
+                                <span
+                                    class="bg-secondary-container/10 text-secondary-container px-sm py-0.5 rounded text-label-sm font-label-sm uppercase">VIP
+                                    Experience</span>
+                                <span class="text-slate-400">•</span>
+                                <span class="text-slate-500 text-label-sm font-label-sm">Drama</span>
+                            </div>
+                            <h3 class="text-headline-lg font-headline-lg text-slate-900 mb-md">Midnight in Versailles
+                            </h3>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-xl">
+                                <div>
+                                    <p class="text-label-sm font-label-sm text-slate-400 uppercase">Branch</p>
+                                    <p class="text-body-md font-body-md text-slate-700">The Grand Plaza</p>
+                                </div>
+                                <div>
+                                    <p class="text-label-sm font-label-sm text-slate-400 uppercase">Studio</p>
+                                    <p class="text-body-md font-body-md text-slate-700">Gold Suite 1</p>
+                                </div>
+                                <div>
+                                    <p class="text-label-sm font-label-sm text-slate-400 uppercase">Date &amp; Time</p>
+                                    <p class="text-body-md font-body-md text-slate-700">Oct 28 • 20:15</p>
+                                </div>
+                                <div>
+                                    <p class="text-label-sm font-label-sm text-slate-400 uppercase">Seats</p>
+                                    <p class="text-body-md font-body-md text-slate-700 font-bold">VIP-A4</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="mt-lg md:mt-0 md:ml-xl flex flex-col justify-center items-center md:items-end border-t md:border-t-0 md:border-l border-slate-200 pt-lg md:pt-0 md:pl-xl">
+                            <button
+                                class="primary-button flex items-center gap-sm px-xl py-md rounded-xl font-label-md text-label-md w-full md:w-auto justify-center"
+                                onclick="toggleModal('ticket-modal')">
+                                <span class="material-symbols-outlined">qr_code_2</span>
+                                View QR Code
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Past Bookings Section -->
+        <section>
+            <h2 class="text-headline-md font-headline-md text-slate-800 mb-lg">Past Bookings</h2>
+            <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-50 border-b border-slate-200">
+                            <th class="px-lg py-md text-label-sm font-label-sm text-slate-500 uppercase">Movie</th>
+                            <th class="px-lg py-md text-label-sm font-label-sm text-slate-500 uppercase">Date</th>
+                            <th class="px-lg py-md text-label-sm font-label-sm text-slate-500 uppercase">Location</th>
+                            <th class="px-lg py-md text-label-sm font-label-sm text-slate-500 uppercase">Amount</th>
+                            <th class="px-lg py-md text-label-sm font-label-sm text-slate-500 uppercase">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        <tr class="hover:bg-slate-50 transition-colors">
+                            <td class="px-lg py-md font-bold text-slate-700">The Silent Echo</td>
+                            <td class="px-lg py-md text-slate-600">Oct 12, 2024</td>
+                            <td class="px-lg py-md text-slate-600">Downtown Cinema 12</td>
+                            <td class="px-lg py-md text-slate-600">$32.00</td>
+                            <td class="px-lg py-md"><span
+                                    class="bg-slate-100 text-slate-500 px-md py-1 rounded-full text-label-sm font-label-sm">Completed</span>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 transition-colors">
+                            <td class="px-lg py-md font-bold text-slate-700">Velocity X</td>
+                            <td class="px-lg py-md text-slate-600">Oct 05, 2024</td>
+                            <td class="px-lg py-md text-slate-600">Northside IMAX</td>
+                            <td class="px-lg py-md text-slate-600">$45.50</td>
+                            <td class="px-lg py-md"><span
+                                    class="bg-slate-100 text-slate-500 px-md py-1 rounded-full text-label-sm font-label-sm">Completed</span>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 transition-colors">
+                            <td class="px-lg py-md font-bold text-slate-700">Starbound Voyagers</td>
+                            <td class="px-lg py-md text-slate-600">Sep 28, 2024</td>
+                            <td class="px-lg py-md text-slate-600">Downtown Cinema 12</td>
+                            <td class="px-lg py-md text-slate-600">$18.00</td>
+                            <td class="px-lg py-md"><span
+                                    class="bg-slate-100 text-slate-500 px-md py-1 rounded-full text-label-sm font-label-sm">Completed</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+    <!-- Footer -->
+    <footer class="bg-surface-container-low border-t border-slate-200 mt-2xl py-xl px-margin_desktop">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-gutter">
+            <div class="col-span-1">
+                <span
+                    class="text-headline-md font-headline-md text-primary-container font-extrabold block mb-md">Cinetrack</span>
+                <p class="text-slate-400 text-label-sm font-label-sm">© 2024 Cinetrack Logistics &amp; Cinema Systems.
+                    All rights reserved.</p>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-md text-label-md">Branch Locations</h4>
+                <ul class="space-y-sm">
+                    <li><a class="text-on-surface-variant/60 hover:text-secondary transition-colors text-label-sm"
+                            href="#">Downtown City</a></li>
+                    <li><a class="text-on-surface-variant/60 hover:text-secondary transition-colors text-label-sm"
+                            href="#">Grand Plaza</a></li>
+                    <li><a class="text-on-surface-variant/60 hover:text-secondary transition-colors text-label-sm"
+                            href="#">Northside Mall</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-md text-label-md">Support</h4>
+                <ul class="space-y-sm">
+                    <li><a class="text-on-surface-variant/60 hover:text-secondary transition-colors text-label-sm"
+                            href="#">Help Center</a></li>
+                    <li><a class="text-on-surface-variant/60 hover:text-secondary transition-colors text-label-sm"
+                            href="#">Refund Policy</a></li>
+                    <li><a class="text-on-surface-variant/60 hover:text-secondary transition-colors text-label-sm"
+                            href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-md text-label-md">Quick Links</h4>
+                <ul class="space-y-sm">
+                    <li><a class="text-on-surface-variant/60 hover:text-secondary transition-colors text-label-sm"
+                            href="#">Privacy Policy</a></li>
+                    <li><a class="text-on-surface-variant/60 hover:text-secondary transition-colors text-label-sm"
+                            href="#">Terms of Service</a></li>
+                    <li><a class="text-on-surface-variant/60 hover:text-secondary transition-colors text-label-sm"
+                            href="#">Partners</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+    <!-- Digital Ticket Modal -->
+    <div class="modal-overlay fixed inset-0 z-[100] items-center justify-center p-md" id="ticket-modal">
+        <div
+            class="bg-white rounded-3xl w-full max-w-md overflow-hidden shadow-2xl animate-in fade-in zoom-in duration-300">
+            <div class="bg-primary-container p-lg text-center relative">
+                <button class="absolute top-4 right-4 text-white/80 hover:text-white"
+                    onclick="toggleModal('ticket-modal')">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+                <p class="text-white/80 text-label-sm font-label-sm uppercase tracking-widest mb-xs">Cinetrack Digital
+                    Pass</p>
+                <h2 class="text-white text-headline-md font-headline-md">Neon Horizon: Genesis</h2>
+            </div>
+            <div class="p-xl space-y-xl relative ticket-tear border-x border-slate-100">
+                <div class="flex justify-between items-center text-center">
+                    <div>
+                        <p class="text-label-sm font-label-sm text-slate-400 uppercase">Date</p>
+                        <p class="text-body-md font-body-md font-bold text-slate-800">Oct 24</p>
+                    </div>
+                    <div>
+                        <p class="text-label-sm font-label-sm text-slate-400 uppercase">Time</p>
+                        <p class="text-body-md font-body-md font-bold text-slate-800">19:30</p>
+                    </div>
+                    <div>
+                        <p class="text-label-sm font-label-sm text-slate-400 uppercase">Hall</p>
+                        <p class="text-body-md font-body-md font-bold text-slate-800">04</p>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center text-center">
+                    <div>
+                        <p class="text-label-sm font-label-sm text-slate-400 uppercase">Row</p>
+                        <p class="text-body-md font-body-md font-bold text-slate-800">F</p>
+                    </div>
+                    <div>
+                        <p class="text-label-sm font-label-sm text-slate-400 uppercase">Seats</p>
+                        <p class="text-body-md font-body-md font-bold text-slate-800">12, 13</p>
+                    </div>
+                    <div>
+                        <p class="text-label-sm font-label-sm text-slate-400 uppercase">Type</p>
+                        <p class="text-body-md font-body-md font-bold text-slate-800">Adult</p>
+                    </div>
+                </div>
+                <div class="border-t border-dashed border-slate-300 pt-xl flex flex-col items-center">
+                    <div class="bg-white p-lg border border-slate-200 rounded-2xl mb-md">
+                        <img alt="QR Code" class="w-48 h-48"
+                            data-alt="A clean and modern QR code generated on a white background with rounded corners. The code represents a digital ticket and is presented within a high-contrast UI context, utilizing sharp edges and clear white space to ensure legibility. The styling is clinical and professional, fitting a high-end cinema ticketing application."
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpkzf3qFzlb_NWVHibY2F3Qcx-8zKQW818EaXhKvcSxLc6LyrRW3PUHroV4Mr6G5RY9HKG1boJp3AnSXcYj66R406kz30WzLNDIg01bnLxQ_GFyGVY5UMOL6IXcmzbwkyfCZ0aQUThFvuiWC568dWY3neE7exe_3G9kK8M7xwtBvGINx70CNJwBFtn0G_Lw5yz9R7-BHsesF_9dKWycdSKDD64rOQObIHrFtMMnipmaDghSP9jlekefc0EiQ-j8sudI_u_Qvz733MT" />
+                    </div>
+                    <p class="text-label-sm font-label-sm text-slate-500 uppercase tracking-widest font-mono">
+                        CT-990-244100-FX</p>
+                </div>
+            </div>
+            <div class="bg-slate-50 p-lg text-center">
+                <p class="text-label-sm font-label-sm text-slate-500 italic">Please present this QR code at the studio
+                    entrance.</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        function toggleModal(id) {
+            const modal = document.getElementById(id);
+            if (modal.classList.contains('active')) {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            } else {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function (event) {
+            const modal = document.getElementById('ticket-modal');
+            if (event.target == modal) {
+                toggleModal('ticket-modal');
+            }
+        }
+    </script>
+</body>
+
+</html>

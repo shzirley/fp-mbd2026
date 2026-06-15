@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Transaction History - Cinetrack</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700&amp;family=Inter:wght@400;500;600&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#ffdada",
+                        "on-primary-fixed-variant": "#920028",
+                        "on-error": "#690005",
+                        "on-primary": "#68001a",
+                        "surface-container-high": "#222a3d",
+                        "inverse-on-surface": "#283044",
+                        "surface-dim": "#0b1326",
+                        "outline-variant": "#5c3f40",
+                        "on-secondary": "#3c2f00",
+                        "outline": "#ac8889",
+                        "on-tertiary-container": "#eefff7",
+                        "tertiary": "#74d8bd",
+                        "surface-tint": "#ffb3b6",
+                        "on-secondary-fixed-variant": "#574500",
+                        "surface-container": "#171f33",
+                        "surface": "#ffffff", /* Light mode override for standard ops view */
+                        "on-background": "#1a1c1e", /* Light mode text */
+                        "on-primary-container": "#fffaf9",
+                        "tertiary-container": "#00836c",
+                        "on-surface-variant": "#49454f", /* Light mode text variant */
+                        "surface-container-low": "#f3f4f6", /* Light mode surface low */
+                        "on-tertiary": "#00382d",
+                        "on-secondary-container": "#645000",
+                        "secondary-fixed": "#ffe083",
+                        "on-tertiary-fixed-variant": "#005142",
+                        "on-secondary-fixed": "#231b00",
+                        "on-surface": "#1a1c1e", /* Light mode text */
+                        "secondary": "#ffe083",
+                        "surface-container-highest": "#e5e7eb", /* Light mode highest */
+                        "primary": "#e11d48", /* Changed to the crimson for light mode */
+                        "inverse-surface": "#313033",
+                        "secondary-fixed-dim": "#eec200",
+                        "primary-fixed-dim": "#ffb3b6",
+                        "background": "#f8fafc", /* Light background */
+                        "on-primary-fixed": "#40000c",
+                        "error": "#ba1a1a",
+                        "surface-variant": "#f1f5f9", /* Light variant */
+                        "primary-container": "#e11d48",
+                        "tertiary-fixed-dim": "#74d8bd",
+                        "surface-bright": "#f9fafb",
+                        "inverse-primary": "#ffb3b6",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed": "#90f5d9",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed": "#002019",
+                        "secondary-container": "#eec200",
+                        "on-error-container": "#410002"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "xs": "4px",
+                        "sm": "8px",
+                        "margin_mobile": "16px",
+                        "margin_desktop": "64px",
+                        "grid_columns": "12",
+                        "lg": "24px",
+                        "md": "16px",
+                        "gutter": "24px",
+                        "base": "4px",
+                        "2xl": "48px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"],
+                        "display-lg": ["Outfit"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Outfit"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Outfit"],
+                        "headline-md": ["Outfit"],
+                        "label-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (!user || user.role !== 'admin') {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const sidebarUser = document.querySelector('aside .flex-1 p.font-bold');
+            if (sidebarUser) sidebarUser.innerText = user.name;
+            const sidebarAvatar = document.querySelector('aside .w-10.h-10');
+            if (sidebarAvatar) sidebarAvatar.innerText = user.name.substring(0, 2).toUpperCase();
+
+            try {
+                const res = await fetch('/api/admin/transactions');
+                const transactions = await res.json();
+                
+                const tbody = document.getElementById('transactions-body');
+                tbody.innerHTML = '';
+                
+                if (transactions.length === 0) {
+                    tbody.innerHTML = '<p class="text-center text-slate-500 py-8">No transactions found.</p>';
+                    return;
+                }
+
+                transactions.forEach(trx => {
+                    const date = new Date(trx.tanggal_transaksi);
+                    const formattedDate = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                    const formattedTime = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+                    
+                    const row = document.createElement('div');
+                    row.className = 'grid grid-cols-[120px_160px_160px_1fr_140px_120px_100px_48px] gap-4 px-6 py-4 border-b border-slate-100 hover:bg-surface-variant/50 transition-colors items-center font-body-md text-body-md';
+                    
+                    row.innerHTML = `
+                        <div class="font-medium text-on-surface">#${trx.id_transaksi}</div>
+                        <div class="text-on-surface-variant text-sm">${formattedDate}<br>${formattedTime}</div>
+                        <div class="text-on-surface">${trx.nama_pegawai || 'System'}</div>
+                        <div>
+                            <div class="font-medium text-on-surface">${trx.nama_pelanggan || 'Guest'}</div>
+                            <div class="text-on-surface-variant text-sm">Ticket / F&B Items</div>
+                        </div>
+                        <div class="flex items-center space-x-2 text-on-surface-variant">
+                            <span class="material-symbols-outlined text-sm" data-icon="payments">payments</span>
+                            <span class="">${trx.metode_pembayaran || '-'}</span>
+                        </div>
+                        <div class="text-right font-medium text-on-surface">Rp ${parseFloat(trx.total_tagihan || 0).toLocaleString('id-ID')}</div>
+                        <div class="flex justify-center">
+                            <span
+                                class="px-2.5 py-1 rounded-full bg-green-100 text-green-800 font-label-sm text-[10px] uppercase tracking-wider">Completed</span>
+                        </div>
+                        <button class="text-on-surface-variant hover:text-primary transition-colors flex justify-end">
+                            <span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+                        </button>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } catch (err) {
+                console.error('Error fetching transactions:', err);
+                const tbody = document.getElementById('transactions-body');
+                tbody.innerHTML = '<p class="text-center text-red-500 py-8">Failed to load transactions.</p>';
+            }
+        });
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1;
+        }
+
+        /* Custom scrollbar for data table */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+
+<body class="bg-background text-on-background font-body-md min-h-screen flex antialiased">
+    <!-- Fixed Left Sidebar (Ops specific, deriving from SideNav logic but adapted for strict desktop layout requested) -->
+    <aside
+        class="fixed left-0 top-0 h-screen w-64 bg-surface-container-lowest border-r border-white/10 z-50 flex flex-col text-white">
+        <div class="p-6 flex items-center gap-3 border-b border-outline-variant/10 mb-4">
+            <span class="material-symbols-outlined text-primary text-headline-md"
+                style="font-variation-settings: 'FILL' 1;">movie_filter</span>
+            <h1 class="text-headline-md font-bold tracking-tight text-primary text-white">Cinetrack</h1>
+        </div>
+        <nav class="flex-grow px-4 py-4 space-y-2 overflow-y-auto custom-scrollbar">
+            <!-- Dashboard -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminDashboard.html">
+                <span class="material-symbols-outlined">dashboard</span>
+                <span class="font-medium">Dashboard</span>
+            </a>
+            <!-- POS / Bookings -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminPointOfSale.html">
+                <span class="material-symbols-outlined">confirmation_number</span>
+                <span class="font-medium">POS / Bookings</span>
+            </a>
+            <!-- Manage Movies -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminManageMovies.html">
+                <span class="material-symbols-outlined">movie</span>
+                <span class="font-medium">Manage Movies</span>
+            </a>
+            <!-- Manage Schedules -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminManageSchedules.html">
+                <span class="material-symbols-outlined">calendar_month</span>
+                <span class="font-medium">Manage Schedules</span>
+            </a>
+            <!-- Manage F&B -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminManageFnB.html">
+                <span class="material-symbols-outlined">fastfood</span>
+                <span class="font-medium">Manage F&B</span>
+            </a>
+            <!-- Manage Branches -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminManageBranches.html">
+                <span class="material-symbols-outlined">storefront</span>
+                <span class="font-medium">Manage Branches</span>
+            </a>
+            <!-- HR & Staff -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminHRanadUserManagement.html">
+                <span class="material-symbols-outlined">badge</span>
+                <span class="font-medium">HR & Staff</span>
+            </a>
+            <!-- Transactions (Active) -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl bg-primary text-white font-bold transition-all shadow-lg shadow-primary/20"
+                href="adminTransactionHistory.html">
+                <span class="material-symbols-outlined">receipt_long</span>
+                <span class="font-medium">Transactions</span>
+            </a>
+        </nav>
+        <div class="p-4 border-t border-white/10">
+            <a href="login.html" class="flex items-center gap-3 px-4 py-3 hover:bg-white/5 rounded-xl transition-all cursor-pointer" title="Click to Logout">
+                <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold shrink-0">AM</div>
+                <div class="flex-1 overflow-hidden">
+                    <p class="text-sm font-bold truncate text-white">Alex Mercer</p>
+                    <p class="text-xs text-slate-400 truncate">Ops Director</p>
+                </div>
+                <span class="material-symbols-outlined text-slate-400 text-sm">logout</span>
+            </a>
+        </div>
+    </aside>
+    <!-- Main Content Area -->
+    <main class="ml-64 flex-1 flex flex-col h-screen overflow-hidden bg-background">
+        <!-- Header area for the specific view -->
+        <header
+            class="h-20 bg-surface border-b border-slate-200 flex items-center justify-between px-margin_desktop shrink-0 z-30">
+            <div>
+                <h1 class="font-headline-lg text-headline-lg text-on-surface">Transaction History</h1>
+                <p class="font-body-md text-body-md text-on-surface-variant mt-1">Comprehensive view of all ticketing
+                    and F&amp;B sales.</p>
+            </div>
+            <!-- Global actions -->
+            <div class="flex items-center space-x-4">
+                <button
+                    class="w-10 h-10 rounded-full hover:bg-surface-variant flex items-center justify-center text-on-surface-variant transition-colors">
+                    <span class="material-symbols-outlined" data-icon="download">download</span>
+                </button>
+                <button
+                    class="w-10 h-10 rounded-full hover:bg-surface-variant flex items-center justify-center text-on-surface-variant transition-colors relative">
+                    <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+                    <span class="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full"></span>
+                </button>
+                <button
+                    class="bg-primary text-white px-6 py-2 rounded-lg font-label-md text-label-md hover:bg-primary/90 transition-colors shadow-sm flex items-center space-x-2">
+                    <span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                    <span class="">New Entry</span>
+                </button>
+            </div>
+        </header>
+        <!-- Filters & Data Canvas -->
+        <div class="flex-1 overflow-auto p-margin_desktop bg-background flex flex-col space-y-6">
+            <!-- Filter Bar -->
+            <div
+                class="bg-surface rounded-xl border border-slate-200 p-4 shadow-sm shrink-0 flex flex-wrap items-end gap-4">
+                <div class="flex flex-col space-y-1 flex-1 min-w-[200px]">
+                    <label class="font-label-sm text-label-sm text-on-surface-variant">Date Range</label>
+                    <div class="relative">
+                        <span
+                            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none"
+                            data-icon="calendar_today">calendar_today</span>
+                        <input
+                            class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-slate-200 rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:bg-white transition-colors"
+                            placeholder="Nov 1, 2023 - Nov 30, 2023" type="text" value="Today">
+                    </div>
+                </div>
+                <div class="flex flex-col space-y-1 flex-1 min-w-[200px]">
+                    <label class="font-label-sm text-label-sm text-on-surface-variant">Branch</label>
+                    <div class="relative">
+                        <span
+                            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none"
+                            data-icon="storefront">storefront</span>
+                        <select
+                            class="w-full pl-10 pr-8 py-2 bg-surface-container-low border border-slate-200 rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:bg-white transition-colors appearance-none">
+                            <option>All Branches</option>
+                            <option>Downtown Metro</option>
+                            <option>Westside Mall</option>
+                            <option>North Creek Pavilion</option>
+                        </select>
+                        <span
+                            class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none"
+                            data-icon="expand_more">expand_more</span>
+                    </div>
+                </div>
+                <div class="flex flex-col space-y-1 flex-1 min-w-[200px]">
+                    <label class="font-label-sm text-label-sm text-on-surface-variant">Payment Method</label>
+                    <div class="relative">
+                        <span
+                            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none"
+                            data-icon="payments">payments</span>
+                        <select
+                            class="w-full pl-10 pr-8 py-2 bg-surface-container-low border border-slate-200 rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:bg-white transition-colors appearance-none">
+                            <option>All Methods</option>
+                            <option>Credit Card</option>
+                            <option>Debit Card</option>
+                            <option>Cash</option>
+                            <option>Loyalty Points</option>
+                        </select>
+                        <span
+                            class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none"
+                            data-icon="expand_more">expand_more</span>
+                    </div>
+                </div>
+                <div class="flex flex-col space-y-1 flex-1 min-w-[200px]">
+                    <label class="font-label-sm text-label-sm text-on-surface-variant">Search</label>
+                    <div class="relative">
+                        <span
+                            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none"
+                            data-icon="search">search</span>
+                        <input
+                            class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-slate-200 rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:bg-white transition-colors"
+                            placeholder="Search Txn ID..." type="text">
+                    </div>
+                </div>
+                <button
+                    class="bg-surface-variant hover:bg-slate-200 text-on-surface px-6 py-2 rounded-lg font-label-md text-label-md border border-slate-200 transition-colors h-[42px] flex items-center">
+                    Clear Filters
+                </button>
+            </div>
+            <!-- Massive Data Table Container -->
+            <div class="bg-surface rounded-xl border border-slate-200 shadow-sm flex-1 flex flex-col overflow-hidden">
+                <!-- Table Header (Fixed) -->
+                <div
+                    class="grid grid-cols-[120px_160px_160px_1fr_140px_120px_100px_48px] gap-4 px-6 py-4 border-b border-slate-200 bg-surface-bright text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider items-center shrink-0">
+                    <div class="">Txn ID</div>
+                    <div class="">Date / Time</div>
+                    <div class="">Branch</div>
+                    <div class="">Items</div>
+                    <div class="">Payment</div>
+                    <div class="text-right">Total</div>
+                    <div class="text-center">Status</div>
+                    <div></div>
+                </div>
+                <!-- Table Body (Scrollable) -->
+                <div id="transactions-body" class="flex-1 overflow-y-auto bg-surface">
+                    <p class="text-center text-slate-500 py-8">Loading transactions...</p>
+                </div>
+                <!-- Pagination Footer -->
+                <div class="h-14 border-t border-slate-200 bg-surface flex items-center justify-between px-6 shrink-0">
+                    <div class="font-label-sm text-label-sm text-on-surface-variant">
+                        Showing 1 to 5 of 2,492 entries
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button
+                            class="w-8 h-8 rounded-md flex items-center justify-center border border-slate-200 text-on-surface-variant hover:bg-surface-variant disabled:opacity-50"
+                            disabled="">
+                            <span class="material-symbols-outlined text-sm" data-icon="chevron_left">chevron_left</span>
+                        </button>
+                        <button
+                            class="w-8 h-8 rounded-md flex items-center justify-center bg-primary text-white font-label-sm">1</button>
+                        <button
+                            class="w-8 h-8 rounded-md flex items-center justify-center border border-slate-200 text-on-surface-variant hover:bg-surface-variant font-label-sm">2</button>
+                        <button
+                            class="w-8 h-8 rounded-md flex items-center justify-center border border-slate-200 text-on-surface-variant hover:bg-surface-variant font-label-sm">3</button>
+                        <span class="text-on-surface-variant">...</span>
+                        <button
+                            class="w-8 h-8 rounded-md flex items-center justify-center border border-slate-200 text-on-surface-variant hover:bg-surface-variant font-label-sm">50</button>
+                        <button
+                            class="w-8 h-8 rounded-md flex items-center justify-center border border-slate-200 text-on-surface-variant hover:bg-surface-variant">
+                            <span class="material-symbols-outlined text-sm"
+                                data-icon="chevron_right">chevron_right</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+
+
+
+
+</body>
+
+</html>

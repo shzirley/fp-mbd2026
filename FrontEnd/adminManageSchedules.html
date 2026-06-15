@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html class="" lang="en" style="">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=1280" name="viewport">
+    <title>Cinetrack Admin - Schedule Management</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&amp;family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        body {
+            min-width: 1280px;
+            overflow-x: auto;
+            background-color: #f8fafc;
+        }
+
+        .sidebar-active {
+            background-color: #fff1f2;
+            color: #e11d48;
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed": "#90f5d9",
+                        "surface-container-highest": "#2d3449",
+                        "surface-container": "#171f33",
+                        "tertiary-fixed-dim": "#74d8bd",
+                        "tertiary": "#74d8bd",
+                        "on-primary": "#68001a",
+                        "on-primary-fixed": "#40000c",
+                        "inverse-surface": "#dae2fd",
+                        "outline": "#ac8889",
+                        "secondary-fixed-dim": "#eec200",
+                        "on-surface": "#0b1326",
+                        "on-error": "#690005",
+                        "error-container": "#93000a",
+                        "surface-tint": "#ffb3b6",
+                        "on-secondary": "#3c2f00",
+                        "tertiary-container": "#00836c",
+                        "on-tertiary-container": "#eefff7",
+                        "secondary": "#ffe083",
+                        "error": "#ffb4ab",
+                        "on-surface-variant": "#475569",
+                        "surface-container-low": "#131b2e",
+                        "surface-variant": "#2d3449",
+                        "on-secondary-fixed-variant": "#574500",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary-fixed": "#231b00",
+                        "surface-container-lowest": "#060e20",
+                        "inverse-on-surface": "#283044",
+                        "on-primary-container": "#fffaf9",
+                        "inverse-primary": "#be0037",
+                        "outline-variant": "#5c3f40",
+                        "surface-dim": "#0b1326",
+                        "background": "#f8fafc",
+                        "surface": "#ffffff",
+                        "primary": "#e11d48",
+                        "primary-container": "#e11d48",
+                        "secondary-container": "#eec200",
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin_desktop": "48px",
+                        "sm": "8px",
+                        "base": "4px",
+                        "md": "16px",
+                        "margin_mobile": "16px",
+                        "gutter": "24px",
+                        "grid_columns": "12",
+                        "xl": "32px",
+                        "2xl": "48px",
+                        "xs": "4px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Outfit"],
+                        "headline-md": ["Outfit"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "label-md": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-background text-on-surface font-body-md">
+    <!-- Fixed Sidebar Navigation -->
+    <aside
+        class="fixed left-0 top-0 h-screen w-64 bg-surface-container-lowest border-r border-white/10 z-50 flex flex-col text-white">
+        <div class="p-6 flex items-center gap-3 border-b border-outline-variant/10 mb-4">
+            <span class="material-symbols-outlined text-primary text-headline-md"
+                style="font-variation-settings: 'FILL' 1;">movie_filter</span>
+            <h1 class="text-headline-md font-bold tracking-tight text-primary text-white">Cinetrack</h1>
+        </div>
+        <nav class="flex-grow px-4 py-4 space-y-2 overflow-y-auto custom-scrollbar">
+            <!-- Dashboard -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminDashboard.html">
+                <span class="material-symbols-outlined">dashboard</span>
+                <span class="font-medium">Dashboard</span>
+            </a>
+            <!-- POS / Bookings -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminPointOfSale.html">
+                <span class="material-symbols-outlined">confirmation_number</span>
+                <span class="font-medium">POS / Bookings</span>
+            </a>
+            <!-- Manage Movies -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminManageMovies.html">
+                <span class="material-symbols-outlined">movie</span>
+                <span class="font-medium">Manage Movies</span>
+            </a>
+            <!-- Manage Schedules (Active) -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl bg-primary text-white font-bold transition-all shadow-lg shadow-primary/20"
+                href="adminManageSchedules.html">
+                <span class="material-symbols-outlined">calendar_month</span>
+                <span class="font-medium">Manage Schedules</span>
+            </a>
+            <!-- Manage F&B -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminManageFnB.html">
+                <span class="material-symbols-outlined">fastfood</span>
+                <span class="font-medium">Manage F&B</span>
+            </a>
+            <!-- Manage Branches -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminManageBranches.html">
+                <span class="material-symbols-outlined">storefront</span>
+                <span class="font-medium">Manage Branches</span>
+            </a>
+            <!-- HR & Staff -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminHRanadUserManagement.html">
+                <span class="material-symbols-outlined">badge</span>
+                <span class="font-medium">HR & Staff</span>
+            </a>
+            <!-- Transactions -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminTransactionHistory.html">
+                <span class="material-symbols-outlined">receipt_long</span>
+                <span class="font-medium">Transactions</span>
+            </a>
+        </nav>
+        <div class="p-4 border-t border-white/10">
+            <a href="login.html" class="flex items-center gap-3 px-4 py-3 hover:bg-white/5 rounded-xl transition-all cursor-pointer" title="Click to Logout">
+                <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold shrink-0">AM</div>
+                <div class="flex-1 overflow-hidden">
+                    <p class="text-sm font-bold truncate text-white">Alex Mercer</p>
+                    <p class="text-xs text-slate-400 truncate">Ops Director</p>
+                </div>
+                <span class="material-symbols-outlined text-slate-400 text-sm">logout</span>
+            </a>
+        </div>
+    </aside>
+    <!-- Main Content Area -->
+    <main class="ml-64 min-h-screen">
+        <!-- Top Bar -->
+        <header
+            class="sticky top-0 w-full z-40 flex justify-between items-center px-margin_desktop h-20 bg-surface/80 backdrop-blur-md border-b border-slate-200">
+            <div class="flex items-center gap-4">
+                <h2 class="text-headline-md font-headline-md text-slate-900">Schedule Management</h2>
+                <div class="h-6 w-px bg-slate-200 mx-2"></div>
+                <div class="flex items-center gap-2 text-on-surface-variant">
+                    <span class="material-symbols-outlined text-sm" data-icon="location_on">location_on</span>
+                    <span class="text-label-md">Grand Cinema Plaza • Screen 04</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                        data-icon="search">search</span>
+                    <input
+                        class="pl-10 pr-4 py-2 bg-slate-100 border-none rounded-lg text-sm w-64 focus:ring-2 focus:ring-primary/20"
+                        placeholder="Search sessions..." type="text">
+                </div>
+                <button class="p-2 rounded-full hover:bg-slate-100 transition-colors relative">
+                    <span class="material-symbols-outlined text-on-surface-variant"
+                        data-icon="notifications">notifications</span>
+                    <span class="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full border-2 border-surface"></span>
+                </button>
+            </div>
+        </header>
+        <div class="p-margin_desktop max-w-[1440px] mx-auto">
+            <!-- Control Bar -->
+            <section class="flex items-center justify-between mb-8">
+                <div class="flex items-center gap-4">
+                    <div class="flex bg-slate-100 p-1 rounded-xl w-fit">
+                        <button
+                            class="px-6 py-2 rounded-lg bg-white shadow-sm text-label-md text-primary font-bold transition-all">List
+                            View</button>
+                        <button
+                            class="px-6 py-2 rounded-lg text-label-md text-slate-500 font-medium hover:text-slate-700 transition-all">Timeline</button>
+                    </div>
+                    <div class="h-8 w-px bg-slate-200 mx-2"></div>
+                    <button
+                        class="flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-200 bg-surface hover:bg-slate-50 transition-all font-label-md text-slate-700">
+                        <span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+                        October 24, 2023
+                    </button>
+                </div>
+                <button
+                    class="flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-white hover:brightness-110 transition-all font-bold shadow-lg shadow-rose-100 active:scale-95">
+                    <span class="material-symbols-outlined" data-icon="add">add</span>
+                    Assign New Schedule
+                </button>
+            </section>
+            <!-- Detailed Schedule Table -->
+            <div class="bg-surface border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-50 border-b border-slate-200">
+                            <th class="px-6 py-4 text-label-sm font-bold text-slate-500 uppercase tracking-wider w-32">
+                                Time</th>
+                            <th class="px-6 py-4 text-label-sm font-bold text-slate-500 uppercase tracking-wider">Movie
+                                Details</th>
+                            <th class="px-6 py-4 text-label-sm font-bold text-slate-500 uppercase tracking-wider w-48">
+                                Occupancy</th>
+                            <th class="px-6 py-4 text-label-sm font-bold text-slate-500 uppercase tracking-wider w-40">
+                                Status</th>
+                            <th
+                                class="px-6 py-4 text-label-sm font-bold text-slate-500 uppercase tracking-wider w-32 text-right">
+                                Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="schedules-body" class="divide-y divide-slate-100">
+                        <tr><td colspan="5" class="px-6 py-8 text-center text-slate-500">Loading schedules...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Footer Stats -->
+            <footer
+                class="mt-8 flex items-center justify-between py-6 px-4 border-t border-slate-200 text-on-surface-variant">
+                <div class="flex gap-8">
+                    <div>
+                        <span class="text-xs uppercase font-bold tracking-widest text-slate-400">Total Sessions</span>
+                        <p class="text-body-lg font-bold text-slate-900">12 Scheduled</p>
+                    </div>
+                    <div>
+                        <span class="text-xs uppercase font-bold tracking-widest text-slate-400">Capacity Util.</span>
+                        <p class="text-body-lg font-bold text-slate-900">68.4% Avg.</p>
+                    </div>
+                </div>
+                <p class="text-sm">Last synced: Oct 24, 08:45 AM</p>
+            </footer>
+        </div>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (!user || user.role !== 'admin') {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const sidebarUser = document.querySelector('aside .flex-1 p.font-bold');
+            if (sidebarUser) sidebarUser.innerText = user.name;
+            const sidebarAvatar = document.querySelector('aside .w-10.h-10');
+            if (sidebarAvatar) sidebarAvatar.innerText = user.name.substring(0, 2).toUpperCase();
+
+            try {
+                const res = await fetch('/api/admin/schedules');
+                const schedules = await res.json();
+                
+                const tbody = document.getElementById('schedules-body');
+                tbody.innerHTML = '';
+                
+                if (schedules.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" class="px-6 py-8 text-center text-slate-500">No schedules found.</td></tr>';
+                    return;
+                }
+
+                schedules.forEach(schedule => {
+                    const dt = new Date(schedule.waktu_tayang);
+                    const isVIP = schedule.kelas_studio && schedule.kelas_studio.toLowerCase().includes('vip');
+                    const vipBorder = isVIP ? '<div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary-container"></div>' : '';
+                    const vipTag = isVIP ? '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-secondary-container text-black uppercase tracking-wider">VIP</span>' : '';
+                    
+                    const timeString = dt.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+                    const amPm = dt.getHours() >= 12 ? 'PM' : 'AM';
+                    const hourMin = timeString.split(' ')[0];
+
+                    const tr = document.createElement('tr');
+                    tr.className = 'group hover:bg-slate-50/50 transition-colors relative';
+                    tr.innerHTML = `
+                        <td class="px-6 py-6 align-top relative">
+                            ${vipBorder}
+                            <div class="flex flex-col">
+                                <span class="text-headline-md font-bold text-slate-900">${hourMin}</span>
+                                <span class="text-label-sm text-slate-400">${amPm}</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-6">
+                            <div class="flex items-center gap-5">
+                                <div class="w-16 h-20 rounded-lg bg-slate-100 flex-shrink-0 overflow-hidden shadow-sm flex items-center justify-center text-slate-400">
+                                    <span class="material-symbols-outlined text-3xl">movie</span>
+                                </div>
+                                <div>
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <h4 class="text-body-lg font-bold text-slate-900">${schedule.judul_film || 'Unknown Movie'}</h4>
+                                        ${vipTag}
+                                    </div>
+                                    <div class="flex items-center gap-2 text-on-surface-variant text-label-md">
+                                        <span>Studio ${schedule.nomor_studio || '-'}</span>
+                                        <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
+                                        <span>${schedule.nama_cabang || '-'}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-6">
+                            <div class="flex flex-col gap-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-label-sm font-bold text-slate-700">Rp ${Number(schedule.harga_dasar).toLocaleString('id-ID')}</span>
+                                    <span class="text-label-sm text-slate-400">${schedule.id_jadwal}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-6">
+                            <span class="inline-flex px-3 py-1 rounded-full bg-emerald-50 text-emerald-600 text-label-sm font-bold border border-emerald-100">AVAILABLE</span>
+                        </td>
+                        <td class="px-6 py-6 text-right">
+                            <div class="flex justify-end gap-2">
+                                <button class="p-2 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-400 hover:text-slate-600 transition-colors" title="Edit">
+                                    <span class="material-symbols-outlined">edit</span>
+                                </button>
+                                <button class="p-2 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-400 hover:text-rose-500 transition-colors" title="Delete">
+                                    <span class="material-symbols-outlined">delete</span>
+                                </button>
+                            </div>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (err) {
+                console.error('Error fetching schedules:', err);
+                document.getElementById('schedules-body').innerHTML = '<tr><td colspan="5" class="px-6 py-8 text-center text-error">Failed to load schedules.</td></tr>';
+            }
+        });
+    </script>
+
+
+
+
+</body>
+
+</html>
