@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html class="" lang="en" style="">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=1280" name="viewport">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed": "#90f5d9",
+                        "surface-container-highest": "#2d3449",
+                        "surface-container": "#171f33",
+                        "tertiary-fixed-dim": "#74d8bd",
+                        "tertiary": "#74d8bd",
+                        "on-primary": "#68001a",
+                        "on-primary-fixed": "#40000c",
+                        "inverse-surface": "#dae2fd",
+                        "outline": "#ac8889",
+                        "secondary-fixed-dim": "#eec200",
+                        "on-surface": "#dae2fd",
+                        "on-error": "#690005",
+                        "error-container": "#93000a",
+                        "surface-tint": "#ffb3b6",
+                        "on-secondary": "#3c2f00",
+                        "tertiary-container": "#00836c",
+                        "on-tertiary-container": "#eefff7",
+                        "secondary": "#ffe083",
+                        "error": "#ffb4ab",
+                        "on-surface-variant": "#e5bdbe",
+                        "surface-container-low": "#131b2e",
+                        "surface-variant": "#2d3449",
+                        "on-secondary-fixed-variant": "#574500",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary-fixed": "#231b00",
+                        "surface-container-lowest": "#060e20",
+                        "inverse-on-surface": "#283044",
+                        "on-primary-container": "#fffaf9",
+                        "inverse-primary": "#be0037",
+                        "outline-variant": "#5c3f40",
+                        "surface-dim": "#0b1326",
+                        "on-secondary-container": "#645000",
+                        "on-primary-fixed-variant": "#920028",
+                        "background": "#0b1326",
+                        "secondary-fixed": "#ffe083",
+                        "on-tertiary-fixed": "#002019",
+                        "on-background": "#dae2fd",
+                        "secondary-container": "#eec200",
+                        "on-tertiary": "#00382d",
+                        "primary-fixed-dim": "#ffb3b6",
+                        "primary": "#ffb3b6",
+                        "surface-bright": "#31394d",
+                        "primary-fixed": "#ffdada",
+                        "surface": "#0b1326",
+                        "primary-container": "#e11d48",
+                        "on-tertiary-fixed-variant": "#005142",
+                        "surface-container-high": "#222a3d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin_desktop": "64px",
+                        "sm": "8px",
+                        "base": "4px",
+                        "md": "16px",
+                        "margin_mobile": "16px",
+                        "gutter": "24px",
+                        "grid_columns": "12",
+                        "xl": "32px",
+                        "2xl": "48px",
+                        "xs": "4px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Outfit"],
+                        "headline-lg": ["Outfit"],
+                        "headline-md": ["Outfit"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "display-lg": ["Outfit"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f8fafc;
+            color: #1e293b;
+            min-width: 1024px;
+        }
+
+        .operational-card {
+            background-color: white;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+        }
+
+        .operational-card:hover {
+            border-color: #cbd5e1;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .nav-item-active {
+            transition: background-color 0.15s ease;
+        }
+
+        .sidebar {
+            width: 260px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background-color: #0b1326;
+            color: white;
+            z-index: 50;
+        }
+
+        .main-content {
+            margin-left: 260px;
+            width: calc(100% - 260px);
+            min-height: 100vh;
+        }
+    </style>
+</head>
+
+<body class="antialiased font-body-md text-body-md">
+    <!-- Fixed Left Sidebar -->
+    <aside class="sidebar flex flex-col bg-surface-container-lowest">
+        <div class="p-6 flex items-center gap-3 border-b border-outline-variant/10 mb-4">
+            <span class="material-symbols-outlined text-primary text-headline-md"
+                style="font-variation-settings: 'FILL' 1;">movie_filter</span>
+            <h1 class="text-headline-md font-bold tracking-tight text-primary text-white">Cinetrack</h1>
+        </div>
+        <nav class="flex-grow px-4 py-4 space-y-2 overflow-y-auto custom-scrollbar">
+            <!-- Dashboard -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminDashboard.html">
+                <span class="material-symbols-outlined">dashboard</span>
+                <span class="font-medium">Dashboard</span>
+            </a>
+            <!-- POS / Bookings -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminPointOfSale.html">
+                <span class="material-symbols-outlined">confirmation_number</span>
+                <span class="font-medium">POS / Bookings</span>
+            </a>
+            <!-- Manage Movies -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminManageMovies.html">
+                <span class="material-symbols-outlined">movie</span>
+                <span class="font-medium">Manage Movies</span>
+            </a>
+            <!-- Manage Schedules -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminManageSchedules.html">
+                <span class="material-symbols-outlined">calendar_month</span>
+                <span class="font-medium">Manage Schedules</span>
+            </a>
+            <!-- Manage F&B -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminManageFnB.html">
+                <span class="material-symbols-outlined">fastfood</span>
+                <span class="font-medium">Manage F&B</span>
+            </a>
+            <!-- Manage Branches (Active) -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl bg-primary text-white font-bold transition-all shadow-lg shadow-primary/20"
+                href="adminManageBranches.html">
+                <span class="material-symbols-outlined">storefront</span>
+                <span class="font-medium">Manage Branches</span>
+            </a>
+            <!-- HR & Staff -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminHRanadUserManagement.html">
+                <span class="material-symbols-outlined">badge</span>
+                <span class="font-medium">HR & Staff</span>
+            </a>
+            <!-- Transactions -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminTransactionHistory.html">
+                <span class="material-symbols-outlined">receipt_long</span>
+                <span class="font-medium">Transactions</span>
+            </a>
+        </nav>
+        <div class="p-4 border-t border-white/10">
+            <a href="login.html" class="flex items-center gap-3 px-4 py-3 hover:bg-white/5 rounded-xl transition-all cursor-pointer" title="Click to Logout">
+                <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold shrink-0">AM</div>
+                <div class="flex-1 overflow-hidden">
+                    <p class="text-sm font-bold truncate text-white">Alex Mercer</p>
+                    <p class="text-xs text-slate-400 truncate">Ops Director</p>
+                </div>
+                <span class="material-symbols-outlined text-slate-400 text-sm">logout</span>
+            </a>
+        </div>
+    </aside>
+    <!-- Main Content Area -->
+    <div class="main-content flex flex-col">
+        <!-- Top Header -->
+        <header
+            class="h-20 bg-white border-b border-outline-variant flex items-center justify-between px-margin_desktop sticky top-0 z-40">
+            <div class="flex items-center bg-slate-100 rounded-lg px-4 py-2 w-96 border border-outline-variant/50">
+                <span class="material-symbols-outlined text-outline mr-2" data-icon="search">search</span>
+                <input class="bg-transparent border-none focus:ring-0 text-body-md w-full p-0"
+                    placeholder="Search branches..." type="text">
+            </div>
+            <div class="flex items-center gap-4">
+                <button class="p-2 rounded-full hover:bg-slate-100 relative">
+                    <span class="material-symbols-outlined text-surface-container-highest"
+                        data-icon="notifications">notifications</span>
+                    <span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+                </button>
+                <button class="p-2 rounded-full hover:bg-slate-100">
+                    <span class="material-symbols-outlined text-surface-container-highest" data-icon="help">help</span>
+                </button>
+            </div>
+        </header>
+        <main class="p-margin_desktop max-w-[1440px]">
+            <!-- Page Header -->
+            <div class="flex items-end justify-between mb-10">
+                <div>
+                    <h2 class="text-display-lg font-display-lg text-surface-container-highest">Branches</h2>
+                    <p class="text-body-lg font-body-lg text-outline mt-2">Manage operational hubs, cinema locations,
+                        and facility contacts across the network.</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button
+                        class="flex items-center gap-2 px-6 py-2.5 border border-outline rounded-lg text-label-md font-bold hover:bg-slate-50 transition-colors">
+                        <span class="material-symbols-outlined text-[20px]" data-icon="filter_list">filter_list</span>
+                        Filter
+                    </button>
+                    <button
+                        class="flex items-center gap-2 px-6 py-2.5 border border-outline rounded-lg text-label-md font-bold hover:bg-slate-50 transition-colors">
+                        <span class="material-symbols-outlined text-[20px]" data-icon="download">download</span>
+                        Export CSV
+                    </button>
+                    <button
+                        class="flex items-center gap-2 px-6 py-2.5 bg-primary text-on-primary rounded-lg text-label-md font-bold hover:opacity-90 transition-all shadow-md">
+                        <span class="material-symbols-outlined text-[20px]" data-icon="add">add</span>
+                        Add New Branch
+                    </button>
+                </div>
+            </div>
+            <!-- Branches Table -->
+            <div class="operational-card rounded-xl overflow-hidden shadow-sm">
+                <table class="w-full text-left border-collapse min-w-[1000px]">
+                    <thead>
+                        <tr class="bg-slate-50 border-b border-outline-variant">
+                            <th class="px-6 py-4 text-label-md font-bold text-outline uppercase tracking-wider w-1/4">
+                                Branch Name</th>
+                            <th class="px-6 py-4 text-label-md font-bold text-outline uppercase tracking-wider">Location
+                            </th>
+                            <th class="px-6 py-4 text-label-md font-bold text-outline uppercase tracking-wider">Contact
+                                Details</th>
+                            <th
+                                class="px-6 py-4 text-label-md font-bold text-outline uppercase tracking-wider text-center">
+                                Status</th>
+                            <th
+                                class="px-6 py-4 text-label-md font-bold text-outline uppercase tracking-wider text-right">
+                                Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="branches-body" class="divide-y divide-outline-variant">
+                        <tr>
+                            <td colspan="5" class="px-6 py-8 text-center text-outline">Loading branches...</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- Pagination Desktop -->
+                <div class="px-8 py-5 bg-slate-50 border-t border-outline-variant flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <span class="text-label-md text-outline">Showing <span
+                                class="font-bold text-surface-container-highest">4</span> of <span
+                                class="font-bold text-surface-container-highest">24</span> branches</span>
+                        <select
+                            class="bg-transparent border-none focus:ring-0 text-label-md font-bold text-outline cursor-pointer">
+                            <option>10 per page</option>
+                            <option>25 per page</option>
+                            <option>50 per page</option>
+                        </select>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button
+                            class="flex items-center justify-center p-2 hover:bg-white rounded-lg transition-all disabled:opacity-30 border border-transparent hover:border-outline-variant"
+                            disabled="">
+                            <span class="material-symbols-outlined">chevron_left</span>
+                        </button>
+                        <button
+                            class="w-10 h-10 flex items-center justify-center bg-primary text-on-primary rounded-lg font-bold shadow-sm">1</button>
+                        <button
+                            class="w-10 h-10 flex items-center justify-center hover:bg-white rounded-lg font-bold border border-transparent hover:border-outline-variant transition-all">2</button>
+                        <button
+                            class="w-10 h-10 flex items-center justify-center hover:bg-white rounded-lg font-bold border border-transparent hover:border-outline-variant transition-all">3</button>
+                        <button
+                            class="flex items-center justify-center p-2 hover:bg-white rounded-lg transition-all border border-transparent hover:border-outline-variant">
+                            <span class="material-symbols-outlined">chevron_right</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (!user || user.role !== 'admin') {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const sidebarUser = document.querySelector('.sidebar .flex-1 p.font-bold');
+            if (sidebarUser) sidebarUser.innerText = user.name;
+            const sidebarAvatar = document.querySelector('.sidebar .w-10.h-10');
+            if (sidebarAvatar) sidebarAvatar.innerText = user.name.substring(0, 2).toUpperCase();
+
+            try {
+                const res = await fetch('/api/admin/branches');
+                const branches = await res.json();
+                
+                const tbody = document.getElementById('branches-body');
+                tbody.innerHTML = '';
+                
+                if (branches.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" class="px-6 py-8 text-center text-outline">No branches found.</td></tr>';
+                    return;
+                }
+
+                branches.forEach((branch, index) => {
+                    const colors = ['bg-primary-fixed text-on-primary-fixed', 'bg-secondary-fixed text-on-secondary-fixed', 'bg-tertiary-fixed text-on-tertiary-fixed', 'bg-outline-variant text-on-surface'];
+                    const colorClass = colors[index % colors.length];
+
+                    const tr = document.createElement('tr');
+                    tr.className = 'hover:bg-slate-50/50 transition-colors group';
+                    tr.innerHTML = `
+                        <td class="px-6 py-6">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-lg flex items-center justify-center ${colorClass}">
+                                    <span class="material-symbols-outlined text-2xl">theater_comedy</span>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-surface-container-highest text-lg">${branch.lokasi_cabang}</p>
+                                    <p class="text-label-sm text-outline">ID: ${branch.id_cabang}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-6">
+                            <div class="flex flex-col">
+                                <span class="text-body-md font-medium">${branch.lokasi_cabang}</span>
+                                <span class="text-label-sm text-outline">City Center</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-6">
+                            <div class="flex flex-col gap-1">
+                                <span class="text-body-md flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-[18px] text-primary">call</span>
+                                    +1 (555) 123-4567
+                                </span>
+                                <span class="text-label-sm text-outline flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-[18px]">mail</span>
+                                    contact@cinetrack.com
+                                </span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-6 text-center">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-label-sm font-bold bg-green-100 text-green-800 border border-green-200">
+                                Active
+                            </span>
+                        </td>
+                        <td class="px-6 py-6 text-right">
+                            <div class="flex items-center justify-end gap-3">
+                                <button class="p-2.5 text-outline hover:text-primary hover:bg-primary/10 rounded-lg transition-all" title="Edit">
+                                    <span class="material-symbols-outlined">edit</span>
+                                </button>
+                                <button class="p-2.5 text-outline hover:text-error hover:bg-error/10 rounded-lg transition-all" title="Delete">
+                                    <span class="material-symbols-outlined">delete</span>
+                                </button>
+                            </div>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+
+                // Row hover micro-interactions
+                document.querySelectorAll('#branches-body tr').forEach(row => {
+                    row.addEventListener('mouseenter', () => {
+                        row.querySelector('.material-symbols-outlined')?.classList.add('scale-110');
+                    });
+                    row.addEventListener('mouseleave', () => {
+                        row.querySelector('.material-symbols-outlined')?.classList.remove('scale-110');
+                    });
+                });
+
+            } catch (err) {
+                console.error('Error fetching branches:', err);
+                document.getElementById('branches-body').innerHTML = '<tr><td colspan="5" class="px-6 py-8 text-center text-error">Failed to load branches.</td></tr>';
+            }
+        });
+
+        // Simple Alert for Demo
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                if (btn.innerText.includes('Add New Branch')) {
+                    alert('Add Branch Dialog Initiated');
+                }
+            });
+        });
+    </script>
+
+
+
+
+
+
+</body>
+
+</html>

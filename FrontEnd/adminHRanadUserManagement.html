@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Cinetrack - HR &amp; User Management</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Outfit:wght@600;700&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#ffdada",
+                        "on-primary-fixed-variant": "#920028",
+                        "on-error": "#690005",
+                        "on-primary": "#68001a",
+                        "surface-container-high": "#222a3d",
+                        "inverse-on-surface": "#283044",
+                        "surface-dim": "#0b1326",
+                        "outline-variant": "#5c3f40",
+                        "on-secondary": "#3c2f00",
+                        "outline": "#ac8889",
+                        "on-tertiary-container": "#eefff7",
+                        "tertiary": "#74d8bd",
+                        "surface-tint": "#ffb3b6",
+                        "on-secondary-fixed-variant": "#574500",
+                        "surface-container": "#171f33",
+                        "surface": "#0b1326",
+                        "on-background": "#dae2fd",
+                        "on-primary-container": "#fffaf9",
+                        "tertiary-container": "#00836c",
+                        "on-surface-variant": "#e5bdbe",
+                        "surface-container-low": "#131b2e",
+                        "on-tertiary": "#00382d",
+                        "on-secondary-container": "#645000",
+                        "secondary-fixed": "#ffe083",
+                        "on-tertiary-fixed-variant": "#005142",
+                        "on-secondary-fixed": "#231b00",
+                        "on-surface": "#dae2fd",
+                        "secondary": "#ffe083",
+                        "surface-container-highest": "#2d3449",
+                        "primary": "#ffb3b6",
+                        "inverse-surface": "#dae2fd",
+                        "secondary-fixed-dim": "#eec200",
+                        "primary-fixed-dim": "#ffb3b6",
+                        "background": "#0b1326",
+                        "on-primary-fixed": "#40000c",
+                        "error": "#ffb4ab",
+                        "surface-variant": "#2d3449",
+                        "primary-container": "#e11d48",
+                        "tertiary-fixed-dim": "#74d8bd",
+                        "surface-bright": "#31394d",
+                        "inverse-primary": "#be0037",
+                        "error-container": "#93000a",
+                        "tertiary-fixed": "#90f5d9",
+                        "surface-container-lowest": "#060e20",
+                        "on-tertiary-fixed": "#002019",
+                        "secondary-container": "#eec200",
+                        "on-error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "xs": "4px",
+                        "sm": "8px",
+                        "margin_mobile": "16px",
+                        "margin_desktop": "64px",
+                        "grid_columns": "12",
+                        "lg": "24px",
+                        "md": "16px",
+                        "gutter": "24px",
+                        "base": "4px",
+                        "2xl": "48px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"],
+                        "display-lg": ["Outfit"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Outfit"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Outfit"],
+                        "headline-md": ["Outfit"],
+                        "label-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (!user || user.role !== 'admin') {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const sidebarUser = document.querySelector('aside .flex-1 p.font-bold');
+            if (sidebarUser) sidebarUser.innerText = user.name;
+            const sidebarAvatar = document.querySelector('aside .w-10.h-10');
+            if (sidebarAvatar) sidebarAvatar.innerText = user.name.substring(0, 2).toUpperCase();
+
+            try {
+                const res = await fetch('/api/admin/employees');
+                const employees = await res.json();
+                
+                const tbody = document.getElementById('employees-body');
+                tbody.innerHTML = '';
+                
+                if (employees.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="7" class="py-md px-md text-center text-slate-500">No employees found.</td></tr>';
+                    return;
+                }
+
+                employees.forEach(emp => {
+                    const initials = (emp.nama_pegawai || 'UK').substring(0, 2).toUpperCase();
+                    const tr = document.createElement('tr');
+                    tr.className = 'table-row-hover transition-colors';
+                    tr.innerHTML = `
+                        <td class="py-md px-md">
+                            <input class="rounded border-slate-300 text-primary-container focus:ring-primary-container" type="checkbox">
+                        </td>
+                        <td class="py-md px-md">
+                            <div class="flex items-center gap-sm">
+                                <div class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 font-label-sm text-label-sm font-bold">
+                                    ${initials}
+                                </div>
+                                <div>
+                                    <p class="font-label-md text-label-md text-slate-800 font-semibold">${emp.nama_pegawai}</p>
+                                    <p class="font-label-sm text-label-sm text-slate-500">${emp.email_pegawai || '-'}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="py-md px-md font-body-md text-body-md text-slate-800">${emp.jabatan || 'Staff'}</td>
+                        <td class="py-md px-md font-body-md text-body-md text-slate-600">HQ</td>
+                        <td class="py-md px-md font-body-md text-body-md text-slate-600">09:00 - 17:00</td>
+                        <td class="py-md px-md">
+                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-tertiary-container/20 text-tertiary-container">
+                                Active
+                            </span>
+                        </td>
+                        <td class="py-md px-md text-right">
+                            <div class="flex items-center justify-end gap-xs">
+                                <button class="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-800 hover-bg-slate-100 transition-colors" title="Edit">
+                                    <span class="material-symbols-outlined text-[20px]">edit</span>
+                                </button>
+                                <button class="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-800 hover-bg-slate-100 transition-colors" title="Assign Shift">
+                                    <span class="material-symbols-outlined text-[20px]">event_note</span>
+                                </button>
+                                <button class="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-error hover-bg-slate-100 transition-colors" title="Delete">
+                                    <span class="material-symbols-outlined text-[20px]">delete</span>
+                                </button>
+                            </div>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (err) {
+                console.error('Error fetching employees:', err);
+                document.getElementById('employees-body').innerHTML = '<tr><td colspan="7" class="py-md px-md text-center text-error">Failed to load employees.</td></tr>';
+            }
+        });
+    </script>
+    <style>
+        /* Light mode explicit overrides for clarity where needed */
+        .light body {
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+
+        .light .bg-surface-light {
+            background-color: #ffffff;
+        }
+
+        .light .border-slate-200 {
+            border-color: #e2e8f0;
+        }
+
+        .light .text-slate-800 {
+            color: #1e293b;
+        }
+
+        .light .text-slate-500 {
+            color: #64748b;
+        }
+
+        .light .bg-slate-50 {
+            background-color: #f8fafc;
+        }
+
+        .light .hover-bg-slate-100:hover {
+            background-color: #f1f5f9;
+        }
+
+        .table-row-hover:hover {
+            background-color: #f8fafc;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+
+<body class="font-body-md text-body-md antialiased overflow-hidden flex h-screen">
+    <!-- Fixed Left Sidebar (Ops) -->
+    <aside
+        class="fixed left-0 top-0 h-screen w-64 bg-surface-container-lowest border-r border-white/10 z-50 flex flex-col text-white">
+        <div class="p-6 flex items-center gap-3 border-b border-outline-variant/10 mb-4">
+            <span class="material-symbols-outlined text-primary text-headline-md"
+                style="font-variation-settings: 'FILL' 1;">movie_filter</span>
+            <h1 class="text-headline-md font-bold tracking-tight text-primary text-white">Cinetrack</h1>
+        </div>
+        <nav class="flex-grow px-4 py-4 space-y-2 overflow-y-auto custom-scrollbar">
+            <!-- Dashboard -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminDashboard.html">
+                <span class="material-symbols-outlined">dashboard</span>
+                <span class="font-medium">Dashboard</span>
+            </a>
+            <!-- POS / Bookings -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminPointOfSale.html">
+                <span class="material-symbols-outlined">confirmation_number</span>
+                <span class="font-medium">POS / Bookings</span>
+            </a>
+            <!-- Manage Movies -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminManageMovies.html">
+                <span class="material-symbols-outlined">movie</span>
+                <span class="font-medium">Manage Movies</span>
+            </a>
+            <!-- Manage Schedules -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminManageSchedules.html">
+                <span class="material-symbols-outlined">calendar_month</span>
+                <span class="font-medium">Manage Schedules</span>
+            </a>
+            <!-- Manage F&B -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminManageFnB.html">
+                <span class="material-symbols-outlined">fastfood</span>
+                <span class="font-medium">Manage F&B</span>
+            </a>
+            <!-- Manage Branches -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminManageBranches.html">
+                <span class="material-symbols-outlined">storefront</span>
+                <span class="font-medium">Manage Branches</span>
+            </a>
+            <!-- HR & Staff (Active) -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl bg-primary text-white font-bold transition-all shadow-lg shadow-primary/20"
+                href="adminHRanadUserManagement.html">
+                <span class="material-symbols-outlined">badge</span>
+                <span class="font-medium">HR & Staff</span>
+            </a>
+            <!-- Transactions -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminTransactionHistory.html">
+                <span class="material-symbols-outlined">receipt_long</span>
+                <span class="font-medium">Transactions</span>
+            </a>
+        </nav>
+        <div class="p-4 border-t border-white/10">
+            <a href="login.html" class="flex items-center gap-3 px-4 py-3 hover:bg-white/5 rounded-xl transition-all cursor-pointer" title="Click to Logout">
+                <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold shrink-0">AM</div>
+                <div class="flex-1 overflow-hidden">
+                    <p class="text-sm font-bold truncate text-white">Alex Mercer</p>
+                    <p class="text-xs text-slate-400 truncate">Ops Director</p>
+                </div>
+                <span class="material-symbols-outlined text-slate-400 text-sm">logout</span>
+            </a>
+        </div>
+    </aside>
+    <!-- Main Content Area -->
+    <main class="flex-1 flex flex-col h-full bg-slate-50 relative overflow-hidden">
+        <!-- Top App Bar equivalent for Desktop Main Content -->
+        <header
+            class="h-16 bg-surface-light border-b border-slate-200 flex items-center justify-between px-margin_desktop flex-shrink-0 z-10">
+            <div>
+                <h1 class="font-headline-md text-headline-md text-slate-800">HR &amp; User Management</h1>
+            </div>
+            <div class="flex items-center gap-md">
+                <div class="relative">
+                    <span
+                        class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-slate-400">search</span>
+                    <input
+                        class="pl-xl pr-md py-sm bg-slate-100 border border-transparent rounded-full font-label-md text-label-md text-slate-800 focus:bg-surface-light focus:border-slate-300 focus:ring-0 transition-colors w-64 outline-none"
+                        placeholder="Search users..." type="text">
+                </div>
+                <button
+                    class="w-10 h-10 rounded-full flex items-center justify-center text-slate-500 hover-bg-slate-100 transition-colors">
+                    <span class="material-symbols-outlined">notifications</span>
+                </button>
+            </div>
+        </header>
+        <!-- Scrollable Content Canvas -->
+        <div class="flex-1 overflow-y-auto px-margin_desktop py-xl">
+            <!-- Tabs -->
+            <div class="flex gap-md mb-lg border-b border-slate-200">
+                <button
+                    class="px-md py-sm font-label-md text-label-md text-primary-container border-b-2 border-primary-container -mb-[1px]">
+                    Employees
+                </button>
+                <button
+                    class="px-md py-sm font-label-md text-label-md text-slate-500 hover:text-slate-800 transition-colors">
+                    Work Shifts
+                </button>
+                <button
+                    class="px-md py-sm font-label-md text-label-md text-slate-500 hover:text-slate-800 transition-colors">
+                    Customers
+                </button>
+            </div>
+            <!-- Header Actions -->
+            <div class="flex justify-between items-center mb-md">
+                <div class="flex gap-sm">
+                    <button
+                        class="px-md py-sm bg-surface-light border border-slate-200 rounded-md font-label-md text-label-md text-slate-800 flex items-center gap-xs hover-bg-slate-100 shadow-sm">
+                        <span class="material-symbols-outlined text-[18px]">filter_list</span> Filter
+                    </button>
+                    <button
+                        class="px-md py-sm bg-surface-light border border-slate-200 rounded-md font-label-md text-label-md text-slate-800 flex items-center gap-xs hover-bg-slate-100 shadow-sm">
+                        <span class="material-symbols-outlined text-[18px]">download</span> Export
+                    </button>
+                </div>
+                <button
+                    class="px-md py-sm bg-primary-container text-white rounded-md font-label-md text-label-md flex items-center gap-xs hover:bg-inverse-primary transition-colors shadow-sm">
+                    <span class="material-symbols-outlined text-[18px]">add</span> Add Employee
+                </button>
+            </div>
+            <!-- Data Table Card -->
+            <div class="bg-surface-light border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-50 border-b border-slate-200">
+                            <th class="py-sm px-md font-label-md text-label-md text-slate-500 font-semibold w-12">
+                                <input
+                                    class="rounded border-slate-300 text-primary-container focus:ring-primary-container"
+                                    type="checkbox">
+                            </th>
+                            <th class="py-sm px-md font-label-md text-label-md text-slate-500 font-semibold">Name</th>
+                            <th class="py-sm px-md font-label-md text-label-md text-slate-500 font-semibold">Role</th>
+                            <th class="py-sm px-md font-label-md text-label-md text-slate-500 font-semibold">Branch</th>
+                            <th class="py-sm px-md font-label-md text-label-md text-slate-500 font-semibold">Current
+                                Shift</th>
+                            <th class="py-sm px-md font-label-md text-label-md text-slate-500 font-semibold">Status</th>
+                            <th class="py-sm px-md font-label-md text-label-md text-slate-500 font-semibold text-right">
+                                Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="employees-body" class="divide-y divide-slate-200">
+                        <tr>
+                            <td colspan="7" class="py-md px-md text-center text-slate-500">Loading employees...</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- Pagination -->
+                <div class="px-md py-sm border-t border-slate-200 bg-surface-light flex items-center justify-between">
+                    <span class="font-label-sm text-label-sm text-slate-500">Showing 1 to 3 of 42 entries</span>
+                    <div class="flex gap-xs">
+                        <button
+                            class="w-8 h-8 flex items-center justify-center rounded border border-slate-200 text-slate-400 hover-bg-slate-100 disabled:opacity-50"
+                            disabled="">
+                            <span class="material-symbols-outlined text-[18px]">chevron_left</span>
+                        </button>
+                        <button
+                            class="w-8 h-8 flex items-center justify-center rounded border border-primary-container bg-primary-container/10 text-primary-container font-label-sm text-label-sm font-semibold">
+                            1
+                        </button>
+                        <button
+                            class="w-8 h-8 flex items-center justify-center rounded border border-slate-200 text-slate-600 hover-bg-slate-100 font-label-sm text-label-sm">
+                            2
+                        </button>
+                        <button
+                            class="w-8 h-8 flex items-center justify-center rounded border border-slate-200 text-slate-600 hover-bg-slate-100 font-label-sm text-label-sm">
+                            3
+                        </button>
+                        <button
+                            class="w-8 h-8 flex items-center justify-center rounded border border-slate-200 text-slate-600 hover-bg-slate-100">
+                            <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+
+
+
+
+</body>
+
+</html>

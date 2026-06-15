@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Cinetrack POS - Box Office</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#ffdada",
+                        "on-primary-fixed-variant": "#920028",
+                        "on-error": "#690005",
+                        "on-primary": "#68001a",
+                        "surface-container-high": "#222a3d",
+                        "inverse-on-surface": "#283044",
+                        "surface-dim": "#0b1326",
+                        "outline-variant": "#5c3f40",
+                        "on-secondary": "#3c2f00",
+                        "outline": "#ac8889",
+                        "on-tertiary-container": "#eefff7",
+                        "tertiary": "#74d8bd",
+                        "surface-tint": "#ffb3b6",
+                        "on-secondary-fixed-variant": "#574500",
+                        "surface-container": "#171f33",
+                        "surface": "#ffffff", /* Override for Light POS */
+                        "on-background": "#1e293b",
+                        "on-primary-container": "#fffaf9",
+                        "tertiary-container": "#00836c",
+                        "on-surface-variant": "#475569", /* Slate 600 */
+                        "surface-container-low": "#f8fafc", /* Slate 50 */
+                        "on-tertiary": "#00382d",
+                        "on-secondary-container": "#645000",
+                        "secondary-fixed": "#ffe083",
+                        "on-tertiary-fixed-variant": "#005142",
+                        "on-secondary-fixed": "#231b00",
+                        "on-surface": "#0f172a", /* Slate 900 */
+                        "secondary": "#eec200", /* Gold */
+                        "surface-container-highest": "#e2e8f0", /* Slate 200 */
+                        "primary": "#e11d48", /* Crimson */
+                        "inverse-surface": "#dae2fd",
+                        "secondary-fixed-dim": "#eec200",
+                        "primary-fixed-dim": "#ffb3b6",
+                        "background": "#f1f5f9", /* Slate 100 */
+                        "on-primary-fixed": "#40000c",
+                        "error": "#ef4444",
+                        "surface-variant": "#f1f5f9",
+                        "primary-container": "#e11d48",
+                        "tertiary-fixed-dim": "#74d8bd",
+                        "surface-bright": "#ffffff",
+                        "inverse-primary": "#be0037",
+                        "error-container": "#93000a",
+                        "tertiary-fixed": "#90f5d9",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed": "#002019",
+                        "secondary-container": "#fef08a",
+                        "on-error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "xs": "4px",
+                        "sm": "8px",
+                        "margin_mobile": "16px",
+                        "margin_desktop": "64px",
+                        "grid_columns": "12",
+                        "lg": "24px",
+                        "md": "16px",
+                        "gutter": "24px",
+                        "base": "4px",
+                        "2xl": "48px"
+                    },
+                    "fontFamily": {
+                        "label-md": [
+                            "Inter"
+                        ],
+                        "display-lg": [
+                            "Outfit"
+                        ],
+                        "body-md": [
+                            "Inter"
+                        ],
+                        "headline-lg": [
+                            "Outfit"
+                        ],
+                        "body-lg": [
+                            "Inter"
+                        ],
+                        "headline-lg-mobile": [
+                            "Outfit"
+                        ],
+                        "headline-md": [
+                            "Outfit"
+                        ],
+                        "label-sm": [
+                            "Inter"
+                        ]
+                    },
+                    "fontSize": {
+                        "label-md": [
+                            "14px",
+                            {
+                                "lineHeight": "20px",
+                                "letterSpacing": "0.01em",
+                                "fontWeight": "500"
+                            }
+                        ],
+                        "display-lg": [
+                            "48px",
+                            {
+                                "lineHeight": "56px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "700"
+                            }
+                        ],
+                        "body-md": [
+                            "16px",
+                            {
+                                "lineHeight": "24px",
+                                "fontWeight": "400"
+                            }
+                        ],
+                        "headline-lg": [
+                            "32px",
+                            {
+                                "lineHeight": "40px",
+                                "fontWeight": "600"
+                            }
+                        ],
+                        "body-lg": [
+                            "18px",
+                            {
+                                "lineHeight": "28px",
+                                "fontWeight": "400"
+                            }
+                        ],
+                        "headline-lg-mobile": [
+                            "24px",
+                            {
+                                "lineHeight": "32px",
+                                "fontWeight": "600"
+                            }
+                        ],
+                        "headline-md": [
+                            "24px",
+                            {
+                                "lineHeight": "32px",
+                                "fontWeight": "600"
+                            }
+                        ],
+                        "label-sm": [
+                            "12px",
+                            {
+                                "lineHeight": "16px",
+                                "fontWeight": "600"
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .seat-map-grid {
+            display: grid;
+            grid-template-columns: repeat(20, minmax(0, 1fr));
+            gap: 4px;
+        }
+
+        .seat {
+            aspect-ratio: 1;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: all 0.1s ease;
+        }
+
+        .seat:hover:not(.occupied) {
+            transform: scale(1.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .seat.available {
+            background-color: #e2e8f0;
+        }
+
+        /* Slate 200 */
+        .seat.selected {
+            background-color: #e11d48;
+        }
+
+        /* Primary Crimson */
+        .seat.vip {
+            background-color: #eec200;
+        }
+
+        /* Gold */
+        .seat.occupied {
+            background-color: #94a3b8;
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        /* Slate 400 */
+        .screen-curve {
+            width: 80%;
+            height: 20px;
+            border-top: 4px solid #cbd5e1;
+            border-radius: 50% 50% 0 0;
+            margin: 0 auto 24px auto;
+        }
+
+        /* Custom Scrollbar for POS */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+
+<body class="bg-background text-on-surface font-body-md">
+    <!-- Fixed Left Sidebar Navigation (Desktop POS specific override of BottomNavBar logic for operational efficiency) -->
+    <aside
+        class="fixed left-0 top-0 h-screen w-64 bg-surface-container-lowest border-r border-white/10 z-50 flex flex-col text-white">
+        <div class="p-6 flex items-center gap-3 border-b border-outline-variant/10 mb-4">
+            <span class="material-symbols-outlined text-primary text-headline-md"
+                style="font-variation-settings: 'FILL' 1;">movie_filter</span>
+            <h1 class="text-headline-md font-bold tracking-tight text-primary text-white">Cinetrack</h1>
+        </div>
+        <nav class="flex-grow px-4 py-4 space-y-2 overflow-y-auto custom-scrollbar">
+            <!-- Dashboard -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminDashboard.html">
+                <span class="material-symbols-outlined">dashboard</span>
+                <span class="font-medium">Dashboard</span>
+            </a>
+            <!-- POS / Bookings (Active) -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl bg-primary text-white font-bold transition-all shadow-lg shadow-primary/20"
+                href="adminPointOfSale.html">
+                <span class="material-symbols-outlined">confirmation_number</span>
+                <span class="font-medium">POS / Bookings</span>
+            </a>
+            <!-- Manage Movies -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminManageMovies.html">
+                <span class="material-symbols-outlined">movie</span>
+                <span class="font-medium">Manage Movies</span>
+            </a>
+            <!-- Manage Schedules -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminManageSchedules.html">
+                <span class="material-symbols-outlined">calendar_month</span>
+                <span class="font-medium">Manage Schedules</span>
+            </a>
+            <!-- Manage F&B -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminManageFnB.html">
+                <span class="material-symbols-outlined">fastfood</span>
+                <span class="font-medium">Manage F&B</span>
+            </a>
+            <!-- Manage Branches -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminManageBranches.html">
+                <span class="material-symbols-outlined">storefront</span>
+                <span class="font-medium">Manage Branches</span>
+            </a>
+            <!-- HR & Staff -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminHRanadUserManagement.html">
+                <span class="material-symbols-outlined">badge</span>
+                <span class="font-medium">HR & Staff</span>
+            </a>
+            <!-- Transactions -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminTransactionHistory.html">
+                <span class="material-symbols-outlined">receipt_long</span>
+                <span class="font-medium">Transactions</span>
+            </a>
+        </nav>
+        <div class="p-4 border-t border-white/10">
+            <a href="login.html" class="flex items-center gap-3 px-4 py-3 hover:bg-white/5 rounded-xl transition-all cursor-pointer" title="Click to Logout">
+                <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold shrink-0">AM</div>
+                <div class="flex-1 overflow-hidden">
+                    <p class="text-sm font-bold truncate text-white">Alex Mercer</p>
+                    <p class="text-xs text-slate-400 truncate">Ops Director</p>
+                </div>
+                <span class="material-symbols-outlined text-slate-400 text-sm">logout</span>
+            </a>
+        </div>
+    </aside>
+    <!-- Main Workspace -->
+    <main class="flex-1 flex overflow-hidden ml-64">
+        <!-- Left Panel: Movie & Schedule Picker + Seat Map -->
+        <div class="flex-1 flex flex-col h-full bg-background overflow-hidden relative">
+            <!-- Top App Bar equivalent for POS -->
+            <header
+                class="h-[72px] bg-surface border-b border-surface-container-highest px-6 flex items-center justify-between flex-shrink-0 z-10 shadow-sm">
+                <div class="flex items-center gap-4">
+                    <h1 class="font-headline-md text-headline-md text-on-surface">Box Office POS</h1>
+                    <span
+                        class="bg-surface-container-highest text-on-surface-variant font-label-md text-label-md px-3 py-1 rounded-full">Terminal
+                        A1</span>
+                </div>
+                <!-- Quick Search / Scan -->
+                <div class="flex-1 max-w-md mx-8 relative">
+                    <span
+                        class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+                    <input
+                        class="w-full bg-surface-variant border-none rounded-lg pl-10 pr-4 py-2 font-body-md text-on-surface focus:ring-2 focus:ring-primary focus:bg-surface transition-colors"
+                        placeholder="Search Movie or Scan Booking ID..." type="text">
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="text-right">
+                        <div class="font-label-md text-label-md text-on-surface font-semibold" id="clock">02:08:10</div>
+                        <div class="font-label-sm text-label-sm text-on-surface-variant">Oct 24, 2023</div>
+                    </div>
+                </div>
+            </header>
+            <!-- Scrollable Content Area -->
+            <div class="flex-1 overflow-y-auto p-6 flex flex-col gap-6">
+                <!-- Step 1: Movie Selection -->
+                <section>
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="font-headline-lg text-headline-lg text-on-surface">1. Select Movie</h2>
+                        <div class="flex gap-2">
+                            <button
+                                class="px-4 py-1.5 bg-on-surface text-surface font-label-md text-label-md rounded-full shadow-sm">Now
+                                Showing</button>
+                            <button
+                                class="px-4 py-1.5 bg-surface text-on-surface-variant border border-surface-container-highest font-label-md text-label-md rounded-full hover:bg-surface-variant transition-colors">Coming
+                                Soon</button>
+                        </div>
+                    </div>
+                    <!-- Horizontal Scrolling Movie Posters -->
+                    <div class="flex gap-4 overflow-x-auto pb-4 snap-x">
+                        <!-- Movie Card Active -->
+                        <div
+                            class="snap-start flex-shrink-0 w-64 bg-surface border-2 border-primary rounded-xl overflow-hidden shadow-sm cursor-pointer transform scale-100 transition-transform">
+                            <div class="h-32 bg-slate-200 relative overflow-hidden"
+                                data-alt="A cinematic light-mode UI scene featuring a bright, modern movie poster placeholder. The image shows a minimalist abstract film reel motif on a clean white background with crisp slate shadows and crimson accents. The lighting is clinical and high-key, suitable for a professional corporate application."
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDfM-IFcN3ofQUfLXMnsqOEMJBAs8-bJknI3joS2cbmb3Z55uVM6chLREgZ3uapSDMGbBLdU39ACp7V0KDK7HBQ2qBqdDlqVRGJhOUXPKQIZ46NV8SPTu9ScBxOggJZa5bdoT2y12QDF5TsG-mMxzEpm6zyLFib3EVZyepVj-8yYP0bGCX8fuRqkfCvzUGmI--96rC9sB4GWMba044seABbyuC2yIqFtk6JknSbginh6YpwlfhOCIeoFHaNgOz2WPJrkqjP4K2GqYs'); background-size: cover; background-position: center;">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                                <span
+                                    class="absolute bottom-2 left-2 bg-primary text-white font-label-sm text-label-sm px-2 py-0.5 rounded text-xs font-bold">PG-13</span>
+                            </div>
+                            <div class="p-3 border-b border-surface-container-highest">
+                                <h3 class="font-label-md text-label-md font-bold truncate">Dune: Part Two</h3>
+                                <p class="font-label-sm text-label-sm text-on-surface-variant">Sci-Fi • 2h 46m</p>
+                            </div>
+                            <div class="p-2 grid grid-cols-3 gap-2 bg-surface-container-low">
+                                <button
+                                    class="py-1 bg-surface-variant text-on-surface font-label-sm text-label-sm rounded border border-surface-container-highest hover:border-primary">10:30</button>
+                                <button
+                                    class="py-1 bg-primary text-white font-label-sm text-label-sm rounded shadow-sm">14:15</button>
+                                <button
+                                    class="py-1 bg-surface-variant text-on-surface font-label-sm text-label-sm rounded border border-surface-container-highest hover:border-primary">18:00</button>
+                                <button
+                                    class="py-1 bg-surface-variant text-on-surface font-label-sm text-label-sm rounded border border-surface-container-highest hover:border-primary">21:30</button>
+                            </div>
+                        </div>
+                        <!-- Movie Card Inactive -->
+                        <div
+                            class="snap-start flex-shrink-0 w-64 bg-surface border border-surface-container-highest rounded-xl overflow-hidden shadow-sm cursor-pointer hover:shadow-md transition-shadow">
+                            <div class="h-32 bg-slate-200 relative overflow-hidden"
+                                data-alt="A clean, light-mode cinema UI poster placeholder depicting a bright, sunny landscape. The lighting is crisp and modern, featuring soft slate shadows against pristine white surfaces. The scene evokes a sense of clarity and operational efficiency, typical of a high-end ticketing system."
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAJ2fZJlQCz_amXOyP__6DEFWGN67_x8iNxrlyOzUcitvj2QEegdrrX9Xtb_Jv6ZdnJa9n4_fYLZ8gm9n7PwlDrc1SnhABcvUHrzGLKB_wNdSuzzJsryAyFJZv2ZUX3CopkGIYdMQOvaBh6bjsqYbjhkGO6GUcL5ZMAu051B7I4ylR_yM9qigzfh2nxwccNUyTTYQDcr3gmpqi8UddosciA4k-535PE8vEXTpHhkDSGm73x0r1cMKatKPTgQ1pDsqh4rTGDR098Y_o'); background-size: cover; background-position: center;">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                                <span
+                                    class="absolute bottom-2 left-2 bg-surface-variant text-on-surface font-label-sm text-label-sm px-2 py-0.5 rounded text-xs font-bold">R</span>
+                            </div>
+                            <div class="p-3 border-b border-surface-container-highest">
+                                <h3 class="font-label-md text-label-md font-bold truncate">Oppenheimer</h3>
+                                <p class="font-label-sm text-label-sm text-on-surface-variant">Drama • 3h 0m</p>
+                            </div>
+                            <div class="p-2 grid grid-cols-3 gap-2 bg-surface-container-low">
+                                <button
+                                    class="py-1 bg-surface-variant text-on-surface font-label-sm text-label-sm rounded border border-surface-container-highest hover:border-primary">11:00</button>
+                                <button
+                                    class="py-1 bg-surface-variant text-on-surface font-label-sm text-label-sm rounded border border-surface-container-highest hover:border-primary">15:30</button>
+                                <button
+                                    class="py-1 bg-surface-variant text-on-surface-variant font-label-sm text-label-sm rounded border border-surface-container-highest opacity-50 cursor-not-allowed line-through">20:00</button>
+                            </div>
+                        </div>
+                        <!-- Movie Card Inactive -->
+                        <div
+                            class="snap-start flex-shrink-0 w-64 bg-surface border border-surface-container-highest rounded-xl overflow-hidden shadow-sm cursor-pointer hover:shadow-md transition-shadow">
+                            <div class="h-32 bg-slate-200 relative overflow-hidden"
+                                data-alt="A bright, corporate movie poster placeholder in a light-mode UI. The image features a minimalist cinematic clapperboard on a stark white desk with sharp, slate-grey shadows. The overall mood is clinical and precise, designed for maximum legibility in a high-traffic box office environment."
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAyvyfL1IuiJdguQAXEg9znNCln6lNiGyP0HqqiF5F1MxC-lTAoLaiSMkcmYZidIFWEHcUgUfcMA97NF5T3fTfYoEChm9Iux6I_a9JQW73NaKmTRvdTBp3lBOB5QA8Hw9kGr-8S9XZ_NHNcR0u6a66FSU-6W4yZfqk03GY_zg6bJxz6s5Bn_qf7XpU78UXMjg8uSB0S3PApAic4Sp5RjKVF0daVCvP3I5-JsByhJpNhPtvBluXthsWajglwoQMy0BTB9vk6Bxrqp2c'); background-size: cover; background-position: center;">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                                <span
+                                    class="absolute bottom-2 left-2 bg-secondary text-on-secondary font-label-sm text-label-sm px-2 py-0.5 rounded text-xs font-bold">PG</span>
+                            </div>
+                            <div class="p-3 border-b border-surface-container-highest">
+                                <h3 class="font-label-md text-label-md font-bold truncate">Inside Out 2</h3>
+                                <p class="font-label-sm text-label-sm text-on-surface-variant">Family • 1h 36m</p>
+                            </div>
+                            <div class="p-2 grid grid-cols-3 gap-2 bg-surface-container-low">
+                                <button
+                                    class="py-1 bg-surface-variant text-on-surface font-label-sm text-label-sm rounded border border-surface-container-highest hover:border-primary">09:45</button>
+                                <button
+                                    class="py-1 bg-surface-variant text-on-surface font-label-sm text-label-sm rounded border border-surface-container-highest hover:border-primary">12:15</button>
+                                <button
+                                    class="py-1 bg-surface-variant text-on-surface font-label-sm text-label-sm rounded border border-surface-container-highest hover:border-primary">16:45</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- Step 2: Seat Map -->
+                <section
+                    class="flex-1 bg-surface border border-surface-container-highest rounded-xl shadow-sm p-6 flex flex-col min-h-[400px]">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="font-headline-lg text-headline-lg text-on-surface">2. Select Seats <span
+                                class="font-body-md text-on-surface-variant ml-2">Cinema 4 - Dune: Part Two
+                                (14:15)</span></h2>
+                        <!-- Legend -->
+                        <div class="flex gap-4 font-label-sm text-label-sm text-on-surface-variant">
+                            <div class="flex items-center gap-1.5">
+                                <div class="w-3 h-3 rounded-sm bg-[#e2e8f0]"></div> Available
+                            </div>
+                            <div class="flex items-center gap-1.5">
+                                <div class="w-3 h-3 rounded-sm bg-primary"></div> Selected
+                            </div>
+                            <div class="flex items-center gap-1.5">
+                                <div class="w-3 h-3 rounded-sm bg-secondary"></div> VIP
+                            </div>
+                            <div class="flex items-center gap-1.5">
+                                <div class="w-3 h-3 rounded-sm bg-[#94a3b8]"></div> Occupied
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="flex-1 flex flex-col items-center justify-center bg-surface-container-low rounded-lg border border-surface-container-highest p-4 relative overflow-hidden">
+                        <div class="screen-curve relative flex items-center justify-center">
+                            <span
+                                class="absolute top-2 text-on-surface-variant font-label-sm text-label-sm uppercase tracking-widest">Screen</span>
+                        </div>
+                        <div class="seat-map-grid w-full max-w-2xl mt-8">
+                            <!-- JS will populate seats to simulate a grid. Static sample for layout. -->
+                            <!-- Row A -->
+                            <div
+                                class="col-span-1 text-center font-label-sm text-on-surface-variant flex items-center justify-center">
+                                A</div>
+                            <div class="seat available"></div>
+                            <div class="seat available"></div>
+                            <div class="seat available"></div>
+                            <div class="seat occupied"></div>
+                            <div class="seat occupied"></div>
+                            <div class="col-span-2"></div> <!-- Aisle -->
+                            <div class="seat available"></div>
+                            <div class="seat available"></div>
+                            <div class="seat available"></div>
+                            <div class="seat available"></div>
+                            <div class="seat available"></div>
+                            <div class="seat available"></div>
+                            <div class="col-span-2"></div> <!-- Aisle -->
+                            <div class="seat available"></div>
+                            <div class="seat available"></div>
+                            <div class="seat available"></div>
+                            <div class="seat occupied"></div>
+                            <!-- Row B -->
+                            <div
+                                class="col-span-1 text-center font-label-sm text-on-surface-variant flex items-center justify-center mt-2">
+                                B</div>
+                            <div class="seat available mt-2"></div>
+                            <div class="seat available mt-2"></div>
+                            <div class="seat occupied mt-2"></div>
+                            <div class="seat occupied mt-2"></div>
+                            <div class="seat available mt-2"></div>
+                            <div class="col-span-2 mt-2"></div>
+                            <div class="seat available mt-2"></div>
+                            <div class="seat available mt-2"></div>
+                            <div class="seat selected mt-2"></div>
+                            <div class="seat selected mt-2"></div>
+                            <div class="seat available mt-2"></div>
+                            <div class="seat available mt-2"></div>
+                            <div class="col-span-2 mt-2"></div>
+                            <div class="seat available mt-2"></div>
+                            <div class="seat available mt-2"></div>
+                            <div class="seat available mt-2"></div>
+                            <div class="seat available mt-2"></div>
+                            <!-- Row C (VIP) -->
+                            <div
+                                class="col-span-1 text-center font-label-sm text-on-surface-variant flex items-center justify-center mt-6">
+                                C</div>
+                            <div class="seat vip mt-6"></div>
+                            <div class="seat vip mt-6"></div>
+                            <div class="seat vip mt-6"></div>
+                            <div class="seat vip mt-6"></div>
+                            <div class="seat vip mt-6"></div>
+                            <div class="col-span-2 mt-6"></div>
+                            <div class="seat vip mt-6"></div>
+                            <div class="seat vip mt-6"></div>
+                            <div class="seat vip mt-6"></div>
+                            <div class="seat vip mt-6"></div>
+                            <div class="seat vip mt-6"></div>
+                            <div class="seat vip mt-6"></div>
+                            <div class="col-span-2 mt-6"></div>
+                            <div class="seat vip mt-6"></div>
+                            <div class="seat vip mt-6"></div>
+                            <div class="seat vip mt-6"></div>
+                            <div class="seat vip mt-6"></div>
+                        </div>
+                        <!-- Quick Select UI overlaid on bottom -->
+                        <div
+                            class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-surface shadow-md border border-surface-container-highest rounded-full px-4 py-2 flex items-center gap-4">
+                            <span class="font-label-sm text-label-sm text-on-surface-variant">Auto-Select:</span>
+                            <button
+                                class="w-8 h-8 rounded-full bg-surface-variant hover:bg-surface-container-highest flex items-center justify-center font-label-md">1</button>
+                            <button
+                                class="w-8 h-8 rounded-full bg-primary text-white shadow-sm flex items-center justify-center font-label-md">2</button>
+                            <button
+                                class="w-8 h-8 rounded-full bg-surface-variant hover:bg-surface-container-highest flex items-center justify-center font-label-md">3</button>
+                            <button
+                                class="w-8 h-8 rounded-full bg-surface-variant hover:bg-surface-container-highest flex items-center justify-center font-label-md">4</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+        <!-- Right Panel: Order Sidebar -->
+        <aside
+            class="w-[360px] border-l border-surface-container-highest flex flex-col h-full shadow-[-4px_0_15px_-3px_rgba(0,0,0,0.05)] z-20 bg-surface-container-lowest">
+            <!-- Order Header -->
+            <div class="p-6 border-b border-surface-container-highest">
+                <h2 class="font-headline-md text-headline-md text-on-surface mb-1">Current Order</h2>
+                <p class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[16px]">receipt</span> #ORD-7734-92
+                </p>
+            </div>
+            <!-- Order Items (Scrollable) -->
+            <div class="flex-1 overflow-y-auto p-6 flex flex-col gap-4 bg-background/50">
+                <!-- Ticket Items -->
+                <div class="bg-surface rounded-lg p-3 border border-surface-container-highest shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <span class="font-label-md text-label-md font-bold text-on-surface">Dune: Part Two</span>
+                            <div class="font-label-sm text-label-sm text-on-surface-variant">14:15 • Cinema 4</div>
+                        </div>
+                        <button class="text-on-surface-variant hover:text-error"><span
+                                class="material-symbols-outlined text-[20px]">delete</span></button>
+                    </div>
+                    <div class="space-y-2 mt-3">
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="font-body-md text-on-surface flex items-center gap-2"><span
+                                    class="w-2 h-2 rounded-full bg-primary"></span> Seat B6 (Standard)</span>
+                            <span class="font-label-md text-label-md">$14.50</span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="font-body-md text-on-surface flex items-center gap-2"><span
+                                    class="w-2 h-2 rounded-full bg-primary"></span> Seat B7 (Standard)</span>
+                            <span class="font-label-md text-label-md">$14.50</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add F&B Button -->
+                <button
+                    class="w-full py-3 border-2 border-dashed border-surface-container-highest rounded-lg text-on-surface-variant hover:text-primary hover:border-primary transition-colors flex items-center justify-center gap-2 font-label-md text-label-md bg-surface">
+                    <span class="material-symbols-outlined text-[20px]">add_shopping_cart</span> Add Food &amp; Beverage
+                </button>
+            </div>
+            <!-- Order Totals & Payment -->
+
+            <div
+                class="p-6 bg-surface border-t border-surface-container-highest mt-auto shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+                <div class="space-y-2 mb-6">
+                    <div class="flex justify-between text-on-surface-variant"><span
+                            class="font-body-md">Subtotal</span><span class="font-label-md">$29.00</span></div>
+                    <div class="flex justify-between text-on-surface-variant"><span class="font-body-md">Tax
+                            (8%)</span><span class="font-label-md">$2.32</span></div>
+                    <div class="flex justify-between items-center mt-4 pt-4 border-t border-surface-container-highest">
+                        <span class="font-headline-md text-on-surface">Total</span><span
+                            class="font-headline-md text-primary text-3xl">$31.32</span></div>
+                </div>
+                <div class="grid grid-cols-2 gap-3 mb-3"><button
+                        class="flex flex-col items-center justify-center gap-2 p-4 border border-surface-container-highest rounded-xl hover:bg-surface-variant transition-colors"><span
+                            class="material-symbols-outlined">payments</span><span
+                            class="font-label-md">Cash</span></button><button
+                        class="flex flex-col items-center justify-center gap-2 p-4 bg-primary text-white rounded-xl shadow-md hover:opacity-90 transition-opacity"><span
+                            class="material-symbols-outlined">credit_card</span><span
+                            class="font-label-md">Card</span></button></div><button
+                    class="w-full flex items-center justify-center gap-2 p-4 border border-surface-container-highest rounded-xl mb-4 hover:bg-surface-variant transition-colors"><span
+                        class="material-symbols-outlined">qr_code_scanner</span><span class="font-label-md">E-Wallet /
+                        Gift Card</span></button><button
+                    class="w-full py-4 bg-surface-container-highest text-on-surface-variant font-bold rounded-xl cursor-not-allowed"
+                    disabled="">Complete Transaction</button>
+            </div>
+        </aside>
+    </main>
+    <script>
+        // Simple clock update
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('clock').textContent = now.toLocaleTimeString('en-GB');
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
+
+
+
+
+
+
+</body>
+
+</html>
