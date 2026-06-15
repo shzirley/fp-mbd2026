@@ -15,9 +15,14 @@ app.use(cors());
 app.use(express.json());
 
 // Serve static frontend files
-app.use(express.static(path.join(__dirname, 'FrontEnd')));
+app.use(express.static(path.join(__dirname, 'frontend')));
 // Serve static assets folder
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
+
+// Redirect root to login page
+app.get('/', (req, res) => {
+  res.redirect('/login.html');
+});
 
 // Create MySQL connection pool
 const pool = mysql.createPool({
