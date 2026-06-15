@@ -133,7 +133,7 @@
                 tbody.innerHTML = '';
                 
                 if (employees.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="7" class="py-md px-md text-center text-slate-500">No employees found.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="7" class="py-md px-md text-center text-slate-300">No employees found.</td></tr>';
                     return;
                 }
 
@@ -143,22 +143,22 @@
                     tr.className = 'table-row-hover transition-colors';
                     tr.innerHTML = `
                         <td class="py-md px-md">
-                            <input class="rounded border-slate-300 text-primary-container focus:ring-primary-container" type="checkbox">
+                            <input class="rounded border-white/20 text-primary-container focus:ring-primary-container" type="checkbox">
                         </td>
                         <td class="py-md px-md">
                             <div class="flex items-center gap-sm">
-                                <div class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 font-label-sm text-label-sm font-bold">
+                                <div class="w-8 h-8 rounded-full glass-card/10 flex items-center justify-center text-slate-200 font-label-sm text-label-sm font-bold">
                                     ${initials}
                                 </div>
                                 <div>
                                     <p class="font-label-md text-label-md text-white font-semibold">${emp.nama_pegawai}</p>
-                                    <p class="font-label-sm text-label-sm text-slate-500">${emp.email_pegawai || '-'}</p>
+                                    <p class="font-label-sm text-label-sm text-slate-300">${emp.email_pegawai || '-'}</p>
                                 </div>
                             </div>
                         </td>
                         <td class="py-md px-md font-body-md text-body-md text-white">${emp.jabatan || 'Staff'}</td>
-                        <td class="py-md px-md font-body-md text-body-md text-slate-600">HQ</td>
-                        <td class="py-md px-md font-body-md text-body-md text-slate-600">09:00 - 17:00</td>
+                        <td class="py-md px-md font-body-md text-body-md text-slate-200">HQ</td>
+                        <td class="py-md px-md font-body-md text-body-md text-slate-200">09:00 - 17:00</td>
                         <td class="py-md px-md">
                             <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-tertiary-container/20 text-tertiary-container">
                                 Active
@@ -166,13 +166,13 @@
                         </td>
                         <td class="py-md px-md text-right">
                             <div class="flex items-center justify-end gap-xs">
-                                <button class="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-white hover-bg-slate-100 transition-colors" title="Edit">
+                                <button class="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-white hover-glass-card/5 transition-colors" title="Edit">
                                     <span class="material-symbols-outlined text-[20px]">edit</span>
                                 </button>
-                                <button class="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-white hover-bg-slate-100 transition-colors" title="Assign Shift">
+                                <button class="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-white hover-glass-card/5 transition-colors" title="Assign Shift">
                                     <span class="material-symbols-outlined text-[20px]">event_note</span>
                                 </button>
-                                <button class="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-error hover-bg-slate-100 transition-colors" title="Delete">
+                                <button class="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-error hover-glass-card/5 transition-colors" title="Delete">
                                     <span class="material-symbols-outlined text-[20px]">delete</span>
                                 </button>
                             </div>
@@ -229,27 +229,27 @@
         </div>
         <nav class="flex-grow px-4 py-4 space-y-2 overflow-y-auto custom-scrollbar">
             
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all" href="adminDashboard.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:glass-card/5 transition-all" href="adminDashboard.html">
                 <span class="material-symbols-outlined">dashboard</span>
                 <span class="font-medium">Dashboard</span>
             </a>
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all" href="adminPointOfSale.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:glass-card/5 transition-all" href="adminPointOfSale.html">
                 <span class="material-symbols-outlined">confirmation_number</span>
                 <span class="font-medium">POS / Bookings</span>
             </a>
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all" href="adminManageMovies.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:glass-card/5 transition-all" href="adminManageMovies.html">
                 <span class="material-symbols-outlined">movie</span>
                 <span class="font-medium">Manage Movies</span>
             </a>
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all" href="adminManageSchedules.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:glass-card/5 transition-all" href="adminManageSchedules.html">
                 <span class="material-symbols-outlined">calendar_month</span>
                 <span class="font-medium">Manage Schedules</span>
             </a>
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all" href="adminManageFnB.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:glass-card/5 transition-all" href="adminManageFnB.html">
                 <span class="material-symbols-outlined">fastfood</span>
                 <span class="font-medium">Manage F&B</span>
             </a>
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all" href="adminManageBranches.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:glass-card/5 transition-all" href="adminManageBranches.html">
                 <span class="material-symbols-outlined">storefront</span>
                 <span class="font-medium">Manage Branches</span>
             </a>
@@ -257,13 +257,13 @@
                 <span class="material-symbols-outlined">badge</span>
                 <span class="font-medium">HR & Staff</span>
             </a>
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all" href="adminTransactionHistory.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:glass-card/5 transition-all" href="adminTransactionHistory.html">
                 <span class="material-symbols-outlined">receipt_long</span>
                 <span class="font-medium">Transactions</span>
             </a>
         </nav>
         <div class="p-4 border-t border-white/10 flex flex-col gap-2">
-            <a href="login.html" class="flex items-center justify-center gap-3 w-full py-3 hover:bg-white/5 rounded-xl transition-all cursor-pointer text-slate-300 font-medium" title="Click to Logout">
+            <a href="login.html" class="flex items-center justify-center gap-3 w-full py-3 hover:glass-card/5 rounded-xl transition-all cursor-pointer text-slate-300 font-medium" title="Click to Logout">
                 <span class="material-symbols-outlined text-sm">logout</span>
                 Logout
             </a>
@@ -274,7 +274,7 @@
         </div>
     </aside>
     <!-- Main Content Area -->
-    <main class="flex-1 flex flex-col h-full bg-slate-50 relative overflow-hidden">
+    <main class="flex-1 flex flex-col h-full bg-surface/30 relative overflow-hidden">
         <!-- Top App Bar equivalent for Desktop Main Content -->
         <header class="sticky top-0 w-full z-40 flex justify-between items-center px-10 h-20 bg-surface/70 backdrop-blur-xl border-b border-outline-variant/30">
             <div>
@@ -303,17 +303,17 @@
         <!-- Scrollable Content Canvas -->
         <div class="flex-1 overflow-y-auto px-margin_desktop py-xl">
             <!-- Tabs -->
-            <div class="flex gap-md mb-lg border-b border-slate-200">
+            <div class="flex gap-md mb-lg border-b border-white/10">
                 <button
                     class="px-md py-sm font-label-md text-label-md text-primary-container border-b-2 border-primary-container -mb-[1px]">
                     Employees
                 </button>
                 <button
-                    class="px-md py-sm font-label-md text-label-md text-slate-500 hover:text-white transition-colors">
+                    class="px-md py-sm font-label-md text-label-md text-slate-300 hover:text-white transition-colors">
                     Work Shifts
                 </button>
                 <button
-                    class="px-md py-sm font-label-md text-label-md text-slate-500 hover:text-white transition-colors">
+                    class="px-md py-sm font-label-md text-label-md text-slate-300 hover:text-white transition-colors">
                     Customers
                 </button>
             </div>
@@ -321,11 +321,11 @@
             <div class="flex justify-between items-center mb-md">
                 <div class="flex gap-sm">
                     <button
-                        class="px-md py-sm bg-surface-light border border-slate-200 rounded-md font-label-md text-label-md text-white flex items-center gap-xs hover-bg-slate-100 shadow-sm">
+                        class="px-md py-sm glass-card border border-white/10 rounded-md font-label-md text-label-md text-white flex items-center gap-xs hover-glass-card/5 shadow-sm">
                         <span class="material-symbols-outlined text-[18px]">filter_list</span> Filter
                     </button>
                     <button
-                        class="px-md py-sm bg-surface-light border border-slate-200 rounded-md font-label-md text-label-md text-white flex items-center gap-xs hover-bg-slate-100 shadow-sm">
+                        class="px-md py-sm glass-card border border-white/10 rounded-md font-label-md text-label-md text-white flex items-center gap-xs hover-glass-card/5 shadow-sm">
                         <span class="material-symbols-outlined text-[18px]">download</span> Export
                     </button>
                 </div>
@@ -335,37 +335,37 @@
                 </button>
             </div>
             <!-- Data Table Card -->
-            <div class="bg-surface-light border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+            <div class="glass-card border border-white/10 rounded-xl overflow-hidden shadow-sm">
                 <table class="w-full text-left border-collapse">
                     <thead>
-                        <tr class="bg-slate-50 border-b border-slate-200">
-                            <th class="py-sm px-md font-label-md text-label-md text-slate-500 font-semibold w-12">
+                        <tr class="bg-surface/30 border-b border-white/10">
+                            <th class="py-sm px-md font-label-md text-label-md text-slate-300 font-semibold w-12">
                                 <input
-                                    class="rounded border-slate-300 text-primary-container focus:ring-primary-container"
+                                    class="rounded border-white/20 text-primary-container focus:ring-primary-container"
                                     type="checkbox">
                             </th>
-                            <th class="py-sm px-md font-label-md text-label-md text-slate-500 font-semibold">Name</th>
-                            <th class="py-sm px-md font-label-md text-label-md text-slate-500 font-semibold">Role</th>
-                            <th class="py-sm px-md font-label-md text-label-md text-slate-500 font-semibold">Branch</th>
-                            <th class="py-sm px-md font-label-md text-label-md text-slate-500 font-semibold">Current
+                            <th class="py-sm px-md font-label-md text-label-md text-slate-300 font-semibold">Name</th>
+                            <th class="py-sm px-md font-label-md text-label-md text-slate-300 font-semibold">Role</th>
+                            <th class="py-sm px-md font-label-md text-label-md text-slate-300 font-semibold">Branch</th>
+                            <th class="py-sm px-md font-label-md text-label-md text-slate-300 font-semibold">Current
                                 Shift</th>
-                            <th class="py-sm px-md font-label-md text-label-md text-slate-500 font-semibold">Status</th>
-                            <th class="py-sm px-md font-label-md text-label-md text-slate-500 font-semibold text-right">
+                            <th class="py-sm px-md font-label-md text-label-md text-slate-300 font-semibold">Status</th>
+                            <th class="py-sm px-md font-label-md text-label-md text-slate-300 font-semibold text-right">
                                 Actions</th>
                         </tr>
                     </thead>
                     <tbody id="employees-body" class="divide-y divide-slate-200">
                         <tr>
-                            <td colspan="7" class="py-md px-md text-center text-slate-500">Loading employees...</td>
+                            <td colspan="7" class="py-md px-md text-center text-slate-300">Loading employees...</td>
                         </tr>
                     </tbody>
                 </table>
                 <!-- Pagination -->
-                <div class="px-md py-sm border-t border-slate-200 bg-surface-light flex items-center justify-between">
-                    <span class="font-label-sm text-label-sm text-slate-500">Showing 1 to 3 of 42 entries</span>
+                <div class="px-md py-sm border-t border-white/10 glass-card flex items-center justify-between">
+                    <span class="font-label-sm text-label-sm text-slate-300">Showing 1 to 3 of 42 entries</span>
                     <div class="flex gap-xs">
                         <button
-                            class="w-8 h-8 flex items-center justify-center rounded border border-slate-200 text-slate-400 hover-bg-slate-100 disabled:opacity-50"
+                            class="w-8 h-8 flex items-center justify-center rounded border border-white/10 text-slate-400 hover-glass-card/5 disabled:opacity-50"
                             disabled="">
                             <span class="material-symbols-outlined text-[18px]">chevron_left</span>
                         </button>
@@ -374,15 +374,15 @@
                             1
                         </button>
                         <button
-                            class="w-8 h-8 flex items-center justify-center rounded border border-slate-200 text-slate-600 hover-bg-slate-100 font-label-sm text-label-sm">
+                            class="w-8 h-8 flex items-center justify-center rounded border border-white/10 text-slate-200 hover-glass-card/5 font-label-sm text-label-sm">
                             2
                         </button>
                         <button
-                            class="w-8 h-8 flex items-center justify-center rounded border border-slate-200 text-slate-600 hover-bg-slate-100 font-label-sm text-label-sm">
+                            class="w-8 h-8 flex items-center justify-center rounded border border-white/10 text-slate-200 hover-glass-card/5 font-label-sm text-label-sm">
                             3
                         </button>
                         <button
-                            class="w-8 h-8 flex items-center justify-center rounded border border-slate-200 text-slate-600 hover-bg-slate-100">
+                            class="w-8 h-8 flex items-center justify-center rounded border border-white/10 text-slate-200 hover-glass-card/5">
                             <span class="material-symbols-outlined text-[18px]">chevron_right</span>
                         </button>
                     </div>

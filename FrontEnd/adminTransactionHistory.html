@@ -133,7 +133,7 @@
                 tbody.innerHTML = '';
                 
                 if (transactions.length === 0) {
-                    tbody.innerHTML = '<p class="text-center text-slate-500 py-8">No transactions found.</p>';
+                    tbody.innerHTML = '<p class="text-center text-slate-300 py-8">No transactions found.</p>';
                     return;
                 }
 
@@ -218,31 +218,31 @@
         </div>
         <nav class="flex-grow px-4 py-4 space-y-2 overflow-y-auto custom-scrollbar">
             
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all" href="adminDashboard.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:glass-card/5 transition-all" href="adminDashboard.html">
                 <span class="material-symbols-outlined">dashboard</span>
                 <span class="font-medium">Dashboard</span>
             </a>
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all" href="adminPointOfSale.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:glass-card/5 transition-all" href="adminPointOfSale.html">
                 <span class="material-symbols-outlined">confirmation_number</span>
                 <span class="font-medium">POS / Bookings</span>
             </a>
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all" href="adminManageMovies.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:glass-card/5 transition-all" href="adminManageMovies.html">
                 <span class="material-symbols-outlined">movie</span>
                 <span class="font-medium">Manage Movies</span>
             </a>
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all" href="adminManageSchedules.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:glass-card/5 transition-all" href="adminManageSchedules.html">
                 <span class="material-symbols-outlined">calendar_month</span>
                 <span class="font-medium">Manage Schedules</span>
             </a>
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all" href="adminManageFnB.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:glass-card/5 transition-all" href="adminManageFnB.html">
                 <span class="material-symbols-outlined">fastfood</span>
                 <span class="font-medium">Manage F&B</span>
             </a>
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all" href="adminManageBranches.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:glass-card/5 transition-all" href="adminManageBranches.html">
                 <span class="material-symbols-outlined">storefront</span>
                 <span class="font-medium">Manage Branches</span>
             </a>
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all" href="adminHRanadUserManagement.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:glass-card/5 transition-all" href="adminHRanadUserManagement.html">
                 <span class="material-symbols-outlined">badge</span>
                 <span class="font-medium">HR & Staff</span>
             </a>
@@ -252,7 +252,7 @@
             </a>
         </nav>
         <div class="p-4 border-t border-white/10 flex flex-col gap-2">
-            <a href="login.html" class="flex items-center justify-center gap-3 w-full py-3 hover:bg-white/5 rounded-xl transition-all cursor-pointer text-slate-300 font-medium" title="Click to Logout">
+            <a href="login.html" class="flex items-center justify-center gap-3 w-full py-3 hover:glass-card/5 rounded-xl transition-all cursor-pointer text-slate-300 font-medium" title="Click to Logout">
                 <span class="material-symbols-outlined text-sm">logout</span>
                 Logout
             </a>
@@ -293,7 +293,7 @@
         <div class="flex-1 overflow-auto p-margin_desktop bg-background flex flex-col space-y-6">
             <!-- Filter Bar -->
             <div
-                class="bg-surface rounded-xl border border-slate-200 p-4 shadow-sm shrink-0 flex flex-wrap items-end gap-4">
+                class="bg-surface rounded-xl border border-white/10 p-4 shadow-sm shrink-0 flex flex-wrap items-end gap-4">
                 <div class="flex flex-col space-y-1 flex-1 min-w-[200px]">
                     <label class="font-label-sm text-label-sm text-on-surface-variant">Date Range</label>
                     <div class="relative">
@@ -301,7 +301,7 @@
                             class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none"
                             data-icon="calendar_today">calendar_today</span>
                         <input
-                            class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-slate-200 rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:glass-card transition-colors"
+                            class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-white/10 rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:glass-card transition-colors"
                             placeholder="Nov 1, 2023 - Nov 30, 2023" type="text" value="Today">
                     </div>
                 </div>
@@ -312,7 +312,7 @@
                             class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none"
                             data-icon="storefront">storefront</span>
                         <select
-                            class="w-full pl-10 pr-8 py-2 bg-surface-container-low border border-slate-200 rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:glass-card transition-colors appearance-none">
+                            class="w-full pl-10 pr-8 py-2 bg-surface-container-low border border-white/10 rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:glass-card transition-colors appearance-none">
                             <option>All Branches</option>
                             <option>Downtown Metro</option>
                             <option>Westside Mall</option>
@@ -330,7 +330,7 @@
                             class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none"
                             data-icon="payments">payments</span>
                         <select
-                            class="w-full pl-10 pr-8 py-2 bg-surface-container-low border border-slate-200 rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:glass-card transition-colors appearance-none">
+                            class="w-full pl-10 pr-8 py-2 bg-surface-container-low border border-white/10 rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:glass-card transition-colors appearance-none">
                             <option>All Methods</option>
                             <option>Credit Card</option>
                             <option>Debit Card</option>
@@ -349,20 +349,20 @@
                             class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none"
                             data-icon="search">search</span>
                         <input
-                            class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-slate-200 rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:glass-card transition-colors"
+                            class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-white/10 rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:glass-card transition-colors"
                             placeholder="Search Txn ID..." type="text">
                     </div>
                 </div>
                 <button
-                    class="bg-surface-variant hover:bg-slate-200 text-on-surface px-6 py-2 rounded-lg font-label-md text-label-md border border-slate-200 transition-colors h-[42px] flex items-center">
+                    class="bg-surface-variant hover:glass-card/10 text-on-surface px-6 py-2 rounded-lg font-label-md text-label-md border border-white/10 transition-colors h-[42px] flex items-center">
                     Clear Filters
                 </button>
             </div>
             <!-- Massive Data Table Container -->
-            <div class="bg-surface rounded-xl border border-slate-200 shadow-sm flex-1 flex flex-col overflow-hidden">
+            <div class="bg-surface rounded-xl border border-white/10 shadow-sm flex-1 flex flex-col overflow-hidden">
                 <!-- Table Header (Fixed) -->
                 <div
-                    class="grid grid-cols-[120px_160px_160px_1fr_140px_120px_100px_48px] gap-4 px-6 py-4 border-b border-slate-200 bg-surface-bright text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider items-center shrink-0">
+                    class="grid grid-cols-[120px_160px_160px_1fr_140px_120px_100px_48px] gap-4 px-6 py-4 border-b border-white/10 bg-surface-bright text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider items-center shrink-0">
                     <div class="">Txn ID</div>
                     <div class="">Date / Time</div>
                     <div class="">Branch</div>
@@ -374,30 +374,30 @@
                 </div>
                 <!-- Table Body (Scrollable) -->
                 <div id="transactions-body" class="flex-1 overflow-y-auto bg-surface">
-                    <p class="text-center text-slate-500 py-8">Loading transactions...</p>
+                    <p class="text-center text-slate-300 py-8">Loading transactions...</p>
                 </div>
                 <!-- Pagination Footer -->
-                <div class="h-14 border-t border-slate-200 bg-surface flex items-center justify-between px-6 shrink-0">
+                <div class="h-14 border-t border-white/10 bg-surface flex items-center justify-between px-6 shrink-0">
                     <div class="font-label-sm text-label-sm text-on-surface-variant">
                         Showing 1 to 5 of 2,492 entries
                     </div>
                     <div class="flex items-center space-x-2">
                         <button
-                            class="w-8 h-8 rounded-md flex items-center justify-center border border-slate-200 text-on-surface-variant hover:bg-surface-variant disabled:opacity-50"
+                            class="w-8 h-8 rounded-md flex items-center justify-center border border-white/10 text-on-surface-variant hover:bg-surface-variant disabled:opacity-50"
                             disabled="">
                             <span class="material-symbols-outlined text-sm" data-icon="chevron_left">chevron_left</span>
                         </button>
                         <button
                             class="w-8 h-8 rounded-md flex items-center justify-center bg-primary text-white font-label-sm">1</button>
                         <button
-                            class="w-8 h-8 rounded-md flex items-center justify-center border border-slate-200 text-on-surface-variant hover:bg-surface-variant font-label-sm">2</button>
+                            class="w-8 h-8 rounded-md flex items-center justify-center border border-white/10 text-on-surface-variant hover:bg-surface-variant font-label-sm">2</button>
                         <button
-                            class="w-8 h-8 rounded-md flex items-center justify-center border border-slate-200 text-on-surface-variant hover:bg-surface-variant font-label-sm">3</button>
+                            class="w-8 h-8 rounded-md flex items-center justify-center border border-white/10 text-on-surface-variant hover:bg-surface-variant font-label-sm">3</button>
                         <span class="text-on-surface-variant">...</span>
                         <button
-                            class="w-8 h-8 rounded-md flex items-center justify-center border border-slate-200 text-on-surface-variant hover:bg-surface-variant font-label-sm">50</button>
+                            class="w-8 h-8 rounded-md flex items-center justify-center border border-white/10 text-on-surface-variant hover:bg-surface-variant font-label-sm">50</button>
                         <button
-                            class="w-8 h-8 rounded-md flex items-center justify-center border border-slate-200 text-on-surface-variant hover:bg-surface-variant">
+                            class="w-8 h-8 rounded-md flex items-center justify-center border border-white/10 text-on-surface-variant hover:bg-surface-variant">
                             <span class="material-symbols-outlined text-sm"
                                 data-icon="chevron_right">chevron_right</span>
                         </button>

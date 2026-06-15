@@ -152,19 +152,19 @@
         </div>
         <nav class="flex-grow px-4 py-4 space-y-2 overflow-y-auto custom-scrollbar">
             
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all" href="adminDashboard.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:glass-card/5 transition-all" href="adminDashboard.html">
                 <span class="material-symbols-outlined">dashboard</span>
                 <span class="font-medium">Dashboard</span>
             </a>
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all" href="adminPointOfSale.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:glass-card/5 transition-all" href="adminPointOfSale.html">
                 <span class="material-symbols-outlined">confirmation_number</span>
                 <span class="font-medium">POS / Bookings</span>
             </a>
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all" href="adminManageMovies.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:glass-card/5 transition-all" href="adminManageMovies.html">
                 <span class="material-symbols-outlined">movie</span>
                 <span class="font-medium">Manage Movies</span>
             </a>
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all" href="adminManageSchedules.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:glass-card/5 transition-all" href="adminManageSchedules.html">
                 <span class="material-symbols-outlined">calendar_month</span>
                 <span class="font-medium">Manage Schedules</span>
             </a>
@@ -172,21 +172,21 @@
                 <span class="material-symbols-outlined">fastfood</span>
                 <span class="font-medium">Manage F&B</span>
             </a>
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all" href="adminManageBranches.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:glass-card/5 transition-all" href="adminManageBranches.html">
                 <span class="material-symbols-outlined">storefront</span>
                 <span class="font-medium">Manage Branches</span>
             </a>
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all" href="adminHRanadUserManagement.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:glass-card/5 transition-all" href="adminHRanadUserManagement.html">
                 <span class="material-symbols-outlined">badge</span>
                 <span class="font-medium">HR & Staff</span>
             </a>
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all" href="adminTransactionHistory.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:glass-card/5 transition-all" href="adminTransactionHistory.html">
                 <span class="material-symbols-outlined">receipt_long</span>
                 <span class="font-medium">Transactions</span>
             </a>
         </nav>
         <div class="p-4 border-t border-white/10 flex flex-col gap-2">
-            <a href="login.html" class="flex items-center justify-center gap-3 w-full py-3 hover:bg-white/5 rounded-xl transition-all cursor-pointer text-slate-300 font-medium" title="Click to Logout">
+            <a href="login.html" class="flex items-center justify-center gap-3 w-full py-3 hover:glass-card/5 rounded-xl transition-all cursor-pointer text-slate-300 font-medium" title="Click to Logout">
                 <span class="material-symbols-outlined text-sm">logout</span>
                 Logout
             </a>
@@ -228,12 +228,12 @@
             <div class="mb-lg flex items-end justify-between gap-md">
                 <div>
                     <h2 class="font-headline-lg text-headline-lg text-white mb-xs">F&amp;B Inventory</h2>
-                    <p class="font-body-md text-slate-500">Manage snacks, beverages, and combo deals for all screening
+                    <p class="font-body-md text-slate-300">Manage snacks, beverages, and combo deals for all screening
                         rooms.</p>
                 </div>
                 <div class="flex items-center gap-sm">
                     <button
-                        class="flex items-center gap-2 px-md py-sm glass-card border border-slate-200 rounded-lg font-label-md text-slate-700 hover:bg-white/5 transition-all shadow-sm">
+                        class="flex items-center gap-2 px-md py-sm glass-card border border-white/10 rounded-lg font-label-md text-white hover:glass-card/5 transition-all shadow-sm">
                         <span class="material-symbols-outlined text-[20px]"
                             data-icon="file_download">file_download</span>
                         Export PDF
@@ -242,7 +242,7 @@
             </div>
             <!-- Inventory Sections -->
             <div id="fnb-container" class="space-y-xl">
-                <p class="text-center text-slate-500 py-8">Loading F&B items...</p>
+                <p class="text-center text-slate-300 py-8">Loading F&B items...</p>
             </div>
         </main>
         <!-- Operational Controls -->
@@ -297,7 +297,7 @@
                                 style="font-variation-settings: 'FILL' 1;">${icon}</span>
                             <h3 class="font-headline-md text-headline-md text-white">${cat}</h3>
                             <span
-                                class="ml-2 px-2 py-0.5 glass-card border border-slate-100 rounded text-label-sm text-slate-500">${catItems.length}
+                                class="ml-2 px-2 py-0.5 glass-card border border-slate-100 rounded text-label-sm text-slate-300">${catItems.length}
                                 Items</span>
                         </div>
                         <div class="grid grid-cols-4 gap-gutter" id="grid-${cat.replace(/\s+/g, '-')}">
@@ -313,9 +313,9 @@
                                            { color: 'red', label: 'Out of Stock' };
 
                         const card = document.createElement('div');
-                        card.className = 'glass-card border border-slate-200 rounded-xl p-md flex flex-col hover:border-primary-container/40 hover:shadow-lg transition-all group';
+                        card.className = 'glass-card border border-white/10 rounded-xl p-md flex flex-col hover:border-primary-container/40 hover:shadow-lg transition-all group';
                         card.innerHTML = `
-                            <div class="w-full h-40 bg-slate-100 rounded-lg mb-md overflow-hidden flex items-center justify-center relative">
+                            <div class="w-full h-40 glass-card/5 rounded-lg mb-md overflow-hidden flex items-center justify-center relative">
                                 ${item.gambar_url ? 
                                     `<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="${item.gambar_url}">` : 
                                     `<span class="material-symbols-outlined text-4xl text-slate-300">image</span>`
@@ -328,23 +328,23 @@
                             <div class="flex items-center justify-between mb-md">
                                 <div class="flex items-center gap-1.5">
                                     <span class="w-2 h-2 rounded-full bg-${stockLevel.color}-500"></span>
-                                    <span class="text-label-sm text-slate-500">Stock: ${item.stok}</span>
+                                    <span class="text-label-sm text-slate-300">Stock: ${item.stok}</span>
                                 </div>
                                 <span
                                     class="px-2 py-0.5 bg-${stockLevel.color}-50 text-${stockLevel.color}-700 rounded text-label-sm">${stockLevel.label}</span>
                             </div>
                             <button
-                                class="w-full py-2 bg-slate-50 text-slate-700 border border-slate-200 rounded-lg font-label-md hover:bg-primary-container hover:text-white hover:border-primary-container transition-all mt-auto">Update</button>
+                                class="w-full py-2 bg-surface/30 text-white border border-white/10 rounded-lg font-label-md hover:bg-primary-container hover:text-white hover:border-primary-container transition-all mt-auto">Update</button>
                         `;
                         grid.appendChild(card);
                     });
 
                     // Add new item button
                     const addButton = document.createElement('div');
-                    addButton.className = 'glass-card border border-slate-200 rounded-xl p-md flex flex-col hover:border-primary-container/40 transition-colors group';
+                    addButton.className = 'glass-card border border-white/10 rounded-xl p-md flex flex-col hover:border-primary-container/40 transition-colors group';
                     addButton.innerHTML = `
                         <div
-                            class="w-full h-full min-h-[220px] bg-slate-50 rounded-lg flex flex-col items-center justify-center border-2 border-dashed border-slate-200 hover:bg-slate-100 transition-colors cursor-pointer">
+                            class="w-full h-full min-h-[220px] bg-surface/30 rounded-lg flex flex-col items-center justify-center border-2 border-dashed border-white/10 hover:glass-card/5 transition-colors cursor-pointer">
                             <span class="material-symbols-outlined text-slate-300 text-[48px] mb-2"
                                 data-icon="add_circle">add_circle</span>
                             <p class="font-label-md text-slate-400">Add Variant</p>
@@ -362,7 +362,7 @@
             document.querySelectorAll('button').forEach(btn => {
                 btn.addEventListener('click', function (e) {
                     const ripple = document.createElement('span');
-                    ripple.classList.add('absolute', 'inset-0', 'bg-white/20', 'rounded-inherit', 'animate-ping');
+                    ripple.classList.add('absolute', 'inset-0', 'glass-card/20', 'rounded-inherit', 'animate-ping');
                     if (getComputedStyle(this).position === 'static') {
                         this.style.position = 'relative';
                     }
