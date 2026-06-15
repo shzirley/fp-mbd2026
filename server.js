@@ -166,6 +166,24 @@ app.post('/api/auth/login', async (req, res) => {
   }
 });
 
+// DELETE /api/auth/delete-account
+app.delete('/api/auth/delete-account', async (req, res) => {
+  const { id, role } = req.body;
+  if (!id || !role) return res.status(400).json({ message: 'Missing user id or role.' });
+
+  try {
+    if (role === 'admin') {
+      await pool.query('DELETE FROM pegawai WHERE id_pegawai = ?', [id]);
+    } else {
+      await pool.query('DELETE FROM pelanggan WHERE id_pelanggan = ?', [id]);
+    }
+    return res.json({ message: 'Account deleted successfully.' });
+  } catch (err) {
+    console.error('Delete Account Error:', err);
+    return res.status(500).json({ message: 'Failed to delete account. It might be tied to existing transactions.' });
+  }
+});
+
 // POST /api/auth/signup
 app.post('/api/auth/signup', async (req, res) => {
   const { name, phone, email, password } = req.body;

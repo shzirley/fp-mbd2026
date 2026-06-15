@@ -218,7 +218,7 @@
                 <span class="font-medium">Transactions</span>
             </a>
         </nav>
-        <div class="p-4 border-t border-white/10">
+        <div class="p-4 border-t border-white/10 flex flex-col gap-2">
             <a href="login.html" class="flex items-center gap-3 px-4 py-3 hover:bg-white/5 rounded-xl transition-all cursor-pointer" title="Click to Logout">
                 <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold shrink-0">AM</div>
                 <div class="flex-1 overflow-hidden">
@@ -227,6 +227,10 @@
                 </div>
                 <span class="material-symbols-outlined text-slate-400 text-sm">logout</span>
             </a>
+            <button onclick="deleteAccount()" class="w-full py-2 flex items-center justify-center gap-2 text-red-500 text-xs font-semibold hover:bg-red-500/10 rounded-lg transition-all">
+                <span class="material-symbols-outlined text-sm">delete</span>
+                Delete Account
+            </button>
         </div>
     </aside>
     <!-- Main Container -->
@@ -553,6 +557,33 @@
                 });
             });
         });
+
+        async function deleteAccount() {
+            if (!confirm('Are you sure you want to delete your Admin account? This action cannot be undone.')) return;
+            const userStr = localStorage.getItem('user');
+            if (!userStr) return;
+            const user = JSON.parse(userStr);
+            
+            try {
+                const res = await fetch('/api/auth/delete-account', {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id: user.id, role: 'admin' })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    alert(data.message);
+                    localStorage.removeItem('user');
+                    localStorage.removeItem('token');
+                    window.location.href = 'login.html';
+                } else {
+                    alert(data.message || 'Failed to delete account.');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Connection error.');
+            }
+        }
     </script>
 
 

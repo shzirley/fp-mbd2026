@@ -172,6 +172,9 @@
                     <span class="material-symbols-outlined text-on-surface-variant"
                         data-icon="notifications">notifications</span>
                 </button>
+                <a href="#" onclick="deleteAccount()" title="Delete Account" class="w-8 h-8 flex items-center justify-center rounded-full border border-red-500/50 bg-red-500/10 text-red-500 hover:bg-red-500/20 transition-all ml-2 mr-2">
+                    <span class="material-symbols-outlined text-sm">delete</span>
+                </a>
                 <a href="login.html" title="Logout" class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant/30 block cursor-pointer hover:opacity-80 transition-opacity">
                     <img alt="User profile" class="w-full h-full object-cover"
                         data-alt="A professional headshot of a person with soft, cinematic lighting against a dark background, reflecting the high-end premium aesthetic of the cinema app. The style is clean, modern, and high-contrast, matching the dark theme of Cinetrack."
@@ -542,6 +545,33 @@
                 console.error('Error loading coming soon movies:', err);
             }
         });
+
+        async function deleteAccount() {
+            if (!confirm('Are you sure you want to delete your account? This action cannot be undone.')) return;
+            const userStr = localStorage.getItem('user');
+            if (!userStr) return;
+            const user = JSON.parse(userStr);
+            
+            try {
+                const res = await fetch('/api/auth/delete-account', {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id: user.id, role: 'user' })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    alert(data.message);
+                    localStorage.removeItem('user');
+                    localStorage.removeItem('token');
+                    window.location.href = 'login.html';
+                } else {
+                    alert(data.message || 'Failed to delete account.');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Connection error.');
+            }
+        }
 </script>
 
 </body>
