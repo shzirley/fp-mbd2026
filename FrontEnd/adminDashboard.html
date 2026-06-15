@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=1024" name="viewport">
+    <title>Cinetrack Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&amp;family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed": "#90f5d9",
+                        "surface-container-highest": "#2d3449",
+                        "surface-container": "#171f33",
+                        "tertiary-fixed-dim": "#74d8bd",
+                        "tertiary": "#74d8bd",
+                        "on-primary": "#68001a",
+                        "on-primary-fixed": "#40000c",
+                        "inverse-surface": "#dae2fd",
+                        "outline": "#ac8889",
+                        "secondary-fixed-dim": "#eec200",
+                        "on-surface": "#dae2fd",
+                        "on-error": "#690005",
+                        "error-container": "#93000a",
+                        "surface-tint": "#ffb3b6",
+                        "on-secondary": "#3c2f00",
+                        "tertiary-container": "#00836c",
+                        "on-tertiary-container": "#eefff7",
+                        "secondary": "#ffe083",
+                        "error": "#ffb4ab",
+                        "on-surface-variant": "#e5bdbe",
+                        "surface-container-low": "#131b2e",
+                        "surface-variant": "#2d3449",
+                        "on-secondary-fixed-variant": "#574500",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary-fixed": "#231b00",
+                        "surface-container-lowest": "#060e20",
+                        "inverse-on-surface": "#283044",
+                        "on-primary-container": "#fffaf9",
+                        "inverse-primary": "#be0037",
+                        "outline-variant": "#5c3f40",
+                        "surface-dim": "#0b1326",
+                        "on-secondary-container": "#645000",
+                        "on-primary-fixed-variant": "#920028",
+                        "background": "#0b1326",
+                        "secondary-fixed": "#ffe083",
+                        "on-tertiary-fixed": "#002019",
+                        "on-background": "#dae2fd",
+                        "secondary-container": "#eec200",
+                        "on-tertiary": "#00382d",
+                        "primary-fixed-dim": "#ffb3b6",
+                        "primary": "#ffb3b6",
+                        "surface-bright": "#31394d",
+                        "primary-fixed": "#ffdada",
+                        "surface": "#0b1326",
+                        "primary-container": "#e11d48",
+                        "on-tertiary-fixed-variant": "#005142",
+                        "surface-container-high": "#222a3d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin_desktop": "64px",
+                        "sm": "8px",
+                        "base": "4px",
+                        "md": "16px",
+                        "margin_mobile": "16px",
+                        "gutter": "24px",
+                        "grid_columns": "12",
+                        "xl": "32px",
+                        "2xl": "48px",
+                        "xs": "4px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Outfit"],
+                        "headline-lg": ["Outfit"],
+                        "headline-md": ["Outfit"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "display-lg": ["Outfit"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0b1326;
+            color: #dae2fd;
+            -webkit-font-smoothing: antialiased;
+            min-width: 1024px;
+        }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        .primary-glow {
+            box-shadow: 0 0 20px rgba(225, 29, 72, 0.3);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #5c3f40;
+            border-radius: 10px;
+        }
+
+        @keyframes pulse-soft {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .animate-pulse-soft {
+            animation: pulse-soft 3s infinite ease-in-out;
+        }
+    </style>
+</head>
+
+<body class="font-body-md overflow-x-auto flex">
+    <!-- Fixed Sidebar Navigation -->
+    <aside
+        class="w-64 h-screen fixed top-0 left-0 bg-surface-container-lowest border-r border-outline-variant/20 flex flex-col z-50">
+        <div class="p-6 flex items-center gap-3 border-b border-outline-variant/10 mb-4">
+            <span class="material-symbols-outlined text-primary text-headline-md"
+                style="font-variation-settings: 'FILL' 1;">movie_filter</span>
+            <h1 class="text-headline-md font-bold tracking-tight text-primary text-white">Cinetrack</h1>
+        </div>
+        <nav class="flex-grow px-4 py-4 space-y-2 overflow-y-auto custom-scrollbar">
+            <!-- Dashboard (Active) -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl bg-primary text-white font-bold transition-all shadow-lg shadow-primary/20"
+                href="adminDashboard.html">
+                <span class="material-symbols-outlined">dashboard</span>
+                <span class="font-medium">Dashboard</span>
+            </a>
+            <!-- POS / Bookings -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminPointOfSale.html">
+                <span class="material-symbols-outlined">confirmation_number</span>
+                <span class="font-medium">POS / Bookings</span>
+            </a>
+            <!-- Manage Movies -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminManageMovies.html">
+                <span class="material-symbols-outlined">movie</span>
+                <span class="font-medium">Manage Movies</span>
+            </a>
+            <!-- Manage Schedules -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminManageSchedules.html">
+                <span class="material-symbols-outlined">calendar_month</span>
+                <span class="font-medium">Manage Schedules</span>
+            </a>
+            <!-- Manage F&B -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminManageFnB.html">
+                <span class="material-symbols-outlined">fastfood</span>
+                <span class="font-medium">Manage F&B</span>
+            </a>
+            <!-- Manage Branches -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminManageBranches.html">
+                <span class="material-symbols-outlined">storefront</span>
+                <span class="font-medium">Manage Branches</span>
+            </a>
+            <!-- HR & Staff -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminHRanadUserManagement.html">
+                <span class="material-symbols-outlined">badge</span>
+                <span class="font-medium">HR & Staff</span>
+            </a>
+            <!-- Transactions -->
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
+                href="adminTransactionHistory.html">
+                <span class="material-symbols-outlined">receipt_long</span>
+                <span class="font-medium">Transactions</span>
+            </a>
+        </nav>
+        <div class="p-4 border-t border-white/10">
+            <a href="login.html" class="flex items-center gap-3 px-4 py-3 hover:bg-white/5 rounded-xl transition-all cursor-pointer" title="Click to Logout">
+                <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold shrink-0">AM</div>
+                <div class="flex-1 overflow-hidden">
+                    <p class="text-sm font-bold truncate text-white">Alex Mercer</p>
+                    <p class="text-xs text-slate-400 truncate">Ops Director</p>
+                </div>
+                <span class="material-symbols-outlined text-slate-400 text-sm">logout</span>
+            </a>
+        </div>
+    </aside>
+    <!-- Main Container -->
+    <div class="flex-grow ml-64 min-w-[760px]">
+        <!-- TopAppBar -->
+        <header
+            class="sticky top-0 w-full z-40 flex justify-between items-center px-10 h-20 bg-surface/70 backdrop-blur-xl border-b border-outline-variant/30">
+            <div>
+                <h2 class="text-headline-md font-bold text-on-surface">Overview</h2>
+            </div>
+            <div class="flex items-center gap-6">
+                <div class="relative">
+                    <span
+                        class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+                    <input
+                        class="bg-surface-container-low border border-outline-variant/30 rounded-full py-2 pl-10 pr-4 text-label-md w-64 focus:outline-none focus:border-primary/50 transition-colors"
+                        placeholder="Global search..." type="text">
+                </div>
+                <button class="p-2 rounded-full hover:bg-surface-variant transition-colors relative">
+                    <span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+                    <span
+                        class="absolute top-2 right-2 w-2 h-2 bg-primary-container rounded-full border border-surface"></span>
+                </button>
+                <div class="flex items-center gap-3 pl-4 border-l border-outline-variant/30">
+                    <div class="text-right">
+                        <p class="text-label-md font-bold text-on-surface">Alex Mercer</p>
+                        <p class="text-[10px] text-on-surface-variant uppercase tracking-wider">Ops Director</p>
+                    </div>
+                    <div class="w-10 h-10 rounded-full overflow-hidden border border-outline-variant">
+                        <img alt="User Profile"
+                            data-alt="A professional studio portrait of a cinema operations executive with a focused expression. The lighting is dramatic and cinematic, with deep shadows and warm highlights reflecting the premium dark theme of the dashboard. The background is a soft-focus architectural detail of a modern movie theater lobby, maintaining a cohesive aesthetic with the Cinetrack brand."
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3nRHexjkz-ReTmfj71LMYZQtWUynnqDtlG7J1BU5KhJ9rm9cArqDkMvn0earugddunQtDNLEux4M60_GX46_UdEJfc9RukbgypzWxVlUk70C8pnBW24-IN9CTQXpXGmTqOaWwN20XJalFAmcUuVkJ4jVkwmdOadHze3UjTsPE0LPFusHqoH52QnEmo5PSBpZz9TfDJRNQlnnpKM5L5_V_uYowkozi6alaHF3aFHilc-VDc-AAzO7a5a-4cIxxScrZXAc-75pBpUM">
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Main Content Canvas -->
+        <main class="py-10 px-10 max-w-[1400px]">
+            <!-- Header Section -->
+            <section class="mb-12">
+                <h2 class="text-display-lg font-bold text-on-surface mb-2">Executive Dashboard</h2>
+                <p class="text-on-surface-variant text-body-lg">Real-time cinema network performance and analytics.</p>
+            </section>
+            <!-- Stats Bento Grid -->
+            <div class="grid grid-cols-4 gap-gutter mb-gutter">
+                <!-- Stat 1: Daily Sales -->
+                <div
+                    class="glass-card p-6 rounded-xl flex flex-col justify-between group hover:border-primary/50 transition-all duration-300">
+                    <div class="flex justify-between items-start">
+                        <div class="p-3 bg-primary/10 rounded-lg">
+                            <span class="material-symbols-outlined text-primary">payments</span>
+                        </div>
+                        <span class="text-tertiary text-label-md font-bold flex items-center gap-1">
+                            +12.5% <span class="material-symbols-outlined text-sm">trending_up</span>
+                        </span>
+                    </div>
+                    <div class="mt-6">
+                    <div class="mt-6">
+                        <p class="text-on-surface-variant text-label-md">Total Sales</p>
+                        <h3 id="stat-sales" class="text-headline-lg font-bold text-on-surface">...</h3>
+                    </div>
+                    </div>
+                </div>
+                <!-- Stat 2: Tickets Sold -->
+                <div
+                    class="glass-card p-6 rounded-xl flex flex-col justify-between group hover:border-primary/50 transition-all duration-300">
+                    <div class="flex justify-between items-start">
+                        <div class="p-3 bg-secondary/10 rounded-lg">
+                            <span class="material-symbols-outlined text-secondary">confirmation_number</span>
+                        </div>
+                        <span class="text-tertiary text-label-md font-bold flex items-center gap-1">
+                            +8.2% <span class="material-symbols-outlined text-sm">trending_up</span>
+                        </span>
+                    </div>
+                    <div class="mt-6">
+                    <div class="mt-6">
+                        <p class="text-on-surface-variant text-label-md">Tickets Sold</p>
+                        <h3 id="stat-tickets" class="text-headline-lg font-bold text-on-surface">...</h3>
+                    </div>
+                    </div>
+                </div>
+                <!-- Stat 3: F&B Revenue -->
+                <div
+                    class="glass-card p-6 rounded-xl flex flex-col justify-between group hover:border-primary/50 transition-all duration-300">
+                    <div class="flex justify-between items-start">
+                        <div class="p-3 bg-tertiary/10 rounded-lg">
+                            <span class="material-symbols-outlined text-tertiary">fastfood</span>
+                        </div>
+                        <span class="text-error text-label-md font-bold flex items-center gap-1">
+                            -2.4% <span class="material-symbols-outlined text-sm">trending_down</span>
+                        </span>
+                    </div>
+                    <div class="mt-6">
+                    <div class="mt-6">
+                        <p class="text-on-surface-variant text-label-md">F&amp;B Revenue</p>
+                        <h3 id="stat-fnb" class="text-headline-lg font-bold text-on-surface">...</h3>
+                    </div>
+                    </div>
+                </div>
+                <!-- Stat 4: Active Movies -->
+                <div
+                    class="glass-card p-6 rounded-xl flex flex-col justify-between group hover:border-primary/50 transition-all duration-300">
+                    <div class="flex justify-between items-start">
+                        <div class="p-3 bg-outline/10 rounded-lg">
+                            <span class="material-symbols-outlined text-outline">movie_edit</span>
+                        </div>
+                        <span class="text-label-md text-on-surface-variant">Live Now</span>
+                    </div>
+                    <div class="mt-6">
+                    <div class="mt-6">
+                        <p class="text-on-surface-variant text-label-md">Active Movies</p>
+                        <h3 id="stat-movies" class="text-headline-lg font-bold text-on-surface">...</h3>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-3 gap-gutter">
+                <!-- Active Movies Spotlight -->
+                <div class="col-span-2 space-y-gutter">
+                    <div class="glass-card rounded-xl overflow-hidden">
+                        <div class="px-6 py-4 border-b border-outline-variant/30 flex justify-between items-center">
+                            <h3 class="text-headline-md font-bold">Trending Performance</h3>
+                            <button class="text-primary text-label-md hover:underline">View All Schedule</button>
+                        </div>
+                        <div class="p-6 grid grid-cols-2 gap-6">
+                            <!-- Movie Card 1 -->
+                            <div class="relative group rounded-lg overflow-hidden h-48">
+                                <img alt="Blockbuster"
+                                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                    data-alt="A cinematic, high-contrast wide shot of a futuristic cyberpunk city at night with neon lights reflecting on wet streets. The mood is dark, moody, and intense, dominated by primary red and obsidian tones. This represents a blockbuster movie poster visual on a premium digital cinema dashboard with glassmorphism overlays."
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTTcicdYAUmfQoQQbfpg-x2WdTf0cvnHC1NAE9MxcDsjAVix28rpcCTZddWbPx2wVLTf3EHScY7bI4EYpOk0GvLiS2tyBldCAq8rsvkNlnb3B1BJ7AEbAMJQYKaL8lfTH7ZV8EyvqvBQ08ElMt9iehuZPNfF-HzVvu7C2scGeE6AsG3nTT_ipOUbDge56ydKWSUaUno68jM0JSCACflKNMM_TxAcD3fNpXx3ToDRR1zrMzkryBMlslLf6V_eVwjFtMXVoIVA9qMPI">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-surface-dim via-transparent to-transparent">
+                                </div>
+                                <div class="absolute bottom-4 left-4 right-4">
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <span
+                                            class="px-2 py-0.5 bg-primary-container text-on-primary-container text-[10px] font-bold rounded uppercase">Hot</span>
+                                        <span class="text-white text-label-sm">88% Attendance</span>
+                                    </div>
+                                    <h4 class="text-white font-bold">Neon Pulse: Origins</h4>
+                                    <div class="w-full bg-white/20 h-1 mt-2 rounded-full overflow-hidden">
+                                        <div class="bg-primary h-full" style="width: 88%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Movie Card 2 -->
+                            <div class="relative group rounded-lg overflow-hidden h-48">
+                                <img alt="Drama"
+                                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                    data-alt="A grand, orchestral concert hall with golden lighting and deep mahogany textures. A single violin stands spotlighted on a stage, evoking a sense of drama and prestige. The style is classic yet modern, fitting for a premium VIP cinema experience visual. Deep blacks and golden highlights create an immersive cinematic atmosphere."
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAiUDrkxgMfCxkVQEZwLoBG1-8PuGmHs79oxeTN84BjuBqT3D3NQ2XZegA84BdvxVmpYZFYZGZW5gQHTr3sCXVnAn_zo4pqpREVukxo8z_TVcJDYy6NwHQ5aAbG9eEbbF6S8XN6hRVnEfLJU6NYMqZ0PfmAfmNmIHQDhLng4AT14Lu6QACzbawiBwEqFoMmQudn9YMcCap0RPHl66sTHZKB_qJNF2A3JZKY5kHS8821z_JJDeQ-niskAVHgXtpy9hSYJGbZoUBgHjU">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-surface-dim via-transparent to-transparent">
+                                </div>
+                                <div class="absolute bottom-4 left-4 right-4">
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <span
+                                            class="px-2 py-0.5 bg-secondary-container text-on-secondary-container text-[10px] font-bold rounded uppercase">VIP</span>
+                                        <span class="text-white text-label-sm">72% Attendance</span>
+                                    </div>
+                                    <h4 class="text-white font-bold">Symphony of the Void</h4>
+                                    <div class="w-full bg-white/20 h-1 mt-2 rounded-full overflow-hidden">
+                                        <div class="bg-secondary h-full" style="width: 72%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Performance Chart -->
+                    <div class="glass-card rounded-xl p-6 h-72 flex flex-col">
+                        <div class="flex justify-between items-center mb-8">
+                            <h3 class="text-label-md font-bold uppercase tracking-widest text-on-surface-variant">
+                                Revenue Trajectory (24h)</h3>
+                            <div class="flex gap-4">
+                                <span class="flex items-center gap-1 text-label-sm text-on-surface-variant"><span
+                                        class="w-2 h-2 rounded-full bg-primary"></span> Tickets</span>
+                                <span class="flex items-center gap-1 text-label-sm text-on-surface-variant"><span
+                                        class="w-2 h-2 rounded-full bg-secondary"></span> F&amp;B</span>
+                            </div>
+                        </div>
+                        <div class="flex-grow flex items-end gap-3 px-4">
+                            <div
+                                class="flex-grow bg-primary/20 h-[30%] rounded-t-md hover:bg-primary/40 transition-colors">
+                            </div>
+                            <div
+                                class="flex-grow bg-primary/20 h-[45%] rounded-t-md hover:bg-primary/40 transition-colors">
+                            </div>
+                            <div
+                                class="flex-grow bg-primary/20 h-[35%] rounded-t-md hover:bg-primary/40 transition-colors">
+                            </div>
+                            <div
+                                class="flex-grow bg-primary/20 h-[60%] rounded-t-md hover:bg-primary/40 transition-colors">
+                            </div>
+                            <div
+                                class="flex-grow bg-primary/20 h-[85%] rounded-t-md hover:bg-primary/40 transition-colors">
+                            </div>
+                            <div class="flex-grow bg-primary h-[100%] rounded-t-md relative primary-glow">
+                                <div
+                                    class="absolute -top-10 left-1/2 -translate-x-1/2 bg-surface-container text-primary text-xs font-bold py-1 px-3 rounded border border-primary">
+                                    Peak</div>
+                            </div>
+                            <div
+                                class="flex-grow bg-primary/20 h-[70%] rounded-t-md hover:bg-primary/40 transition-colors">
+                            </div>
+                            <div
+                                class="flex-grow bg-primary/20 h-[40%] rounded-t-md hover:bg-primary/40 transition-colors">
+                            </div>
+                            <div
+                                class="flex-grow bg-primary/20 h-[30%] rounded-t-md hover:bg-primary/40 transition-colors">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Live Branch Performance -->
+                <div class="glass-card rounded-xl flex flex-col h-full max-h-[700px]">
+                    <div class="p-6 border-b border-outline-variant/30">
+                        <div class="flex justify-between items-center mb-1">
+                            <h3 class="text-headline-md font-bold">Live Branches</h3>
+                            <div class="flex items-center gap-1 text-tertiary text-label-sm animate-pulse-soft">
+                                <span class="w-2 h-2 rounded-full bg-tertiary"></span> Live
+                            </div>
+                        </div>
+                        <p class="text-on-surface-variant text-label-md">Real-time status across 8 locations</p>
+                    </div>
+                    <div id="branches-list" class="flex-grow overflow-y-auto custom-scrollbar p-6 space-y-4">
+                        <!-- Populated by JS -->
+                        <p class="text-center text-slate-500">Loading branch data...</p>
+                    </div>
+                    <div class="p-6 border-t border-outline-variant/30">
+                        <button
+                            class="w-full py-4 bg-primary-container text-on-primary-container font-bold rounded-lg hover:opacity-90 transition-opacity active:scale-95 duration-150">
+                            Open Branch Manager
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Check login and populate profile
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (!user || user.role !== 'admin') {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Populate user in sidebar and header
+            const sidebarUser = document.querySelector('aside .flex-1 p.font-bold');
+            if (sidebarUser) sidebarUser.innerText = user.name;
+            const headerUser = document.querySelector('header .text-right p.font-bold');
+            if (headerUser) headerUser.innerText = user.name;
+            const sidebarAvatar = document.querySelector('aside .w-10.h-10');
+            if (sidebarAvatar) sidebarAvatar.innerText = user.name.substring(0, 2).toUpperCase();
+
+            // Fetch Stats
+            try {
+                const statRes = await fetch('/api/admin/dashboard-stats');
+                const stats = await statRes.json();
+                
+                document.getElementById('stat-sales').innerText = `Rp ${parseFloat(stats.totalSales || 0).toLocaleString('id-ID')}`;
+                document.getElementById('stat-tickets').innerText = parseInt(stats.totalTickets || 0).toLocaleString('id-ID');
+                document.getElementById('stat-fnb').innerText = `Rp ${parseFloat(stats.totalCanteen || 0).toLocaleString('id-ID')}`;
+                document.getElementById('stat-movies').innerText = stats.activeMovies || 0;
+            } catch (err) {
+                console.error('Error fetching stats:', err);
+            }
+
+            // Fetch Branches Performance
+            try {
+                const branchRes = await fetch('/api/admin/branches-performance');
+                const branches = await branchRes.json();
+                
+                const list = document.getElementById('branches-list');
+                list.innerHTML = '';
+                
+                if (branches.length === 0) {
+                    list.innerHTML = '<p class="text-center text-slate-500">No branches found.</p>';
+                } else {
+                    branches.forEach(b => {
+                        const div = document.createElement('div');
+                        div.className = 'flex items-center justify-between p-4 rounded-lg bg-surface-container-low hover:bg-surface-variant transition-colors border border-transparent hover:border-outline-variant/30';
+                        div.innerHTML = `
+                            <div class="flex items-center gap-3">
+                                <div class="w-2 h-10 bg-tertiary rounded-full"></div>
+                                <div>
+                                    <h5 class="text-on-surface font-bold text-label-md">${b.nama_cabang}</h5>
+                                    <p class="text-on-surface-variant text-label-sm">${b.total_studios || 0} Studios</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-on-surface font-bold text-label-md">Rp ${parseFloat(b.total_revenue || 0).toLocaleString('id-ID')}</p>
+                                <span class="text-tertiary text-label-sm">Active</span>
+                            </div>
+                        `;
+                        list.appendChild(div);
+                    });
+                }
+            } catch (err) {
+                console.error('Error fetching branches:', err);
+            }
+
+            // Micro-interaction
+            document.querySelectorAll('a, button').forEach(el => {
+                el.addEventListener('mousedown', () => el.classList.add('scale-95'));
+                el.addEventListener('mouseup', () => el.classList.remove('scale-95'));
+                el.addEventListener('mouseleave', () => el.classList.remove('scale-95'));
+            });
+
+            // Atmospheric shimmer
+            const cards = document.querySelectorAll('.glass-card');
+            cards.forEach(card => {
+                card.addEventListener('mousemove', e => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    card.style.setProperty('--mouse-x', `${x}px`);
+                    card.style.setProperty('--mouse-y', `${y}px`);
+                    card.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255,179,182,0.05) 0%, rgba(30, 41, 59, 0.4) 50%)`;
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.background = 'rgba(30, 41, 59, 0.4)';
+                });
+            });
+        });
+    </script>
+
+
+
+
+
+
+</body>
+
+</html>

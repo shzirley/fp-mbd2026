@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Cinetrack | Secure Checkout</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-bright": "#31394d",
+                        "primary-fixed": "#ffdada",
+                        "primary": "#ffb3b6",
+                        "tertiary": "#74d8bd",
+                        "surface-container-highest": "#2d3449",
+                        "surface-container": "#171f33",
+                        "on-primary-container": "#fffaf9",
+                        "on-surface-variant": "#e5bdbe",
+                        "on-primary": "#68001a",
+                        "tertiary-fixed-dim": "#74d8bd",
+                        "surface-tint": "#ffb3b6",
+                        "surface-container-low": "#131b2e",
+                        "secondary-container": "#eec200",
+                        "surface-variant": "#2d3449",
+                        "on-surface": "#dae2fd",
+                        "on-secondary": "#3c2f00",
+                        "on-tertiary": "#00382d",
+                        "on-error": "#690005",
+                        "primary-container": "#e11d48",
+                        "on-primary-container": "#ffffff",
+                        "error-container": "#93000a",
+                        "secondary-fixed": "#ffe083",
+                        "outline-variant": "#5c3f40",
+                        "outline": "#ac8889",
+                        "on-primary-fixed-variant": "#920028",
+                        "tertiary-container": "#00836c",
+                        "surface-container-high": "#222a3d",
+                        "tertiary-fixed": "#90f5d9",
+                        "error": "#ffb4ab",
+                        "inverse-primary": "#be0037",
+                        "on-primary-fixed": "#40000c",
+                        "background": "#f8fafc",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed": "#002019",
+                        "primary-fixed-dim": "#ffb3b6",
+                        "surface-dim": "#0b1326",
+                        "on-tertiary-container": "#eefff7",
+                        "on-background": "#0f172a",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary-fixed-variant": "#005142",
+                        "inverse-surface": "#dae2fd",
+                        "secondary": "#ffe083",
+                        "inverse-on-surface": "#283044",
+                        "surface": "#ffffff",
+                        "secondary-fixed-dim": "#eec200",
+                        "on-secondary-fixed": "#231b00"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "4px",
+                        "gutter": "24px",
+                        "xl": "32px",
+                        "md": "16px",
+                        "2xl": "48px",
+                        "grid_columns": "12",
+                        "xs": "4px",
+                        "margin_desktop": "64px",
+                        "sm": "8px",
+                        "margin_mobile": "16px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Outfit"],
+                        "headline-lg": ["Outfit"],
+                        "label-sm": ["Inter"],
+                        "display-lg": ["Outfit"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-white">
+    <!-- TopNavBar -->
+    <nav
+        class="fixed top-0 w-full bg-surface-container/70 backdrop-blur-xl border-b border-outline-variant/20 shadow-sm z-50 h-16 flex justify-between items-center px-margin_desktop max-w-full">
+        <div class="flex items-center gap-xl">
+            <a href="userHome.html"
+                class="text-headline-md font-headline-md font-extrabold text-primary-container tracking-tighter">Cinetrack</a>
+            <div class="hidden md:flex items-center gap-lg">
+                <a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md"
+                    href="userNowShowing.html">Movies</a>
+                <a class="text-primary border-b-2 border-primary font-bold pb-1 font-body-md text-body-md"
+                    href="userMyTickets.html">Tickets</a>
+                <a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md"
+                    href="#">VIP</a>
+            </div>
+        </div>
+        <div class="flex items-center gap-md">
+            <button class="p-2 hover:bg-surface-bright/10 rounded-lg transition-all active:scale-90">
+                <span class="material-symbols-outlined text-primary-container">search</span>
+            </button>
+            <button class="p-2 hover:bg-surface-bright/10 rounded-lg transition-all active:scale-90">
+                <span class="material-symbols-outlined text-primary-container">notifications</span>
+            </button>
+            <a href="login.html" title="Logout" class="w-8 h-8 rounded-full bg-slate-200 border border-outline-variant/20 overflow-hidden ml-2 block cursor-pointer hover:opacity-80 transition-opacity">
+                <img alt="User Profile" class="w-full h-full object-cover"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQRshqmMd6db6ABn2NTKa-8OIHlATmg5UI00b81ugcuWWpwFJUfj1k6VFF6sZVdVgji2uZ0ma20C6MRxgeoKVqmNw0dH8TFEn2FuQ6BxgpWFFsRzaP8K4XNKD6n1VtyCvdTjFaXYRwKyCROh7zsszUEfDJp31os6A9A9Osb-x1O6ZLcDUEW_Om6yzA0u1IJPC5BlDRskFLbskmD1MYj0L1LuaOLfU1vLGRg2vGpixtboNQzcq36zVugyhA01cjmzxHh0sfIuwK33jl" />
+            </a>
+        </div>
+    </nav>
+    <!-- Main Content Canvas -->
+    <main class="pt-24 pb-xl px-margin_desktop max-w-7xl mx-auto">
+        <div class="flex flex-col gap-sm mb-xl">
+            <h1 class="text-display-lg font-display-lg text-on-background tracking-tight">Review &amp; Pay</h1>
+            <p class="text-body-lg font-body-lg text-slate-500">Secure your seats for the ultimate cinematic experience.
+            </p>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-xl">
+            <!-- Left Column: Order Summary -->
+            <div class="lg:col-span-7 space-y-lg">
+                <!-- Movie Details Section -->
+                <section class="glass-card rounded-xl p-lg flex gap-lg">
+                    <div class="w-32 h-44 rounded-lg overflow-hidden flex-shrink-0 shadow-md">
+                        <img id="summary-movie-poster" alt="Movie Poster" class="w-full h-full object-cover"
+                            data-alt="A cinematic film poster featuring a high-contrast, dramatic scene from a sci-fi thriller. Glowing neon lights in deep crimson and electric blue illuminate a mysterious futuristic landscape. The composition is artistic and bold, using professional color grading to evoke a sense of high-stakes action and immersive storytelling, consistent with a premium cinema experience."
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuC41AHysg6kHJPPM7XyJDqw-gUSI8vmmJnwBToOqhrO0CGidGZ0Gt8Ykzt_1K5g-WiGBUTiX-sCm-SUQG-uze-HDHZjwQ1-RBUgY-ITne1fNeiJ8QfYE7AcL45EyAZNIwMsidvZWuEeZfhXo3WfbyqZ-XDx5zkTOqtwexFEmTzRZydheBrSx0kujSbcD4K1mqOYQ2Gx3-SbAtDMPyDucfqaZL4awMOwywi-793ljkNRh_f9FU1SEfwkmmYyRs7CE0wz56o3gNMSDiBr" />
+                    </div>
+                    <div class="flex flex-col justify-center">
+                        <span id="summary-movie-class"
+                            class="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-secondary-container text-on-secondary-container mb-2 w-fit">VIP
+                            EXPERIENCE</span>
+                        <h2 id="summary-movie-title" class="text-headline-md font-headline-md text-on-background">Interstellar Voyage: Redux</h2>
+                        <div class="flex items-center gap-md mt-sm text-slate-600">
+                            <span id="summary-date" class="flex items-center gap-1 font-body-md text-body-md"><span
+                                    class="material-symbols-outlined text-sm">calendar_month</span> Oct 24, 2024</span>
+                            <span id="summary-time" class="flex items-center gap-1 font-body-md text-body-md"><span
+                                    class="material-symbols-outlined text-sm">schedule</span> 19:45 (2h 49m)</span>
+                        </div>
+                        <div class="flex items-center gap-md mt-2 text-slate-600">
+                            <span id="summary-branch-studio" class="flex items-center gap-1 font-body-md text-body-md"><span
+                                    class="material-symbols-outlined text-sm">location_on</span> Grand Hall, Screen
+                                4</span>
+                        </div>
+                    </div>
+                </section>
+                <!-- Items Detail -->
+                <div class="glass-card rounded-xl overflow-hidden">
+                    <div class="p-md bg-slate-50 border-b border-slate-200">
+                        <h3 class="font-headline-md text-body-lg text-on-background">Detailed Breakdown</h3>
+                    </div>
+                    <div id="checkout-breakdown" class="p-lg space-y-md">
+                        <!-- Seat Selection -->
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="font-bold text-on-background font-body-md">Reserved Seating</p>
+                                <p class="text-sm text-slate-500 font-body-md">Loading...</p>
+                            </div>
+                            <span class="font-bold text-on-background">Rp 0</span>
+                        </div>
+                    </div>
+                    <div class="p-lg bg-slate-50 flex justify-between items-center border-t border-slate-200">
+                        <span class="text-headline-md font-headline-md text-on-background">Total Payable</span>
+                        <span id="checkout-total-payable" class="text-headline-md font-headline-md text-primary-container">Rp 0</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Right Column: Payment Selection -->
+            <div class="lg:col-span-5 space-y-lg">
+                <section class="glass-card rounded-xl p-lg space-y-lg">
+                    <h3 class="text-headline-md font-headline-md text-on-background mb-md">Payment Method</h3>
+                    <!-- Payment Options -->
+                    <div class="space-y-md">
+                        <!-- Google Pay -->
+                        <label
+                            class="relative flex items-center p-md border-2 border-slate-200 rounded-xl cursor-pointer hover:border-primary-container/30 transition-all has-[:checked]:border-primary-container has-[:checked]:bg-primary-container/5">
+                            <input checked="" class="hidden peer" name="payment" type="radio" />
+                            <div class="flex items-center justify-between w-full">
+                                <div class="flex items-center gap-md">
+                                    <div
+                                        class="w-10 h-10 flex items-center justify-center bg-white border border-slate-200 rounded shadow-sm">
+                                        <img alt="Google" class="h-4"
+                                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFHFOOEnZkWCpMWtnr6rmTf3Z_xnwFbdlGnbFQbbLANFdIHg9sY5S6vc5F6OCoPQ35WAVFHYtyfzLz2vIUW63MbwOcO6q8KiacSuYAz3mEbjAhJP0QqL4Yu8F9q8A0dU_XMho4sTOXxciPMReKOn7qQWPpTdBEiRgac0zdKV9ZXK9KJPF9yslbDhnapJVqIiqLRskH0anXPPYTqg3cfCgU3_b5u7HeMU8v36zXRuuDfqyCaXbktanYWP2x98njjZry96U237vyubgk" />
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-on-background">Google Pay</p>
+                                        <p class="text-xs text-slate-500">Fast and secure checkout</p>
+                                    </div>
+                                </div>
+                                <div
+                                    class="w-6 h-6 rounded-full border-2 border-slate-300 peer-checked:border-primary-container peer-checked:bg-primary-container flex items-center justify-center transition-all">
+                                    <div class="w-2 h-2 rounded-full bg-white opacity-0 peer-checked:opacity-100"></div>
+                                </div>
+                            </div>
+                        </label>
+                        <!-- Credit Card -->
+                        <label
+                            class="relative flex flex-col p-md border-2 border-slate-200 rounded-xl cursor-pointer hover:border-primary-container/30 transition-all has-[:checked]:border-primary-container has-[:checked]:bg-primary-container/5">
+                            <input class="hidden peer" name="payment" type="radio" />
+                            <div class="flex items-center justify-between w-full">
+                                <div class="flex items-center gap-md">
+                                    <div
+                                        class="w-10 h-10 flex items-center justify-center bg-white border border-slate-200 rounded shadow-sm">
+                                        <span class="material-symbols-outlined text-slate-600">credit_card</span>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-on-background">Credit / Debit Card</p>
+                                        <p class="text-xs text-slate-500">Visa, Mastercard, Amex</p>
+                                    </div>
+                                </div>
+                                <div
+                                    class="w-6 h-6 rounded-full border-2 border-slate-300 peer-checked:border-primary-container peer-checked:bg-primary-container flex items-center justify-center transition-all">
+                                    <div class="w-2 h-2 rounded-full bg-white opacity-0 peer-checked:opacity-100"></div>
+                                </div>
+                            </div>
+                            <!-- CC Form (Visible on select) -->
+                            <div
+                                class="mt-md space-y-md hidden peer-checked:block transition-all animate-in fade-in slide-in-from-top-2">
+                                <div class="relative">
+                                    <input
+                                        class="w-full bg-slate-100 border-none rounded-lg p-md focus:ring-2 focus:ring-primary-container focus:bg-white transition-all text-sm"
+                                        placeholder="Card Number" type="text" />
+                                </div>
+                                <div class="grid grid-cols-2 gap-md">
+                                    <input
+                                        class="bg-slate-100 border-none rounded-lg p-md focus:ring-2 focus:ring-primary-container focus:bg-white transition-all text-sm"
+                                        placeholder="MM/YY" type="text" />
+                                    <input
+                                        class="bg-slate-100 border-none rounded-lg p-md focus:ring-2 focus:ring-primary-container focus:bg-white transition-all text-sm"
+                                        placeholder="CVV" type="text" />
+                                </div>
+                            </div>
+                        </label>
+                        <!-- E-Wallet -->
+                        <label
+                            class="relative flex items-center p-md border-2 border-slate-200 rounded-xl cursor-pointer hover:border-primary-container/30 transition-all has-[:checked]:border-primary-container has-[:checked]:bg-primary-container/5">
+                            <input class="hidden peer" name="payment" type="radio" />
+                            <div class="flex items-center justify-between w-full">
+                                <div class="flex items-center gap-md">
+                                    <div
+                                        class="w-10 h-10 flex items-center justify-center bg-white border border-slate-200 rounded shadow-sm">
+                                        <span
+                                            class="material-symbols-outlined text-slate-600">account_balance_wallet</span>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-on-background">Cinetrack Credits</p>
+                                        <p class="text-xs text-slate-500">Balance: $124.50</p>
+                                    </div>
+                                </div>
+                                <div
+                                    class="w-6 h-6 rounded-full border-2 border-slate-300 peer-checked:border-primary-container peer-checked:bg-primary-container flex items-center justify-center transition-all">
+                                    <div class="w-2 h-2 rounded-full bg-white opacity-0 peer-checked:opacity-100"></div>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                    <!-- Final Action -->
+                    <div class="pt-lg border-t border-slate-200 space-y-md">
+                        <div
+                            class="flex items-center gap-2 p-md bg-tertiary-container/10 rounded-lg text-on-tertiary-container text-sm">
+                            <span class="material-symbols-outlined text-lg"
+                                style="font-variation-settings: 'FILL' 1;">verified_user</span>
+                            <p>Encrypted 256-bit secure checkout</p>
+                        </div>
+                        <button
+                            onclick="window.location.href='userPayment.html'"
+                            class="w-full py-4 bg-primary-container text-white font-headline-md text-body-lg rounded-xl shadow-lg shadow-primary-container/25 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-md">
+                            Complete Transaction
+                            <span class="material-symbols-outlined">arrow_forward</span>
+                        </button>
+                        <p class="text-center text-xs text-slate-400 px-lg">
+                            By clicking 'Complete Transaction', you agree to Cinetrack's Terms of Service and Privacy
+                            Policy.
+                        </p>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+    <!-- Footer -->
+    <footer class="w-full mt-auto bg-surface-container-low border-t border-outline-variant py-xl px-margin_desktop">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-gutter w-full">
+            <div class="space-y-md">
+                <span
+                    class="text-headline-md font-headline-md text-primary-container font-extrabold tracking-tighter">Cinetrack</span>
+                <p class="text-body-md font-body-md text-on-surface-variant/80">Premium cinema logistics and ticketing
+                    systems for the modern era.</p>
+            </div>
+            <div class="space-y-sm">
+                <h4 class="text-label-sm font-label-sm text-secondary uppercase tracking-widest mb-md">Quick Links</h4>
+                <ul class="space-y-2">
+                    <li><a class="text-on-surface-variant hover:text-secondary transition-colors text-body-md font-body-md"
+                            href="#">Branch Locations</a></li>
+                    <li><a class="text-on-surface-variant hover:text-secondary transition-colors text-body-md font-body-md"
+                            href="#">Quick Links</a></li>
+                    <li><a class="text-on-surface-variant hover:text-secondary transition-colors text-body-md font-body-md"
+                            href="#">Support</a></li>
+                </ul>
+            </div>
+            <div class="space-y-sm">
+                <h4 class="text-label-sm font-label-sm text-secondary uppercase tracking-widest mb-md">Legal</h4>
+                <ul class="space-y-2">
+                    <li><a class="text-on-surface-variant hover:text-secondary transition-colors text-body-md font-body-md"
+                            href="#">Privacy Policy</a></li>
+                    <li><a class="text-on-surface-variant hover:text-secondary transition-colors text-body-md font-body-md"
+                            href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="space-y-md">
+                <h4 class="text-label-sm font-label-sm text-secondary uppercase tracking-widest mb-md">Newsletter</h4>
+                <div class="flex gap-2">
+                    <input
+                        class="bg-white border-slate-200 rounded-lg p-2 text-sm w-full focus:ring-2 focus:ring-primary-container outline-none transition-all"
+                        placeholder="Email address" type="email" />
+                    <button
+                        class="bg-primary-container text-white px-4 rounded-lg hover:opacity-90 transition-opacity">Join</button>
+                </div>
+            </div>
+        </div>
+        <div
+            class="mt-xl pt-lg border-t border-slate-200 flex flex-col md:flex-row justify-between items-center gap-md">
+            <p class="text-label-sm font-label-sm text-on-surface-variant/60">© 2024 Cinetrack Logistics &amp; Cinema
+                Systems. All rights reserved.</p>
+            <div class="flex gap-lg">
+                <span
+                    class="material-symbols-outlined text-on-surface-variant/40 hover:text-primary-container cursor-pointer transition-colors">brand_awareness</span>
+                <span
+                    class="material-symbols-outlined text-on-surface-variant/40 hover:text-primary-container cursor-pointer transition-colors">public</span>
+                <span
+                    class="material-symbols-outlined text-on-surface-variant/40 hover:text-primary-container cursor-pointer transition-colors">share</span>
+            </div>
+        </div>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check login
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (user) {
+                const profileImgLink = document.querySelector('nav a[title="Logout"]');
+                if (profileImgLink) {
+                    profileImgLink.innerHTML = `
+                        <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary font-bold text-xs uppercase cursor-pointer">
+                            ${user.name.substring(0, 2)}
+                        </div>
+                    `;
+                }
+            }
+
+            // Load data
+            const movie = JSON.parse(localStorage.getItem('selectedMovie')) || {};
+            const seats = JSON.parse(localStorage.getItem('selectedSeats')) || [];
+            const canteenItems = JSON.parse(localStorage.getItem('selectedCanteenItems')) || [];
+
+            // Populate Movie Header details
+            if (movie.poster_url) {
+                document.getElementById('summary-movie-poster').src = movie.poster_url;
+            }
+            document.getElementById('summary-movie-title').innerText = movie.judul || 'Movie';
+            document.getElementById('summary-movie-class').innerText = movie.rating_usia || 'SU';
+
+            // Get selectedScheduleId
+            const scheduleId = localStorage.getItem('selectedScheduleId');
+            
+            if (scheduleId) {
+                fetch(`/api/schedules/${scheduleId}/seats`)
+                    .then(res => res.json())
+                    .then(data => {
+                        const showDate = new Date(data.waktu_tayang);
+                        const dateStr = showDate.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
+                        const timeStr = showDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+                        document.getElementById('summary-date').innerHTML = `<span class="material-symbols-outlined text-sm mr-1">calendar_month</span> ${dateStr}`;
+                        document.getElementById('summary-time').innerHTML = `<span class="material-symbols-outlined text-sm mr-1">schedule</span> ${timeStr}`;
+                        document.getElementById('summary-branch-studio').innerHTML = `<span class="material-symbols-outlined text-sm mr-1">location_on</span> ${data.nama_cabang || 'Branch'}, Studio ${data.nomor_studio || ''}`;
+                        document.getElementById('summary-movie-class').innerText = `${data.kelas_studio || 'Regular'} Experience`;
+                    })
+                    .catch(err => console.error(err));
+            }
+
+            // Build Breakdown
+            const breakdownContainer = document.getElementById('checkout-breakdown');
+            breakdownContainer.innerHTML = '';
+
+            let ticketSubtotal = 0;
+            seats.forEach(seat => {
+                ticketSubtotal += seat.price;
+            });
+
+            // Tickets row
+            if (seats.length > 0) {
+                const seatNames = seats.map(s => s.nomor_kursi).join(', ');
+                const ticketsDiv = document.createElement('div');
+                ticketsDiv.className = 'flex justify-between items-start';
+                ticketsDiv.innerHTML = `
+                    <div>
+                        <p class="font-bold text-on-background font-body-md">Reserved Seating (${seats.length}x)</p>
+                        <p class="text-sm text-slate-500 font-body-md">Seats: ${seatNames}</p>
+                    </div>
+                    <span class="font-bold text-on-background">Rp ${ticketSubtotal.toLocaleString('id-ID')}</span>
+                `;
+                breakdownContainer.appendChild(ticketsDiv);
+            }
+
+            // Canteen items rows
+            let canteenSubtotal = 0;
+            canteenItems.forEach(item => {
+                canteenSubtotal += item.subtotal;
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'flex justify-between items-start';
+                itemDiv.innerHTML = `
+                    <div class="flex gap-md">
+                        <div class="w-12 h-12 rounded bg-slate-100 flex items-center justify-center border border-slate-100">
+                            <span class="material-symbols-outlined text-slate-400">fastfood</span>
+                        </div>
+                        <div>
+                            <p class="font-bold text-on-background font-body-md">${item.name}</p>
+                            <p class="text-sm text-slate-500 font-body-md">Qty: ${item.qty} • Rp ${item.price.toLocaleString('id-ID')} each</p>
+                        </div>
+                    </div>
+                    <span class="font-bold text-on-background">Rp ${item.subtotal.toLocaleString('id-ID')}</span>
+                `;
+                breakdownContainer.appendChild(itemDiv);
+            });
+
+            // Subtotal & Tax details
+            const subtotal = ticketSubtotal + canteenSubtotal;
+            const bookingFee = subtotal > 0 ? 5000 : 0;
+            const vat = subtotal * 0.10;
+            const totalPayable = subtotal + bookingFee + vat;
+
+            const feeDiv = document.createElement('hr');
+            feeDiv.className = 'border-slate-200 my-md';
+            breakdownContainer.appendChild(feeDiv);
+
+            // Fee row
+            const bookingFeeDiv = document.createElement('div');
+            bookingFeeDiv.className = 'flex justify-between text-sm text-slate-500';
+            bookingFeeDiv.innerHTML = `
+                <span>Booking Fee</span>
+                <span>Rp ${bookingFee.toLocaleString('id-ID')}</span>
+            `;
+            breakdownContainer.appendChild(bookingFeeDiv);
+
+            // Tax row
+            const taxDiv = document.createElement('div');
+            taxDiv.className = 'flex justify-between text-sm text-slate-500';
+            taxDiv.innerHTML = `
+                <span>VAT (10%)</span>
+                <span>Rp ${vat.toLocaleString('id-ID')}</span>
+            `;
+            breakdownContainer.appendChild(taxDiv);
+
+            // Total Payable
+            document.getElementById('checkout-total-payable').innerText = `Rp ${totalPayable.toLocaleString('id-ID')}`;
+
+            // Save billing totals for checkout API
+            localStorage.setItem('totalBill', totalPayable);
+
+            // Handle Complete Transaction / Proceed to Payment button
+            const proceedBtn = document.querySelector('aside button');
+            if (proceedBtn) {
+                const newBtn = proceedBtn.cloneNode(true);
+                newBtn.removeAttribute('onclick');
+                newBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    // Identify payment method
+                    let paymentMethod = 'E-Wallet';
+                    const activeRadio = document.querySelector('input[name="payment"]:checked');
+                    if (activeRadio) {
+                        const pTag = activeRadio.closest('label').querySelector('p');
+                        if (pTag) paymentMethod = pTag.innerText;
+                    }
+                    localStorage.setItem('selectedPaymentMethod', paymentMethod);
+                    window.location.href = 'userPayment.html';
+                });
+                proceedBtn.parentNode.replaceChild(newBtn, proceedBtn);
+            }
+        });
+    </script>
+</body>
+
+</html>

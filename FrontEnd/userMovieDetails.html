@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+
+<html class="" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Cinetrack - Movie Details</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-bright": "#31394d",
+                        "primary-fixed": "#ffdada",
+                        "primary": "#ffb3b6",
+                        "tertiary": "#74d8bd",
+                        "surface-container-highest": "#2d3449",
+                        "surface-container": "#171f33",
+                        "on-primary-container": "#fffaf9",
+                        "on-surface-variant": "#e5bdbe",
+                        "on-primary": "#68001a",
+                        "tertiary-fixed-dim": "#74d8bd",
+                        "surface-tint": "#ffb3b6",
+                        "surface-container-low": "#131b2e",
+                        "secondary-container": "#eec200",
+                        "surface-variant": "#2d3449",
+                        "on-surface": "#dae2fd",
+                        "on-secondary": "#3c2f00",
+                        "on-tertiary": "#00382d",
+                        "on-error": "#690005",
+                        "primary-container": "#e11d48",
+                        "on-secondary-container": "#645000",
+                        "on-secondary-fixed-variant": "#574500",
+                        "error-container": "#93000a",
+                        "secondary-fixed": "#ffe083",
+                        "outline-variant": "#5c3f40",
+                        "outline": "#ac8889",
+                        "on-primary-fixed-variant": "#920028",
+                        "tertiary-container": "#00836c",
+                        "surface-container-high": "#222a3d",
+                        "tertiary-fixed": "#90f5d9",
+                        "error": "#ffb4ab",
+                        "inverse-primary": "#be0037",
+                        "on-primary-fixed": "#40000c",
+                        "background": "#0b1326",
+                        "surface-container-lowest": "#060e20",
+                        "on-tertiary-fixed": "#002019",
+                        "primary-fixed-dim": "#ffb3b6",
+                        "surface-dim": "#0b1326",
+                        "on-tertiary-container": "#eefff7",
+                        "on-background": "#dae2fd",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary-fixed-variant": "#005142",
+                        "inverse-surface": "#dae2fd",
+                        "secondary": "#ffe083",
+                        "inverse-on-surface": "#283044",
+                        "surface": "#0b1326",
+                        "secondary-fixed-dim": "#eec200",
+                        "on-secondary-fixed": "#231b00"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "4px",
+                        "gutter": "24px",
+                        "xl": "32px",
+                        "md": "16px",
+                        "2xl": "48px",
+                        "grid_columns": "12",
+                        "xs": "4px",
+                        "margin_desktop": "64px",
+                        "sm": "8px",
+                        "margin_mobile": "16px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Outfit"],
+                        "headline-lg-mobile": ["Outfit"],
+                        "headline-lg": ["Outfit"],
+                        "label-sm": ["Inter"],
+                        "display-lg": ["Outfit"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .backdrop-gradient {
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .glass-card {
+            backdrop-filter: blur(8px);
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(226, 232, 240, 0.5);
+        }
+    </style>
+</head>
+
+<body class="bg-white text-slate-900 font-body-md min-h-screen flex flex-col">
+    <!-- Top Navigation Shell -->
+    <nav
+        class="fixed top-0 w-full bg-surface-container/70 backdrop-blur-xl border-b border-outline-variant/20 shadow-sm z-50 h-16 flex justify-between items-center px-margin_desktop max-w-full">
+        <div class="flex items-center gap-xl">
+            <a href="userHome.html"
+                class="text-headline-md font-headline-md font-extrabold text-primary-container tracking-tighter">Cinetrack</a>
+            <div class="hidden md:flex gap-lg items-center">
+                <a class="text-primary border-b-2 border-primary font-bold pb-1 text-label-md font-label-md"
+                    href="userNowShowing.html">Movies</a>
+                <a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-label-md"
+                    href="userMyTickets.html">Tickets</a>
+                <a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-label-md"
+                    href="#">VIP</a>
+            </div>
+        </div>
+        <div class="flex items-center gap-md">
+            <div class="relative hidden lg:block">
+                <span
+                    class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+                <input
+                    class="pl-10 pr-4 py-2 bg-slate-100 border-none rounded-full w-64 text-label-md focus:ring-2 focus:ring-primary-container/20"
+                    placeholder="Search movies..." type="text" />
+            </div>
+            <button class="p-2 hover:bg-slate-100 rounded-lg transition-all scale-95 active:scale-90">
+                <span class="material-symbols-outlined text-slate-600">notifications</span>
+            </button>
+            <a href="login.html" title="Logout" class="w-8 h-8 rounded-full border border-slate-200 overflow-hidden ml-2 block cursor-pointer hover:opacity-80 transition-opacity">
+                <img alt="User" class="w-full h-full object-cover"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-G4UE42QSXUX_3bxBFAAHDWkzAPt9gWk00MlcIFRRovaS45SdCaefR6t4iBDeohfLA9LWBbuCKtV_biyRNeWuAHLpYG-D2LjO6J1tFkVFGaGY4I2_ORfpJMtGJtihmPSbdCTAIOYgzF7voYfYueKFCW5_Jsg_54NrzCye5XdRAxSBuMuYpZ_D7wvhfQ7wwqswMJzj064vr16lYssVozKJWZb7FM2n4-EoG-1U4q9YdV407JfH6r6c5WYG1pWaV_kMXtbu3XfTN38Y" />
+            </a>
+        </div>
+    </nav>
+    <main class="pt-16 flex-grow">
+        <!-- Hero Section -->
+        <section class="relative h-[500px] w-full overflow-hidden">
+            <div class="absolute inset-0 z-0">
+                <img id="details-hero-bg" class="w-full h-full object-cover"
+                    data-alt="A cinematic, wide-angle high-resolution shot of a neon-drenched futuristic cityscape at night, reflecting vibrant pink and deep blue lights on wet pavement. The atmosphere is immersive and cinematic, featuring professional movie-poster style color grading with soft bokeh in the background. The lighting is dramatic, high-contrast, and polished, perfectly suited for a premium cinema logistics dashboard."
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFTyGHmNZ0pCULUyg1raHPviNRAti5K11-DjNnNpyhdQMeoVkDuaPOLD50tpkB3NS84xe3rIuoPEQ2v62LPwp0UiTPCFdPU1aXz18QHjkS_F2L1iUkcs0YKpKDPM-GEI6DzX4i3k1TduI17dWAWkacPqWBcA8hEVV1zyMTk0FVlGQ3wXImAK3Da5aechgDfCsmhcmCmEtePO3FcfzuKyMcoksQUVrWXQEBUpLqmS7d4a9VDjCgJB-gKmFYvTZTUCDAyVqqPaVuW48-" />
+                <div class="absolute inset-0 backdrop-gradient"></div>
+            </div>
+            <div class="relative z-10 max-w-[1440px] mx-auto px-margin_desktop h-full flex items-end pb-xl">
+                <div class="grid grid-cols-12 gap-gutter w-full items-end">
+                    <!-- Left: Movie Info Anchor -->
+                    <div class="col-span-4 flex items-end gap-lg">
+                        <div
+                            class="w-48 aspect-[2/3] rounded-xl overflow-hidden shadow-2xl border-4 border-white transform -translate-y-4">
+                            <img id="details-poster" class="w-full h-full object-cover"
+                                data-alt="A professional vertical movie poster artwork featuring a central heroic figure silhouetted against a brilliant crimson sun. The style is modern minimalist with bold typography elements blurred in the background. The color palette is dominated by intense reds, deep blacks, and sharp gold highlights, conveying a high-stakes action thriller theme in a premium cinematic quality."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmAQDdHXi1rLeupwIJvBSYlhHZDAFyMGSAo4vYI8OZksoS77ejeW_5qEAhygOWODwiVFMY6OfIkfg6Jh3L3qPO1jY1ImLkZRvxvkbctAZJQc6fMbihGvps6OjEbAJC4m9Nn-FUbnT_cqH14AxSqJgiTwZW_6Ckg4lpDFRI0d6YOvQCrxP_EJC6wmWmL3iimotTsfXUkT1B9tHw5AF2DIGs5DQcjiUJB0PhgJjpU0N0Uga-wpYB5svhb3WOqszfrucv8Hrqi5Boi0rr" />
+                        </div>
+                        <div class="flex-grow pb-4">
+                            <div class="flex gap-2 mb-2">
+                                <span
+                                    class="bg-primary-container text-white text-[10px] px-2 py-0.5 rounded font-bold uppercase tracking-wider">Now
+                                    Playing</span>
+                                <span
+                                    class="bg-secondary text-on-secondary text-[10px] px-2 py-0.5 rounded font-bold uppercase tracking-wider">IMAX</span>
+                            </div>
+                            <h1 id="details-title" class="font-headline-lg text-headline-lg text-slate-900 leading-tight">Neon Vanguard:
+                                Retribution</h1>
+                            <div class="flex items-center gap-md mt-2 text-slate-600 font-label-md">
+                                <div class="flex items-center gap-1 text-secondary-container">
+                                    <span class="material-symbols-outlined"
+                                        style="font-variation-settings: 'FILL' 1;">star</span>
+                                    <span id="details-rating" class="font-bold">4.9</span>
+                                </div>
+                                <span>•</span>
+                                <span id="details-genres">Sci-Fi, Action</span>
+                                <span>•</span>
+                                <span id="details-durasi">2h 24m</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Right: Quick Actions / Meta -->
+                    <div class="col-span-8 flex justify-end gap-md pb-4">
+                        <button onclick="document.getElementById('showtimes-section').scrollIntoView({ behavior: 'smooth' })"
+                            class="bg-primary-container text-white px-8 py-3 rounded-xl font-bold flex items-center gap-2 hover:shadow-lg hover:shadow-primary-container/20 transition-all active:scale-95">
+                            <span class="material-symbols-outlined">confirmation_number</span>
+                            Book Tickets
+                        </button>
+                        <button
+                            class="bg-white border border-slate-200 text-slate-700 px-4 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-slate-50 transition-all">
+                            <span class="material-symbols-outlined">favorite</span>
+                        </button>
+                        <button
+                            class="bg-white border border-slate-200 text-slate-700 px-4 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-slate-50 transition-all">
+                            <span class="material-symbols-outlined">share</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Content Section -->
+        <section class="max-w-[1440px] mx-auto px-margin_desktop py-2xl grid grid-cols-12 gap-xl">
+            <!-- Synopsis & Trailer -->
+            <div class="col-span-8 space-y-xl">
+                <div>
+                    <h2 class="font-headline-md text-headline-md text-slate-900 mb-md">Synopsis</h2>
+                    <p id="details-synopsis" class="text-body-lg font-body-lg text-slate-600 leading-relaxed">
+                        Loading synopsis...
+                    </p>
+                </div>
+                <div class="rounded-2xl overflow-hidden bg-slate-900 aspect-video relative group shadow-xl">
+                    <img class="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity"
+                        data-alt="A wide cinematic still from a science fiction film trailer showing a sprawling futuristic city with flying vehicles and massive holographic advertisements. The scene is rendered with high detail, featuring volumetric lighting and a rich atmospheric haze. The color palette features deep blues and glowing ambers, captured in a ultra-widescreen 2.39:1 aspect ratio typical of premium cinema."
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuARZdvhnWjQAw2jreIEYIycYw5hw70213fYxNfWms7VQP7d8rP5swPkZyYBKeIl16lXCRW6mQ3YUfU6h-5Ocg4Iq4ozUw6CIo1H9ZZ20SVCJsCtZ2HF-GwW5_6SQnvqb-4oAZKgJa3bEs_1ZaLqeDMFqGmofrpHqrBg5MkMhcHt4lsHvF0zYp4XrLVjJKX_9eakZt5QgxD-OZLGMWKq4ziW-gYXVbnv8fOnuy04O9UTztUXv0TKLUAd-Jh3qm0srjVTtMmlydp6kO8F" />
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <button
+                            class="w-20 h-20 bg-primary-container text-white rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-2xl">
+                            <span class="material-symbols-outlined text-4xl"
+                                style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                        </button>
+                    </div>
+                    <div class="absolute bottom-6 left-6 flex items-center gap-md">
+                        <span
+                            class="bg-black/50 backdrop-blur-md text-white text-label-sm px-3 py-1 rounded-full border border-white/20">Official
+                            Trailer 2 (HD)</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Cast & Details Sidebar -->
+            <div class="col-span-4 space-y-xl">
+                <div class="bg-slate-50 rounded-2xl p-xl border border-slate-200">
+                    <h3 class="font-headline-md text-slate-900 mb-lg">Details</h3>
+                    <div class="space-y-md">
+                        <div class="flex justify-between items-center border-b border-slate-200 pb-2">
+                            <span class="text-slate-500 font-label-md">Director</span>
+                            <span id="details-director" class="font-bold text-slate-900">Julian Sterling</span>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-slate-200 pb-2">
+                            <span class="text-slate-500 font-label-md">Release Date</span>
+                            <span id="details-release" class="font-bold text-slate-900">Dec 14, 2023</span>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-slate-200 pb-2">
+                            <span class="text-slate-500 font-label-md">Language</span>
+                            <span class="font-bold text-slate-900">Bahasa Indonesia</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-slate-500 font-label-md">Classification</span>
+                            <span id="details-class"
+                                class="font-bold text-slate-900 border border-slate-900 px-1 rounded-sm text-xs">PG-13</span>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="font-headline-md text-slate-900 mb-lg">Cast</h3>
+                    <div class="grid grid-cols-2 gap-md">
+                        <div class="flex items-center gap-md">
+                            <img alt="Actor"
+                                class="w-12 h-12 rounded-full object-cover grayscale hover:grayscale-0 transition-all"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzwXGgiqk8bYAZpHrR9LE4Y4hgMcBBXa6j3TELH6_ANaEytGH7e0-FbNYS3gKRSqHEVhoikBrXjYgruWMqsG4hdp-pgZ8NOAKIfQdjwUSbz4togi2LJMqh_17Io5Ht4ua8djvVg0w_9WaBGw5aNu07H9zK6cPChqL3QCvCzIHHrTJPXF0l_94utEPm7cCHQQeoYx_1B4bc1E_SeT5UwD8oHZL5xGzfRn-1bWnBG_e06xJDI3o8l_SnxoywYALaUW0Mh6Wv6FeHKNxp" />
+                            <div>
+                                <p class="font-bold text-slate-900 text-label-md leading-tight">Liam Vance</p>
+                                <p class="text-slate-500 text-xs">Kaelen</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-md">
+                            <img alt="Actor"
+                                class="w-12 h-12 rounded-full object-cover grayscale hover:grayscale-0 transition-all"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRtksl9LlKiYHuI3r9TH4gYDeRb_wJvisHpjTg03HHeIrk3lf6r0FeEIZUAmBeBmwpzdTMsyt5csl7barAX3B0IPw-Ka7pib-3R8v62qBHQsHalnCyeEuGMj3CKCeDg-4Vs6MEXDZprIDt5nm4pAX_MwMFRMBURCZ01paPcpni2X_si8FPF0-5V21z2-pAcF9h8ltCi5kAZlEYwYWB47GPThqj0q_HoQ9Khqmt18d1O66EUJYHpobM1qLJEu2VxkRz3UAs3gutGbJO" />
+                            <div>
+                                <p class="font-bold text-slate-900 text-label-md leading-tight">Sia Rhodes</p>
+                                <p class="text-slate-500 text-xs">Aria</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-md">
+                            <img alt="Actor"
+                                class="w-12 h-12 rounded-full object-cover grayscale hover:grayscale-0 transition-all"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyDcOlowLCksDl2nLqlq7gmQ2WyMNLKGvl2LeCBzzLURkjgGesPhL_mHdJjLshf5cDK95ordefLGj_ig5L7asmKundFyxdcjKEXmU6bpx1AmCdI5lwuv8hIvDs5Z8nEwHIChpMqlIPGIQ2i_AkW-gf5sAJUNiGp_AUky_kJuWJ9NrAFOli57ZN5RT-Ns_h69tztqRwHf_tDstbmw6Dd49qPnObcDy_7cEWrJb1MjL9Dl0pQYadZKM4_wDyrxjjzYnArdIQJu-et-jl" />
+                            <div>
+                                <p class="font-bold text-slate-900 text-label-md leading-tight">Marcus Thorne</p>
+                                <p class="text-slate-500 text-xs">Commander</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-md">
+                            <img alt="Actor"
+                                class="w-12 h-12 rounded-full object-cover grayscale hover:grayscale-0 transition-all"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_niaFoWIMpPHSmZIWKne6jPol3xcPr32P2qhTQVqoFT-RxQSMBTzPCwXRsnQEweYLvU3oXmXfG-5WlXsAdK28lndQ1RkiiuwxJEb9hStn7QBWSId2diVitl5qeHDNhzN3ngyEObgnSoADK35gtsm5F5dk637BDWrq3mo_kCpQxH8FvF5bTzc9E31YmsexDEw20CQRwZC4BwxbE55HUV_DVb4OPdB6DqjeoCefFKgOYg1TX3E6ZIqyQ502xAV7Hk-SKWCjeKt-30jr" />
+                            <div>
+                                <p class="font-bold text-slate-900 text-label-md leading-tight">Elena Sato</p>
+                                <p class="text-slate-500 text-xs">The Oracle</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Showtimes Section -->
+        <section id="showtimes-section" class="bg-slate-50 py-2xl border-t border-slate-200">
+            <div class="max-w-[1440px] mx-auto px-margin_desktop">
+                <div class="flex justify-between items-end mb-2xl">
+                    <div>
+                        <h2 class="font-display-lg text-display-lg text-slate-900 mb-2">Showtimes</h2>
+                        <p class="text-slate-500 text-label-md">Select your preferred screening branch and time slot below.</p>
+                    </div>
+                </div>
+                <div class="space-y-xl" id="showtimes-container">
+                    <!-- Showtimes are loaded dynamically from schedules API -->
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- Footer Shell -->
+    <footer class="w-full mt-auto bg-surface-container-low border-t border-outline-variant text-secondary">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin_desktop py-xl w-full">
+            <div class="space-y-md">
+                <span class="text-headline-md font-headline-md text-primary">Cinetrack</span>
+                <p class="text-on-surface-variant font-body-md text-body-md pr-md">Elevating the cinematic logistics and
+                    ticketing experience for modern cinema operators worldwide.</p>
+            </div>
+            <div>
+                <h4 class="text-slate-900 font-bold mb-md text-label-md">Quick Links</h4>
+                <ul class="space-y-sm text-on-surface-variant text-label-sm font-label-sm">
+                    <li><a class="hover:text-secondary transition-colors" href="#">Movies</a></li>
+                    <li><a class="hover:text-secondary transition-colors" href="#">Branch Locations</a></li>
+                    <li><a class="hover:text-secondary transition-colors" href="#">Special Offers</a></li>
+                    <li><a class="hover:text-secondary transition-colors" href="#">Cinetrack VIP</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-slate-900 font-bold mb-md text-label-md">Support</h4>
+                <ul class="space-y-sm text-on-surface-variant text-label-sm font-label-sm">
+                    <li><a class="hover:text-secondary transition-colors" href="#">Quick Links</a></li>
+                    <li><a class="hover:text-secondary transition-colors" href="#">Help Center</a></li>
+                    <li><a class="hover:text-secondary transition-colors" href="#">Contact Us</a></li>
+                    <li><a class="hover:text-secondary transition-colors" href="#">Feedback</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-slate-900 font-bold mb-md text-label-md">Legal</h4>
+                <ul class="space-y-sm text-on-surface-variant text-label-sm font-label-sm">
+                    <li><a class="hover:text-secondary transition-colors" href="#">Privacy Policy</a></li>
+                    <li><a class="hover:text-secondary transition-colors" href="#">Terms of Service</a></li>
+                    <li><a class="hover:text-secondary transition-colors" href="#">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div
+            class="px-margin_desktop py-md border-t border-outline-variant/30 flex justify-between items-center text-label-sm font-label-sm text-on-surface-variant/60">
+            <p>© 2024 Cinetrack Logistics &amp; Cinema Systems. All rights reserved.</p>
+            <div class="flex gap-lg">
+                <span
+                    class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">public</span>
+                <span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">mail</span>
+                <span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">chat</span>
+            </div>
+        </div>
+    </footer>
+    <script>
+        // Helper to handle selecting schedule and redirecting
+        function selectSchedule(scheduleId) {
+            localStorage.setItem('selectedScheduleId', scheduleId);
+            window.location.href = `userSeatSelection.html?scheduleId=${scheduleId}`;
+        }
+
+        // Add scroll effect to navbar
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('bg-white', 'shadow-md');
+                nav.classList.remove('bg-surface-container/70', 'backdrop-blur-xl');
+            } else {
+                nav.classList.remove('bg-white', 'shadow-md');
+                nav.classList.add('bg-surface-container/70', 'backdrop-blur-xl');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Update profile avatar if logged in
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (user) {
+                const profileImgLink = document.querySelector('nav a[title="Logout"]');
+                if (profileImgLink) {
+                    profileImgLink.innerHTML = `
+                        <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary font-bold text-xs uppercase cursor-pointer">
+                            ${user.name.substring(0, 2)}
+                        </div>
+                    `;
+                }
+            }
+
+            // Get Movie ID from URL query string
+            const urlParams = new URLSearchParams(window.location.search);
+            const movieId = urlParams.get('id');
+
+            if (!movieId) {
+                alert('No movie selected. Redirecting to home...');
+                window.location.href = 'userHome.html';
+                return;
+            }
+
+            try {
+                // 1. Fetch movie details
+                const detailRes = await fetch(`/api/movies/${movieId}`);
+                if (!detailRes.ok) {
+                    alert('Movie details not found.');
+                    window.location.href = 'userHome.html';
+                    return;
+                }
+                const movie = await detailRes.json();
+
+                // Populate elements
+                if (movie.poster_url) {
+                    document.getElementById('details-hero-bg').src = movie.poster_url;
+                    document.getElementById('details-poster').src = movie.poster_url;
+                }
+                document.getElementById('details-title').innerText = movie.judul;
+                document.getElementById('details-rating').innerText = parseFloat(movie.rating_score || 0).toFixed(1);
+                document.getElementById('details-genres').innerText = movie.genres && movie.genres.length > 0 ? movie.genres.join(', ') : (movie.sinopsis ? 'General' : 'Drama');
+                document.getElementById('details-durasi').innerText = `${movie.durasi || 120}m`;
+                document.getElementById('details-synopsis').innerText = movie.sinopsis || 'No synopsis available.';
+                document.getElementById('details-director').innerText = movie.sutradara || 'Unknown Director';
+                document.getElementById('details-release').innerText = 'Now Showing';
+                document.getElementById('details-class').innerText = movie.rating_usia || 'SU';
+
+                // Store movie object in local storage for checkout summary
+                localStorage.setItem('selectedMovie', JSON.stringify(movie));
+
+                // 2. Fetch schedules for this movie
+                const schedRes = await fetch(`/api/movies/${movieId}/schedules`);
+                const groupedBranches = await schedRes.json();
+
+                const container = document.getElementById('showtimes-container');
+                container.innerHTML = '';
+
+                if (groupedBranches.length === 0) {
+                    container.innerHTML = '<p class="text-center text-slate-500 py-8">No showtimes available for this movie.</p>';
+                    return;
+                }
+
+                groupedBranches.forEach(branch => {
+                    // Create branch block
+                    const branchDiv = document.createElement('div');
+                    branchDiv.className = 'bg-white border border-slate-200 p-6 rounded-2xl shadow-sm mb-8';
+                    branchDiv.innerHTML = `
+                        <h3 class="text-lg font-bold text-slate-800 border-l-4 border-primary-container pl-3 mb-6 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary-container">storefront</span>
+                            ${branch.nama_cabang} <span class="text-slate-400 font-normal text-sm">- ${branch.alamat}</span>
+                        </h3>
+                    `;
+
+                    // Group branch schedules by kelas_studio
+                    const classes = {};
+                    branch.schedules.forEach(sched => {
+                        const cls = sched.kelas_studio || 'Regular';
+                        if (!classes[cls]) classes[cls] = [];
+                        classes[cls].push(sched);
+                    });
+
+                    // For each class, render a row
+                    Object.keys(classes).forEach(cls => {
+                        const rowDiv = document.createElement('div');
+                        rowDiv.className = 'grid grid-cols-12 gap-gutter items-start border-t border-slate-100 pt-6 mt-6 first:border-none first:pt-0 first:mt-0';
+
+                        let icon = 'chair';
+                        let colorClass = 'text-slate-500';
+                        if (cls.toLowerCase().includes('imax')) {
+                            icon = 'movie';
+                            colorClass = 'text-primary-container';
+                        } else if (cls.toLowerCase().includes('vip')) {
+                            icon = 'workspace_premium';
+                            colorClass = 'text-secondary-container';
+                        }
+
+                        const titleHtml = `
+                            <div class="col-span-12 md:col-span-3 mb-4 md:mb-0">
+                                <h4 class="font-bold text-slate-800 flex items-center gap-2">
+                                    <span class="material-symbols-outlined ${colorClass}">${icon}</span>
+                                    ${cls}
+                                </h4>
+                                <p class="text-slate-500 text-xs mt-1">Premium screening experience in ${cls} Studio</p>
+                            </div>
+                        `;
+
+                        let buttonsHtml = '<div class="col-span-12 md:col-span-9 flex flex-wrap gap-md">';
+                        classes[cls].forEach(sched => {
+                            const date = new Date(sched.waktu_tayang);
+                            const timeStr = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+                            
+                            buttonsHtml += `
+                                <button onclick="selectSchedule('${sched.id_jadwal}')"
+                                    class="group p-4 bg-slate-50 border border-slate-200 rounded-xl hover:border-primary-container hover:bg-primary/5 transition-all text-center min-w-[120px] active:scale-95">
+                                    <span class="block font-bold text-lg text-slate-800 group-hover:text-primary-container">${timeStr}</span>
+                                    <span class="block text-[10px] text-slate-500 font-semibold mt-1">Rp ${parseFloat(sched.harga_dasar).toLocaleString('id-ID')}</span>
+                                </button>
+                            `;
+                        });
+                        buttonsHtml += '</div>';
+
+                        rowDiv.innerHTML = titleHtml + buttonsHtml;
+                        branchDiv.appendChild(rowDiv);
+                    });
+
+                    container.appendChild(branchDiv);
+                });
+            } catch (err) {
+                console.error('Error fetching details/schedules:', err);
+                alert('Connection error loading showtimes.');
+            }
+        });
+    </script>
+</body>
+
+</html>
