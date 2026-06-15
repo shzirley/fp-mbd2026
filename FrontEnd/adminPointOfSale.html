@@ -180,147 +180,89 @@
     </script>
     <style>
         body {
-            min-height: 100vh;
-            display: flex;
-            overflow: hidden;
+            background-color: #0b1326;
+            color: #dae2fd;
+            -webkit-font-smoothing: antialiased;
+            min-width: 1024px;
         }
 
-        .seat-map-grid {
-            display: grid;
-            grid-template-columns: repeat(20, minmax(0, 1fr));
-            gap: 4px;
+        .glass-card {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
         }
 
-        .seat {
-            aspect-ratio: 1;
-            border-radius: 2px;
-            cursor: pointer;
-            transition: all 0.1s ease;
+        .primary-glow {
+            box-shadow: 0 0 20px rgba(225, 29, 72, 0.3);
         }
 
-        .seat:hover:not(.occupied) {
-            transform: scale(1.1);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
         }
 
-        .seat.available {
-            background-color: #e2e8f0;
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
         }
 
-        /* Slate 200 */
-        .seat.selected {
-            background-color: #e11d48;
-        }
-
-        /* Primary Crimson */
-        .seat.vip {
-            background-color: #eec200;
-        }
-
-        /* Gold */
-        .seat.occupied {
-            background-color: #94a3b8;
-            cursor: not-allowed;
-            opacity: 0.5;
-        }
-
-        /* Slate 400 */
-        .screen-curve {
-            width: 80%;
-            height: 20px;
-            border-top: 4px solid #cbd5e1;
-            border-radius: 50% 50% 0 0;
-            margin: 0 auto 24px auto;
-        }
-
-        /* Custom Scrollbar for POS */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #5c3f40;
+            border-radius: 10px;
         }
     </style>
 </head>
 
 <body class="bg-background text-on-surface font-body-md">
     <!-- Fixed Left Sidebar Navigation (Desktop POS specific override of BottomNavBar logic for operational efficiency) -->
-    <aside
-        class="fixed left-0 top-0 h-screen w-64 bg-surface-container-lowest border-r border-white/10 z-50 flex flex-col text-white">
+    <aside class="w-64 h-screen fixed top-0 left-0 bg-surface-container-lowest border-r border-outline-variant/20 flex flex-col z-50">
         <div class="p-6 flex items-center gap-3 border-b border-outline-variant/10 mb-4">
-            <span class="material-symbols-outlined text-primary text-headline-md"
-                style="font-variation-settings: 'FILL' 1;">movie_filter</span>
+            <span class="material-symbols-outlined text-primary text-headline-md" style="font-variation-settings: 'FILL' 1;">movie_filter</span>
             <h1 class="text-headline-md font-bold tracking-tight text-primary text-white">Cinetrack</h1>
         </div>
         <nav class="flex-grow px-4 py-4 space-y-2 overflow-y-auto custom-scrollbar">
-            <!-- Dashboard -->
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
-                href="adminDashboard.html">
+            
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all" href="adminDashboard.html">
                 <span class="material-symbols-outlined">dashboard</span>
                 <span class="font-medium">Dashboard</span>
             </a>
-            <!-- POS / Bookings (Active) -->
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl bg-primary text-white font-bold transition-all shadow-lg shadow-primary/20"
-                href="adminPointOfSale.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl bg-primary text-white font-bold transition-all shadow-lg shadow-primary/20" href="adminPointOfSale.html">
                 <span class="material-symbols-outlined">confirmation_number</span>
                 <span class="font-medium">POS / Bookings</span>
             </a>
-            <!-- Manage Movies -->
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
-                href="adminManageMovies.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all" href="adminManageMovies.html">
                 <span class="material-symbols-outlined">movie</span>
                 <span class="font-medium">Manage Movies</span>
             </a>
-            <!-- Manage Schedules -->
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
-                href="adminManageSchedules.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all" href="adminManageSchedules.html">
                 <span class="material-symbols-outlined">calendar_month</span>
                 <span class="font-medium">Manage Schedules</span>
             </a>
-            <!-- Manage F&B -->
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
-                href="adminManageFnB.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all" href="adminManageFnB.html">
                 <span class="material-symbols-outlined">fastfood</span>
                 <span class="font-medium">Manage F&B</span>
             </a>
-            <!-- Manage Branches -->
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
-                href="adminManageBranches.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all" href="adminManageBranches.html">
                 <span class="material-symbols-outlined">storefront</span>
                 <span class="font-medium">Manage Branches</span>
             </a>
-            <!-- HR & Staff -->
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
-                href="adminHRanadUserManagement.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all" href="adminHRanadUserManagement.html">
                 <span class="material-symbols-outlined">badge</span>
                 <span class="font-medium">HR & Staff</span>
             </a>
-            <!-- Transactions -->
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
-                href="adminTransactionHistory.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all" href="adminTransactionHistory.html">
                 <span class="material-symbols-outlined">receipt_long</span>
                 <span class="font-medium">Transactions</span>
             </a>
         </nav>
-        <div class="p-4 border-t border-white/10">
-            <a href="login.html" class="flex items-center gap-3 px-4 py-3 hover:bg-white/5 rounded-xl transition-all cursor-pointer" title="Click to Logout">
-                <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold shrink-0">AM</div>
-                <div class="flex-1 overflow-hidden">
-                    <p class="text-sm font-bold truncate text-white">Alex Mercer</p>
-                    <p class="text-xs text-slate-400 truncate">Ops Director</p>
-                </div>
-                <span class="material-symbols-outlined text-slate-400 text-sm">logout</span>
+        <div class="p-4 border-t border-white/10 flex flex-col gap-2">
+            <a href="login.html" class="flex items-center justify-center gap-3 w-full py-3 hover:bg-white/5 rounded-xl transition-all cursor-pointer text-slate-300 font-medium" title="Click to Logout">
+                <span class="material-symbols-outlined text-sm">logout</span>
+                Logout
             </a>
+            <button onclick="deleteAccount()" class="w-full py-3 flex items-center justify-center gap-2 text-red-500 text-sm font-semibold hover:bg-red-500/10 rounded-lg transition-all">
+                <span class="material-symbols-outlined text-sm">delete</span>
+                Delete Account
+            </button>
         </div>
     </aside>
     <!-- Main Workspace -->
@@ -328,29 +270,30 @@
         <!-- Left Panel: Movie & Schedule Picker + Seat Map -->
         <div class="flex-1 flex flex-col h-full bg-background overflow-hidden relative">
             <!-- Top App Bar equivalent for POS -->
-            <header
-                class="h-[72px] bg-surface border-b border-surface-container-highest px-6 flex items-center justify-between flex-shrink-0 z-10 shadow-sm">
-                <div class="flex items-center gap-4">
-                    <h1 class="font-headline-md text-headline-md text-on-surface">Box Office POS</h1>
-                    <span
-                        class="bg-surface-container-highest text-on-surface-variant font-label-md text-label-md px-3 py-1 rounded-full">Terminal
-                        A1</span>
+            <header class="sticky top-0 w-full z-40 flex justify-between items-center px-10 h-20 bg-surface/70 backdrop-blur-xl border-b border-outline-variant/30">
+            <div>
+                <h2 class="text-headline-md font-bold text-on-surface">Overview</h2>
+            </div>
+            <div class="flex items-center gap-6">
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+                    <input class="bg-surface-container-low border border-outline-variant/30 rounded-full py-2 pl-10 pr-4 text-label-md w-64 focus:outline-none focus:border-primary/50 transition-colors" placeholder="Global search..." type="text">
                 </div>
-                <!-- Quick Search / Scan -->
-                <div class="flex-1 max-w-md mx-8 relative">
-                    <span
-                        class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
-                    <input
-                        class="w-full bg-surface-variant border-none rounded-lg pl-10 pr-4 py-2 font-body-md text-on-surface focus:ring-2 focus:ring-primary focus:bg-surface transition-colors"
-                        placeholder="Search Movie or Scan Booking ID..." type="text">
-                </div>
-                <div class="flex items-center gap-4">
+                <button class="p-2 rounded-full hover:bg-surface-variant transition-colors relative">
+                    <span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+                    <span class="absolute top-2 right-2 w-2 h-2 bg-primary-container rounded-full border border-surface"></span>
+                </button>
+                <div class="flex items-center gap-3 pl-4 border-l border-outline-variant/30">
                     <div class="text-right">
-                        <div class="font-label-md text-label-md text-on-surface font-semibold" id="clock">02:08:10</div>
-                        <div class="font-label-sm text-label-sm text-on-surface-variant">Oct 24, 2023</div>
+                        <p class="text-label-md font-bold text-on-surface">Admin</p>
+                        <p class="text-[10px] text-on-surface-variant uppercase tracking-wider">Employee</p>
+                    </div>
+                    <div class="w-10 h-10 rounded-full overflow-hidden border border-white/20 bg-primary/20 flex items-center justify-center text-primary">
+                        <span class="material-symbols-outlined">person</span>
                     </div>
                 </div>
-            </header>
+            </div>
+        </header>
             <!-- Scrollable Content Area -->
             <div class="flex-1 overflow-y-auto p-6 flex flex-col gap-6">
                 <!-- Step 1: Movie Selection -->
@@ -630,13 +573,34 @@
         }
         setInterval(updateClock, 1000);
         updateClock();
+    
+        async function deleteAccount() {
+            if (!confirm('Are you sure you want to delete your Admin account? This action cannot be undone.')) return;
+            const userStr = localStorage.getItem('user');
+            if (!userStr) return;
+            const user = JSON.parse(userStr);
+            
+            try {
+                const res = await fetch('/api/auth/delete-account', {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id: user.id, role: 'admin' })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    alert(data.message);
+                    localStorage.removeItem('user');
+                    localStorage.removeItem('token');
+                    window.location.href = 'login.html';
+                } else {
+                    alert(data.message || 'Failed to delete account.');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Connection error.');
+            }
+        }
     </script>
-
-
-
-
-
-
 </body>
 
 </html>

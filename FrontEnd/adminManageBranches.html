@@ -110,136 +110,116 @@
     </script>
     <style>
         body {
-            background-color: #f8fafc;
-            color: #1e293b;
+            background-color: #0b1326;
+            color: #dae2fd;
+            -webkit-font-smoothing: antialiased;
             min-width: 1024px;
         }
 
-        .operational-card {
-            background-color: white;
-            border: 1px solid #e2e8f0;
-            transition: all 0.2s ease;
+        .glass-card {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
         }
 
-        .operational-card:hover {
-            border-color: #cbd5e1;
+        .primary-glow {
+            box-shadow: 0 0 20px rgba(225, 29, 72, 0.3);
         }
 
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
         }
 
-        .nav-item-active {
-            transition: background-color 0.15s ease;
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
         }
 
-        .sidebar {
-            width: 260px;
-            height: 100vh;
-            position: fixed;
-            left: 0;
-            top: 0;
-            background-color: #0b1326;
-            color: white;
-            z-index: 50;
-        }
-
-        .main-content {
-            margin-left: 260px;
-            width: calc(100% - 260px);
-            min-height: 100vh;
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #5c3f40;
+            border-radius: 10px;
         }
     </style>
 </head>
 
 <body class="antialiased font-body-md text-body-md">
     <!-- Fixed Left Sidebar -->
-    <aside class="sidebar flex flex-col bg-surface-container-lowest">
+    <aside class="w-64 h-screen fixed top-0 left-0 bg-surface-container-lowest border-r border-outline-variant/20 flex flex-col z-50">
         <div class="p-6 flex items-center gap-3 border-b border-outline-variant/10 mb-4">
-            <span class="material-symbols-outlined text-primary text-headline-md"
-                style="font-variation-settings: 'FILL' 1;">movie_filter</span>
+            <span class="material-symbols-outlined text-primary text-headline-md" style="font-variation-settings: 'FILL' 1;">movie_filter</span>
             <h1 class="text-headline-md font-bold tracking-tight text-primary text-white">Cinetrack</h1>
         </div>
         <nav class="flex-grow px-4 py-4 space-y-2 overflow-y-auto custom-scrollbar">
-            <!-- Dashboard -->
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
-                href="adminDashboard.html">
+            
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all" href="adminDashboard.html">
                 <span class="material-symbols-outlined">dashboard</span>
                 <span class="font-medium">Dashboard</span>
             </a>
-            <!-- POS / Bookings -->
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
-                href="adminPointOfSale.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all" href="adminPointOfSale.html">
                 <span class="material-symbols-outlined">confirmation_number</span>
                 <span class="font-medium">POS / Bookings</span>
             </a>
-            <!-- Manage Movies -->
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
-                href="adminManageMovies.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all" href="adminManageMovies.html">
                 <span class="material-symbols-outlined">movie</span>
                 <span class="font-medium">Manage Movies</span>
             </a>
-            <!-- Manage Schedules -->
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
-                href="adminManageSchedules.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all" href="adminManageSchedules.html">
                 <span class="material-symbols-outlined">calendar_month</span>
                 <span class="font-medium">Manage Schedules</span>
             </a>
-            <!-- Manage F&B -->
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
-                href="adminManageFnB.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all" href="adminManageFnB.html">
                 <span class="material-symbols-outlined">fastfood</span>
                 <span class="font-medium">Manage F&B</span>
             </a>
-            <!-- Manage Branches (Active) -->
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl bg-primary text-white font-bold transition-all shadow-lg shadow-primary/20"
-                href="adminManageBranches.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl bg-primary text-white font-bold transition-all shadow-lg shadow-primary/20" href="adminManageBranches.html">
                 <span class="material-symbols-outlined">storefront</span>
                 <span class="font-medium">Manage Branches</span>
             </a>
-            <!-- HR & Staff -->
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
-                href="adminHRanadUserManagement.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all" href="adminHRanadUserManagement.html">
                 <span class="material-symbols-outlined">badge</span>
                 <span class="font-medium">HR & Staff</span>
             </a>
-            <!-- Transactions -->
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
-                href="adminTransactionHistory.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all" href="adminTransactionHistory.html">
                 <span class="material-symbols-outlined">receipt_long</span>
                 <span class="font-medium">Transactions</span>
             </a>
         </nav>
-        <div class="p-4 border-t border-white/10">
-            <a href="login.html" class="flex items-center gap-3 px-4 py-3 hover:bg-white/5 rounded-xl transition-all cursor-pointer" title="Click to Logout">
-                <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold shrink-0">AM</div>
-                <div class="flex-1 overflow-hidden">
-                    <p class="text-sm font-bold truncate text-white">Alex Mercer</p>
-                    <p class="text-xs text-slate-400 truncate">Ops Director</p>
-                </div>
-                <span class="material-symbols-outlined text-slate-400 text-sm">logout</span>
+        <div class="p-4 border-t border-white/10 flex flex-col gap-2">
+            <a href="login.html" class="flex items-center justify-center gap-3 w-full py-3 hover:bg-white/5 rounded-xl transition-all cursor-pointer text-slate-300 font-medium" title="Click to Logout">
+                <span class="material-symbols-outlined text-sm">logout</span>
+                Logout
             </a>
+            <button onclick="deleteAccount()" class="w-full py-3 flex items-center justify-center gap-2 text-red-500 text-sm font-semibold hover:bg-red-500/10 rounded-lg transition-all">
+                <span class="material-symbols-outlined text-sm">delete</span>
+                Delete Account
+            </button>
         </div>
     </aside>
     <!-- Main Content Area -->
     <div class="main-content flex flex-col">
         <!-- Top Header -->
-        <header
-            class="h-20 bg-white border-b border-outline-variant flex items-center justify-between px-margin_desktop sticky top-0 z-40">
-            <div class="flex items-center bg-slate-100 rounded-lg px-4 py-2 w-96 border border-outline-variant/50">
-                <span class="material-symbols-outlined text-outline mr-2" data-icon="search">search</span>
-                <input class="bg-transparent border-none focus:ring-0 text-body-md w-full p-0"
-                    placeholder="Search branches..." type="text">
+        <header class="sticky top-0 w-full z-40 flex justify-between items-center px-10 h-20 bg-surface/70 backdrop-blur-xl border-b border-outline-variant/30">
+            <div>
+                <h2 class="text-headline-md font-bold text-on-surface">Overview</h2>
             </div>
-            <div class="flex items-center gap-4">
-                <button class="p-2 rounded-full hover:bg-slate-100 relative">
-                    <span class="material-symbols-outlined text-surface-container-highest"
-                        data-icon="notifications">notifications</span>
-                    <span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+            <div class="flex items-center gap-6">
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+                    <input class="bg-surface-container-low border border-outline-variant/30 rounded-full py-2 pl-10 pr-4 text-label-md w-64 focus:outline-none focus:border-primary/50 transition-colors" placeholder="Global search..." type="text">
+                </div>
+                <button class="p-2 rounded-full hover:bg-surface-variant transition-colors relative">
+                    <span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+                    <span class="absolute top-2 right-2 w-2 h-2 bg-primary-container rounded-full border border-surface"></span>
                 </button>
-                <button class="p-2 rounded-full hover:bg-slate-100">
-                    <span class="material-symbols-outlined text-surface-container-highest" data-icon="help">help</span>
-                </button>
+                <div class="flex items-center gap-3 pl-4 border-l border-outline-variant/30">
+                    <div class="text-right">
+                        <p class="text-label-md font-bold text-on-surface">Admin</p>
+                        <p class="text-[10px] text-on-surface-variant uppercase tracking-wider">Employee</p>
+                    </div>
+                    <div class="w-10 h-10 rounded-full overflow-hidden border border-white/20 bg-primary/20 flex items-center justify-center text-primary">
+                        <span class="material-symbols-outlined">person</span>
+                    </div>
+                </div>
             </div>
         </header>
         <main class="p-margin_desktop max-w-[1440px]">
@@ -252,12 +232,12 @@
                 </div>
                 <div class="flex items-center gap-3">
                     <button
-                        class="flex items-center gap-2 px-6 py-2.5 border border-outline rounded-lg text-label-md font-bold hover:bg-slate-50 transition-colors">
+                        class="flex items-center gap-2 px-6 py-2.5 border border-outline rounded-lg text-label-md font-bold hover:bg-white/5 transition-colors">
                         <span class="material-symbols-outlined text-[20px]" data-icon="filter_list">filter_list</span>
                         Filter
                     </button>
                     <button
-                        class="flex items-center gap-2 px-6 py-2.5 border border-outline rounded-lg text-label-md font-bold hover:bg-slate-50 transition-colors">
+                        class="flex items-center gap-2 px-6 py-2.5 border border-outline rounded-lg text-label-md font-bold hover:bg-white/5 transition-colors">
                         <span class="material-symbols-outlined text-[20px]" data-icon="download">download</span>
                         Export CSV
                     </button>
@@ -308,18 +288,18 @@
                     </div>
                     <div class="flex items-center gap-2">
                         <button
-                            class="flex items-center justify-center p-2 hover:bg-white rounded-lg transition-all disabled:opacity-30 border border-transparent hover:border-outline-variant"
+                            class="flex items-center justify-center p-2 hover:glass-card rounded-lg transition-all disabled:opacity-30 border border-transparent hover:border-outline-variant"
                             disabled="">
                             <span class="material-symbols-outlined">chevron_left</span>
                         </button>
                         <button
                             class="w-10 h-10 flex items-center justify-center bg-primary text-on-primary rounded-lg font-bold shadow-sm">1</button>
                         <button
-                            class="w-10 h-10 flex items-center justify-center hover:bg-white rounded-lg font-bold border border-transparent hover:border-outline-variant transition-all">2</button>
+                            class="w-10 h-10 flex items-center justify-center hover:glass-card rounded-lg font-bold border border-transparent hover:border-outline-variant transition-all">2</button>
                         <button
-                            class="w-10 h-10 flex items-center justify-center hover:bg-white rounded-lg font-bold border border-transparent hover:border-outline-variant transition-all">3</button>
+                            class="w-10 h-10 flex items-center justify-center hover:glass-card rounded-lg font-bold border border-transparent hover:border-outline-variant transition-all">3</button>
                         <button
-                            class="flex items-center justify-center p-2 hover:bg-white rounded-lg transition-all border border-transparent hover:border-outline-variant">
+                            class="flex items-center justify-center p-2 hover:glass-card rounded-lg transition-all border border-transparent hover:border-outline-variant">
                             <span class="material-symbols-outlined">chevron_right</span>
                         </button>
                     </div>
@@ -357,7 +337,7 @@
                     const colorClass = colors[index % colors.length];
 
                     const tr = document.createElement('tr');
-                    tr.className = 'hover:bg-slate-50/50 transition-colors group';
+                    tr.className = 'hover:bg-white/5 transition-colors group';
                     tr.innerHTML = `
                         <td class="px-6 py-6">
                             <div class="flex items-center gap-4">
@@ -431,13 +411,34 @@
                 }
             });
         });
+    
+        async function deleteAccount() {
+            if (!confirm('Are you sure you want to delete your Admin account? This action cannot be undone.')) return;
+            const userStr = localStorage.getItem('user');
+            if (!userStr) return;
+            const user = JSON.parse(userStr);
+            
+            try {
+                const res = await fetch('/api/auth/delete-account', {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id: user.id, role: 'admin' })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    alert(data.message);
+                    localStorage.removeItem('user');
+                    localStorage.removeItem('token');
+                    window.location.href = 'login.html';
+                } else {
+                    alert(data.message || 'Failed to delete account.');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Connection error.');
+            }
+        }
     </script>
-
-
-
-
-
-
 </body>
 
 </html>
