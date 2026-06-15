@@ -499,12 +499,19 @@ app.post('/api/checkout', async (req, res) => {
     );
 
     // 3. Create ticket records (Trigger trg_cegah_double_booking & trg_kalkulasi_harga_tiket will execute)
-    for (const seatId of seats) {
-      const ticketId = await getNextId('TK', 'tiket', 'id_tiket');
+    // Pre-calculate base ticket ID once to avoid duplicate key when buying multiple seats
+    // (getNextId uses pool, not transaction connection, so it can't see uncommitted rows)
+    const baseTicketId = await getNextId('TK', 'tiket', 'id_tiket');
+    const tkPrefix = 'TK';
+    const tkPadding = baseTicketId.length - tkPrefix.length;
+    const tkBaseNum = parseInt(baseTicketId.substring(tkPrefix.length), 10);
+
+    for (let i = 0; i < seats.length; i++) {
+      const ticketId = tkPrefix + String(tkBaseNum + i).padStart(tkPadding, '0');
       // Insert with temporary dummy price, which is automatically overwritten by the BEFORE INSERT trigger
       await connection.query(
         'INSERT INTO tiket (id_tiket, harga_beli, jadwal_tayang_id_jadwal, transaksi_id_transaksi, kursi_id_kursi) VALUES (?, 0, ?, ?, ?)',
-        [ticketId, scheduleId, transactionId, seatId]
+        [ticketId, scheduleId, transactionId, seats[i]]
       );
     }
 
