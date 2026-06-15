@@ -220,6 +220,18 @@ app.get('/api/movies/now-showing', async (req, res) => {
   }
 });
 
+// GET /api/movies/coming-soon
+app.get('/api/movies/coming-soon', async (req, res) => {
+  try {
+    const [movies] = await pool.query("SELECT * FROM film WHERE status_tayang = 'Coming Soon'");
+    return res.json(movies);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Failed to load coming soon movies.' });
+  }
+});
+
+
 // GET /api/movies/all (loads all movies for browse/search)
 app.get('/api/movies/all', async (req, res) => {
   try {
