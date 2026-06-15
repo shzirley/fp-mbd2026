@@ -1,75 +1,65 @@
-<!DOCTYPE html>
-
+﻿<!DOCTYPE html>
 <html class="dark" lang="en">
-
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Seat Selection | Cinetrack</title>
+    <title>Seat Selection | Cinetrack Global Cinemas</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     "colors": {
-                        "surface-bright": "#31394d",
-                        "primary-fixed": "#ffdada",
-                        "primary": "#ffb3b6",
-                        "tertiary": "#74d8bd",
-                        "surface-container-highest": "#2d3449",
-                        "surface-container": "#171f33",
-                        "on-primary-container": "#fffaf9",
-                        "on-surface-variant": "#e5bdbe",
-                        "on-primary": "#68001a",
-                        "tertiary-fixed-dim": "#74d8bd",
-                        "surface-tint": "#ffb3b6",
-                        "surface-container-low": "#131b2e",
-                        "secondary-container": "#eec200",
-                        "surface-variant": "#2d3449",
-                        "on-surface": "#dae2fd",
-                        "on-secondary": "#3c2f00",
-                        "on-tertiary": "#00382d",
-                        "on-error": "#690005",
-                        "primary-container": "#e11d48",
-                        "on-primary-container": "#ffffff",
-                        "on-secondary-container": "#645000",
-                        "on-secondary-fixed-variant": "#574500",
                         "error-container": "#93000a",
-                        "secondary-fixed": "#ffe083",
-                        "outline-variant": "#5c3f40",
-                        "outline": "#ac8889",
-                        "on-primary-fixed-variant": "#920028",
-                        "tertiary-container": "#00836c",
-                        "surface-container-high": "#222a3d",
-                        "tertiary-fixed": "#90f5d9",
-                        "error": "#ffb4ab",
-                        "inverse-primary": "#be0037",
-                        "on-primary-fixed": "#40000c",
-                        "background": "#f8fafc",
-                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#131b2e",
                         "on-tertiary-fixed": "#002019",
-                        "primary-fixed-dim": "#ffb3b6",
+                        "surface-bright": "#31394d",
+                        "on-primary-fixed-variant": "#920028",
+                        "primary-container": "#e11d48",
+                        "tertiary-fixed": "#90f5d9",
+                        "surface-container": "#171f33",
+                        "secondary-container": "#eec200",
+                        "primary": "#ffb3b6",
+                        "on-surface-variant": "#e5bdbe",
+                        "on-error": "#690005",
+                        "on-secondary-container": "#645000",
                         "surface-dim": "#0b1326",
+                        "primary-fixed-dim": "#ffb3b6",
+                        "tertiary-container": "#00836c",
+                        "surface-container-highest": "#2d3449",
+                        "inverse-primary": "#be0037",
                         "on-tertiary-container": "#eefff7",
-                        "on-background": "#0b1326",
-                        "on-error-container": "#ffdad6",
-                        "on-tertiary-fixed-variant": "#005142",
-                        "inverse-surface": "#dae2fd",
-                        "secondary": "#eec200",
+                        "on-secondary-fixed-variant": "#574500",
+                        "surface": "#0b1326",
+                        "surface-variant": "#2d3449",
+                        "surface-tint": "#ffb3b6",
+                        "secondary": "#ffe083",
+                        "outline-variant": "#5c3f40",
+                        "on-surface": "#dae2fd",
+                        "on-secondary-fixed": "#231b00",
+                        "outline": "#ac8889",
+                        "on-secondary": "#3c2f00",
                         "inverse-on-surface": "#283044",
-                        "surface": "#ffffff",
+                        "background": "#0b1326",
+                        "on-tertiary": "#00382d",
+                        "surface-container-high": "#222a3d",
                         "secondary-fixed-dim": "#eec200",
-                        "on-secondary-fixed": "#231b00"
+                        "on-background": "#dae2fd",
+                        "tertiary-fixed-dim": "#74d8bd",
+                        "tertiary": "#74d8bd",
+                        "primary-fixed": "#ffdada",
+                        "surface-container-lowest": "#060e20",
+                        "on-primary": "#68001a",
+                        "on-error-container": "#ffdad6",
+                        "on-primary-container": "#fffaf9",
+                        "secondary-fixed": "#ffe083",
+                        "on-primary-fixed": "#40000c",
+                        "error": "#ffb4ab",
+                        "on-tertiary-fixed-variant": "#005142",
+                        "inverse-surface": "#dae2fd"
                     },
                     "borderRadius": {
                         "DEFAULT": "0.25rem",
@@ -78,448 +68,442 @@
                         "full": "9999px"
                     },
                     "spacing": {
-                        "base": "4px",
-                        "gutter": "24px",
                         "xl": "32px",
                         "md": "16px",
-                        "2xl": "48px",
-                        "grid_columns": "12",
                         "xs": "4px",
-                        "margin_desktop": "64px",
                         "sm": "8px",
+                        "lg": "24px",
+                        "grid_columns": "12",
                         "margin_mobile": "16px",
-                        "lg": "24px"
+                        "base": "4px",
+                        "gutter": "24px",
+                        "margin_desktop": "64px",
+                        "2xl": "48px"
                     },
                     "fontFamily": {
-                        "body-md": ["Inter"],
-                        "body-lg": ["Inter"],
-                        "label-md": ["Inter"],
-                        "headline-md": ["Outfit"],
-                        "headline-lg-mobile": ["Outfit"],
                         "headline-lg": ["Outfit"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Outfit"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Outfit"],
                         "label-sm": ["Inter"],
-                        "display-lg": ["Outfit"]
+                        "label-md": ["Inter"]
                     },
                     "fontSize": {
-                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
-                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
-                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
-                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
-                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
                         "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
                         "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
-                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }]
                     }
                 },
             },
         }
     </script>
     <style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-
-        .seat-grid {
-            perspective: 1000px;
-        }
-
+        body { background-color: #0b1326; color: #dae2fd; }
+        .font-display { font-family: 'Outfit', sans-serif; }
+        .custom-shadow { box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6); }
+        .btn-glow:hover { box-shadow: 0 0 15px rgba(225, 29, 72, 0.4); }
         .screen-curve {
+            width: 100%;
+            height: 40px;
             border-top: 4px solid #e11d48;
-            filter: drop-shadow(0 4px 12px rgba(225, 29, 72, 0.1));
             border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+            box-shadow: 0 -15px 30px rgba(225, 29, 72, 0.3);
+            margin-bottom: 40px;
+        }
+        
+        .seat {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px 8px 4px 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        
+        .seat::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 10%;
+            width: 80%;
+            height: 4px;
+            border-radius: 2px;
+            background-color: inherit;
+            opacity: 0.6;
         }
 
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 4px;
+        .seat-available {
+            background-color: #31394d;
+            color: #dae2fd;
         }
-
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #f1f5f9;
+        .seat-available:hover {
+            background-color: #e11d48;
+            color: #fff;
+            transform: scale(1.1);
         }
-
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 10px;
+        .seat-selected {
+            background-color: #e11d48;
+            color: #fff;
+            box-shadow: 0 0 10px rgba(225, 29, 72, 0.6);
+        }
+        .seat-booked {
+            background-color: #222a3d;
+            color: rgba(229, 189, 190, 0.3);
+            cursor: not-allowed;
+        }
+        
+        /* Seat Types */
+        .seat-vip.seat-available {
+            background-color: #f59e0b;
+            color: #fff;
+            box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2);
+        }
+        .seat-couple.seat-available {
+            background-color: #8b5cf6;
+            color: #fff;
+            box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2);
+        }
+        .seat-imax.seat-available {
+            background-color: #0ea5e9;
+            color: #fff;
+            box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2);
         }
     </style>
 </head>
 
-<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col">
-    <!-- TopNavBar -->
-    <header
-        class="fixed top-0 w-full bg-surface-container/70 backdrop-blur-xl border-b border-outline-variant/20 shadow-sm z-50 flex justify-between items-center px-margin_desktop h-16">
-        <div class="flex items-center gap-8">
-            <a href="userHome.html"
-                class="text-headline-md font-headline-md font-extrabold text-primary-container tracking-tighter">Cinetrack</a>
-            <nav class="hidden md:flex gap-6 items-center">
-                <a class="text-label-md font-label-md text-primary border-b-2 border-primary font-bold pb-1"
-                    href="userNowShowing.html">Movies</a>
-                <a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors"
-                    href="userMyTickets.html">Tickets</a>
-                <a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors"
-                    href="#">VIP</a>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col">
+
+    <div class="flex flex-1 overflow-hidden relative">
+        <!-- Sidebar Navigation -->
+        <aside class="w-64 bg-surface-container-lowest border-r border-outline-variant/20 hidden lg:flex flex-col z-40 relative">
+            <div class="h-16 flex items-center px-lg border-b border-outline-variant/20 mb-xl">
+                <a href="userHome.html" class="text-headline-md font-headline-md font-extrabold text-primary-container tracking-tighter">Cinetrack</a>
+            </div>
+            <nav class="flex-1 px-md space-y-sm">
+                <a href="userHome.html" class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-bright/5 rounded-lg font-label-md transition-colors border-l-4 border-transparent">
+                    <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">home</span>
+                    Home
+                </a>
+                <a href="userMyTickets.html" class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-bright/5 rounded-lg font-label-md transition-colors border-l-4 border-transparent">
+                    <span class="material-symbols-outlined text-[20px]">local_activity</span>
+                    My Tickets
+                </a>
+                <a href="userNowShowing.html" class="flex items-center gap-md px-md py-sm bg-surface-bright/10 text-primary-fixed rounded-lg font-label-md transition-colors border-l-4 border-primary">
+                    <span class="material-symbols-outlined text-[20px]">movie</span>
+                    Movies
+                </a>
+                <a href="#" class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-bright/5 rounded-lg font-label-md transition-colors border-l-4 border-transparent">
+                    <span class="material-symbols-outlined text-[20px]">diamond</span>
+                    VIP
+                </a>
             </nav>
-        </div>
-        <div class="flex items-center gap-4">
-            <button class="p-2 hover:bg-surface-bright/10 rounded-lg transition-all active:scale-90">
-                <span class="material-symbols-outlined text-primary-container">search</span>
-            </button>
-            <button class="p-2 hover:bg-surface-bright/10 rounded-lg transition-all active:scale-90">
-                <span class="material-symbols-outlined text-primary-container">notifications</span>
-            </button>
-            <a href="login.html" title="Logout" class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant/20 block cursor-pointer hover:opacity-80 transition-opacity">
-                <img alt="User profile" class="w-full h-full object-cover"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDHp_saoS99GC3lNtpN_-Nh06SeUqiECw_XvPuQObE3Fy37KPE-CN1AHf-pnhgvGbdi032W-B4kl9See9-WfoujtSGgmpT-nit67uTWjHtU0PhIMTBX0fOzI7cMjEuYOkX1IvprrlSrhRe7Vz2ormRbfk5YPEmSDvMInqsTLFKaisL5SAw7QOt423OBHEtibhH_smeWnAj3BGaWvW8IRgqux9eRvDsRqXGcOUO7TN9h7Tuk2FNyRmLCo-8LDD2rLozGGEGMGvhFb-v" />
-            </a>
-        </div>
-    </header>
-    <main class="flex-grow pt-16 flex flex-col md:flex-row h-screen">
-        <!-- Seat Selection Area -->
-        <section class="flex-grow flex flex-col items-center justify-start p-12 overflow-y-auto custom-scrollbar">
-            <!-- Screen Indicator -->
-            <div class="w-full max-w-2xl mb-24 relative">
-                <div class="screen-curve h-4 w-full"></div>
-                <p class="text-center text-label-sm font-label-sm text-outline mt-4 tracking-[0.4em] uppercase">Cinema
-                    Studio 04 Screen</p>
-            </div>
-            <!-- Interactive Seat Map (Populated dynamically) -->
-            <div id="seats-container" class="seat-grid flex flex-col gap-3 mb-16">
-                <p class="text-center text-outline">Loading seats configuration...</p>
-            </div>
-            <!-- Legend -->
-            <div
-                class="flex flex-wrap justify-center gap-8 p-6 bg-surface-container-lowest rounded-xl border border-outline-variant/20">
-                <div class="flex items-center gap-2">
-                    <div class="w-5 h-5 bg-slate-100 border border-outline-variant rounded-[4px]"></div>
-                    <span class="text-label-sm font-label-sm text-on-background">Available</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <div class="w-5 h-5 bg-primary-container rounded-[4px]"></div>
-                    <span class="text-label-sm font-label-sm text-on-background">Selected</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <div class="w-5 h-5 bg-slate-200 rounded-[4px]"></div>
-                    <span class="text-label-sm font-label-sm text-on-background">Occupied</span>
-                </div>
-                <div class="w-px h-5 bg-outline-variant/30"></div>
-                <div class="flex items-center gap-2">
-                    <div class="w-5 h-5 border-2 border-secondary bg-secondary/20 rounded-[4px]"></div>
-                    <span class="text-label-sm font-label-sm text-on-background">VIP ($45)</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <div class="w-10 h-5 bg-slate-100 border border-outline-variant rounded-[4px]"></div>
-                    <span class="text-label-sm font-label-sm text-on-background">Couple ($80)</span>
-                </div>
-            </div>
-        </section>
-        <!-- Sidebar Transaction Area -->
-        <aside
-            class="w-full md:w-96 bg-surface border-l border-outline-variant/20 flex flex-col shadow-2xl relative z-10">
-            <div class="p-8 flex-grow overflow-y-auto custom-scrollbar">
-                <!-- Movie Header -->
-                <div class="mb-8">
-                    <div class="h-48 w-full rounded-xl overflow-hidden mb-4 shadow-lg">
-                        <img id="booking-movie-poster" alt="Movie Poster" class="w-full h-full object-cover"
-                            data-alt="A stunning cinematic film poster featuring a futuristic city skyline bathed in deep crimson and amber light. The scene is dramatic with high contrast, sharp silhouettes of towering buildings, and misty atmospheric clouds. The visual style is premium and evocative of high-budget sci-fi cinema, using a color palette of blacks, glowing reds, and warm golds."
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrLZvU078gjjrFz2M-tGyJVPGvVlAEsNPjgT7Ob97CR_QrDSTlz_qToYnPi4ZBGYoYpl8shKD4AqdpjG6CcuBWbz2-QJXU2_Hc_qQwC4A4c3nPPyiphJP_WxdcS8XIF9251wLR2PJUz3Hr12S5QKjef7XRTe6XiAhS5328YWX585M9GGcuOrpLYEwDwxh5HBr1jahiOOtnOVGs7v49rdDgqvqTldauKnWCaJeLtoBuxvajTPytvWKlZKIvUwXPVkunQLAjZZxawJns" />
-                    </div>
-                    <h2 id="booking-movie-title" class="text-headline-md font-headline-md text-on-background leading-tight">Interstellar: Legacy
-                        Edition</h2>
-                    <p id="booking-movie-class" class="text-label-md font-label-md text-outline">IMAX 4D Experience</p>
-                </div>
-                <!-- Booking Details -->
-                <div class="space-y-4 mb-8">
-                    <div class="flex items-start gap-3">
-                        <span class="material-symbols-outlined text-primary-container text-md">location_on</span>
-                        <div>
-                            <p class="text-label-sm font-label-sm text-outline">Branch &amp; Studio</p>
-                            <p id="booking-branch-studio" class="text-body-md font-body-md">Grand Central, Studio 04</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start gap-3">
-                        <span class="material-symbols-outlined text-primary-container text-md">calendar_today</span>
-                        <div>
-                            <p class="text-label-sm font-label-sm text-outline">Date &amp; Time</p>
-                            <p id="booking-date-time" class="text-body-md font-body-md">Friday, 24 Oct • 19:30</p>
-                        </div>
+            <div class="p-md mt-auto">
+                <div class="bg-surface-container-high/50 p-md rounded-xl border border-outline-variant/10">
+                    <p class="text-label-sm text-on-surface-variant mb-xs">Cinetrack Rewards</p>
+                    <div class="flex items-center gap-xs">
+                        <span class="material-symbols-outlined text-secondary-container text-[18px]" style="font-variation-settings: 'FILL' 1;">stars</span>
+                        <span class="font-bold text-secondary text-label-md">2,450 pts</span>
                     </div>
                 </div>
-                <div class="h-px bg-outline-variant/20 my-6"></div>
-                <!-- Selection Breakdown -->
-                <div>
-                    <h3 class="text-label-md font-label-md text-on-background mb-4 uppercase tracking-wider">Your
-                        Selection</h3>
-                    <div class="space-y-3" id="seat-list">
-                        <!-- Dynamic content -->
-                        <p class="text-body-md font-body-md text-outline italic" id="no-seats">No seats selected yet.
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <!-- Footer Action -->
-            <div class="p-8 bg-surface-container-lowest border-t border-outline-variant/20">
-                <div class="flex justify-between items-end mb-6">
-                    <div>
-                        <p class="text-label-sm font-label-sm text-outline">Total Amount</p>
-                        <p class="text-headline-lg font-headline-lg text-on-background" id="total-price">$0.00</p>
-                    </div>
-                    <span
-                        class="text-label-sm font-label-sm text-tertiary-container bg-tertiary/10 px-2 py-1 rounded">Tax
-                        included</span>
-                </div>
-                <button
-                    class="w-full py-4 bg-primary-container text-white font-headline-md rounded-xl shadow-lg shadow-primary-container/20 disabled:opacity-50 disabled:grayscale transition-all active:scale-[0.98]"
-                    disabled="" id="checkout-btn">
-                    Confirm Booking
-                </button>
             </div>
         </aside>
-    </main>
-    <!-- Footer -->
-    <footer class="bg-surface-container-low border-t border-outline-variant w-full mt-auto">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin_desktop py-xl">
-            <div class="space-y-4">
-                <span class="text-headline-md font-headline-md text-primary">Cinetrack</span>
-                <p class="text-body-md font-body-md text-on-surface-variant">Elevating the cinema logistics and
-                    experience through precision technology.</p>
-            </div>
-            <div>
-                <h4 class="text-label-sm font-label-sm text-secondary mb-4 uppercase">Company</h4>
-                <ul class="space-y-2">
-                    <li><a class="text-label-sm font-label-sm text-on-surface-variant/60 hover:text-secondary transition-colors"
-                            href="#">Branch Locations</a></li>
-                    <li><a class="text-label-sm font-label-sm text-on-surface-variant/60 hover:text-secondary transition-colors"
-                            href="#">Quick Links</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="text-label-sm font-label-sm text-secondary mb-4 uppercase">Support</h4>
-                <ul class="space-y-2">
-                    <li><a class="text-label-sm font-label-sm text-on-surface-variant/60 hover:text-secondary transition-colors"
-                            href="#">Help Center</a></li>
-                    <li><a class="text-label-sm font-label-sm text-on-surface-variant/60 hover:text-secondary transition-colors"
-                            href="#">Privacy Policy</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="text-label-sm font-label-sm text-secondary mb-4 uppercase">Newsletter</h4>
-                <div class="flex gap-2">
-                    <input
-                        class="bg-surface border border-outline-variant text-label-sm rounded-lg px-3 py-2 w-full focus:outline-none focus:ring-1 focus:ring-primary"
-                        placeholder="Email" type="email" />
-                    <button
-                        class="bg-primary text-on-primary px-4 py-2 rounded-lg text-label-sm font-bold">Join</button>
+
+        <!-- Main Content Wrapper -->
+        <div class="flex-1 flex flex-col h-screen overflow-y-auto overflow-x-hidden relative">
+            
+            <!-- Top Header -->
+            <header class="sticky top-0 z-50 bg-surface-container-low/80 backdrop-blur-xl border-b border-outline-variant/20 h-16 flex justify-between items-center px-lg lg:px-2xl w-full">
+                <div class="flex lg:hidden items-center gap-md">
+                    <button class="p-2 -ml-2 text-on-surface-variant hover:text-on-surface">
+                        <span class="material-symbols-outlined">menu</span>
+                    </button>
+                    <a href="userHome.html" class="text-headline-md font-headline-md font-extrabold text-primary-container tracking-tighter">Cinetrack</a>
                 </div>
-            </div>
-        </div>
-        <div class="px-margin_desktop py-6 border-t border-outline-variant/10 text-center">
-            <p class="text-label-sm font-label-sm text-on-surface-variant/60">© 2024 Cinetrack Logistics &amp; Cinema
-                Systems. All rights reserved.</p>
-        </div>
-    </footer>
-    <script>
-        let selectedSeats = [];
-        const seatListEl = document.getElementById('seat-list');
-        const noSeatsEl = document.getElementById('no-seats');
-        const totalPriceEl = document.getElementById('total-price');
-        const checkoutBtn = document.getElementById('checkout-btn');
-
-        // Extract scheduleId from URL query or localStorage
-        const urlParams = new URLSearchParams(window.location.search);
-        const scheduleId = urlParams.get('scheduleId') || localStorage.getItem('selectedScheduleId');
-
-        if (!scheduleId) {
-            alert('No schedule selected. Redirecting to home...');
-            window.location.href = 'userHome.html';
-        }
-
-        // Initialize User Info
-        const user = JSON.parse(localStorage.getItem('user'));
-        if (user) {
-            const profileLink = document.querySelector('header a[title="Logout"]');
-            if (profileLink) {
-                profileLink.innerHTML = `
-                    <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary font-bold text-xs uppercase cursor-pointer">
-                        ${user.name.substring(0, 2)}
+                <div class="hidden md:flex items-center gap-xl flex-1 lg:ml-0">
+                    <div class="relative group max-w-md w-full">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <span class="material-symbols-outlined text-on-surface-variant text-[20px]">search</span>
+                        </div>
+                        <input type="text" class="block w-full pl-10 pr-3 py-2 border border-outline-variant/30 rounded-full leading-5 bg-surface-container-lowest text-on-surface placeholder-on-surface-variant/50 focus:outline-none focus:bg-surface-container focus:ring-1 focus:ring-primary focus:border-primary sm:text-sm transition-colors" placeholder="Search movies...">
                     </div>
-                `;
+                </div>
+                <div class="flex items-center gap-md ml-auto">
+                    <button class="hidden sm:flex items-center gap-xs px-md py-1.5 bg-surface-bright/10 rounded-full hover:bg-white/10 transition-all text-label-md border border-outline-variant/20">
+                        <span class="material-symbols-outlined text-primary text-[18px]" data-icon="location_on">location_on</span>
+                        <span>Downtown Grand</span>
+                        <span class="material-symbols-outlined text-[18px]" data-icon="expand_more">expand_more</span>
+                    </button>
+                    <button class="p-2 hover:bg-white/5 rounded-full transition-all relative">
+                        <span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+                        <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-primary rounded-full border-2 border-surface-container-low"></span>
+                    </button>
+                    <div class="w-px h-6 bg-outline-variant/30 mx-xs hidden sm:block"></div>
+                    <a href="login.html" title="Logout" class="w-9 h-9 rounded-full overflow-hidden border-2 border-surface-bright hover:border-primary transition-colors block cursor-pointer">
+                        <img alt="User profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDehjakR6EsQrGDZ8gd5ERgzFNlyRwvl4Tx2VjQuTN68NP5eygD7kkoxsdOphn_ccCXrlGg4ybuFVHVVUmiITufDyFyNgTjSRQoMRpE4mkKNrDf1_TivWLHQodzqD-824UBtgA-XPVg18FpdzeOjW1HFwnj9C2Gr__gAiQuDI2uaQehVrMDhtFfG58yBruuvhttOnoln6bflADD9seqeOguGXQVm6z6Zfm4di74906j-NhO-OZ0hNp4-9IlN0nGXXJnU6PMWhemN26P" />
+                    </a>
+                </div>
+            </header>
+
+            <main class="flex-grow pt-0 relative z-10 w-full flex flex-col">
+                <!-- Movie Info Header -->
+                <header class="px-lg lg:px-2xl pt-xl pb-lg bg-background border-b border-outline-variant/10 text-center">
+                    <h1 class="font-headline-lg text-headline-lg text-white mb-xs" id="movie-title">Loading...</h1>
+                    <p class="text-on-surface-variant font-body-md text-body-md" id="schedule-info">...</p>
+                </header>
+
+                <div class="flex-1 flex flex-col items-center justify-center p-lg lg:p-2xl max-w-4xl mx-auto w-full">
+                    
+                    <!-- Cinema Screen -->
+                    <div class="w-full max-w-2xl mx-auto text-center mb-xl">
+                        <div class="screen-curve"></div>
+                        <span class="text-label-md text-on-surface-variant uppercase tracking-[0.2em]">Screen</span>
+                    </div>
+
+                    <!-- Seat Grid -->
+                    <div class="flex flex-col gap-md mb-2xl" id="seat-grid">
+                        <!-- Dynamically loaded seats will go here -->
+                    </div>
+
+                    <!-- Legend -->
+                    <div class="flex items-center justify-center gap-xl mt-lg pt-xl border-t border-outline-variant/10 w-full max-w-2xl">
+                        <div class="flex items-center gap-sm">
+                            <div class="w-5 h-5 rounded-md bg-surface-bright border border-outline-variant/30"></div>
+                            <span class="text-label-md text-on-surface-variant">Available</span>
+                        </div>
+                        <div class="flex items-center gap-sm">
+                            <div class="w-5 h-5 rounded-md bg-primary shadow-[0_0_8px_rgba(225,29,72,0.5)]"></div>
+                            <span class="text-label-md text-white">Selected</span>
+                        </div>
+                        <div class="flex items-center gap-sm">
+                            <div class="w-5 h-5 rounded-md bg-surface-container-high border border-outline-variant/10"></div>
+                            <span class="text-label-md text-on-surface-variant/50">Booked</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center justify-center gap-xl mt-md w-full max-w-2xl flex-wrap">
+                        <div class="flex items-center gap-sm">
+                            <div class="w-4 h-4 rounded-full bg-[#f59e0b] shadow-[0_0_8px_rgba(245,158,11,0.5)]"></div>
+                            <span class="text-label-sm text-on-surface-variant">VIP</span>
+                        </div>
+                        <div class="flex items-center gap-sm">
+                            <div class="w-4 h-4 rounded-full bg-[#8b5cf6] shadow-[0_0_8px_rgba(139,92,246,0.5)]"></div>
+                            <span class="text-label-sm text-on-surface-variant">Couple</span>
+                        </div>
+                        <div class="flex items-center gap-sm">
+                            <div class="w-4 h-4 rounded-full bg-[#0ea5e9] shadow-[0_0_8px_rgba(14,165,233,0.5)]"></div>
+                            <span class="text-label-sm text-on-surface-variant">IMAX</span>
+                        </div>
+                    </div>
+
+                </div>
+            </main>
+            
+            <!-- Footer -->
+            <footer class="bg-surface-container-low border-t border-outline-variant/20 py-xl px-lg lg:px-2xl mt-auto">
+                <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-gutter">
+                    <div class="col-span-1">
+                        <span class="text-headline-md font-headline-md text-primary-container font-extrabold block mb-md">Cinetrack</span>
+                        <p class="text-on-surface-variant text-label-sm font-label-sm">┬⌐ 2024 Cinetrack Logistics &amp; Cinema Systems. All rights reserved.</p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+        <!-- Floating Summary Card -->
+        <div class="fixed bottom-lg right-lg lg:right-2xl bg-surface-container-high border border-outline-variant/30 p-md lg:p-lg rounded-2xl flex items-center gap-lg lg:gap-xl custom-shadow z-50 backdrop-blur-xl">
+            <div>
+                <p class="text-label-sm text-on-surface-variant uppercase mb-1">Selected Seats</p>
+                <p id="selected-seats-list" class="text-headline-md font-bold text-white leading-none">-</p>
+            </div>
+            <div class="w-px h-10 bg-outline-variant/30"></div>
+            <div>
+                <p class="text-label-sm text-on-surface-variant uppercase mb-1">Total</p>
+                <p id="total-price" class="text-headline-md font-bold text-primary leading-none">Rp 0</p>
+            </div>
+            <a href="userSnacks.html" class="ml-sm bg-primary text-white px-xl py-3 rounded-xl font-bold btn-glow transition-all active:scale-95 text-label-md shadow-lg flex items-center gap-2">
+                Continue to Snacks
+                <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const scheduleId = urlParams.get('scheduleId') || localStorage.getItem('selectedScheduleId');
+            if (!scheduleId) {
+                alert('No schedule selected. Returning to home.');
+                window.location.href = 'userHome.html';
+                return;
             }
-        }
+            
+            // Save to localStorage just in case
+            localStorage.setItem('selectedScheduleId', scheduleId);
 
-        let basePrice = 0;
+            const selectedListEl = document.getElementById('selected-seats-list');
+            const totalPriceEl = document.getElementById('total-price');
+            const seatGrid = document.getElementById('seat-grid');
+            
+            let selectedSeats = [];
+            let pricePerSeat = 55000;
 
-        async function loadSeats() {
             try {
-                // Fetch seats from API
                 const res = await fetch(`/api/schedules/${scheduleId}/seats`);
-                if (!res.ok) throw new Error('Failed to load seats');
                 const data = await res.json();
-
-                basePrice = parseFloat(data.harga_dasar);
-                localStorage.setItem('selectedSchedulePrice', basePrice);
-
-                // Set schedule details in sidebar
-                const selectedMovie = JSON.parse(localStorage.getItem('selectedMovie')) || {};
-                if (selectedMovie.poster_url) {
-                    document.getElementById('booking-movie-poster').src = selectedMovie.poster_url;
+                
+                if (data.message) {
+                    alert(data.message);
+                    return;
                 }
-                document.getElementById('booking-movie-title').innerText = selectedMovie.judul || 'Movie';
-                document.getElementById('booking-movie-class').innerText = `${data.kelas_studio || 'Regular'} Experience`;
-
-                // Waktu Tayang formatting
+                
+                // Update header info
+                document.getElementById('movie-title').textContent = data.judul || 'Movie';
                 const showDate = new Date(data.waktu_tayang);
-                const dateStr = showDate.toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'short' });
-                const timeStr = showDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
-                document.getElementById('booking-date-time').innerText = `${dateStr} • ${timeStr}`;
-
-                // Set Branch and Studio Number
-                const branchStudioText = `${data.nama_cabang || 'Branch'}, Studio ${data.nomor_studio || ''}`;
-                document.getElementById('booking-branch-studio').innerText = branchStudioText;
-
-                // Render seats grid
-                const seatsContainer = document.getElementById('seats-container');
-                seatsContainer.innerHTML = '';
-
-                // Group seats by rows
+                const dateStr = showDate.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short' });
+                const timeStr = showDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+                document.getElementById('schedule-info').textContent = `${data.nama_cabang}, Studio ${data.nomor_studio} ΓÇó ${dateStr}, ${timeStr}`;
+                
+                pricePerSeat = data.harga || 55000;
+                
+                // Render seats
+                seatGrid.innerHTML = '';
+                
+                // Group by row
                 const rows = {};
                 data.seats.forEach(seat => {
                     if (!rows[seat.baris]) rows[seat.baris] = [];
                     rows[seat.baris].push(seat);
                 });
-
-                // Render seats row by row
-                Object.keys(rows).sort().forEach(rowName => {
+                
+                // Sort rows ascending (A to Z), so A is closest to the screen (top) and G is at the back (bottom)
+                const rowKeys = Object.keys(rows).sort();
+                
+                rowKeys.forEach(row => {
                     const rowDiv = document.createElement('div');
-                    rowDiv.className = 'flex gap-3 justify-center items-center';
-
-                    // Row Label Left
-                    const labelLeft = document.createElement('span');
-                    labelLeft.className = 'w-6 text-center text-label-sm font-bold text-outline';
-                    labelLeft.innerText = rowName;
-                    rowDiv.appendChild(labelLeft);
-
-                    // Sort seats in row by column
-                    rows[rowName].sort((a, b) => parseInt(a.kolom) - parseInt(b.kolom));
-
-                    rows[rowName].forEach(seat => {
-                        const seatBtn = document.createElement('button');
+                    rowDiv.className = 'flex items-center gap-md justify-center';
+                    rowDiv.innerHTML = `<span class="text-on-surface-variant font-bold w-6 text-center">${row}</span>`;
+                    
+                    const seatsDiv = document.createElement('div');
+                    seatsDiv.className = 'flex gap-sm';
+                    
+                    // Sort seats in row by kolom
+                    rows[row].sort((a, b) => parseInt(a.kolom) - parseInt(b.kolom));
+                    
+                    let prevKolom = 0;
+                    rows[row].forEach(seat => {
+                        const currentKolom = parseInt(seat.kolom);
+                        // Add aisle if gap is > 1
+                        if (currentKolom - prevKolom > 1 && prevKolom !== 0) {
+                            seatsDiv.innerHTML += `<div class="w-8"></div>`;
+                        }
+                        prevKolom = currentKolom;
                         
-                        // Determine seat type and pricing
-                        const isBooked = seat.isBooked;
-                        const isVip = seat.tipe_kursi === 'VIP';
-                        const isCouple = seat.tipe_kursi === 'Couple';
-                        const extraPrice = parseFloat(seat.tarif_tipe || 0);
-                        const seatPrice = basePrice + extraPrice;
-
-                        // Styling
-                        seatBtn.className = 'transition-all active:scale-95 duration-150 rounded-[4px] text-xs font-semibold flex items-center justify-center ';
-                        if (isCouple) {
-                            seatBtn.className += 'w-16 h-8 ';
-                        } else {
-                            seatBtn.className += 'w-8 h-8 ';
-                        }
-
-                        if (isBooked) {
-                            seatBtn.className += 'bg-slate-200 text-slate-400 cursor-not-allowed';
-                            seatBtn.disabled = true;
-                        } else {
-                            if (isVip) {
-                                seatBtn.className += 'border-2 border-secondary bg-secondary/20 text-secondary hover:bg-secondary hover:text-on-secondary';
-                            } else {
-                                seatBtn.className += 'bg-slate-100 border border-outline-variant text-slate-700 hover:bg-primary-container/10 hover:border-primary-container';
-                            }
-                        }
-
-                        seatBtn.innerText = seat.nomor_kursi;
-                        seatBtn.title = `${seat.nomor_kursi} (${seat.tipe_kursi}) - Rp ${seatPrice.toLocaleString('id-ID')}`;
-
-                        if (!isBooked) {
-                            seatBtn.addEventListener('click', () => {
-                                toggleSeat(seatBtn, seat.id_kursi, seat.nomor_kursi, seatPrice, isVip, isCouple);
+                        const seatEl = document.createElement('div');
+                        let typeClass = '';
+                        if (seat.tipe_kursi === 'VIP') typeClass = 'seat-vip';
+                        else if (seat.tipe_kursi === 'Couple') typeClass = 'seat-couple';
+                        else if (seat.tipe_kursi === 'IMAX') typeClass = 'seat-imax';
+                        
+                        seatEl.className = `seat ${seat.isBooked ? 'seat-booked' : 'seat-available'} ${typeClass}`;
+                        seatEl.textContent = currentKolom;
+                        seatEl.title = `${seat.tipe_kursi} - Rp ${parseFloat(seat.tarif_tipe || pricePerSeat).toLocaleString('id-ID')}`;
+                        seatEl.dataset.id = seat.id_kursi;
+                        seatEl.dataset.name = seat.nomor_kursi;
+                        seatEl.dataset.price = seat.tarif_tipe || pricePerSeat;
+                        
+                        if (!seat.isBooked) {
+                            seatEl.addEventListener('click', () => {
+                                const seatData = {
+                                    id_kursi: seat.id_kursi,
+                                    nomor_kursi: seat.nomor_kursi,
+                                    price: parseFloat(seat.tarif_tipe) || pricePerSeat
+                                };
+                                
+                                if (seatEl.classList.contains('seat-selected')) {
+                                    seatEl.classList.remove('seat-selected');
+                                    seatEl.classList.add('seat-available');
+                                    selectedSeats = selectedSeats.filter(s => s.id_kursi !== seat.id_kursi);
+                                } else {
+                                    seatEl.classList.remove('seat-available');
+                                    seatEl.classList.add('seat-selected');
+                                    selectedSeats.push(seatData);
+                                }
+                                updateSummary();
                             });
                         }
-
-                        rowDiv.appendChild(seatBtn);
+                        seatsDiv.appendChild(seatEl);
                     });
-
-                    // Row Label Right
-                    const labelRight = document.createElement('span');
-                    labelRight.className = 'w-6 text-center text-label-sm font-bold text-outline';
-                    labelRight.innerText = rowName;
-                    rowDiv.appendChild(labelRight);
-
-                    seatsContainer.appendChild(rowDiv);
+                    
+                    rowDiv.appendChild(seatsDiv);
+                    seatGrid.appendChild(rowDiv);
                 });
-
+                
             } catch (err) {
-                console.error('Failed to load seats layout:', err);
-                document.getElementById('seats-container').innerHTML = '<p class="text-red-500">Failed to load seats setup from server.</p>';
+                console.error(err);
+                seatGrid.innerHTML = '<p class="text-on-surface-variant text-center">Failed to load seats.</p>';
             }
-        }
 
-        function toggleSeat(btn, id, number, price, isVip, isCouple) {
-            const index = selectedSeats.findIndex(s => s.id_kursi === id);
-
-            if (index > -1) {
-                // Deselect
-                selectedSeats.splice(index, 1);
-                if (isVip) {
-                    btn.className = 'transition-all active:scale-95 duration-150 rounded-[4px] text-xs font-semibold flex items-center justify-center border-2 border-secondary bg-secondary/20 text-secondary hover:bg-secondary hover:text-on-secondary w-8 h-8';
-                } else if (isCouple) {
-                    btn.className = 'transition-all active:scale-95 duration-150 rounded-[4px] text-xs font-semibold flex items-center justify-center bg-slate-100 border border-outline-variant text-slate-700 hover:bg-primary-container/10 hover:border-primary-container w-16 h-8';
+            function updateSummary() {
+                if (selectedSeats.length === 0) {
+                    selectedListEl.textContent = '-';
+                    totalPriceEl.textContent = 'Rp 0';
                 } else {
-                    btn.className = 'transition-all active:scale-95 duration-150 rounded-[4px] text-xs font-semibold flex items-center justify-center bg-slate-100 border border-outline-variant text-slate-700 hover:bg-primary-container/10 hover:border-primary-container w-8 h-8';
+                    selectedSeats.sort((a, b) => {
+                        if (a.nomor_kursi[0] === b.nomor_kursi[0]) return parseInt(a.nomor_kursi.slice(1)) - parseInt(b.nomor_kursi.slice(1));
+                        return a.nomor_kursi[0].localeCompare(b.nomor_kursi[0]);
+                    });
+                    
+                    selectedListEl.textContent = selectedSeats.map(s => s.nomor_kursi).join(', ');
+                    const total = selectedSeats.reduce((sum, s) => sum + s.price, 0);
+                    totalPriceEl.textContent = 'Rp ' + total.toLocaleString('id-ID');
                 }
-            } else {
-                // Select
-                selectedSeats.push({ id_kursi: id, nomor_kursi: number, price, isVip, isCouple });
-                btn.className = 'transition-all active:scale-95 duration-150 rounded-[4px] text-xs font-semibold flex items-center justify-center bg-primary-container text-white border-transparent ';
-                if (isCouple) {
-                    btn.className += 'w-16 h-8';
-                } else {
-                    btn.className += 'w-8 h-8';
-                }
+                
+                // Save to localStorage immediately so snacks page can read it
+                localStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
             }
-
-            updateSidebar();
-        }
-
-        function updateSidebar() {
-            if (selectedSeats.length === 0) {
-                seatListEl.innerHTML = '';
-                seatListEl.appendChild(noSeatsEl);
-                totalPriceEl.innerText = 'Rp 0';
-                checkoutBtn.disabled = true;
-                return;
+            
+            // "Continue to Snacks" button
+            const continueBtn = document.querySelector('a[href="userSnacks.html"]');
+            if (continueBtn) {
+                continueBtn.addEventListener('click', (e) => {
+                    if (selectedSeats.length === 0) {
+                        e.preventDefault();
+                        alert('Please select at least one seat before continuing.');
+                    }
+                });
             }
-
-            if (noSeatsEl.parentNode) {
-                noSeatsEl.remove();
-            }
-
-            seatListEl.innerHTML = selectedSeats.map(seat => `
-                <div class="flex justify-between items-center bg-background p-3 rounded-lg border border-outline-variant/10">
-                    <div>
-                        <p class="text-label-md font-label-md text-on-background">Seat ${seat.nomor_kursi}</p>
-                        <p class="text-label-sm font-label-sm text-outline">${seat.isVip ? 'VIP Tier' : seat.isCouple ? 'Couple Tier' : 'Standard'}</p>
-                    </div>
-                    <span class="text-label-md font-bold text-primary-container">Rp ${seat.price.toLocaleString('id-ID')}</span>
-                </div>
-            `).join('');
-
-            const total = selectedSeats.reduce((acc, curr) => acc + curr.price, 0);
-            totalPriceEl.innerText = `Rp ${total.toLocaleString('id-ID')}`;
-            checkoutBtn.disabled = false;
-        }
-
-        checkoutBtn.addEventListener('click', () => {
-            // Save selections to localStorage
-            localStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
-            window.location.href = 'userSnacksNDrinks.html';
         });
-
-        document.addEventListener('DOMContentLoaded', loadSeats);
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const userStr = localStorage.getItem('user');
+            if (userStr) {
+                try {
+                    const user = JSON.parse(userStr);
+                    const avatarBtn = document.querySelector('a[title="Logout"]');
+                    if (avatarBtn) {
+                        if (user.picture) {
+                            avatarBtn.innerHTML = `<img alt="User profile" class="w-full h-full object-cover" src="${user.picture}" />`;
+                        } else if (user.name) {
+                            const initials = user.name.substring(0, 2).toUpperCase();
+                            avatarBtn.innerHTML = `<div class="w-full h-full flex items-center justify-center bg-primary-container text-on-primary-container font-bold text-sm">${initials}</div>`;
+                        }
+                    }
+                } catch (e) {
+                    console.error('Error parsing user data', e);
+                }
+            }
+        });
     </script>
 </body>
-
 </html>

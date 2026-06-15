@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html class="dark" lang="en">
 
@@ -139,56 +139,95 @@
 
 <body
     class="bg-background text-on-background font-body-md selection:bg-primary selection:text-on-primary min-h-screen flex flex-col">
-    <!-- TopNavBar -->
-    <header
-        class="fixed top-0 w-full z-50 bg-surface-container/70 dark:bg-surface-container-low/70 backdrop-blur-xl border-b border-outline-variant/20 dark:border-white/10 shadow-sm dark:shadow-none h-16 flex justify-between items-center px-margin_desktop max-w-full">
-        <div class="flex items-center gap-xl">
-            <a href="userHome.html"
-                class="text-headline-md font-headline-md font-extrabold text-primary-container dark:text-primary tracking-tighter">Cinetrack</a>
-            <nav class="hidden md:flex items-center gap-lg">
-                <a class="text-primary dark:text-primary-fixed border-b-2 border-primary dark:border-primary-fixed font-bold pb-1 text-label-md font-label-md"
-                    href="userNowShowing.html">Movies</a>
-                <a class="text-on-surface-variant dark:text-on-surface-variant/80 hover:text-primary transition-colors text-label-md font-label-md"
-                    href="userMyTickets.html">Tickets</a>
-                <a class="text-on-surface-variant dark:text-on-surface-variant/80 hover:text-primary transition-colors text-label-md font-label-md"
-                    href="#">VIP</a>
+    <!-- Sidebar Layout Container -->
+    <div class="flex flex-1 overflow-hidden relative">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="w-64 bg-surface-container-lowest border-r border-outline-variant/20 hidden lg:flex flex-col z-40 relative">
+            <div class="h-16 flex items-center px-lg border-b border-outline-variant/20 mb-xl">
+                <a href="userHome.html" class="text-headline-md font-headline-md font-extrabold text-primary-container tracking-tighter">Cinetrack</a>
+            </div>
+            <nav class="flex-1 px-md space-y-sm">
+                <a href="userHome.html" class="flex items-center gap-md px-md py-sm bg-surface-bright/10 text-primary-fixed rounded-lg font-label-md transition-colors border-l-4 border-primary">
+                    <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">home</span>
+                    Home
+                </a>
+                <a href="userMyTickets.html" class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-bright/5 rounded-lg font-label-md transition-colors border-l-4 border-transparent">
+                    <span class="material-symbols-outlined text-[20px]">local_activity</span>
+                    My Tickets
+                </a>
+                <a href="userNowShowing.html" class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-bright/5 rounded-lg font-label-md transition-colors border-l-4 border-transparent">
+                    <span class="material-symbols-outlined text-[20px]">movie</span>
+                    Movies
+                </a>
+                <a href="#" class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-bright/5 rounded-lg font-label-md transition-colors border-l-4 border-transparent">
+                    <span class="material-symbols-outlined text-[20px]">diamond</span>
+                    VIP
+                </a>
             </nav>
-        </div>
-        <div class="flex items-center gap-md">
-            <!-- Branch Dropdown -->
-            <div class="relative group">
-                <button
-                    class="flex items-center gap-xs px-md py-sm bg-surface-bright/10 dark:bg-white/5 rounded-lg hover:bg-white/10 transition-all text-label-md font-label-md">
-                    <span class="material-symbols-outlined text-primary" data-icon="location_on">location_on</span>
-                    <span>Downtown Grand</span>
-                    <span class="material-symbols-outlined" data-icon="expand_more">expand_more</span>
-                </button>
+            <!-- Bottom sidebar content -->
+            <div class="p-md mt-auto">
+                <div class="bg-surface-container-high/50 p-md rounded-xl border border-outline-variant/10">
+                    <p class="text-label-sm text-on-surface-variant mb-xs">Cinetrack Rewards</p>
+                    <div class="flex items-center gap-xs">
+                        <span class="material-symbols-outlined text-secondary-container text-[18px]" style="font-variation-settings: 'FILL' 1;">stars</span>
+                        <span class="font-bold text-secondary text-label-md">2,450 pts</span>
+                    </div>
+                </div>
             </div>
-            <div class="flex items-center gap-sm">
-                <button class="p-2 hover:bg-white/5 rounded-lg transition-all scale-95 active:scale-90">
-                    <span class="material-symbols-outlined text-on-surface-variant" data-icon="search">search</span>
-                </button>
-                <button class="p-2 hover:bg-white/5 rounded-lg transition-all scale-95 active:scale-90">
-                    <span class="material-symbols-outlined text-on-surface-variant"
-                        data-icon="notifications">notifications</span>
-                </button>
-                <a href="#" onclick="deleteAccount()" title="Delete Account" class="w-8 h-8 flex items-center justify-center rounded-full border border-red-500/50 bg-red-500/10 text-red-500 hover:bg-red-500/20 transition-all ml-2 mr-2">
-                    <span class="material-symbols-outlined text-sm">delete</span>
-                </a>
-                <a href="login.html" title="Logout" class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant/30 block cursor-pointer hover:opacity-80 transition-opacity">
-                    <img alt="User profile" class="w-full h-full object-cover"
-                        data-alt="A professional headshot of a person with soft, cinematic lighting against a dark background, reflecting the high-end premium aesthetic of the cinema app. The style is clean, modern, and high-contrast, matching the dark theme of Cinetrack."
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDehjakR6EsQrGDZ8gd5ERgzFNlyRwvl4Tx2VjQuTN68NP5eygD7kkoxsdOphn_ccCXrlGg4ybuFVHVVUmiITufDyFyNgTjSRQoMRpE4mkKNrDf1_TivWLHQodzqD-824UBtgA-XPVg18FpdzeOjW1HFwnj9C2Gr__gAiQuDI2uaQehVrMDhtFfG58yBruuvhttOnoln6bflADD9seqeOguGXQVm6z6Zfm4di74906j-NhO-OZ0hNp4-9IlN0nGXXJnU6PMWhemN26P" />
-                </a>
-            </div>
-        </div>
-    </header>
-    <main class="flex-grow pt-16">
+        </aside>
+
+        <!-- Main Content Wrapper -->
+        <div class="flex-1 flex flex-col h-screen overflow-y-auto overflow-x-hidden relative">
+            
+            <!-- Top Header -->
+            <header class="sticky top-0 z-50 bg-surface-container-low/80 backdrop-blur-xl border-b border-outline-variant/20 h-16 flex justify-between items-center px-lg lg:px-2xl w-full">
+                
+                <!-- Mobile Logo & Menu (Visible only on small screens) -->
+                <div class="flex lg:hidden items-center gap-md">
+                    <button class="p-2 -ml-2 text-on-surface-variant hover:text-on-surface">
+                        <span class="material-symbols-outlined">menu</span>
+                    </button>
+                    <a href="userHome.html" class="text-headline-md font-headline-md font-extrabold text-primary-container tracking-tighter">Cinetrack</a>
+                </div>
+
+                <!-- Center/Left: Search Bar & Location -->
+                <div class="hidden md:flex items-center gap-xl flex-1 lg:ml-0">
+                    <div class="relative group max-w-md w-full">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <span class="material-symbols-outlined text-on-surface-variant text-[20px]">search</span>
+                        </div>
+                        <input type="text" class="block w-full pl-10 pr-3 py-2 border border-outline-variant/30 rounded-full leading-5 bg-surface-container-lowest text-on-surface placeholder-on-surface-variant/50 focus:outline-none focus:bg-surface-container focus:ring-1 focus:ring-primary focus:border-primary sm:text-sm transition-colors" placeholder="Search movies, genres, or theaters...">
+                    </div>
+                </div>
+
+                <!-- Right: Actions -->
+                <div class="flex items-center gap-md ml-auto">
+                    <!-- Branch Dropdown -->
+                    <button class="hidden sm:flex items-center gap-xs px-md py-1.5 bg-surface-bright/10 rounded-full hover:bg-white/10 transition-all text-label-md border border-outline-variant/20">
+                        <span class="material-symbols-outlined text-primary text-[18px]" data-icon="location_on">location_on</span>
+                        <span>Downtown Grand</span>
+                        <span class="material-symbols-outlined text-[18px]" data-icon="expand_more">expand_more</span>
+                    </button>
+                    
+                    <button class="p-2 hover:bg-white/5 rounded-full transition-all relative">
+                        <span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+                        <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-primary rounded-full border-2 border-surface-container-low"></span>
+                    </button>
+                    
+                    <div class="w-px h-6 bg-outline-variant/30 mx-xs hidden sm:block"></div>
+
+                    <a href="login.html" title="Logout" class="w-9 h-9 rounded-full overflow-hidden border-2 border-surface-bright hover:border-primary transition-colors block cursor-pointer">
+                        <img alt="User profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDehjakR6EsQrGDZ8gd5ERgzFNlyRwvl4Tx2VjQuTN68NP5eygD7kkoxsdOphn_ccCXrlGg4ybuFVHVVUmiITufDyFyNgTjSRQoMRpE4mkKNrDf1_TivWLHQodzqD-824UBtgA-XPVg18FpdzeOjW1HFwnj9C2Gr__gAiQuDI2uaQehVrMDhtFfG58yBruuvhttOnoln6bflADD9seqeOguGXQVm6z6Zfm4di74906j-NhO-OZ0hNp4-9IlN0nGXXJnU6PMWhemN26P" />
+                    </a>
+                </div>
+            </header>
+    <main class="flex-grow pt-0 relative z-10 w-full">
         <!-- Hero Section -->
         <section class="relative h-[85vh] w-full overflow-hidden">
             <div class="absolute inset-0 z-0">
-                <img id="hero-bg" alt="Cinematic theater" class="w-full h-full object-cover"
-                    src="https://lh3.googleusercontent.com/aida/AP1WRLtBmxDZPUul1Ak8KofXbpndoC0pm64BubZiyYAODiqnq-TEclWBvyQxIpiWVckMjggxc0j4gaJh8GF-GjnnhKr3MBdaVoeRiHQi6k-8SumdRQtbhVYJmxepAWoZ2sAttw9JxUvS9dnEP1NzD2VEh65mymA94aw80j_qqH2oGaj2k-L6MNLMeEqK9gAFxd5W2T57R21_s1qg5auJaiFArnBSU70hkwe29gvq67NWwyFJ-1ETrEuFit48fRE" />
+                <img id="hero-bg" alt="Laskar Pelangi" class="w-full h-full object-cover"
+                    src="/assets/posters/Laskar_Pelangi_film.jpg" />
                 <div class="absolute inset-0 bg-black/40"></div>
                 <div class="absolute inset-0 hero-gradient"></div>
             </div>
@@ -205,13 +244,13 @@
                     </p>
                     <div class="flex gap-md pt-lg">
                         <a id="hero-book-btn" href="userMovieDetails.html?id=FM0001"
-                            class="bg-primary-container text-on-primary-container px-xl py-md rounded-lg font-bold flex items-center gap-sm hover:brightness-110 cinematic-shadow transition-all group">
+                            class="bg-primary-container text-white px-xl py-md rounded-lg font-bold flex items-center gap-sm hover:bg-primary-fixed-variant transition-all group">
                             <span class="material-symbols-outlined"
                                 data-icon="confirmation_number">confirmation_number</span>
                             Book Tickets
                         </a>
                         <button
-                            class="glass-card text-on-surface px-xl py-md rounded-lg font-bold flex items-center gap-sm hover:bg-white/10 transition-all">
+                            class="bg-surface-container-high text-on-surface px-xl py-md rounded-lg font-bold flex items-center gap-sm hover:bg-surface-variant transition-all border border-outline-variant/30">
                             <span class="material-symbols-outlined" data-icon="play_circle">play_circle</span>
                             Watch Trailer
                         </button>
@@ -237,43 +276,8 @@
                     </button>
                 </div>
             </div>
-            <div class="flex gap-lg overflow-x-auto no-scrollbar pb-lg snap-x snap-mandatory">
-                <!-- Large Poster 1 -->
-                <div
-                    class="flex-none w-[450px] aspect-[16/9] rounded-xl overflow-hidden relative group snap-start cursor-pointer">
-                    <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                        data-alt="A stunning cinematic landscape from a sci-fi film featuring floating islands and purple nebulae. High-contrast colors with glowing cyan highlights, captured in a panoramic wide-angle shot. The overall mood is mysterious and grand, fitting the immersive cinematic theme of Cinetrack."
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAiPPUyH6fKH70BEPaGnPuhu3Pr6b6orLhajm8tJBdolAtAhgPkZf2o2YmT5WnUKDamsoQKzG3-aZKspZVfZ82018n9x7CkGgw_pIzkBtx5SJxa0jMbDdcoG-19mMLr9PhFKKVaa5B3QNPaxOOq9QoVZTzfDQ-Jg_r1hdO7rNzi9FzHvAzdxfoCbIB-77LmpTy-e_nH9XWHlTiAUvIt_dcpAc5KneMQ8y0_mIVxKzmHosqvmU3JQX9aS0pFFfXtK3YZxmcMRwxD1cAI" />
-                    <div
-                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-lg flex flex-col justify-end">
-                        <span class="text-secondary font-label-sm">PREMIUM FORMAT</span>
-                        <h3 class="text-headline-md font-headline-md text-white">Stellar Frontier</h3>
-                    </div>
-                </div>
-                <!-- Large Poster 2 -->
-                <div
-                    class="flex-none w-[450px] aspect-[16/9] rounded-xl overflow-hidden relative group snap-start cursor-pointer">
-                    <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                        data-alt="A moody black and white film noir scene showing a detective in a trench coat standing under a flickering street lamp in a foggy alleyway. High contrast with deep shadows and sharp highlights, evocative of classic cinema and artistic storytelling. Perfectly aligned with the cinematic visual identity."
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnlyDqMSK9-T2g3xznfuK1_kIfmDJrgF1aD3Mt5sbyGt0eXoj3xYRmkBo4ENTfVhcbP0dm_TeCW7RpWvfgNhz-tEWGuhVwKgHgiUCYfV9i_NqSfM-P6zwTXpnEz8YsvJZ-mMw7hbnyY41oCqc9jWezPQUzQy3JlBLiI1-pZkkwI7JWxXe07B6-H_1ticZHmLeoqn-fMv9xd1QVjTpfFJFWtcMr43vZ0yYzWAqcOnoL9cQrq0dZ7kgsWgVPqpvF4-GPSZK4idy0um4q" />
-                    <div
-                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-lg flex flex-col justify-end">
-                        <span class="text-tertiary font-label-sm">CRITICS CHOICE</span>
-                        <h3 class="text-headline-md font-headline-md text-white">Shadow Protocol</h3>
-                    </div>
-                </div>
-                <!-- Large Poster 3 -->
-                <div
-                    class="flex-none w-[450px] aspect-[16/9] rounded-xl overflow-hidden relative group snap-start cursor-pointer">
-                    <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                        data-alt="An action-packed movie scene featuring a high-speed car chase through a futuristic neon-lit city at night. Intense motion blur, glowing orange and teal lighting, and a feeling of high energy and excitement. The style is hyper-realistic and high-stakes, matching the cinema dashboard aesthetic."
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAThevJpKCfF3LH9kkQou_VwTXt_TU4G8cFXdxeAAe2SSd3tdvT3Ok_aw73ViIHenS79qSNbQQr6-PCYOv9LTyNsf0dLjelwfbB57aFQTTEYAc7OxTymG2_GnqELv51FDN4eYbv3JqME6c1P40aChHPuY-lYoIeO9t6OsCt2hY8FwI1EOv1W7SsqEqvP3fTzDV3-iuHXwC4FsuCWwWs3Ncf2bCPxzmo3Zqkrst4IUUVLgRrkDVDUHrOxWS7p-r5roxYhHKstxbUf4-2" />
-                    <div
-                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-lg flex flex-col justify-end">
-                        <span class="text-primary font-label-sm">IMAX EXCLUSIVE</span>
-                        <h3 class="text-headline-md font-headline-md text-white">Velocity One</h3>
-                    </div>
-                </div>
+            <div class="flex gap-lg overflow-x-auto no-scrollbar pb-lg snap-x snap-mandatory" id="featured-grid">
+                <!-- Dynamically loaded featured movies -->
             </div>
         </section>
         <!-- Now Showing -->
@@ -400,10 +404,12 @@
                 <li><a class="text-on-surface-variant/60 hover:text-secondary transition-colors text-label-sm font-label-sm"
                         href="#">Support</a></li>
             </ul>
-            <p class="text-on-surface-variant/40 text-label-sm font-label-sm mt-md">© 2024 Cinetrack Logistics &amp;
+            <p class="text-on-surface-variant/40 text-label-sm font-label-sm mt-md">┬⌐ 2024 Cinetrack Logistics &amp;
                 Cinema Systems. All rights reserved.</p>
         </div>
     </footer>
+        </div> <!-- End Main Content Wrapper -->
+    </div> <!-- End Sidebar Layout Container -->
     <script>
         // Simple parallax or scroll interactions
         window.addEventListener('scroll', () => {
@@ -440,6 +446,29 @@
                 if (movies.length === 0) {
                     grid.innerHTML = '<p class="col-span-full text-center text-outline">No movies currently showing.</p>';
                     return;
+                }
+
+                const featuredGrid = document.getElementById('featured-grid');
+                if (featuredGrid) {
+                    featuredGrid.innerHTML = '';
+                    const featuredMovies = movies.length > 3 ? movies.slice(1, 4) : movies.slice(0, 3);
+                    featuredMovies.forEach((movie, i) => {
+                        const tags = ['PREMIUM FORMAT', 'CRITICS CHOICE', 'IMAX EXCLUSIVE'];
+                        const colors = ['text-secondary', 'text-tertiary', 'text-primary'];
+                        
+                        const div = document.createElement('div');
+                        div.className = 'flex-none w-[450px] aspect-[16/9] rounded-xl overflow-hidden relative group snap-start cursor-pointer border border-outline-variant/30';
+                        div.onclick = () => { window.location.href = `userMovieDetails.html?id=${movie.id_film}`; };
+                        div.innerHTML = `
+                            <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                src="${movie.poster_url || '/assets/posters/default.jpg'}" alt="${movie.judul}" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-80 group-hover:opacity-100 transition-opacity p-lg flex flex-col justify-end">
+                                <span class="${colors[i % colors.length]} font-label-sm tracking-widest">${tags[i % tags.length]}</span>
+                                <h3 class="text-headline-md font-headline-md text-white">${movie.judul}</h3>
+                            </div>
+                        `;
+                        featuredGrid.appendChild(div);
+                    });
                 }
 
                 // Set Hero details from the first movie
@@ -489,7 +518,7 @@
                             </div>
                         </div>
                         <h4 class="font-headline-md text-body-md truncate">${movie.judul}</h4>
-                        <p class="text-label-sm text-on-surface-variant">${movie.rating_usia || 'SU'} • ${movie.durasi || 120}m</p>
+                        <p class="text-label-sm text-on-surface-variant">${movie.rating_usia || 'SU'} ΓÇó ${movie.durasi || 120}m</p>
                     `;
 
                     grid.appendChild(card);
@@ -545,35 +574,29 @@
                 console.error('Error loading coming soon movies:', err);
             }
         });
-
-        async function deleteAccount() {
-            if (!confirm('Are you sure you want to delete your account? This action cannot be undone.')) return;
-            const userStr = localStorage.getItem('user');
-            if (!userStr) return;
-            const user = JSON.parse(userStr);
-            
-            try {
-                const res = await fetch('/api/auth/delete-account', {
-                    method: 'DELETE',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ id: user.id, role: 'user' })
-                });
-                const data = await res.json();
-                if (res.ok) {
-                    alert(data.message);
-                    localStorage.removeItem('user');
-                    localStorage.removeItem('token');
-                    window.location.href = 'login.html';
-                } else {
-                    alert(data.message || 'Failed to delete account.');
-                }
-            } catch (err) {
-                console.error(err);
-                alert('Connection error.');
-            }
-        }
 </script>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const userStr = localStorage.getItem('user');
+            if (userStr) {
+                try {
+                    const user = JSON.parse(userStr);
+                    const avatarBtn = document.querySelector('a[title="Logout"]');
+                    if (avatarBtn) {
+                        if (user.picture) {
+                            avatarBtn.innerHTML = `<img alt="User profile" class="w-full h-full object-cover" src="${user.picture}" />`;
+                        } else if (user.name) {
+                            const initials = user.name.substring(0, 2).toUpperCase();
+                            avatarBtn.innerHTML = `<div class="w-full h-full flex items-center justify-center bg-primary-container text-on-primary-container font-bold text-sm">${initials}</div>`;
+                        }
+                    }
+                } catch (e) {
+                    console.error('Error parsing user data', e);
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>
