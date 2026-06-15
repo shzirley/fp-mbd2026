@@ -3,8 +3,12 @@ const mysql = require('mysql2/promise');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
+const { OAuth2Client } = require('google-auth-library');
+const jwt = require('jsonwebtoken');
 
 dotenv.config();
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID || 'dummy_client_id');
 
 const app = express();
 app.use(cors());
@@ -21,6 +25,7 @@ const pool = mysql.createPool({
   user: process.env.DB_USER || 'root',
   password: process.env.DB_PASSWORD || '',
   database: process.env.DB_NAME || 'MBD_FP',
+  port: process.env.DB_PORT || 3307,
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
@@ -51,6 +56,68 @@ async function getNextId(prefix, tableName, columnName) {
 // ------------------------------------------------------------
 // AUTHENTICATION APIs
 // ------------------------------------------------------------
+
+// POST /api/auth/google
+app.post('/api/auth/google', async (req, res) => {
+  const { credential, role } = req.body;
+  if (!credential) {
+    return res.status(400).json({ message: 'Missing credential payload.' });
+  }
+
+  const requestedRole = role || 'user';
+
+  try {
+    // Verify Google ID Token
+    const ticket = await client.verifyIdToken({
+      idToken: credential,
+      audience: process.env.GOOGLE_CLIENT_ID || 'dummy_client_id',
+    });
+    const payload = ticket.getPayload();
+    const email = payload.email;
+    const name = payload.name;
+
+    if (requestedRole === 'admin') {
+      // 1. Check if email belongs to an employee (admin)
+      const [pegawai] = await pool.query('SELECT id_pegawai, nama_pegawai, jabatan FROM pegawai WHERE email_pegawai = ?', [email]);
+      if (pegawai.length > 0) {
+        const token = jwt.sign({ role: 'admin', id: pegawai[0].id_pegawai }, process.env.JWT_SECRET || 'cinetrack_secret', { expiresIn: '7d' });
+        return res.json({ token, role: 'admin', user: { id: pegawai[0].id_pegawai, name: pegawai[0].nama_pegawai, email, jabatan: pegawai[0].jabatan } });
+      }
+      
+      // Auto-register as new employee
+      const newId = await getNextId('PG', 'pegawai', 'id_pegawai');
+      await pool.query(
+        'INSERT INTO pegawai (id_pegawai, nama_pegawai, email_pegawai, password, jabatan) VALUES (?, ?, ?, ?, ?)',
+        [newId, name, email, 'google_oauth_no_password', 'Staff']
+      );
+      
+      const token = jwt.sign({ role: 'admin', id: newId }, process.env.JWT_SECRET || 'cinetrack_secret', { expiresIn: '7d' });
+      return res.status(201).json({ token, role: 'admin', user: { id: newId, name, email, jabatan: 'Staff' } });
+
+    } else {
+      // 2. Check if email belongs to an existing customer
+      const [pelanggan] = await pool.query('SELECT id_pelanggan, nama_pelanggan FROM pelanggan WHERE email_pelanggan = ?', [email]);
+      if (pelanggan.length > 0) {
+        const token = jwt.sign({ role: 'user', id: pelanggan[0].id_pelanggan }, process.env.JWT_SECRET || 'cinetrack_secret', { expiresIn: '7d' });
+        return res.json({ token, role: 'user', user: { id: pelanggan[0].id_pelanggan, name: pelanggan[0].nama_pelanggan, email } });
+      }
+
+      // 3. Auto-register as new customer if not found
+      const newId = await getNextId('PL', 'pelanggan', 'id_pelanggan');
+      await pool.query(
+        'INSERT INTO pelanggan (id_pelanggan, nama_pelanggan, email_pelanggan, password) VALUES (?, ?, ?, ?)',
+        [newId, name, email, 'google_oauth_no_password']
+      );
+      
+      const token = jwt.sign({ role: 'user', id: newId }, process.env.JWT_SECRET || 'cinetrack_secret', { expiresIn: '7d' });
+      return res.status(201).json({ token, role: 'user', user: { id: newId, name, email } });
+    }
+
+  } catch (err) {
+    console.error('Google Auth Error:', err);
+    return res.status(401).json({ message: 'Invalid Google Token.' });
+  }
+});
 
 // POST /api/auth/login
 app.post('/api/auth/login', async (req, res) => {

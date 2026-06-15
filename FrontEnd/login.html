@@ -6,6 +6,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Cinetrack - Login</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <link
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap"
         rel="stylesheet">
@@ -164,113 +165,90 @@
                 <p class="font-body-md text-body-md text-on-surface-variant">Sign in to access your dashboard</p>
             </div>
             <!-- Form -->
-            <form onsubmit="handleLogin(event)" class="space-y-6">
-                <!-- Email Input -->
-                <div>
-                    <label class="block font-label-md text-label-md text-on-surface mb-2" for="email">Email
-                        Address</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <span class="material-symbols-outlined text-on-surface-variant/50 text-xl">mail</span>
-                        </div>
-                        <input
-                            class="block w-full pl-11 pr-4 py-3 bg-surface-container/50 border border-outline-variant/50 rounded-xl text-on-surface font-body-md placeholder:text-on-surface-variant/40 focus:ring-2 focus:ring-primary focus:border-primary focus:bg-surface-container transition-all outline-none"
-                            id="email" name="email" placeholder="director@cinema.com" required="" type="email">
-                    </div>
+            <div class="space-y-6 text-center">
+                <!-- Role Toggle -->
+                <div class="flex w-full mb-6 bg-surface-container-high rounded-lg p-1 border border-outline-variant/30">
+                    <button
+                        type="button"
+                        id="btn-role-customer"
+                        onclick="setRole('user')"
+                        class="flex-1 py-2 text-sm font-medium rounded-md transition-all bg-primary-container text-on-primary-container shadow-lg"
+                    >
+                        Customer
+                    </button>
+                    <button
+                        type="button"
+                        id="btn-role-employee"
+                        onclick="setRole('admin')"
+                        class="flex-1 py-2 text-sm font-medium rounded-md transition-all text-on-surface-variant hover:text-white"
+                    >
+                        Employee
+                    </button>
                 </div>
-                <!-- Password Input -->
-                <div>
-                    <div class="flex justify-between items-center mb-2">
-                        <label class="block font-label-md text-label-md text-on-surface" for="password">Password</label>
-                        <a class="font-label-sm text-label-sm text-primary hover:text-primary-fixed transition-colors"
-                            href="#">Forgot Password?</a>
-                    </div>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <span class="material-symbols-outlined text-on-surface-variant/50 text-xl">lock</span>
-                        </div>
-                        <input
-                            class="block w-full pl-11 pr-12 py-3 bg-surface-container/50 border border-outline-variant/50 rounded-xl text-on-surface font-body-md placeholder:text-on-surface-variant/40 focus:ring-2 focus:ring-primary focus:border-primary focus:bg-surface-container transition-all outline-none"
-                            id="password" name="password" placeholder="••••••••" required="" type="password">
-                        <div
-                            class="absolute inset-y-0 right-0 pr-4 flex items-center cursor-pointer text-on-surface-variant hover:text-on-surface transition-colors">
-                            <span class="material-symbols-outlined text-xl">visibility</span>
-                        </div>
-                    </div>
+
+                <p class="text-on-surface-variant font-body-md text-sm mb-4">Pilih peran Anda dan akses sistem Cinetrack dengan aman menggunakan akun Google.</p>
+                
+                <div id="g_id_onload"
+                     data-client_id="796791798470-01rft1ussl08kclbgr5mgt2v2gud5rj6.apps.googleusercontent.com"
+                     data-context="signin"
+                     data-ux_mode="popup"
+                     data-callback="handleGoogleCredentialResponse"
+                     data-auto_prompt="false">
                 </div>
-                <!-- Primary Submit Button -->
-                <button
-                    class="w-full flex justify-center items-center gap-2 py-3.5 px-4 border border-transparent rounded-xl shadow-sm font-label-md text-label-md text-on-primary-container bg-primary-container hover:bg-inverse-primary hover:shadow-[0_0_20px_rgba(225,29,72,0.4)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary focus:ring-offset-background transition-all duration-300"
-                    type="submit">
-                    Sign In
-                    <span class="material-symbols-outlined text-lg">arrow_forward</span>
-                </button>
-            </form>
-            <!-- Divider -->
-            <div class="mt-8 mb-6 relative">
-                <div class="absolute inset-0 flex items-center">
-                    <div class="w-full border-t border-outline-variant/30"></div>
+
+                <div class="g_id_signin flex justify-center"
+                     data-type="standard"
+                     data-shape="rectangular"
+                     data-theme="filled_black"
+                     data-text="continue_with"
+                     data-size="large"
+                     data-logo_alignment="left">
                 </div>
-                <div class="relative flex justify-center text-sm">
-                    <span
-                        class="px-4 bg-[#141b2d] font-label-sm text-label-sm text-on-surface-variant rounded-full border border-outline-variant/20">Or
-                        continue with</span>
-                </div>
-            </div>
-            <!-- Social Login -->
-            <div>
-                <button
-                    class="w-full flex justify-center items-center gap-3 py-3 px-4 rounded-xl border border-outline-variant/50 bg-surface-container/30 font-label-md text-label-md text-on-surface hover:bg-surface-container hover:border-outline transition-colors duration-200"
-                    type="button">
-                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                            fill="#4285F4"></path>
-                        <path
-                            d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                            fill="#34A853"></path>
-                        <path
-                            d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                            fill="#FBBC05"></path>
-                        <path
-                            d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                            fill="#EA4335"></path>
-                    </svg>
-                    Continue with Google
-                </button>
             </div>
             <!-- Footer Link -->
             <div class="mt-8 text-center">
                 <p class="font-body-md text-body-md text-on-surface-variant">
-                    Don't have an account?
-                    <a class="font-label-md text-label-md text-primary hover:text-primary-fixed hover:underline transition-all"
-                        href="signUp.html">Sign up</a>
+                    Punya akun Admin lokal? 
+                    <a class="font-label-md text-label-md text-primary hover:text-primary-fixed hover:underline transition-all cursor-pointer" onclick="alert('Login lokal dinonaktifkan sementara demi keamanan. Silakan login menggunakan Google Workspace perusahaan.')">Gunakan Bypass</a>
                 </p>
             </div>
         </div>
     </div>
     <script>
-        async function handleLogin(event) {
-            event.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+        let selectedRole = 'user';
 
+        function setRole(role) {
+            selectedRole = role;
+            const btnCustomer = document.getElementById('btn-role-customer');
+            const btnEmployee = document.getElementById('btn-role-employee');
+
+            if (role === 'user') {
+                btnCustomer.className = "flex-1 py-2 text-sm font-medium rounded-md transition-all bg-primary-container text-on-primary-container shadow-lg";
+                btnEmployee.className = "flex-1 py-2 text-sm font-medium rounded-md transition-all text-on-surface-variant hover:text-white";
+            } else {
+                btnEmployee.className = "flex-1 py-2 text-sm font-medium rounded-md transition-all bg-primary-container text-on-primary-container shadow-lg";
+                btnCustomer.className = "flex-1 py-2 text-sm font-medium rounded-md transition-all text-on-surface-variant hover:text-white";
+            }
+        }
+
+        async function handleGoogleCredentialResponse(response) {
             try {
-                const response = await fetch('/api/auth/login', {
+                const res = await fetch('/api/auth/google', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password })
+                    body: JSON.stringify({ credential: response.credential, role: selectedRole })
                 });
 
-                const data = await response.json();
+                const data = await res.json();
 
-                if (!response.ok) {
-                    alert(data.message || 'Login failed. Please check your credentials.');
+                if (!res.ok) {
+                    alert(data.message || 'Login failed.');
                     return;
                 }
 
                 // Store user session in localStorage
-                localStorage.setItem('user', JSON.stringify(data));
+                localStorage.setItem('user', JSON.stringify(data.user));
+                localStorage.setItem('token', data.token);
 
                 // Redirect based on role
                 if (data.role === 'admin') {
@@ -279,7 +257,7 @@
                     window.location.href = 'userHome.html';
                 }
             } catch (err) {
-                console.error('Login error:', err);
+                console.error('Google Login error:', err);
                 alert('Connection error. Please ensure the backend server is running.');
             }
         }
