@@ -514,7 +514,7 @@ app.post('/api/checkout', async (req, res) => {
         if (item.qty > 0) {
           await connection.query(
             'INSERT INTO produk_kantin_transaksi (produk_kantin_id_produk, transaksi_id_transaksi, qty, subtotal) VALUES (?, ?, ?, ?)',
-            [item.productId, transactionId, item.qty, item.subtotal]
+            [item.productId || item.id_produk, transactionId, item.qty, item.subtotal]
           );
         }
       }
