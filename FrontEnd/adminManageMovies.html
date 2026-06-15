@@ -60,7 +60,7 @@
                         "inverse-surface": "#dae2fd",
                         "outline": "#ac8889",
                         "secondary-fixed-dim": "#eec200",
-                        "on-surface": "#0b1326",
+                        "on-surface": "#dae2fd",
                         "on-error": "#690005",
                         "error-container": "#93000a",
                         "surface-tint": "#ffb3b6",
@@ -69,7 +69,7 @@
                         "on-tertiary-container": "#eefff7",
                         "secondary": "#ffe083",
                         "error": "#ffb4ab",
-                        "on-surface-variant": "#4b5563",
+                        "on-surface-variant": "#e5bdbe",
                         "surface-container-low": "#131b2e",
                         "surface-variant": "#2d3449",
                         "on-secondary-fixed-variant": "#574500",
@@ -81,12 +81,22 @@
                         "inverse-primary": "#be0037",
                         "outline-variant": "#5c3f40",
                         "surface-dim": "#0b1326",
-                        "surface-bright": "#ffffff",
+                        "on-secondary-container": "#645000",
+                        "on-primary-fixed-variant": "#920028",
+                        "background": "#0b1326",
+                        "secondary-fixed": "#ffe083",
+                        "on-tertiary-fixed": "#002019",
+                        "on-background": "#dae2fd",
+                        "secondary-container": "#eec200",
+                        "on-tertiary": "#00382d",
+                        "primary-fixed-dim": "#ffb3b6",
+                        "primary": "#ffb3b6",
+                        "surface-bright": "#31394d",
                         "primary-fixed": "#ffdada",
-                        "surface": "#f8fafc",
+                        "surface": "#0b1326",
                         "primary-container": "#e11d48",
                         "on-tertiary-fixed-variant": "#005142",
-                        "surface-container-high": "#f1f5f9"
+                        "surface-container-high": "#222a3d"
                     },
                     "borderRadius": {
                         "DEFAULT": "0.25rem",
@@ -136,9 +146,10 @@
 <body class="bg-surface font-body-md text-on-surface min-h-screen flex">
     <!-- Fixed Sidebar Navigation -->
     <aside class="w-64 h-screen fixed top-0 left-0 bg-surface-container-lowest border-r border-outline-variant/20 flex flex-col z-50">
-        <div class="p-6 flex items-center gap-3 border-b border-outline-variant/10 mb-4">
-            <span class="material-symbols-outlined text-primary text-headline-md" style="font-variation-settings: 'FILL' 1;">movie_filter</span>
-            <h1 class="text-headline-md font-bold tracking-tight text-primary text-white">Cinetrack</h1>
+        <div class="p-6 flex items-center gap-3 border-b border-outline-variant/10 mb-4 h-20">
+            <h1 class="text-headline-md font-bold tracking-tight text-primary text-white flex items-center">
+                <img src="../assets/logo.png" alt="Cinetrack Logo" class="h-8 object-contain inline-block" onerror="this.onerror=null; this.src='/assets/logo.png';" />
+            </h1>
         </div>
         <nav class="flex-grow px-4 py-4 space-y-2 overflow-y-auto custom-scrollbar">
             
