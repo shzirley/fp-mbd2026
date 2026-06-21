@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html class="dark" lang="en">
 
@@ -149,6 +149,18 @@
                     class="pl-10 pr-4 py-2 bg-surface-container-low text-on-surface border-none rounded-full w-64 text-label-md focus:ring-2 focus:ring-primary-container/20"
                     placeholder="Search movies..." type="text" />
             </div>
+            <!-- Branch Dropdown -->
+            <div class="relative inline-block text-left z-50" id="branch-dropdown-container">
+                <button id="btn-branch-select" class="hidden sm:flex items-center gap-xs px-md py-1.5 bg-surface-bright/10 rounded-full hover:bg-white/10 transition-all text-label-md border border-outline-variant/20">
+                    <span class="material-symbols-outlined text-primary text-[18px]" data-icon="location_on">location_on</span>
+                    <span id="selected-branch-name">Downtown Grand</span>
+                    <span class="material-symbols-outlined text-[18px]" data-icon="expand_more">expand_more</span>
+                </button>
+                <div id="branch-dropdown-menu" class="hidden absolute right-0 mt-2 w-64 rounded-xl bg-surface-container-high border border-outline-variant/30 shadow-2xl py-2 z-50 max-h-60 overflow-y-auto backdrop-blur-2xl">
+                    <!-- Items populated dynamically -->
+                </div>
+            </div>
+
             <button class="p-2 hover:bg-surface-container-low rounded-lg transition-all scale-95 active:scale-90">
                 <span class="material-symbols-outlined text-on-surface-variant">notifications</span>
             </button>
@@ -366,7 +378,7 @@
         </div>
         <div
             class="px-margin_desktop py-md border-t border-outline-variant/30 flex justify-between items-center text-label-sm font-label-sm text-on-surface-variant/60">
-            <p>© 2024 Cinetrack Logistics &amp; Cinema Systems. All rights reserved.</p>
+            <p>&copy; 2024 Cinetrack Logistics &amp; Cinema Systems. All rights reserved.</p>
             <div class="flex gap-lg">
                 <span
                     class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">public</span>
@@ -458,7 +470,27 @@
                     return;
                 }
 
+                // Get selected branch from localStorage to filter showtimes
+                const selectedBranchStr = localStorage.getItem('selectedBranch');
+                let selectedBranch = null;
+                if (selectedBranchStr) {
+                    try {
+                        selectedBranch = JSON.parse(selectedBranchStr);
+                    } catch(e) {
+                        console.error('Error parsing selected branch', e);
+                    }
+                }
+
+                let renderCount = 0;
+
                 groupedBranches.forEach(branch => {
+                    // Filter based on selected branch in navbar
+                    if (selectedBranch && branch.nama_cabang !== selectedBranch.nama_cabang) {
+                        return;
+                    }
+
+                    renderCount++;
+
                     // Create branch block
                     const branchDiv = document.createElement('div');
                     branchDiv.className = 'bg-surface border border-outline-variant/30 p-6 rounded-2xl shadow-lg mb-8';
@@ -468,7 +500,6 @@
                             ${branch.nama_cabang} <span class="text-on-surface-variant/60 font-normal text-sm">- ${branch.alamat}</span>
                         </h3>
                     `;
-
                     // Group branch schedules by kelas_studio
                     const classes = {};
                     branch.schedules.forEach(sched => {
@@ -522,12 +553,17 @@
 
                     container.appendChild(branchDiv);
                 });
+
+                if (renderCount === 0) {
+                    container.innerHTML = `<p class="text-center text-slate-500 py-8">No showtimes available at <strong>${selectedBranch ? selectedBranch.nama_cabang : 'this branch'}</strong> for this movie.</p>`;
+                }
             } catch (err) {
                 console.error('Error fetching details/schedules:', err);
                 alert('Connection error loading showtimes.');
             }
         });
     </script>
+    <script src="branch-dropdown.js"></script>
 </body>
 
 </html>
