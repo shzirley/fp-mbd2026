@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html class="dark" lang="en">
 <head>
     <meta charset="utf-8" />
@@ -313,7 +313,7 @@
                 <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-gutter">
                     <div class="col-span-1">
                         <span class="text-headline-md font-headline-md text-primary-container font-extrabold block mb-md">Cinetrack</span>
-                        <p class="text-on-surface-variant text-label-sm font-label-sm">© 2024 Cinetrack Logistics &amp; Cinema Systems. All rights reserved.</p>
+                        <p class="text-on-surface-variant text-label-sm font-label-sm">┬⌐ 2024 Cinetrack Logistics &amp; Cinema Systems. All rights reserved.</p>
                     </div>
                 </div>
             </footer>
@@ -371,7 +371,7 @@
                 const showDate = new Date(data.waktu_tayang);
                 const dateStr = showDate.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short' });
                 const timeStr = showDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
-                document.getElementById('schedule-info').textContent = `${data.nama_cabang}, Studio ${data.nomor_studio} • ${dateStr}, ${timeStr}`;
+                document.getElementById('schedule-info').textContent = `${data.nama_cabang}, Studio ${data.nomor_studio} ΓÇó ${dateStr}, ${timeStr}`;
                 
                 pricePerSeat = data.harga || 55000;
                 

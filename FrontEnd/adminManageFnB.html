@@ -61,7 +61,7 @@
                         "primary": "#ffb3b6",
                         "surface-bright": "#31394d",
                         "primary-fixed": "#ffdada",
-                        "surface": "#ffffff",
+                        "surface": "#0b1326",
                         "primary-container": "#e11d48",
                         "on-tertiary-fixed-variant": "#005142",
                         "surface-container-high": "#222a3d"
@@ -110,128 +110,130 @@
         }
     </script>
     <style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        body {
+            background-color: #0b1326;
+            color: #dae2fd;
+            -webkit-font-smoothing: antialiased;
+            min-width: 1024px;
         }
 
-        body {
-            min-width: 1280px;
-            background-color: #f8fafc;
+        .glass-card {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        .primary-glow {
+            box-shadow: 0 0 20px rgba(225, 29, 72, 0.3);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #5c3f40;
+            border-radius: 10px;
         }
     </style>
 </head>
 
-<body class="text-slate-900 font-body-md selection:bg-primary-container selection:text-white flex min-h-screen">
+<body class="text-white font-body-md selection:bg-primary-container selection:text-white flex min-h-screen">
     <!-- Left Sidebar Navigation -->
-    <aside
-        class="fixed inset-y-0 left-0 w-64 bg-surface-container-lowest border-r border-white/10 z-50 flex flex-col text-white">
-        <div class="p-6 flex items-center gap-3 border-b border-outline-variant/10 mb-4">
-            <span class="material-symbols-outlined text-primary text-headline-md"
-                style="font-variation-settings: 'FILL' 1;">movie_filter</span>
+    <aside class="w-64 h-screen fixed top-0 left-0 bg-surface-container-lowest border-r border-outline-variant/20 flex flex-col z-50">
+        <div class="px-6 flex items-center justify-start gap-3 border-b border-outline-variant/10 mb-4 h-20">
+            <span class="material-symbols-outlined text-primary text-headline-md" style="font-variation-settings: 'FILL' 1;">movie_filter</span>
             <h1 class="text-headline-md font-bold tracking-tight text-primary text-white">Cinetrack</h1>
         </div>
         <nav class="flex-grow px-4 py-4 space-y-2 overflow-y-auto custom-scrollbar">
-            <!-- Dashboard -->
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
-                href="adminDashboard.html">
+            
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:glass-card/5 transition-all" href="adminDashboard.html">
                 <span class="material-symbols-outlined">dashboard</span>
                 <span class="font-medium">Dashboard</span>
             </a>
-            <!-- POS / Bookings -->
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
-                href="adminPointOfSale.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:glass-card/5 transition-all" href="adminPointOfSale.html">
                 <span class="material-symbols-outlined">confirmation_number</span>
                 <span class="font-medium">POS / Bookings</span>
             </a>
-            <!-- Manage Movies -->
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
-                href="adminManageMovies.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:glass-card/5 transition-all" href="adminManageMovies.html">
                 <span class="material-symbols-outlined">movie</span>
                 <span class="font-medium">Manage Movies</span>
             </a>
-            <!-- Manage Schedules -->
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
-                href="adminManageSchedules.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:glass-card/5 transition-all" href="adminManageSchedules.html">
                 <span class="material-symbols-outlined">calendar_month</span>
                 <span class="font-medium">Manage Schedules</span>
             </a>
-            <!-- Manage F&B (Active) -->
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl bg-primary text-white font-bold transition-all shadow-lg shadow-primary/20"
-                href="adminManageFnB.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl bg-primary text-white font-bold transition-all shadow-lg shadow-primary/20" href="adminManageFnB.html">
                 <span class="material-symbols-outlined">fastfood</span>
                 <span class="font-medium">Manage F&B</span>
             </a>
-            <!-- Manage Branches -->
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
-                href="adminManageBranches.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:glass-card/5 transition-all" href="adminManageBranches.html">
                 <span class="material-symbols-outlined">storefront</span>
                 <span class="font-medium">Manage Branches</span>
             </a>
-            <!-- HR & Staff -->
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
-                href="adminHRanadUserManagement.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:glass-card/5 transition-all" href="adminHRanadUserManagement.html">
                 <span class="material-symbols-outlined">badge</span>
                 <span class="font-medium">HR & Staff</span>
             </a>
-            <!-- Transactions -->
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
-                href="adminTransactionHistory.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:glass-card/5 transition-all" href="adminTransactionHistory.html">
                 <span class="material-symbols-outlined">receipt_long</span>
                 <span class="font-medium">Transactions</span>
             </a>
         </nav>
-        <div class="p-4 border-t border-white/10">
-            <a href="login.html" class="flex items-center gap-3 px-4 py-3 hover:bg-white/5 rounded-xl transition-all cursor-pointer" title="Click to Logout">
-                <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold shrink-0">AM</div>
-                <div class="flex-1 overflow-hidden">
-                    <p class="text-sm font-bold truncate text-white">Alex Mercer</p>
-                    <p class="text-xs text-slate-400 truncate">Ops Director</p>
-                </div>
-                <span class="material-symbols-outlined text-slate-400 text-sm">logout</span>
+        <div class="p-4 border-t border-white/10 flex flex-col gap-2">
+            <a href="login.html" class="flex items-center justify-center gap-3 w-full py-3 hover:glass-card/5 rounded-xl transition-all cursor-pointer text-slate-300 font-medium" title="Click to Logout">
+                <span class="material-symbols-outlined text-sm">logout</span>
+                Logout
             </a>
+            <button onclick="deleteAccount()" class="w-full py-3 flex items-center justify-center gap-2 text-red-500 text-sm font-semibold hover:bg-red-500/10 rounded-lg transition-all">
+                <span class="material-symbols-outlined text-sm">delete</span>
+                Delete Account
+            </button>
         </div>
     </aside>
     <!-- Main Content -->
     <div class="flex-1 ml-64 flex flex-col">
         <!-- TopAppBar -->
-        <header
-            class="sticky top-0 right-0 h-16 bg-white border-b border-slate-200 flex justify-between items-center px-margin_desktop z-40">
-            <div class="flex items-center gap-4">
-                <div class="relative">
-                    <span
-                        class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[20px]"
-                        data-icon="search">search</span>
-                    <input
-                        class="pl-10 pr-4 py-2 bg-slate-50 border-none rounded-lg text-sm w-80 focus:ring-1 focus:ring-primary-container"
-                        placeholder="Search inventory..." type="text">
-                </div>
+        <header class="sticky top-0 w-full z-40 flex justify-between items-center px-10 h-20 bg-surface/70 backdrop-blur-xl border-b border-outline-variant/30">
+            <div>
+                <h2 class="text-headline-md font-bold text-on-surface">Manage F&B</h2>
             </div>
-            <div class="flex items-center gap-4">
-                <button class="p-2 rounded-full hover:bg-slate-50 transition-colors relative">
-                    <span class="material-symbols-outlined text-slate-600"
-                        data-icon="notifications">notifications</span>
-                    <span
-                        class="absolute top-2 right-2 w-2 h-2 bg-primary-container rounded-full border-2 border-white"></span>
+            <div class="flex items-center gap-6">
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+                    <input class="bg-surface-container-low border border-outline-variant/30 rounded-full py-2 pl-10 pr-4 text-label-md w-64 focus:outline-none focus:border-primary/50 transition-colors" placeholder="Search items..." type="text">
+                </div>
+                <button class="p-2 rounded-full hover:bg-surface-variant transition-colors relative">
+                    <span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+                    <span class="absolute top-2 right-2 w-2 h-2 bg-primary-container rounded-full border border-surface"></span>
                 </button>
-                <div class="h-6 w-[1px] bg-slate-200"></div>
-                <button
-                    class="flex items-center gap-2 px-md py-sm bg-primary-container text-white rounded-lg font-label-md hover:brightness-110 transition-all shadow-md shadow-primary-container/20">
-                    <span class="material-symbols-outlined text-[20px]" data-icon="add">add</span>
-                    Add Item
-                </button>
+                <div class="flex items-center gap-3 pl-4 border-l border-outline-variant/30">
+                    <div class="text-right">
+                        <p class="text-label-md font-bold text-on-surface">Admin</p>
+                        <p class="text-[10px] text-on-surface-variant uppercase tracking-wider">Employee</p>
+                    </div>
+                    <div class="w-10 h-10 rounded-full overflow-hidden border border-white/20 bg-primary/20 flex items-center justify-center text-primary">
+                        <span class="material-symbols-outlined">person</span>
+                    </div>
+                </div>
             </div>
         </header>
         <main class="p-margin_desktop max-w-[1400px]">
             <!-- Header Section -->
             <div class="mb-lg flex items-end justify-between gap-md">
                 <div>
-                    <h2 class="font-headline-lg text-headline-lg text-slate-900 mb-xs">F&amp;B Inventory</h2>
-                    <p class="font-body-md text-slate-500">Manage snacks, beverages, and combo deals for all screening
+                    <h2 class="font-headline-lg text-headline-lg text-white mb-xs">F&amp;B Inventory</h2>
+                    <p class="font-body-md text-slate-300">Manage snacks, beverages, and combo deals for all screening
                         rooms.</p>
                 </div>
                 <div class="flex items-center gap-sm">
                     <button
-                        class="flex items-center gap-2 px-md py-sm bg-white border border-slate-200 rounded-lg font-label-md text-slate-700 hover:bg-slate-50 transition-all shadow-sm">
+                        class="flex items-center gap-2 px-md py-sm glass-card border border-white/10 rounded-lg font-label-md text-white hover:glass-card/5 transition-all shadow-sm">
                         <span class="material-symbols-outlined text-[20px]"
                             data-icon="file_download">file_download</span>
                         Export PDF
@@ -240,7 +242,7 @@
             </div>
             <!-- Inventory Sections -->
             <div id="fnb-container" class="space-y-xl">
-                <p class="text-center text-slate-500 py-8">Loading F&B items...</p>
+                <p class="text-center text-slate-300 py-8">Loading F&B items...</p>
             </div>
         </main>
         <!-- Operational Controls -->
@@ -264,6 +266,7 @@
             if (sidebarUser) sidebarUser.innerText = user.name;
             const sidebarAvatar = document.querySelector('aside .w-10.h-10');
             if (sidebarAvatar) sidebarAvatar.innerText = user.name.substring(0, 2).toUpperCase();
+            fetchFnB();
 
             try {
                 const res = await fetch('/api/admin/fnb');
@@ -293,9 +296,9 @@
                         <div class="flex items-center gap-2 mb-md">
                             <span class="material-symbols-outlined text-secondary-container" data-icon="${icon}"
                                 style="font-variation-settings: 'FILL' 1;">${icon}</span>
-                            <h3 class="font-headline-md text-headline-md text-slate-800">${cat}</h3>
+                            <h3 class="font-headline-md text-headline-md text-white">${cat}</h3>
                             <span
-                                class="ml-2 px-2 py-0.5 bg-white border border-slate-100 rounded text-label-sm text-slate-500">${catItems.length}
+                                class="ml-2 px-2 py-0.5 glass-card border border-slate-100 rounded text-label-sm text-slate-300">${catItems.length}
                                 Items</span>
                         </div>
                         <div class="grid grid-cols-4 gap-gutter" id="grid-${cat.replace(/\s+/g, '-')}">
@@ -311,38 +314,38 @@
                                            { color: 'red', label: 'Out of Stock' };
 
                         const card = document.createElement('div');
-                        card.className = 'bg-white border border-slate-200 rounded-xl p-md flex flex-col hover:border-primary-container/40 hover:shadow-lg transition-all group';
+                        card.className = 'glass-card border border-white/10 rounded-xl p-md flex flex-col hover:border-primary-container/40 hover:shadow-lg transition-all group';
                         card.innerHTML = `
-                            <div class="w-full h-40 bg-slate-100 rounded-lg mb-md overflow-hidden flex items-center justify-center relative">
+                            <div class="w-full h-40 glass-card/5 rounded-lg mb-md overflow-hidden flex items-center justify-center relative">
                                 ${item.gambar_url ? 
                                     `<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="${item.gambar_url}">` : 
                                     `<span class="material-symbols-outlined text-4xl text-slate-300">image</span>`
                                 }
                             </div>
                             <div class="flex justify-between items-start mb-sm">
-                                <h4 class="font-label-md text-slate-900">${item.nama_produk}</h4>
+                                <h4 class="font-label-md text-white">${item.nama_produk}</h4>
                                 <span class="text-primary font-bold">Rp ${parseFloat(item.harga_satuan || 0).toLocaleString('id-ID')}</span>
                             </div>
                             <div class="flex items-center justify-between mb-md">
                                 <div class="flex items-center gap-1.5">
                                     <span class="w-2 h-2 rounded-full bg-${stockLevel.color}-500"></span>
-                                    <span class="text-label-sm text-slate-500">Stock: ${item.stok}</span>
+                                    <span class="text-label-sm text-slate-300">Stock: ${item.stok}</span>
                                 </div>
                                 <span
                                     class="px-2 py-0.5 bg-${stockLevel.color}-50 text-${stockLevel.color}-700 rounded text-label-sm">${stockLevel.label}</span>
                             </div>
                             <button
-                                class="w-full py-2 bg-slate-50 text-slate-700 border border-slate-200 rounded-lg font-label-md hover:bg-primary-container hover:text-white hover:border-primary-container transition-all mt-auto">Update</button>
+                                class="w-full py-2 bg-surface/30 text-white border border-white/10 rounded-lg font-label-md hover:bg-primary-container hover:text-white hover:border-primary-container transition-all mt-auto">Update</button>
                         `;
                         grid.appendChild(card);
                     });
 
                     // Add new item button
                     const addButton = document.createElement('div');
-                    addButton.className = 'bg-white border border-slate-200 rounded-xl p-md flex flex-col hover:border-primary-container/40 transition-colors group';
+                    addButton.className = 'glass-card border border-white/10 rounded-xl p-md flex flex-col hover:border-primary-container/40 transition-colors group';
                     addButton.innerHTML = `
                         <div
-                            class="w-full h-full min-h-[220px] bg-slate-50 rounded-lg flex flex-col items-center justify-center border-2 border-dashed border-slate-200 hover:bg-slate-100 transition-colors cursor-pointer">
+                            class="w-full h-full min-h-[220px] bg-surface/30 rounded-lg flex flex-col items-center justify-center border-2 border-dashed border-white/10 hover:glass-card/5 transition-colors cursor-pointer">
                             <span class="material-symbols-outlined text-slate-300 text-[48px] mb-2"
                                 data-icon="add_circle">add_circle</span>
                             <p class="font-label-md text-slate-400">Add Variant</p>
@@ -360,7 +363,7 @@
             document.querySelectorAll('button').forEach(btn => {
                 btn.addEventListener('click', function (e) {
                     const ripple = document.createElement('span');
-                    ripple.classList.add('absolute', 'inset-0', 'bg-white/20', 'rounded-inherit', 'animate-ping');
+                    ripple.classList.add('absolute', 'inset-0', 'glass-card/20', 'rounded-inherit', 'animate-ping');
                     if (getComputedStyle(this).position === 'static') {
                         this.style.position = 'relative';
                     }
@@ -369,12 +372,105 @@
                 });
             });
         });
+    
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const userStr = localStorage.getItem('user');
+            if (userStr) {
+                const user = JSON.parse(userStr);
+                const headerUser = document.querySelector('header .text-right p.font-bold');
+                if (headerUser) headerUser.innerText = user.name;
+                const sidebarAvatar = document.querySelector('aside .w-10.h-10');
+                if (sidebarAvatar) sidebarAvatar.innerText = user.name.substring(0, 2).toUpperCase();
+            }
+        });
+
+        async function deleteAccount() {
+            if (!confirm('Are you sure you want to delete your Admin account? This action cannot be undone.')) return;
+            const userStr = localStorage.getItem('user');
+            if (!userStr) return;
+            const user = JSON.parse(userStr);
+            
+            try {
+                const res = await fetch('/api/auth/delete-account', {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id: user.id, role: 'admin' })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    alert(data.message);
+                    localStorage.removeItem('user');
+                    localStorage.removeItem('token');
+                    window.location.href = 'login.html';
+                } else {
+                    alert(data.message || 'Failed to delete account.');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Connection error.');
+            }
+        }
     </script>
 
+    <!-- FnB Modal -->
+    <div id="fnbModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm">
+        <div class="bg-surface-container-high border border-outline-variant/50 rounded-2xl p-6 w-[500px] shadow-2xl relative">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-on-surface-variant hover:text-white transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+            <h3 id="modalTitle" class="text-headline-md font-bold mb-6">Add New Product</h3>
+            <form id="fnbForm" onsubmit="handleFormSubmit(event)" class="space-y-4">
+                <input type="hidden" id="fnbId" />
+                
+                <div class="space-y-1">
+                    <label class="text-label-sm text-on-surface-variant font-bold uppercase tracking-wider">Nama Produk</label>
+                    <input id="nama_produk" type="text" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 focus:border-primary focus:outline-none transition-colors" placeholder="e.g. Popcorn Caramel">
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="text-label-sm text-on-surface-variant font-bold uppercase tracking-wider">Kategori</label>
+                        <select id="kategori_id_kategori" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 focus:border-primary focus:outline-none transition-colors text-white">
+                            <option value="KT0001">Popcorn</option>
+                            <option value="KT0002">Drinks</option>
+                            <option value="KT0003">Snacks</option>
+                            <option value="KT0004">Combo</option>
+                            <option value="KT0005">Hot Food</option>
+                            <option value="KT0006">Others</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-label-sm text-on-surface-variant font-bold uppercase tracking-wider">Harga (Rp)</label>
+                        <input id="harga_satuan" type="number" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 focus:border-primary focus:outline-none transition-colors" placeholder="35000">
+                    </div>
+                </div>
 
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="text-label-sm text-on-surface-variant font-bold uppercase tracking-wider">Stok</label>
+                        <input id="stok" type="number" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 focus:border-primary focus:outline-none transition-colors" placeholder="100">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-label-sm text-on-surface-variant font-bold uppercase tracking-wider">Image URL</label>
+                        <input id="image_url" type="text" class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 focus:border-primary focus:outline-none transition-colors" placeholder="/assets/foodImages/popcorn.jpg">
+                    </div>
+                </div>
 
+                <div class="space-y-1">
+                    <label class="text-label-sm text-on-surface-variant font-bold uppercase tracking-wider">Deskripsi</label>
+                    <textarea id="deskripsi" class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 focus:border-primary focus:outline-none transition-colors" placeholder="Deskripsi produk..."></textarea>
+                </div>
 
-
+                <div class="flex justify-end gap-3 mt-8">
+                    <button type="button" onclick="closeModal()" class="px-5 py-2.5 rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container-highest transition-colors font-bold">Cancel</button>
+                    <button type="submit" class="px-5 py-2.5 rounded-lg bg-primary text-on-primary hover:brightness-110 shadow-lg transition-colors font-bold flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[20px]">save</span> Save Item
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 
 </body>
 

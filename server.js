@@ -15,9 +15,14 @@ app.use(cors());
 app.use(express.json());
 
 // Serve static frontend files
-app.use(express.static(path.join(__dirname, 'FrontEnd')));
+app.use(express.static(path.join(__dirname, 'frontend')));
 // Serve static assets folder
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
+
+// Redirect root to login page
+app.get('/', (req, res) => {
+  res.redirect('/login.html');
+});
 
 // Create MySQL connection pool
 const pool = mysql.createPool({
@@ -37,8 +42,8 @@ pool.query('SELECT 1')
   .catch(err => console.error('Database connection error:', err));
 
 // Helper: Auto-increment ID generator
-async function getNextId(prefix, tableName, columnName, conn = pool) {
-  const [rows] = await conn.query(`SELECT ${columnName} FROM ${tableName} ORDER BY ${columnName} DESC LIMIT 1`);
+async function getNextId(prefix, tableName, columnName) {
+  const [rows] = await pool.query(`SELECT ${columnName} FROM ${tableName} ORDER BY ${columnName} DESC LIMIT 1`);
   if (rows.length === 0) {
     // Determine target length based on standard seeds
     // Standard formats: PL0001 (6 chars), TX0001 (6 chars), FM0001 (6 chars)
@@ -119,7 +124,7 @@ app.post('/api/auth/google', async (req, res) => {
   }
 });
 
-// POST /api/auth/bypass
+// POST /api/auth/bypass (dev/testing - bypass Google OAuth)
 app.post('/api/auth/bypass', async (req, res) => {
   const role = req.body.role || 'user';
   try {
@@ -186,6 +191,24 @@ app.post('/api/auth/login', async (req, res) => {
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: 'Internal server error.' });
+  }
+});
+
+// DELETE /api/auth/delete-account
+app.delete('/api/auth/delete-account', async (req, res) => {
+  const { id, role } = req.body;
+  if (!id || !role) return res.status(400).json({ message: 'Missing user id or role.' });
+
+  try {
+    if (role === 'admin') {
+      await pool.query('DELETE FROM pegawai WHERE id_pegawai = ?', [id]);
+    } else {
+      await pool.query('DELETE FROM pelanggan WHERE id_pelanggan = ?', [id]);
+    }
+    return res.json({ message: 'Account deleted successfully.' });
+  } catch (err) {
+    console.error('Delete Account Error:', err);
+    return res.status(500).json({ message: 'Failed to delete account. It might be tied to existing transactions.' });
   }
 });
 
@@ -461,14 +484,14 @@ app.post('/api/checkout', async (req, res) => {
     await connection.beginTransaction();
 
     // 1. Create a payment record
-    const paymentId = await getNextId('PB', 'pembayaran', 'id_pembayaran', connection);
+    const paymentId = await getNextId('PB', 'pembayaran', 'id_pembayaran');
     await connection.query(
       'INSERT INTO pembayaran (id_pembayaran, metode_pembayaran, status_pembayaran) VALUES (?, ?, ?)',
       [paymentId, paymentMethod || 'E-Wallet', 'Success']
     );
 
     // 2. Create the main transaction
-    const transactionId = await getNextId('TX', 'transaksi', 'id_transaksi', connection);
+    const transactionId = await getNextId('TX', 'transaksi', 'id_transaksi');
     // Cashier default employee is PG0001 (Ops Director/Admin)
     await connection.query(
       'INSERT INTO transaksi (id_transaksi, tanggal_transaksi, total_tagihan, pelanggan_id_pelanggan, pembayaran_id_pembayaran, pegawai_id_pegawai) VALUES (?, NOW(), ?, ?, ?, ?)',
@@ -476,12 +499,19 @@ app.post('/api/checkout', async (req, res) => {
     );
 
     // 3. Create ticket records (Trigger trg_cegah_double_booking & trg_kalkulasi_harga_tiket will execute)
-    for (const seatId of seats) {
-      const ticketId = await getNextId('TK', 'tiket', 'id_tiket', connection);
+    // Pre-calculate base ticket ID once to avoid duplicate key when buying multiple seats
+    // (getNextId uses pool, not transaction connection, so it can't see uncommitted rows)
+    const baseTicketId = await getNextId('TK', 'tiket', 'id_tiket');
+    const tkPrefix = 'TK';
+    const tkPadding = baseTicketId.length - tkPrefix.length;
+    const tkBaseNum = parseInt(baseTicketId.substring(tkPrefix.length), 10);
+
+    for (let i = 0; i < seats.length; i++) {
+      const ticketId = tkPrefix + String(tkBaseNum + i).padStart(tkPadding, '0');
       // Insert with temporary dummy price, which is automatically overwritten by the BEFORE INSERT trigger
       await connection.query(
         'INSERT INTO tiket (id_tiket, harga_beli, jadwal_tayang_id_jadwal, transaksi_id_transaksi, kursi_id_kursi) VALUES (?, 0, ?, ?, ?)',
-        [ticketId, scheduleId, transactionId, seatId]
+        [ticketId, scheduleId, transactionId, seats[i]]
       );
     }
 
@@ -491,7 +521,7 @@ app.post('/api/checkout', async (req, res) => {
         if (item.qty > 0) {
           await connection.query(
             'INSERT INTO produk_kantin_transaksi (produk_kantin_id_produk, transaksi_id_transaksi, qty, subtotal) VALUES (?, ?, ?, ?)',
-            [item.productId, transactionId, item.qty, item.subtotal]
+            [item.productId || item.id_produk, transactionId, item.qty, item.subtotal]
           );
         }
       }
@@ -570,18 +600,7 @@ app.get('/api/admin/branches-performance', async (req, res) => {
 app.get('/api/admin/transactions', async (req, res) => {
   try {
     const [transactions] = await pool.query(
-      `SELECT 
-        tx.id_transaksi, 
-        tx.tanggal_transaksi, 
-        tx.total_tagihan, 
-        pl.nama_pelanggan, 
-        pb.metode_pembayaran, 
-        pg.nama_pegawai
-      FROM transaksi tx
-      JOIN pelanggan pl ON tx.pelanggan_id_pelanggan = pl.id_pelanggan
-      JOIN pembayaran pb ON tx.pembayaran_id_pembayaran = pb.id_pembayaran
-      JOIN pegawai pg ON tx.pegawai_id_pegawai = pg.id_pegawai
-      ORDER BY tx.tanggal_transaksi DESC`
+      `SELECT * FROM vw_transaksi_lengkap ORDER BY tanggal_transaksi DESC`
     );
     return res.json(transactions);
   } catch (err) {
@@ -593,7 +612,7 @@ app.get('/api/admin/transactions', async (req, res) => {
 // 1. Movie CRUD
 app.get('/api/admin/movies', async (req, res) => {
   try {
-    const [movies] = await pool.query('SELECT * FROM film ORDER BY id_film DESC');
+    const [movies] = await pool.query('SELECT * FROM vw_film_genre ORDER BY id_film DESC');
     return res.json(movies);
   } catch (err) {
     console.error(err);
@@ -801,22 +820,7 @@ app.delete('/api/admin/employees/:id', async (req, res) => {
 app.get('/api/admin/schedules', async (req, res) => {
   try {
     const [schedules] = await pool.query(
-      `SELECT 
-        jt.id_jadwal, 
-        jt.waktu_tayang, 
-        jt.harga_dasar, 
-        st.id_studio, 
-        st.nomor_studio, 
-        st.kelas_studio, 
-        f.id_film, 
-        f.judul AS judul_film, 
-        cb.nama_cabang
-      FROM jadwal_tayang jt
-      JOIN studio st ON jt.studio_id_studio = st.id_studio
-      JOIN cabang cb ON st.cabang_id_cabang = cb.id_cabang
-      LEFT JOIN jadwal_tayang_film jtf ON jt.id_jadwal = jtf.jadwal_tayang_id_jadwal
-      LEFT JOIN film f ON jtf.film_id_film = f.id_film
-      ORDER BY jt.waktu_tayang DESC`
+      `SELECT * FROM vw_detail_jadwal ORDER BY waktu_tayang DESC`
     );
     return res.json(schedules);
   } catch (err) {
@@ -919,6 +923,6 @@ app.get('/api/admin/studios', async (req, res) => {
 
 // Start server listener
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, '0.0.0.0', () => {
+app.listen(PORT, () => {
   console.log(`Express server running on http://localhost:${PORT}`);
 });

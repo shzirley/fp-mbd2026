@@ -4,9 +4,9 @@
 --  Kelompok: Maleka Ghaniya · Jorell Ramos Sinaga · Angela Vania Sugiyono
 -- ============================================================
 
-DROP DATABASE IF EXISTS mbdfp_db;
-CREATE DATABASE mbdfp_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE mbdfp_db;
+DROP DATABASE IF EXISTS MBD_FP;
+CREATE DATABASE MBD_FP CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE MBD_FP;
 
 -- ============================================================
 -- SECTION 1 — DDL (Schema)
@@ -946,7 +946,7 @@ DELIMITER ;
 --  composite PK yang belum memiliki index otomatis.
 -- ============================================================
 
-USE mbdfp_db;
+USE MBD_FP;
 
 
 -- ============================================================
@@ -1068,6 +1068,68 @@ CREATE INDEX idx_jadwal_waktu_tayang
 
 
 -- CATATAN: Verifikasi semua index dipindahkan ke MBD_D_FP_tests.sql
+
+-- ============================================================
+-- SECTION 7 — Database Views
+-- ============================================================
+
+-- View 1: vw_detail_jadwal
+-- Mempermudah pengambilan detail jadwal tayang lengkap dengan informasi studio, cabang, dan film.
+CREATE OR REPLACE VIEW vw_detail_jadwal AS
+SELECT 
+    j.id_jadwal,
+    j.waktu_tayang,
+    j.harga_dasar,
+    s.id_studio,
+    s.nomor_studio,
+    s.kelas_studio,
+    c.id_cabang,
+    c.nama_cabang,
+    f.id_film,
+    f.judul,
+    f.durasi
+FROM jadwal_tayang j
+JOIN studio s ON j.studio_id_studio = s.id_studio
+JOIN cabang c ON s.cabang_id_cabang = c.id_cabang
+LEFT JOIN jadwal_tayang_film jtf ON j.id_jadwal = jtf.jadwal_tayang_id_jadwal
+LEFT JOIN film f ON jtf.film_id_film = f.id_film;
+
+-- View 2: vw_transaksi_lengkap
+-- Mempermudah laporan transaksi lengkap dengan informasi pelanggan, pegawai, dan pembayaran.
+CREATE OR REPLACE VIEW vw_transaksi_lengkap AS
+SELECT 
+    t.id_transaksi,
+    t.tanggal_transaksi,
+    t.total_tagihan,
+    pl.id_pelanggan,
+    pl.nama_pelanggan,
+    pg.id_pegawai,
+    pg.nama_pegawai,
+    pb.metode_pembayaran,
+    pb.status_pembayaran
+FROM transaksi t
+JOIN pelanggan pl ON t.pelanggan_id_pelanggan = pl.id_pelanggan
+JOIN pegawai pg ON t.pegawai_id_pegawai = pg.id_pegawai
+JOIN pembayaran pb ON t.pembayaran_id_pembayaran = pb.id_pembayaran;
+
+-- View 3: vw_film_genre
+-- Menggabungkan genre film dalam satu string agar mudah ditampilkan di aplikasi frontend.
+CREATE OR REPLACE VIEW vw_film_genre AS
+SELECT 
+    f.id_film,
+    f.judul,
+    f.sutradara,
+    f.rating_usia,
+    f.durasi,
+    f.sinopsis,
+    f.status_tayang,
+    f.poster_url,
+    f.rating_score,
+    GROUP_CONCAT(g.nama_genre SEPARATOR ', ') AS daftar_genre
+FROM film f
+LEFT JOIN film_genre fg ON f.id_film = fg.film_id_film
+LEFT JOIN genre g ON fg.genre_id_genre = g.id_genre
+GROUP BY f.id_film;
 
 -- ============================================================
 -- END OF MBD_D_FP.sql

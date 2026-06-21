@@ -13,13 +13,35 @@
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet">
     <style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        body {
+            background-color: #0b1326;
+            color: #dae2fd;
+            -webkit-font-smoothing: antialiased;
+            min-width: 1024px;
         }
 
-        body {
-            min-width: 1024px;
-            overflow-x: auto;
+        .glass-card {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        .primary-glow {
+            box-shadow: 0 0 20px rgba(225, 29, 72, 0.3);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #5c3f40;
+            border-radius: 10px;
         }
     </style>
     <script id="tailwind-config">
@@ -38,7 +60,7 @@
                         "inverse-surface": "#dae2fd",
                         "outline": "#ac8889",
                         "secondary-fixed-dim": "#eec200",
-                        "on-surface": "#0b1326",
+                        "on-surface": "#dae2fd",
                         "on-error": "#690005",
                         "error-container": "#93000a",
                         "surface-tint": "#ffb3b6",
@@ -47,7 +69,7 @@
                         "on-tertiary-container": "#eefff7",
                         "secondary": "#ffe083",
                         "error": "#ffb4ab",
-                        "on-surface-variant": "#4b5563",
+                        "on-surface-variant": "#e5bdbe",
                         "surface-container-low": "#131b2e",
                         "surface-variant": "#2d3449",
                         "on-secondary-fixed-variant": "#574500",
@@ -59,12 +81,22 @@
                         "inverse-primary": "#be0037",
                         "outline-variant": "#5c3f40",
                         "surface-dim": "#0b1326",
-                        "surface-bright": "#ffffff",
+                        "on-secondary-container": "#645000",
+                        "on-primary-fixed-variant": "#920028",
+                        "background": "#0b1326",
+                        "secondary-fixed": "#ffe083",
+                        "on-tertiary-fixed": "#002019",
+                        "on-background": "#dae2fd",
+                        "secondary-container": "#eec200",
+                        "on-tertiary": "#00382d",
+                        "primary-fixed-dim": "#ffb3b6",
+                        "primary": "#ffb3b6",
+                        "surface-bright": "#31394d",
                         "primary-fixed": "#ffdada",
-                        "surface": "#f8fafc",
+                        "surface": "#0b1326",
                         "primary-container": "#e11d48",
                         "on-tertiary-fixed-variant": "#005142",
-                        "surface-container-high": "#f1f5f9"
+                        "surface-container-high": "#222a3d"
                     },
                     "borderRadius": {
                         "DEFAULT": "0.25rem",
@@ -113,87 +145,82 @@
 
 <body class="bg-surface font-body-md text-on-surface min-h-screen flex">
     <!-- Fixed Sidebar Navigation -->
-    <aside
-        class="fixed left-0 top-0 h-screen w-64 bg-surface-container-lowest border-r border-white/10 z-50 flex flex-col text-white">
-        <div class="p-6 flex items-center gap-3 border-b border-outline-variant/10 mb-4">
-            <span class="material-symbols-outlined text-primary text-headline-md"
-                style="font-variation-settings: 'FILL' 1;">movie_filter</span>
+    <aside class="w-64 h-screen fixed top-0 left-0 bg-surface-container-lowest border-r border-outline-variant/20 flex flex-col z-50">
+        <div class="px-6 flex items-center justify-start gap-3 border-b border-outline-variant/10 mb-4 h-20">
+            <span class="material-symbols-outlined text-primary text-headline-md" style="font-variation-settings: 'FILL' 1;">movie_filter</span>
             <h1 class="text-headline-md font-bold tracking-tight text-primary text-white">Cinetrack</h1>
         </div>
         <nav class="flex-grow px-4 py-4 space-y-2 overflow-y-auto custom-scrollbar">
-            <!-- Dashboard -->
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
-                href="adminDashboard.html">
+            
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:glass-card/5 transition-all" href="adminDashboard.html">
                 <span class="material-symbols-outlined">dashboard</span>
                 <span class="font-medium">Dashboard</span>
             </a>
-            <!-- POS / Bookings -->
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
-                href="adminPointOfSale.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:glass-card/5 transition-all" href="adminPointOfSale.html">
                 <span class="material-symbols-outlined">confirmation_number</span>
                 <span class="font-medium">POS / Bookings</span>
             </a>
-            <!-- Manage Movies (Active) -->
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl bg-primary text-white font-bold transition-all shadow-lg shadow-primary/20"
-                href="adminManageMovies.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl bg-primary text-white font-bold transition-all shadow-lg shadow-primary/20" href="adminManageMovies.html">
                 <span class="material-symbols-outlined">movie</span>
                 <span class="font-medium">Manage Movies</span>
             </a>
-            <!-- Manage Schedules -->
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
-                href="adminManageSchedules.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:glass-card/5 transition-all" href="adminManageSchedules.html">
                 <span class="material-symbols-outlined">calendar_month</span>
                 <span class="font-medium">Manage Schedules</span>
             </a>
-            <!-- Manage F&B -->
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
-                href="adminManageFnB.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:glass-card/5 transition-all" href="adminManageFnB.html">
                 <span class="material-symbols-outlined">fastfood</span>
                 <span class="font-medium">Manage F&B</span>
             </a>
-            <!-- Manage Branches -->
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
-                href="adminManageBranches.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:glass-card/5 transition-all" href="adminManageBranches.html">
                 <span class="material-symbols-outlined">storefront</span>
                 <span class="font-medium">Manage Branches</span>
             </a>
-            <!-- HR & Staff -->
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
-                href="adminHRanadUserManagement.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:glass-card/5 transition-all" href="adminHRanadUserManagement.html">
                 <span class="material-symbols-outlined">badge</span>
                 <span class="font-medium">HR & Staff</span>
             </a>
-            <!-- Transactions -->
-            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
-                href="adminTransactionHistory.html">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:glass-card/5 transition-all" href="adminTransactionHistory.html">
                 <span class="material-symbols-outlined">receipt_long</span>
                 <span class="font-medium">Transactions</span>
             </a>
         </nav>
-        <div class="p-4 border-t border-white/10">
-            <a href="login.html" class="flex items-center gap-3 px-4 py-3 hover:bg-white/5 rounded-xl transition-all cursor-pointer" title="Click to Logout">
-                <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold shrink-0">AM</div>
-                <div class="flex-1 overflow-hidden">
-                    <p class="text-sm font-bold truncate text-white">Alex Mercer</p>
-                    <p class="text-xs text-slate-400 truncate">Ops Director</p>
-                </div>
-                <span class="material-symbols-outlined text-slate-400 text-sm">logout</span>
+        <div class="p-4 border-t border-white/10 flex flex-col gap-2">
+            <a href="login.html" class="flex items-center justify-center gap-3 w-full py-3 hover:glass-card/5 rounded-xl transition-all cursor-pointer text-slate-300 font-medium" title="Click to Logout">
+                <span class="material-symbols-outlined text-sm">logout</span>
+                Logout
             </a>
+            <button onclick="deleteAccount()" class="w-full py-3 flex items-center justify-center gap-2 text-red-500 text-sm font-semibold hover:bg-red-500/10 rounded-lg transition-all">
+                <span class="material-symbols-outlined text-sm">delete</span>
+                Delete Account
+            </button>
         </div>
     </aside>
     <!-- Main Content Area -->
     <div class="ml-64 flex-grow">
         <!-- Top Bar -->
-        <header
-            class="sticky top-0 w-full z-40 flex justify-end items-center px-8 h-16 bg-surface/80 backdrop-blur-md border-b border-outline-variant">
-            <div class="flex items-center gap-4">
-                <button class="p-2 rounded-full hover:bg-surface-variant transition-colors">
-                    <span class="material-symbols-outlined text-on-surface-variant"
-                        data-icon="notifications">notifications</span>
+        <header class="sticky top-0 w-full z-40 flex justify-between items-center px-10 h-20 bg-surface/70 backdrop-blur-xl border-b border-outline-variant/30">
+            <div>
+                <h2 class="text-headline-md font-bold text-on-surface">Manage Movies</h2>
+            </div>
+            <div class="flex items-center gap-6">
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+                    <input class="bg-surface-container-low border border-outline-variant/30 rounded-full py-2 pl-10 pr-4 text-label-md w-64 focus:outline-none focus:border-primary/50 transition-colors" placeholder="Search movies..." type="text">
+                </div>
+                <button class="p-2 rounded-full hover:bg-surface-variant transition-colors relative">
+                    <span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+                    <span class="absolute top-2 right-2 w-2 h-2 bg-primary-container rounded-full border border-surface"></span>
                 </button>
-                <button class="p-2 rounded-full hover:bg-surface-variant transition-colors">
-                    <span class="material-symbols-outlined text-on-surface-variant" data-icon="settings">settings</span>
-                </button>
+                <div class="flex items-center gap-3 pl-4 border-l border-outline-variant/30">
+                    <div class="text-right">
+                        <p class="text-label-md font-bold text-on-surface">Admin</p>
+                        <p class="text-[10px] text-on-surface-variant uppercase tracking-wider">Employee</p>
+                    </div>
+                    <div class="w-10 h-10 rounded-full overflow-hidden border border-white/20 bg-primary/20 flex items-center justify-center text-primary">
+                        <span class="material-symbols-outlined">person</span>
+                    </div>
+                </div>
             </div>
         </header>
         <main class="p-8 max-w-[1600px] mx-auto">
@@ -213,11 +240,7 @@
                             class="w-full pl-10 pr-4 py-2 bg-surface-container-high border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary-container focus:border-transparent outline-none transition-all font-body-md"
                             id="desktopSearch" placeholder="Search movies, genres, IDs..." type="text">
                     </div>
-                    <button
-                        class="flex items-center gap-2 bg-primary-container text-on-primary-container px-6 py-2 rounded-lg font-label-md hover:brightness-110 active:scale-95 transition-all shadow-sm">
-                        <span class="material-symbols-outlined" data-icon="add">add</span>
-                        Add New Movie
-                    </button>
+                    <button onclick="openModal()" class="flex items-center gap-2 bg-primary-container text-on-primary-container px-6 py-2 rounded-lg font-label-md hover:brightness-110 active:scale-95 transition-all shadow-sm"><span class="material-symbols-outlined" data-icon="add">add</span>Add New Movie</button>
                 </div>
             </div>
             <!-- Movie Desktop Grid (5 columns for wider screens) -->
@@ -240,7 +263,7 @@
                                 velocity</p>
                         </div>
                         <span
-                            class="text-label-sm text-primary flex items-center gap-1 bg-white px-3 py-1.5 rounded-full shadow-sm">
+                            class="text-label-sm text-primary flex items-center gap-1 glass-card px-3 py-1.5 rounded-full shadow-sm">
                             <span class="material-symbols-outlined text-[18px]"
                                 data-icon="trending_up">trending_up</span>
                             +12% from last week
@@ -356,70 +379,151 @@
             if (sidebarUser) sidebarUser.innerText = user.name;
             const sidebarAvatar = document.querySelector('aside .w-10.h-10');
             if (sidebarAvatar) sidebarAvatar.innerText = user.name.substring(0, 2).toUpperCase();
+            fetchMovies();
 
-            // Load Movies
+            
+        let moviesData = [];
+
+        async function fetchMovies() {
             try {
                 const res = await fetch('/api/admin/movies');
-                const movies = await res.json();
-                
-                const grid = document.getElementById('movies-grid');
-                grid.innerHTML = '';
-                
-                movies.forEach(movie => {
-                    const card = document.createElement('div');
-                    card.className = 'group bg-surface-bright border border-outline-variant rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col min-h-[300px]';
-                    card.innerHTML = `
-                        <div class="relative aspect-[2/3] overflow-hidden">
-                            <img alt="${movie.judul}"
-                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                src="${movie.poster_url || '/assets/posters/default.jpg'}">
-                            <div class="absolute top-3 right-3 flex flex-col gap-2">
-                                <span
-                                    class="bg-secondary-container text-on-secondary-container text-[11px] font-bold px-2 py-0.5 rounded flex items-center gap-1 shadow-sm uppercase">
-                                    <span class="material-symbols-outlined text-[12px]" data-icon="star"
-                                        style="font-variation-settings: 'FILL' 1;">star</span>
-                                    ${parseFloat(movie.rating_score || 0).toFixed(1)}
-                                </span>
-                            </div>
-                        </div>
-                        <div class="p-4 flex-grow flex flex-col">
-                            <div class="mb-4">
-                                <span class="text-primary font-label-sm uppercase tracking-wider text-[11px]">${movie.rating_usia || 'SU'} • ${movie.durasi || 120}m</span>
-                                <h3 class="font-headline-md text-body-lg font-bold text-on-surface mt-1 line-clamp-1">${movie.judul}</h3>
-                            </div>
-                            <div class="mt-auto flex flex-col gap-2">
-                                <button onclick="alert('Edit movie: ${movie.id_film}')"
-                                    class="w-full flex items-center justify-center gap-1 py-1.5 rounded border border-outline-variant text-on-surface-variant hover:bg-surface-container-high transition-colors text-sm font-label-md">
-                                    <span class="material-symbols-outlined text-[16px]" data-icon="edit">edit</span>
-                                    Edit Details
-                                </button>
-                                <button onclick="window.location.href='adminManageSchedules.html'"
-                                    class="w-full flex items-center justify-center gap-1 py-1.5 rounded bg-surface-container-highest text-white hover:bg-on-surface transition-colors text-sm font-label-md">
-                                    <span class="material-symbols-outlined text-[16px]"
-                                        data-icon="calendar_month">calendar_month</span>
-                                    Schedule
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                    grid.appendChild(card);
-                });
-
-                // Add the placeholder button back
-                const addButton = document.createElement('button');
-                addButton.className = 'group border-2 border-dashed border-outline-variant rounded-xl hover:border-primary/50 hover:bg-primary/5 transition-all flex flex-col items-center justify-center gap-4 text-on-surface-variant min-h-[300px]';
-                addButton.innerHTML = `
-                    <span class="material-symbols-outlined text-4xl group-hover:scale-110 transition-transform"
-                        data-icon="add_circle">add_circle</span>
-                    <span class="font-label-md">Quick Add Movie</span>
-                `;
-                grid.appendChild(addButton);
-
+                moviesData = await res.json();
+                renderMoviesGrid(moviesData);
             } catch (err) {
                 console.error('Error fetching movies:', err);
             }
+        }
 
-            // Search filter logic for desktop
+        function renderMoviesGrid(movies) {
+            const grid = document.getElementById('movies-grid');
+            grid.innerHTML = '';
+            
+            movies.forEach(movie => {
+                const card = document.createElement('div');
+                card.className = 'group bg-surface-bright border border-outline-variant rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col min-h-[300px]';
+                card.innerHTML = `
+                    <div class="relative aspect-[2/3] overflow-hidden">
+                        <img alt="${movie.judul}"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            src="${movie.poster_url || '/assets/posters/default.jpg'}">
+                        <div class="absolute top-3 right-3 flex flex-col gap-2">
+                            <span
+                                class="bg-secondary-container text-on-secondary-container text-[11px] font-bold px-2 py-0.5 rounded flex items-center gap-1 shadow-sm uppercase">
+                                <span class="material-symbols-outlined text-[12px]" data-icon="star"
+                                    style="font-variation-settings: 'FILL' 1;">star</span>
+                                ${parseFloat(movie.rating_score || 0).toFixed(1)}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-4 flex-grow flex flex-col">
+                        <div class="mb-4">
+                            <span class="text-primary font-label-sm uppercase tracking-wider text-[11px]">${movie.rating_usia || 'SU'} • ${movie.durasi || 120}m</span>
+                            <h3 class="font-headline-md text-body-lg font-bold text-on-surface mt-1 line-clamp-1">${movie.judul}</h3>
+                            <p class="text-[12px] text-tertiary mt-1">${movie.daftar_genre || 'No Genre'}</p>
+                        </div>
+                        <div class="mt-auto flex flex-col gap-2">
+                            <button onclick="openModal('${movie.id_film}')"
+                                class="w-full flex items-center justify-center gap-1 py-1.5 rounded border border-outline-variant text-on-surface-variant hover:bg-surface-container-high transition-colors text-sm font-label-md">
+                                <span class="material-symbols-outlined text-[16px]" data-icon="edit">edit</span>
+                                Edit Details
+                            </button>
+                            <button onclick="deleteMovie('${movie.id_film}')"
+                                class="w-full flex items-center justify-center gap-1 py-1.5 rounded border border-red-500/30 text-red-400 hover:bg-red-500/10 transition-colors text-sm font-label-md">
+                                <span class="material-symbols-outlined text-[16px]" data-icon="delete">delete</span>
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            // Add the placeholder button back
+            const addButton = document.createElement('button');
+            addButton.onclick = () => openModal();
+            addButton.className = 'group border-2 border-dashed border-outline-variant rounded-xl hover:border-primary/50 hover:bg-primary/5 transition-all flex flex-col items-center justify-center gap-4 text-on-surface-variant min-h-[300px] cursor-pointer';
+            addButton.innerHTML = `
+                <span class="material-symbols-outlined text-4xl group-hover:scale-110 transition-transform"
+                    data-icon="add_circle">add_circle</span>
+                <span class="font-label-md">Quick Add Movie</span>
+            `;
+            grid.appendChild(addButton);
+        }
+
+        function openModal(id = null) {
+            const modal = document.getElementById('movieModal');
+            const form = document.getElementById('movieForm');
+            const title = document.getElementById('modalTitle');
+            
+            form.reset();
+            document.getElementById('movieId').value = '';
+
+            if (id) {
+                title.innerText = 'Edit Movie';
+                const movie = moviesData.find(m => m.id_film === id);
+                if (movie) {
+                    document.getElementById('movieId').value = movie.id_film;
+                    document.getElementById('judul').value = movie.judul;
+                    document.getElementById('sutradara').value = movie.sutradara || '';
+                    document.getElementById('durasi').value = movie.durasi || '';
+                    document.getElementById('rating_usia').value = movie.rating_usia || 'SU';
+                    document.getElementById('status_tayang').value = movie.status_tayang || 'Now Showing';
+                    document.getElementById('poster_url').value = movie.poster_url || '';
+                }
+            } else {
+                title.innerText = 'Add New Movie';
+            }
+            
+            modal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('movieModal').classList.add('hidden');
+        }
+
+        async function handleFormSubmit(e) {
+            e.preventDefault();
+            const id = document.getElementById('movieId').value;
+            const payload = {
+                judul: document.getElementById('judul').value,
+                sutradara: document.getElementById('sutradara').value,
+                durasi: document.getElementById('durasi').value,
+                rating_usia: document.getElementById('rating_usia').value,
+                status_tayang: document.getElementById('status_tayang').value,
+                poster_url: document.getElementById('poster_url').value,
+            };
+
+            const url = id ? '/api/admin/movies/' + id : '/api/admin/movies';
+            const method = id ? 'PUT' : 'POST';
+
+            try {
+                const res = await fetch(url, {
+                    method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                if (res.ok) {
+                    closeModal();
+                    fetchMovies();
+                } else {
+                    alert('Failed to save movie');
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        async function deleteMovie(id) {
+            if (!confirm('Are you sure you want to delete this movie? All related schedules and tickets will be deleted.')) return;
+            try {
+                const res = await fetch('/api/admin/movies/' + id, { method: 'DELETE' });
+                if (res.ok) fetchMovies();
+                else alert('Failed to delete movie');
+            } catch (err) {
+                console.error(err);
+            }
+        }
+// Search filter logic for desktop
             const searchInput = document.getElementById('desktopSearch');
             searchInput.addEventListener('input', (e) => {
                 const query = e.target.value.toLowerCase();
@@ -441,12 +545,107 @@
                 el.addEventListener('mouseleave', () => el.classList.remove('scale-95'));
             });
         });
+    
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const userStr = localStorage.getItem('user');
+            if (userStr) {
+                const user = JSON.parse(userStr);
+                const headerUser = document.querySelector('header .text-right p.font-bold');
+                if (headerUser) headerUser.innerText = user.name;
+                const sidebarAvatar = document.querySelector('aside .w-10.h-10');
+                if (sidebarAvatar) sidebarAvatar.innerText = user.name.substring(0, 2).toUpperCase();
+            }
+        });
+
+        async function deleteAccount() {
+            if (!confirm('Are you sure you want to delete your Admin account? This action cannot be undone.')) return;
+            const userStr = localStorage.getItem('user');
+            if (!userStr) return;
+            const user = JSON.parse(userStr);
+            
+            try {
+                const res = await fetch('/api/auth/delete-account', {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id: user.id, role: 'admin' })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    alert(data.message);
+                    localStorage.removeItem('user');
+                    localStorage.removeItem('token');
+                    window.location.href = 'login.html';
+                } else {
+                    alert(data.message || 'Failed to delete account.');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Connection error.');
+            }
+        }
     </script>
 
+    <!-- Movie Modal -->
+    <div id="movieModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm">
+        <div class="bg-surface-container-high border border-outline-variant/50 rounded-2xl p-6 w-[500px] shadow-2xl relative">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-on-surface-variant hover:text-white transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+            <h3 id="modalTitle" class="text-headline-md font-bold mb-6">Add New Movie</h3>
+            <form id="movieForm" onsubmit="handleFormSubmit(event)" class="space-y-4">
+                <input type="hidden" id="movieId" />
+                
+                <div class="space-y-1">
+                    <label class="text-label-sm text-on-surface-variant font-bold uppercase tracking-wider">Judul Film</label>
+                    <input id="judul" type="text" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 focus:border-primary focus:outline-none transition-colors" placeholder="e.g. Inception">
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="text-label-sm text-on-surface-variant font-bold uppercase tracking-wider">Sutradara</label>
+                        <input id="sutradara" type="text" class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 focus:border-primary focus:outline-none transition-colors" placeholder="Christopher Nolan">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-label-sm text-on-surface-variant font-bold uppercase tracking-wider">Durasi (Menit)</label>
+                        <input id="durasi" type="number" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 focus:border-primary focus:outline-none transition-colors" placeholder="120">
+                    </div>
+                </div>
 
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="text-label-sm text-on-surface-variant font-bold uppercase tracking-wider">Rating Usia</label>
+                        <select id="rating_usia" class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 focus:border-primary focus:outline-none transition-colors text-white">
+                            <option value="SU">SU (Semua Umur)</option>
+                            <option value="R13+">R13+ (Remaja)</option>
+                            <option value="D17+">D17+ (Dewasa)</option>
+                            <option value="D21+">D21+ (Dewasa 21+)</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-label-sm text-on-surface-variant font-bold uppercase tracking-wider">Status Tayang</label>
+                        <select id="status_tayang" class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 focus:border-primary focus:outline-none transition-colors text-white">
+                            <option value="Now Showing">Now Showing</option>
+                            <option value="Coming Soon">Coming Soon</option>
+                            <option value="Ended">Ended</option>
+                        </select>
+                    </div>
+                </div>
 
+                <div class="space-y-1">
+                    <label class="text-label-sm text-on-surface-variant font-bold uppercase tracking-wider">Poster URL</label>
+                    <input id="poster_url" type="text" class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 focus:border-primary focus:outline-none transition-colors" placeholder="/assets/posters/movie.jpg">
+                </div>
 
-
+                <div class="flex justify-end gap-3 mt-8">
+                    <button type="button" onclick="closeModal()" class="px-5 py-2.5 rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container-highest transition-colors font-bold">Cancel</button>
+                    <button type="submit" class="px-5 py-2.5 rounded-lg bg-primary text-on-primary hover:brightness-110 shadow-lg transition-colors font-bold flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[20px]">save</span> Save Movie
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 
 </body>
 

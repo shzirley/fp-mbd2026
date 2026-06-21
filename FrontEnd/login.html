@@ -131,7 +131,7 @@
         <!-- Image Placeholder exactly as requested -->
         <img alt="Cinematic dark theater interior with neon glowing accents and a large screen displaying Movie Magic."
             class="absolute inset-0 w-full h-full object-cover opacity-80 mix-blend-lighten"
-            src="https://lh3.googleusercontent.com/aida/AP1WRLs46v1HNlK7a9ixhJuRRkYs23RLSqshrLI9k6LWydrUCu01tpHSoKvcefeX0HFv5nXhDSHgpj08QsaV2y9HoTjzx92WLbc1h0p8-ykARj73ckFPhGfpPJvDGpnAFsza5R0cbp-aQbZq4FYyovuiuOCi-EmH8kNLSmcqtEvHYs2IG4X1YvBgwBXDf9T0AuUtt6JFdbPurg88V2gJf6sVNesPEM5ubRzlqs3VT3_-2_Udk8KW4lvJAxCa8MU">
+            src="/assets/login_bg.png">
         <!-- Gradient Overlay to blend into the form side -->
         <div
             class="absolute inset-0 bg-gradient-to-r from-background/10 via-background/40 to-background pointer-events-none">
@@ -189,7 +189,7 @@
                 <p class="text-on-surface-variant font-body-md text-sm mb-4">Pilih peran Anda dan akses sistem Cinetrack dengan aman menggunakan akun Google.</p>
                 
                 <div id="g_id_onload"
-                     data-client_id="620708044438-m6bmf6pul9u5n4du73b0uju0b352astt.apps.googleusercontent.com"
+                     data-client_id="796791798470-01rft1ussl08kclbgr5mgt2v2gud5rj6.apps.googleusercontent.com"
                      data-context="signin"
                      data-ux_mode="popup"
                      data-callback="handleGoogleCredentialResponse"
@@ -209,7 +209,7 @@
             <div class="mt-8 text-center">
                 <p class="font-body-md text-body-md text-on-surface-variant">
                     Punya akun Admin lokal? 
-                    <a class="font-label-md text-label-md text-primary hover:text-primary-fixed hover:underline transition-all cursor-pointer" onclick="bypassLogin()">Gunakan Bypass</a>
+                    <a class="font-label-md text-label-md text-primary hover:text-primary-fixed hover:underline transition-all cursor-pointer" onclick="alert('Login lokal dinonaktifkan sementara demi keamanan. Silakan login menggunakan Google Workspace perusahaan.')">Gunakan Bypass</a>
                 </p>
             </div>
         </div>
@@ -247,6 +247,7 @@
                 }
 
                 // Store user session in localStorage
+                data.user.role = data.role;
                 localStorage.setItem('user', JSON.stringify(data.user));
                 localStorage.setItem('token', data.token);
 
@@ -260,22 +261,6 @@
                 console.error('Google Login error:', err);
                 alert('Connection error. Please ensure the backend server is running.');
             }
-        }
-
-        async function bypassLogin() {
-            try {
-                const res = await fetch('/api/auth/bypass', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ role: selectedRole })
-                });
-                const data = await res.json();
-                if (!res.ok) { alert(data.message); return; }
-                localStorage.setItem('user', JSON.stringify(data.user));
-                localStorage.setItem('token', data.token);
-                if (data.role === 'admin') window.location.href = 'adminDashboard.html';
-                else window.location.href = 'userHome.html';
-            } catch (err) { alert('Error: ' + err.message); }
         }
     </script>
 </body>
