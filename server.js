@@ -257,8 +257,58 @@ app.post('/api/auth/signup', async (req, res) => {
 
 // GET /api/movies/now-showing
 app.get('/api/movies/now-showing', async (req, res) => {
+  const { branchId, genre } = req.query;
   try {
-    const [movies] = await pool.query("SELECT * FROM film WHERE status_tayang = 'Now Showing'");
+    let query = `
+      SELECT DISTINCT 
+        f.id_film,
+        f.judul,
+        f.sutradara,
+        f.rating_usia,
+        f.durasi,
+        f.sinopsis,
+        f.status_tayang,
+        f.poster_url,
+        f.rating_score,
+        (SELECT GROUP_CONCAT(g.nama_genre SEPARATOR ', ') 
+         FROM film_genre fg 
+         JOIN genre g ON fg.genre_id_genre = g.id_genre 
+         WHERE fg.film_id_film = f.id_film) AS daftar_genre
+      FROM film f
+    `;
+    
+    const params = [];
+    const conditions = ["f.status_tayang = 'Now Showing'"];
+    
+    if (branchId) {
+      query += `
+        JOIN jadwal_tayang_film jtf ON f.id_film = jtf.film_id_film
+        JOIN jadwal_tayang jt ON jtf.jadwal_tayang_id_jadwal = jt.id_jadwal
+        JOIN studio st ON jt.studio_id_studio = st.id_studio
+      `;
+      conditions.push("st.cabang_id_cabang = ?");
+      params.push(branchId);
+    }
+    
+    if (genre) {
+      conditions.push(`
+        EXISTS (
+          SELECT 1 
+          FROM film_genre fg2 
+          JOIN genre g2 ON fg2.genre_id_genre = g2.id_genre 
+          WHERE fg2.film_id_film = f.id_film AND g2.nama_genre = ?
+        )
+      `);
+      params.push(genre);
+    }
+    
+    if (conditions.length > 0) {
+      query += " WHERE " + conditions.join(" AND ");
+    }
+    
+    query += " ORDER BY f.id_film DESC";
+    
+    const [movies] = await pool.query(query, params);
     return res.json(movies);
   } catch (err) {
     console.error(err);
@@ -790,6 +840,28 @@ app.post('/api/admin/fnb/restock', async (req, res) => {
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: 'Failed to restock item.' });
+  }
+});
+
+// Public GET /api/branches for customer side navbar dropdown
+app.get('/api/branches', async (req, res) => {
+  try {
+    const [branches] = await pool.query('SELECT id_cabang, nama_cabang, alamat FROM cabang ORDER BY nama_cabang ASC');
+    return res.json(branches);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Failed to load branches.' });
+  }
+});
+
+// Public GET /api/genres for customer side filters
+app.get('/api/genres', async (req, res) => {
+  try {
+    const [genres] = await pool.query('SELECT id_genre, nama_genre FROM genre ORDER BY nama_genre ASC');
+    return res.json(genres);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Failed to load genres.' });
   }
 });
 

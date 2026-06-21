@@ -356,7 +356,7 @@
             </div>
         </div>
         <div class="px-margin_desktop py-md border-t border-outline-variant/30 text-center">
-            <p class="text-label-sm font-label-sm text-on-surface-variant/60">© 2024 Cinetrack Logistics &amp; Cinema
+            <p class="text-label-sm font-label-sm text-on-surface-variant/60">&copy; 2024 Cinetrack Logistics &amp; Cinema
                 Systems. All rights reserved.</p>
         </div>
     </footer>
@@ -463,20 +463,6 @@
                     <span>Taxes (10%)</span>
                     <span>Rp ${vat.toLocaleString('id-ID')}</span>
                 </div>
-            `;
-
-            const baseTotalPayable = subtotal + bookingFee + vat;
-            if (baseTotalPayable > totalBill) {
-                const discountAmt = baseTotalPayable - totalBill;
-                breakdownContainer.innerHTML += `
-                    <div class="flex justify-between text-green-600 font-bold text-label-md pt-2">
-                        <span>Member Discount</span>
-                        <span>-Rp ${discountAmt.toLocaleString('id-ID')}</span>
-                    </div>
-                `;
-            }
-
-            breakdownContainer.innerHTML += `
                 <div class="flex justify-between items-center pt-md border-t border-outline-variant/50">
                     <span class="text-headline-md font-headline-md">Total Amount</span>
                     <span class="text-headline-md font-headline-md text-primary">Rp ${totalBill.toLocaleString('id-ID')}</span>

@@ -166,11 +166,12 @@
                 </a>
             </nav>
             <!-- Bottom sidebar content -->
-            <div class="p-md mt-auto" id="loyalty-card-container">
+            <div class="p-md mt-auto">
                 <div class="bg-surface-container-high/50 p-md rounded-xl border border-outline-variant/10">
-                    <p class="text-label-sm text-on-surface-variant mb-xs">Cinetrack Loyalty</p>
+                    <p class="text-label-sm text-on-surface-variant mb-xs">Cinetrack Rewards</p>
                     <div class="flex items-center gap-xs">
-                        <span class="text-xs text-on-surface-variant">Log in to view loyalty</span>
+                        <span class="material-symbols-outlined text-secondary-container text-[18px]" style="font-variation-settings: 'FILL' 1;">stars</span>
+                        <span class="font-bold text-secondary text-label-md">2,450 pts</span>
                     </div>
                 </div>
             </div>
@@ -203,11 +204,16 @@
                 <!-- Right: Actions -->
                 <div class="flex items-center gap-md ml-auto">
                     <!-- Branch Dropdown -->
-                    <button class="hidden sm:flex items-center gap-xs px-md py-1.5 bg-surface-bright/10 rounded-full hover:bg-white/10 transition-all text-label-md border border-outline-variant/20">
-                        <span class="material-symbols-outlined text-primary text-[18px]" data-icon="location_on">location_on</span>
-                        <span>Downtown Grand</span>
-                        <span class="material-symbols-outlined text-[18px]" data-icon="expand_more">expand_more</span>
-                    </button>
+                    <div class="relative inline-block text-left z-50" id="branch-dropdown-container">
+                        <button id="btn-branch-select" class="hidden sm:flex items-center gap-xs px-md py-1.5 bg-surface-bright/10 rounded-full hover:bg-white/10 transition-all text-label-md border border-outline-variant/20">
+                            <span class="material-symbols-outlined text-primary text-[18px]" data-icon="location_on">location_on</span>
+                            <span id="selected-branch-name">Downtown Grand</span>
+                            <span class="material-symbols-outlined text-[18px]" data-icon="expand_more">expand_more</span>
+                        </button>
+                        <div id="branch-dropdown-menu" class="hidden absolute right-0 mt-2 w-64 rounded-xl bg-surface-container-high border border-outline-variant/30 shadow-2xl py-2 z-50 max-h-60 overflow-y-auto backdrop-blur-2xl">
+                            <!-- Items populated dynamically -->
+                        </div>
+                    </div>
                     
                     <button class="p-2 hover:bg-white/5 rounded-full transition-all relative">
                         <span class="material-symbols-outlined text-on-surface-variant">notifications</span>
@@ -403,7 +409,7 @@
                 <li><a class="text-on-surface-variant/60 hover:text-secondary transition-colors text-label-sm font-label-sm"
                         href="#">Support</a></li>
             </ul>
-            <p class="text-on-surface-variant/40 text-label-sm font-label-sm mt-md">© 2024 Cinetrack Logistics &amp;
+            <p class="text-on-surface-variant/40 text-label-sm font-label-sm mt-md">┬⌐ 2024 Cinetrack Logistics &amp;
                 Cinema Systems. All rights reserved.</p>
         </div>
     </footer>
@@ -431,35 +437,6 @@
                             ${user.name.substring(0, 2)}
                         </div>
                     `;
-                }
-
-                // Fetch Loyalty Data
-                if (user.id_pelanggan || user.id) {
-                    try {
-                        const loyRes = await fetch(`/api/user/${user.id_pelanggan || user.id}/loyalty`);
-                        if(loyRes.ok) {
-                            const loyData = await loyRes.json();
-                            const loyaltyContainer = document.getElementById('loyalty-card-container');
-                            if(loyaltyContainer) {
-                                loyaltyContainer.innerHTML = `
-                                    <div class="bg-surface-container-high/50 p-md rounded-xl border border-outline-variant/10">
-                                        <p class="text-label-sm text-on-surface-variant mb-xs">Cinetrack Loyalty</p>
-                                        <div class="flex items-center gap-xs mb-2">
-                                            <span class="material-symbols-outlined text-primary text-[18px]" style="font-variation-settings: 'FILL' 1;">confirmation_number</span>
-                                            <span class="font-bold text-primary-fixed text-label-md">${loyData.totalTickets || 0} Tickets</span>
-                                        </div>
-                                        <div class="flex items-center gap-xs">
-                                            <span class="material-symbols-outlined text-secondary-container text-[18px]" style="font-variation-settings: 'FILL' 1;">discount</span>
-                                            <span class="font-bold text-secondary text-label-sm">${loyData.discount > 0 ? '10% Member Discount' : 'No Discount Yet'}</span>
-                                        </div>
-                                        ${loyData.discount == 0 && loyData.totalTickets < 3 ? '<p class="text-xs text-on-surface-variant mt-1">Buy ' + (3 - (loyData.totalTickets || 0)) + ' more tickets to get 10% discount!</p>' : ''}
-                                    </div>
-                                `;
-                            }
-                        }
-                    } catch(e) {
-                        console.error('Failed to load loyalty', e);
-                    }
                 }
             }
 
@@ -625,6 +602,7 @@
             }
         });
     </script>
+    <script src="branch-dropdown.js"></script>
 </body>
 
 </html>
