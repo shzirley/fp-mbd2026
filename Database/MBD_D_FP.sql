@@ -1044,25 +1044,24 @@ CREATE INDEX idx_tiket_jadwal_kursi
 
 
 -- ============================================================
--- INDEX 5: jadwal_tayang(waktu_tayang)
+-- INDEX 5: pelanggan(email_pelanggan)
 -- ============================================================
 -- Digunakan oleh:
---   • Query Kasus 2       → ORDER BY waktu_tayang
---   • Function GetDurasiTayang (query gabungan) → ORDER BY waktu_tayang
---   • Procedure TambahJadwalMidnight
---       → ORDER BY id_jadwal DESC (akses urutan jadwal terbaru)
+--   • API Auth Login → WHERE email_pelanggan = ?
+--   • API Auth Google → WHERE email_pelanggan = ?
+--   • API Auth Signup → WHERE email_pelanggan = ?
 --
--- Kolom DATETIME non-PK. Tanpa index, setiap ORDER BY memaksa
--- MySQL melakukan filesort (pengurutan di memori/disk setelah
--- full scan). Index BTREE menyimpan DATETIME secara terurut
--- sehingga ORDER BY dapat memanfaatkan index scan langsung
--- tanpa filesort — kolom ini diakses oleh 3 komponen berbeda.
+-- Kolom VARCHAR non-PK tanpa index. Karena email digunakan sebagai
+-- pengenal unik untuk autentikasi user (customer) pada web FP CineTrack,
+-- pencarian baris berdasarkan email dilakukan pada setiap kali login,
+-- signup, maupun autentikasi Google. Indeks UNIQUE BTREE sangat
+-- efisien karena menghentikan pencarian begitu email yang cocok ditemukan.
 --
--- Jenis: BTREE — optimal untuk ORDER BY dan range filter DATETIME.
+-- Jenis: UNIQUE BTREE — optimal untuk pencarian presisi (equality lookup).
 -- ============================================================
 
-CREATE INDEX idx_jadwal_waktu_tayang
-    ON jadwal_tayang (waktu_tayang);
+CREATE UNIQUE INDEX idx_pelanggan_email
+    ON pelanggan (email_pelanggan);
 
 -- CATATAN: Verifikasi EXPLAIN dipindahkan ke MBD_D_FP_tests.sql
 
