@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html class="dark" lang="en">
 
@@ -206,12 +206,6 @@
 
                 <!-- Right: Actions -->
                 <div class="flex items-center gap-md ml-auto">
-                    <!-- Branch Dropdown -->
-                    <button class="hidden sm:flex items-center gap-xs px-md py-1.5 bg-surface-bright/10 rounded-full hover:bg-white/10 transition-all text-label-md border border-outline-variant/20">
-                        <span class="material-symbols-outlined text-primary text-[18px]" data-icon="location_on">location_on</span>
-                        <span>Downtown Grand</span>
-                        <span class="material-symbols-outlined text-[18px]" data-icon="expand_more">expand_more</span>
-                    </button>
                     
                     <button class="p-2 hover:bg-white/5 rounded-full transition-all relative">
                         <span class="material-symbols-outlined text-on-surface-variant">notifications</span>
@@ -251,41 +245,24 @@
                 <div class="flex-1 min-w-[200px] relative">
                     <span
                         class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
-                    <input
+                    <input id="filter-search"
                         class="w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg pl-10 pr-4 py-2 text-on-surface focus:ring-1 focus:ring-primary focus:border-primary transition-all"
                         placeholder="Filter by title..." type="text" />
                 </div>
                 <div class="flex items-center gap-sm">
                     <label class="text-label-sm font-label-sm text-on-surface-variant uppercase">Genre</label>
-                    <select
+                    <select id="filter-genre"
                         class="bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-4 py-2 text-on-surface focus:ring-1 focus:ring-primary focus:border-primary transition-all font-label-md text-label-md">
-                        <option>All Genres</option>
-                        <option>Action</option>
-                        <option>Sci-Fi</option>
-                        <option>Drama</option>
-                        <option>Horror</option>
-                        <option>Animation</option>
-                    </select>
-                </div>
-                <div class="flex items-center gap-sm">
-                    <label class="text-label-sm font-label-sm text-on-surface-variant uppercase">Language</label>
-                    <select
-                        class="bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-4 py-2 text-on-surface focus:ring-1 focus:ring-primary focus:border-primary transition-all font-label-md text-label-md">
-                        <option>All Languages</option>
-                        <option>English</option>
-                        <option>Spanish</option>
-                        <option>French</option>
-                        <option>Japanese</option>
+                        <option value="">All Genres</option>
+                        <!-- Dynamic options loaded here -->
                     </select>
                 </div>
                 <div class="flex items-center gap-sm">
                     <label class="text-label-sm font-label-sm text-on-surface-variant uppercase">Branch</label>
-                    <select
+                    <select id="filter-branch"
                         class="bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-4 py-2 text-on-surface focus:ring-1 focus:ring-primary focus:border-primary transition-all font-label-md text-label-md">
-                        <option>All Locations</option>
-                        <option>Grand Central Mall</option>
-                        <option>Skyline Plaza</option>
-                        <option>Harbor View</option>
+                        <option value="">All Locations</option>
+                        <!-- Dynamic options loaded here -->
                     </select>
                 </div>
                 <button
@@ -297,232 +274,16 @@
         </section>
         <!-- Movie Grid -->
         <section class="px-lg lg:px-2xl pb-2xl">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-xl">
-                <!-- Movie Card 1 -->
-                <div
-                    class="group movie-card flex flex-col bg-surface-container rounded-xl overflow-hidden custom-shadow hover:-translate-y-1 transition-all duration-300">
-                    <div class="relative aspect-[2/3] overflow-hidden">
-                        <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                            alt="Avatar"
-                            src="/assets/posters/Avatar-Teaser-Poster.jpg" />
-                        <div class="absolute top-sm left-sm flex flex-col gap-xs">
-                            <span
-                                class="bg-primary text-white text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-tighter">New</span>
-                            <span
-                                class="bg-secondary text-on-secondary text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-tighter">VIP
-                                Gold</span>
-                        </div>
-                        <div
-                            class="absolute top-sm right-sm bg-black/60 backdrop-blur-md text-white px-2 py-1 rounded-lg flex items-center gap-1">
-                            <span class="material-symbols-outlined text-secondary text-[14px]"
-                                style="font-variation-settings: 'FILL' 1;">star</span>
-                            <span class="text-xs font-bold">8.5</span>
-                        </div>
-                        <div
-                            class="poster-overlay absolute inset-0 bg-black/40 opacity-0 transition-opacity flex items-center justify-center p-lg">
-                            <button
-                                class="bg-primary text-white w-full py-3 rounded-lg font-bold flex items-center justify-center gap-sm translate-y-4 group-hover:translate-y-0 transition-transform">
-                                <span class="material-symbols-outlined text-[20px]">confirmation_number</span>
-                                Quick Book
-                            </button>
-                        </div>
-                    </div>
-                    <div class="p-md flex flex-col flex-1">
-                        <h3 class="font-headline-md text-headline-md text-on-surface line-clamp-1 mb-1">Avatar</h3>
-                        <div class="flex items-center gap-2 mb-md">
-                            <span class="text-on-surface-variant font-label-sm text-label-sm">Sci-Fi ΓÇó Action</span>
-                            <span class="w-1 h-1 rounded-full bg-outline-variant"></span>
-                            <span class="text-on-surface-variant font-label-sm text-label-sm">2h 42m</span>
-                        </div>
-                        <button
-                            class="mt-auto bg-primary text-white py-2 rounded-lg font-bold btn-glow transition-all active:scale-95 text-label-md font-label-md">Book
-                            Now</button>
-                    </div>
+            <div id="movie-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-xl">
+                <!-- Cards dynamically loaded here -->
+                <div class="col-span-full text-center py-12 text-on-surface-variant bg-surface-container rounded-2xl border border-outline-variant/20">
+                    <span class="material-symbols-outlined text-[32px] mb-2 animate-spin">sync</span>
+                    <p>Loading now showing movies...</p>
                 </div>
-                <!-- Movie Card 2 -->
-                <div
-                    class="group movie-card flex flex-col bg-surface-container rounded-xl overflow-hidden custom-shadow hover:-translate-y-1 transition-all duration-300">
-                    <div class="relative aspect-[2/3] overflow-hidden">
-                        <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                            alt="Pengabdi Setan"
-                            src="/assets/posters/Pengabdi_Setan_poster.jpg" />
-                        <div
-                            class="absolute top-sm right-sm bg-black/60 backdrop-blur-md text-white px-2 py-1 rounded-lg flex items-center gap-1">
-                            <span class="material-symbols-outlined text-secondary text-[14px]"
-                                style="font-variation-settings: 'FILL' 1;">star</span>
-                            <span class="text-xs font-bold">8.2</span>
-                        </div>
-                        <div
-                            class="poster-overlay absolute inset-0 bg-black/40 opacity-0 transition-opacity flex items-center justify-center p-lg">
-                            <button
-                                class="bg-primary text-white w-full py-3 rounded-lg font-bold flex items-center justify-center gap-sm translate-y-4 group-hover:translate-y-0 transition-transform">
-                                <span class="material-symbols-outlined text-[20px]">confirmation_number</span>
-                                Quick Book
-                            </button>
-                        </div>
-                    </div>
-                    <div class="p-md flex flex-col flex-1">
-                        <h3 class="font-headline-md text-headline-md text-on-surface line-clamp-1 mb-1">Pengabdi Setan</h3>
-                        <div class="flex items-center gap-2 mb-md">
-                            <span class="text-on-surface-variant font-label-sm text-label-sm">Horror</span>
-                            <span class="w-1 h-1 rounded-full bg-outline-variant"></span>
-                            <span class="text-on-surface-variant font-label-sm text-label-sm">1h 47m</span>
-                        </div>
-                        <button
-                            class="mt-auto bg-primary text-white py-2 rounded-lg font-bold btn-glow transition-all active:scale-95 text-label-md font-label-md">Book
-                            Now</button>
-                    </div>
-                </div>
-                <!-- Movie Card 3 -->
-                <div
-                    class="group movie-card flex flex-col bg-surface-container rounded-xl overflow-hidden custom-shadow hover:-translate-y-1 transition-all duration-300">
-                    <div class="relative aspect-[2/3] overflow-hidden">
-                        <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                            alt="Ada Apa dengan Cinta?"
-                            src="/assets/posters/ada-apa-dengan-cinta.jpg" />
-                        <div class="absolute top-sm left-sm">
-                            <span
-                                class="bg-primary text-white text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-tighter">New</span>
-                        </div>
-                        <div
-                            class="absolute top-sm right-sm bg-black/60 backdrop-blur-md text-white px-2 py-1 rounded-lg flex items-center gap-1">
-                            <span class="material-symbols-outlined text-secondary text-[14px]"
-                                style="font-variation-settings: 'FILL' 1;">star</span>
-                            <span class="text-xs font-bold">8.1</span>
-                        </div>
-                        <div
-                            class="poster-overlay absolute inset-0 bg-black/40 opacity-0 transition-opacity flex items-center justify-center p-lg">
-                            <button
-                                class="bg-primary text-white w-full py-3 rounded-lg font-bold flex items-center justify-center gap-sm translate-y-4 group-hover:translate-y-0 transition-transform">
-                                <span class="material-symbols-outlined text-[20px]">confirmation_number</span>
-                                Quick Book
-                            </button>
-                        </div>
-                    </div>
-                    <div class="p-md flex flex-col flex-1">
-                        <h3 class="font-headline-md text-headline-md text-on-surface line-clamp-1 mb-1">Ada Apa dengan Cinta?</h3>
-                        <div class="flex items-center gap-2 mb-md">
-                            <span class="text-on-surface-variant font-label-sm text-label-sm">Romance</span>
-                            <span class="w-1 h-1 rounded-full bg-outline-variant"></span>
-                            <span class="text-on-surface-variant font-label-sm text-label-sm">1h 52m</span>
-                        </div>
-                        <button
-                            class="mt-auto bg-primary text-white py-2 rounded-lg font-bold btn-glow transition-all active:scale-95 text-label-md font-label-md">Book
-                            Now</button>
-                    </div>
-                </div>
-                <!-- Movie Card 4 -->
-                <div
-                    class="group movie-card flex flex-col bg-surface-container rounded-xl overflow-hidden custom-shadow hover:-translate-y-1 transition-all duration-300">
-                    <div class="relative aspect-[2/3] overflow-hidden">
-                        <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                            alt="Petualangan Sherina"
-                            src="/assets/posters/petualangan-sherina.jpg" />
-                        <div
-                            class="absolute top-sm right-sm bg-black/60 backdrop-blur-md text-white px-2 py-1 rounded-lg flex items-center gap-1">
-                            <span class="material-symbols-outlined text-secondary text-[14px]"
-                                style="font-variation-settings: 'FILL' 1;">star</span>
-                            <span class="text-xs font-bold">8.3</span>
-                        </div>
-                    </div>
-                    <div class="p-md flex flex-col flex-1">
-                        <h3 class="font-headline-md text-headline-md text-on-surface line-clamp-1 mb-1">Petualangan Sherina</h3>
-                        <div class="flex items-center gap-2 mb-md">
-                            <span class="text-on-surface-variant font-label-sm text-label-sm">Adventure ΓÇó Family</span>
-                            <span class="w-1 h-1 rounded-full bg-outline-variant"></span>
-                            <span class="text-on-surface-variant font-label-sm text-label-sm">1h 55m</span>
-                        </div>
-                        <button
-                            class="mt-auto bg-primary text-white py-2 rounded-lg font-bold btn-glow transition-all active:scale-95 text-label-md font-label-md">Book
-                            Now</button>
-                    </div>
-                </div>
-                <!-- Movie Card 5 -->
-                <div
-                    class="group movie-card flex flex-col bg-surface-container rounded-xl overflow-hidden custom-shadow hover:-translate-y-1 transition-all duration-300">
-                    <div class="relative aspect-[2/3] overflow-hidden">
-                        <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                            alt="Mencuri Raden Saleh"
-                            src="/assets/posters/mencuri-raden-saleh.jpg" />
-                        <div class="absolute top-sm left-sm flex flex-col gap-xs">
-                            <span
-                                class="bg-secondary text-on-secondary text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-tighter">VIP
-                                Gold</span>
-                        </div>
-                        <div
-                            class="absolute top-sm right-sm bg-black/60 backdrop-blur-md text-white px-2 py-1 rounded-lg flex items-center gap-1">
-                            <span class="material-symbols-outlined text-secondary text-[14px]"
-                                style="font-variation-settings: 'FILL' 1;">star</span>
-                            <span class="text-xs font-bold">8.4</span>
-                        </div>
-                    </div>
-                    <div class="p-md flex flex-col flex-1">
-                        <h3 class="font-headline-md text-headline-md text-on-surface line-clamp-1 mb-1">Mencuri Raden Saleh</h3>
-                        <div class="flex items-center gap-2 mb-md">
-                            <span class="text-on-surface-variant font-label-sm text-label-sm">Crime ΓÇó Action</span>
-                            <span class="w-1 h-1 rounded-full bg-outline-variant"></span>
-                            <span class="text-on-surface-variant font-label-sm text-label-sm">2h 34m</span>
-                        </div>
-                        <button
-                            class="mt-auto bg-primary text-white py-2 rounded-lg font-bold btn-glow transition-all active:scale-95 text-label-md font-label-md">Book
-                            Now</button>
-                    </div>
-                </div>
-                <!-- Repeated for grid density -->
-                <!-- Movie Card 6-10 (Simplified for structure) -->
-                <script>
-                    const movies = [
-                        { title: "The Raid", genre: "Action", time: "1h 41m", rating: "8.9", img: "/assets/posters/The_Raid_Poster.jpg" },
-                        { title: "Interstellar", genre: "Sci-Fi", time: "2h 49m", rating: "8.7", img: "/assets/posters/Interstellar_film_poster.jpg" },
-                        { title: "Bumi Manusia", genre: "Drama", time: "3h 01m", rating: "7.9", img: "/assets/posters/bumi-manusia.jpg" },
-                        { title: "Dilan 1990", genre: "Romance", time: "1h 50m", rating: "7.8", img: "/assets/posters/dilan-1990.jpg" },
-                        { title: "Susi Susanti", genre: "Biography", time: "2h 04m", rating: "8.2", img: "/assets/posters/susi-susanti.jpg" }
-                    ];
-
-                    movies.forEach(m => {
-                        document.write(`
-                            <div class="group movie-card flex flex-col bg-surface-container rounded-xl overflow-hidden custom-shadow hover:-translate-y-1 transition-all duration-300">
-                                <div class="relative aspect-[2/3] overflow-hidden">
-                                    <img src="${m.img}" 
-                                         data-alt="A professional vertical movie poster for ${m.title}, featuring iconic imagery related to the ${m.genre} genre. The lighting is cinematic with deep contrast and vibrant highlights. The style matches the Cinetrack brand's high-end, modern aesthetic, ensuring visual consistency across the dashboard. The colors are punchy yet balanced, creating a premium viewing experience."
-                                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                                    <div class="absolute top-sm right-sm bg-black/60 backdrop-blur-md text-white px-2 py-1 rounded-lg flex items-center gap-1">
-                                        <span class="material-symbols-outlined text-secondary text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
-                                        <span class="text-xs font-bold">${m.rating}</span>
-                                    </div>
-                                </div>
-                                <div class="p-md flex flex-col flex-1">
-                                    <h3 class="font-headline-md text-headline-md text-on-surface line-clamp-1 mb-1">${m.title}</h3>
-                                    <div class="flex items-center gap-2 mb-md">
-                                        <span class="text-on-surface-variant font-label-sm text-label-sm">${m.genre}</span>
-                                        <span class="w-1 h-1 rounded-full bg-outline-variant"></span>
-                                        <span class="text-on-surface-variant font-label-sm text-label-sm">${m.time}</span>
-                                    </div>
-                                    <button class="mt-auto bg-primary text-white py-2 rounded-lg font-bold btn-glow transition-all active:scale-95 text-label-md font-label-md">Book Now</button>
-                                </div>
-                            </div>
-                        `);
-                    });
-                </script>
             </div>
             <!-- Pagination -->
-            <div class="mt-2xl flex justify-center items-center gap-md">
-                <button
-                    class="p-2 border border-outline-variant rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors disabled:opacity-50"
-                    disabled="">
-                    <span class="material-symbols-outlined">chevron_left</span>
-                </button>
-                <div class="flex items-center gap-sm">
-                    <button class="w-10 h-10 rounded-lg bg-primary text-white font-bold">1</button>
-                    <button
-                        class="w-10 h-10 rounded-lg text-on-surface-variant hover:bg-surface-container font-bold">2</button>
-                    <button
-                        class="w-10 h-10 rounded-lg text-on-surface-variant hover:bg-surface-container font-bold">3</button>
-                </div>
-                <button
-                    class="p-2 border border-outline-variant rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors">
-                    <span class="material-symbols-outlined">chevron_right</span>
-                </button>
+            <div id="pagination-container" class="mt-2xl flex justify-center items-center gap-md">
+                <!-- Page numbers dynamically loaded here -->
             </div>
         </section>
     </main>
@@ -531,7 +292,7 @@
         class="w-full mt-auto bg-surface-container-low border-t border-outline-variant/20 px-lg lg:px-2xl py-2xl flex flex-col md:flex-row justify-between items-center gap-lg">
         <div class="flex flex-col gap-sm">
             <span class="font-headline-md text-headline-md text-white font-bold">Cinetrack</span>
-            <p class="font-label-sm text-label-sm text-on-surface-variant">┬⌐ 2024 Cinetrack Global Cinemas. All rights
+            <p class="font-label-sm text-label-sm text-on-surface-variant">&copy; 2024 Cinetrack Global Cinemas. All rights
                 reserved.</p>
         </div>
         <div class="flex flex-wrap justify-center gap-xl">
@@ -558,38 +319,21 @@
         </div>
     </footer>
     <script>
-        // Simple micro-interaction for filters
-        const selects = document.querySelectorAll('select');
-        selects.forEach(select => {
-            select.addEventListener('change', () => {
-                select.classList.add('scale-95');
-                setTimeout(() => select.classList.remove('scale-95'), 100);
-            });
-        });
+        // Unified logic for listing now showing movies, filters, search and pagination
+        let allMovies = [];
+        let allBranches = [];
+        let currentPage = 1;
+        const itemsPerPage = 10;
 
-        // Redirect movie cards to Movie Details page
-        document.querySelectorAll('.movie-card').forEach(card => {
-            card.style.cursor = 'pointer';
-            card.addEventListener('click', () => {
-                window.location.href = 'userMovieDetails.html';
-            });
-        });
+        // Elements
+        const searchInput = document.getElementById('filter-search');
+        const genreSelect = document.getElementById('filter-genre');
+        const branchSelect = document.getElementById('filter-branch');
+        const movieGrid = document.getElementById('movie-grid');
+        const paginationContainer = document.getElementById('pagination-container');
 
-        // Redirect navbar and hero booking buttons to movie details
-        document.querySelectorAll('button').forEach(btn => {
-            const txt = btn.textContent || "";
-            if (txt.includes("Book Now") || txt.includes("Quick Book") || btn.classList.contains("bg-primary")) {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    window.location.href = 'userMovieDetails.html';
-                });
-            }
-        });
-    </script>
-        </div> <!-- End Main Content Wrapper -->
-    </div> <!-- End Sidebar Layout Container -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Check logged in user and display avatar
             const userStr = localStorage.getItem('user');
             if (userStr) {
                 try {
@@ -607,8 +351,250 @@
                     console.error('Error parsing user data', e);
                 }
             }
+
+            // Simple micro-interaction for selects
+            const selects = document.querySelectorAll('select');
+            selects.forEach(select => {
+                select.addEventListener('change', () => {
+                    select.classList.add('scale-95');
+                    setTimeout(() => select.classList.remove('scale-95'), 100);
+                });
+            });
+
+            // Populate filter selects and initialize movie grid
+            await loadBranches();
+            await loadGenres();
+
+            // Set select option matching localStorage
+            const savedBranchStr = localStorage.getItem('selectedBranch');
+            if (savedBranchStr) {
+                try {
+                    const savedBranch = JSON.parse(savedBranchStr);
+                    if (savedBranch && savedBranch.id_cabang) {
+                        branchSelect.value = savedBranch.id_cabang;
+                    }
+                } catch (e) {
+                    console.error('Error parsing selected branch', e);
+                }
+            } else if (allBranches.length > 0) {
+                const defaultBranch = allBranches[0];
+                localStorage.setItem('selectedBranch', JSON.stringify(defaultBranch));
+                branchSelect.value = defaultBranch.id_cabang;
+            }
+
+            // Initial fetch
+            await fetchMovies();
+
+            // Event Listeners
+            branchSelect.addEventListener('change', () => {
+                const val = branchSelect.value;
+                const found = allBranches.find(b => b.id_cabang === val);
+                if (found) {
+                    const newSelection = { id_cabang: found.id_cabang, nama_cabang: found.nama_cabang, alamat: found.alamat };
+                    localStorage.setItem('selectedBranch', JSON.stringify(newSelection));
+                    const selectedNameEl = document.getElementById('selected-branch-name');
+                    if (selectedNameEl) {
+                        selectedNameEl.textContent = found.nama_cabang;
+                    }
+                }
+                currentPage = 1;
+                fetchMovies();
+            });
+
+            genreSelect.addEventListener('change', () => {
+                currentPage = 1;
+                fetchMovies();
+            });
+
+            searchInput.addEventListener('input', () => {
+                currentPage = 1;
+                renderMoviesGrid();
+            });
+
+            // Listen to branchChanged custom event from navbar dropdown
+            document.addEventListener('branchChanged', (e) => {
+                const newBranch = e.detail;
+                if (newBranch && newBranch.id_cabang) {
+                    branchSelect.value = newBranch.id_cabang;
+                    currentPage = 1;
+                    fetchMovies();
+                }
+            });
         });
+
+        async function loadBranches() {
+            try {
+                const res = await fetch('/api/branches');
+                allBranches = await res.json();
+                branchSelect.innerHTML = '<option value="">All Locations</option>' + 
+                    allBranches.map(b => `<option value="${b.id_cabang}">${b.nama_cabang}</option>`).join('');
+            } catch (err) {
+                console.error('Error loading branches:', err);
+            }
+        }
+
+        async function loadGenres() {
+            try {
+                const res = await fetch('/api/genres');
+                const genres = await res.json();
+                genreSelect.innerHTML = '<option value="">All Genres</option>' + 
+                    genres.map(g => `<option value="${g.nama_genre}">${g.nama_genre}</option>`).join('');
+            } catch (err) {
+                console.error('Error loading genres:', err);
+            }
+        }
+
+        async function fetchMovies() {
+            try {
+                movieGrid.innerHTML = `
+                    <div class="col-span-full text-center py-12 text-on-surface-variant bg-surface-container rounded-2xl border border-outline-variant/20">
+                        <span class="material-symbols-outlined text-[32px] mb-2 animate-spin">sync</span>
+                        <p>Loading now showing movies...</p>
+                    </div>
+                `;
+
+                const branchId = branchSelect.value;
+                const genre = genreSelect.value;
+                
+                let url = '/api/movies/now-showing';
+                const params = [];
+                if (branchId) params.push(`branchId=${encodeURIComponent(branchId)}`);
+                if (genre) params.push(`genre=${encodeURIComponent(genre)}`);
+                if (params.length > 0) {
+                    url += '?' + params.join('&');
+                }
+
+                const res = await fetch(url);
+                allMovies = await res.json();
+                renderMoviesGrid();
+            } catch (err) {
+                console.error('Error loading movies:', err);
+                movieGrid.innerHTML = `
+                    <div class="col-span-full text-center py-12 text-error bg-surface-container rounded-2xl border border-outline-variant/20">
+                        <span class="material-symbols-outlined text-[32px] mb-2 font-bold">error</span>
+                        <p>Failed to load movies. Please check connection.</p>
+                    </div>
+                `;
+            }
+        }
+
+        function renderMoviesGrid() {
+            const searchQuery = searchInput.value.toLowerCase().trim();
+            const filteredMovies = allMovies.filter(movie => {
+                return movie.judul.toLowerCase().includes(searchQuery);
+            });
+
+            if (filteredMovies.length === 0) {
+                movieGrid.innerHTML = `
+                    <div class="col-span-full text-center py-12 text-on-surface-variant bg-surface-container rounded-2xl border border-outline-variant/20">
+                        <span class="material-symbols-outlined text-[32px] mb-2">movie_filter</span>
+                        <p>No movies match your filters.</p>
+                    </div>
+                `;
+                paginationContainer.innerHTML = '';
+                return;
+            }
+
+            const totalItems = filteredMovies.length;
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+            if (currentPage > totalPages) currentPage = totalPages;
+            if (currentPage < 1) currentPage = 1;
+
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const pageMovies = filteredMovies.slice(startIndex, endIndex);
+
+            movieGrid.innerHTML = pageMovies.map(movie => {
+                const genresFormatted = movie.daftar_genre ? movie.daftar_genre.replace(/, /g, ' • ') : 'General';
+                const score = parseFloat(movie.rating_score || 0).toFixed(1);
+                
+                return `
+                    <div onclick="window.location.href='userMovieDetails.html?id=${movie.id_film}'"
+                        class="group movie-card flex flex-col bg-surface-container rounded-xl overflow-hidden custom-shadow hover:-translate-y-1 transition-all duration-300 cursor-pointer">
+                        <div class="relative aspect-[2/3] overflow-hidden">
+                            <img src="${movie.poster_url || '/assets/posters/default.jpg'}" 
+                                 alt="${movie.judul}"
+                                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute top-sm right-sm bg-black/60 backdrop-blur-md text-white px-2 py-1 rounded-lg flex items-center gap-1">
+                                <span class="material-symbols-outlined text-secondary text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                                <span class="text-xs font-bold">${score}</span>
+                            </div>
+                        </div>
+                        <div class="p-md flex flex-col flex-1">
+                            <h3 class="font-headline-md text-headline-md text-on-surface line-clamp-1 mb-1" title="${movie.judul}">${movie.judul}</h3>
+                            <div class="flex items-center gap-2 mb-md">
+                                <span class="text-on-surface-variant font-label-sm text-label-sm truncate max-w-[120px]">${genresFormatted}</span>
+                                <span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+                                <span class="text-on-surface-variant font-label-sm text-label-sm flex-shrink-0">${movie.durasi || 120}m</span>
+                            </div>
+                            <button class="mt-auto bg-primary text-white py-2 rounded-lg font-bold btn-glow transition-all active:scale-95 text-label-md font-label-md">Book Now</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            renderPagination(totalPages);
+        }
+
+        function renderPagination(totalPages) {
+            if (totalPages <= 1) {
+                paginationContainer.innerHTML = '';
+                return;
+            }
+
+            let html = '';
+            
+            // Previous
+            const prevDisabled = currentPage === 1 ? 'disabled' : '';
+            html += `
+                <button onclick="changePage(${currentPage - 1})"
+                    class="p-2 border border-outline-variant rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors disabled:opacity-50"
+                    ${prevDisabled}>
+                    <span class="material-symbols-outlined">chevron_left</span>
+                </button>
+            `;
+
+            // Number pages
+            html += `<div class="flex items-center gap-sm">`;
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === currentPage) {
+                    html += `<button class="w-10 h-10 rounded-lg bg-primary text-white font-bold">${i}</button>`;
+                } else {
+                    html += `
+                        <button onclick="changePage(${i})"
+                            class="w-10 h-10 rounded-lg text-on-surface-variant hover:bg-surface-container font-bold transition-all">
+                            ${i}
+                        </button>
+                    `;
+                }
+            }
+            html += `</div>`;
+
+            // Next
+            const nextDisabled = currentPage === totalPages ? 'disabled' : '';
+            html += `
+                <button onclick="changePage(${currentPage + 1})"
+                    class="p-2 border border-outline-variant rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors disabled:opacity-50"
+                    ${nextDisabled}>
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </button>
+            `;
+
+            paginationContainer.innerHTML = html;
+        }
+
+        function changePage(page) {
+            currentPage = page;
+            renderMoviesGrid();
+            document.getElementById('movie-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Make changePage globally accessible
+        window.changePage = changePage;
     </script>
+        </div> <!-- End Main Content Wrapper -->
+    </div> <!-- End Sidebar Layout Container -->
+
 </body>
 
 </html>
