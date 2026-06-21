@@ -912,13 +912,15 @@ Strategi \textit{indexing} pada CineTrack didasarkan pada frekuensi pemakaian ko
 \hline
 3 & \texttt{\seqsplit{idx\_transaksi\_total\_tagihan}} & \texttt{\seqsplit{transaksi}} & \texttt{total\_tagihan} & Query Kasus 3 \\
 \hline
-4 & \texttt{\seqsplit{idx\_jadwal\_waktu\_tayang}} & \texttt{jadwal\_tayang} & \texttt{waktu\_tayang} & Query Kasus 2, \textit{Function} 3, \textit{Procedure} 2 \\
+4 & \texttt{\seqsplit{idx\_tiket\_jadwal\_kursi}} & \texttt{tiket} & \texttt{\seqsplit{jadwal\_tayang\_id\_jadwal, kursi\_id\_kursi}} & Trigger 1 (Pencegahan Double-Booking) \\
+\hline
+5 & \texttt{\seqsplit{idx\_pelanggan\_email}} & \texttt{pelanggan} & \texttt{\seqsplit{email\_pelanggan}} & Auth Login, Google Auth, Signup \\
 \hline
 \end{longtable}
 
 \subsection{\textit{Index} 1: \texttt{idx\_film\_status\_tayang}}
 
-\textbf{Skenario:} Query Kasus 1 memfilter tabel \texttt{film} dengan kondisi \texttt{WHERE status\_tayang = 'Now Showing'} untuk keperluan tim promosi. Kolom \texttt{status\_tayang} bukan bagian dari \textit{primary key} maupun \textit{foreign key}, sehingga tanpa index MySQL melakukan \textit{full table scan}. Index pada kolom ini memungkinkan MySQL langsung menunjuk baris yang relevan.
+\textbf{Fungsi:} Query Kasus 1 memfilter tabel \texttt{film} dengan kondisi \texttt{WHERE status\_tayang = 'Now Showing'} untuk keperluan tim promosi. Kolom \texttt{status\_tayang} bukan bagian dari \textit{primary key} maupun \textit{foreign key}, sehingga tanpa index MySQL melakukan \textit{full table scan}. Index pada kolom ini memungkinkan MySQL langsung menunjuk baris yang relevan.
 
 \begin{lstlisting}[style=sql, caption={\textit{Index} 1 --- \texttt{idx\_film\_status\_tayang}}, label={lst:idx1}]
 CREATE INDEX idx_film_status_tayang
@@ -942,7 +944,7 @@ ORDER BY f.judul, g.nama_genre;
 
 \subsection{\textit{Index} 2: \texttt{idx\_jtf\_film}}
 
-\textbf{Skenario:} \textit{Primary key} tabel \textit{junction} \texttt{jadwal\_tayang\_film} adalah \textit{composite} (\texttt{jadwal\_tayang\_id\_jadwal}, \texttt{film\_id\_film}). Index BTREE pada PK \textit{composite} hanya efisien untuk \textit{lookup} yang dimulai dari kolom \textbf{pertama} (jadwal). Kolom kedua (\texttt{film\_id\_film}) tidak ter-\textit{cover} sebagai \textit{leading key}, sehingga \textit{reverse lookup}, yang digunakan oleh \textit{Function} \texttt{GetDurasiTayang} dan Query Kasus 2, tetap melakukan \textit{full scan} tanpa index ini.
+\textbf{Fungsi:} \textit{Primary key} tabel \textit{junction} \texttt{\seqsplit{jadwal\_tayang\_film}} adalah \textit{composite} (\texttt{\seqsplit{jadwal\_tayang\_id\_jadwal}}, \texttt{film\_id\_film}). Index BTREE pada PK \textit{composite} hanya efisien untuk \textit{lookup} yang dimulai dari kolom \textbf{pertama} (jadwal). Kolom kedua (\texttt{film\_id\_film}) tidak ter-\textit{cover} sebagai \textit{leading key}, sehingga \textit{reverse lookup}, yang digunakan oleh \textit{Function} \texttt{GetDurasiTayang} dan Query Kasus 2, tetap melakukan \textit{full scan} tanpa index ini.
 
 \begin{lstlisting}[style=sql, caption={\textit{Index} 2 --- \texttt{idx\_jtf\_film}}, label={lst:idx2}]
 CREATE INDEX idx_jtf_film
@@ -965,7 +967,7 @@ ORDER BY jt.waktu_tayang;
 
 \subsection{\textit{Index} 3: \texttt{idx\_transaksi\_total\_tagihan}}
 
-\textbf{Skenario:} Query Kasus 3 memfilter tabel \texttt{transaksi} dengan kondisi \texttt{WHERE total\_tagihan > 200000} untuk analisis transaksi bernilai tinggi. Kolom \texttt{total\_tagihan} bertipe \texttt{DECIMAL} dan tidak memiliki index apapun. Index pada kolom numerik menyimpan nilai secara terurut sehingga MySQL dapat langsung melompat ke nilai \textit{threshold} tanpa men-\textit{scan} seluruh tabel.
+\textbf{Fungsi:} Query Kasus 3 memfilter tabel \texttt{transaksi} dengan kondisi \texttt{WHERE total\_tagihan > 200000} untuk analisis transaksi bernilai tinggi. Kolom \texttt{total\_tagihan} bertipe \texttt{DECIMAL} dan tidak memiliki index apapun. Index pada kolom numerik menyimpan nilai secara terurut sehingga MySQL dapat langsung melompat ke nilai \textit{threshold} tanpa men-\textit{scan} seluruh tabel.
 
 \begin{lstlisting}[style=sql, caption={\textit{Index} 3 --- \texttt{idx\_transaksi\_total\_tagihan}}, label={lst:idx3}]
 CREATE INDEX idx_transaksi_total_tagihan
@@ -988,35 +990,48 @@ ORDER BY tx.total_tagihan DESC;
     \label{fig:idx3}
 \end{figure}
 
-\subsection{\textit{Index} 4: \texttt{idx\_jadwal\_waktu\_tayang}}
+\subsection{\textit{Index} 4: \texttt{idx\_tiket\_jadwal\_kursi}}
 
-\textbf{Skenario:} Kolom \texttt{waktu\_tayang} bertipe \texttt{DATETIME} diakses oleh tiga komponen sekaligus: Query Kasus 2 menggunakannya pada \texttt{ORDER BY}, \textit{Function} \texttt{GetDurasiTayang} (query gabungan) juga menggunakannya pada \texttt{ORDER BY}, dan \textit{Procedure} \texttt{TambahJadwalMidnight} membaca urutan jadwal terbaru. Tanpa index, setiap \texttt{ORDER BY} memaksa MySQL melakukan pengurutan di memori atau disk setelah \textit{full scan}. Index menyimpan \texttt{DATETIME} secara terurut sehingga \texttt{ORDER BY} dapat memanfaatkan \textit{index scan} langsung.
+\textbf{Fungsi:} Menghindari \textit{full table scan} pada saat \textit{trigger} \texttt{trg\_cegah\_double\_booking} melakukan pengecekan ketersediaan kursi dan jadwal tayang sebelum proses pemesanan tiket baru disimpan ke basis data.
 
-\begin{lstlisting}[style=sql, caption={\textit{Index} 4 --- \texttt{idx\_jadwal\_waktu\_tayang}}, label={lst:idx5}]
-CREATE INDEX idx_jadwal_waktu_tayang
-    ON jadwal_tayang (waktu_tayang);
+\begin{lstlisting}[style=sql, caption={\textit{Index} 4 --- \texttt{idx\_tiket\_jadwal\_kursi}}, label={lst:idx4}]
+CREATE INDEX idx_tiket_jadwal_kursi
+    ON tiket (jadwal_tayang_id_jadwal, kursi_id_kursi);
+
+EXPLAIN
+SELECT COUNT(*) AS kursi_terisi
+FROM tiket
+WHERE jadwal_tayang_id_jadwal = 'JD0001'
+  AND kursi_id_kursi          = 'KR0001';
+\end{lstlisting}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{index/output_index4.png}
+    \caption{Hasil \texttt{EXPLAIN} \textit{Index} 4}
+    \label{fig:idx4}
+\end{figure}
+
+\subsection{\textit{Index} 5: \texttt{idx\_pelanggan\_email}}
+
+\textbf{Fungsi:} Mempercepat pencarian email pelanggan saat proses autentikasi login lokal, login Google Auth, dan verifikasi keunikan pendaftaran akun baru pada web CineTrack. Indeks bertipe \texttt{UNIQUE} ini mengubah kompleksitas pencarian menjadi sangat efisien (\texttt{const}).
+
+\begin{lstlisting}[style=sql, caption={\textit{Index} 5 --- \texttt{idx\_pelanggan\_email}}, label={lst:idx5}]
+CREATE UNIQUE INDEX idx_pelanggan_email
+    ON pelanggan (email_pelanggan);
     
 EXPLAIN
-SELECT jt.waktu_tayang, f.judul, st.kelas_studio,
-       jt.harga_dasar, cb.nama_cabang
-FROM jadwal_tayang      jt
-JOIN jadwal_tayang_film jtf ON jt.id_jadwal        = jtf.jadwal_tayang_id_jadwal
-JOIN film               f   ON jtf.film_id_film    = f.id_film
-JOIN studio             st  ON jt.studio_id_studio = st.id_studio
-JOIN cabang             cb  ON st.cabang_id_cabang = cb.id_cabang
-ORDER BY jt.waktu_tayang;
+SELECT id_pelanggan, nama_pelanggan, email_pelanggan
+FROM pelanggan
+WHERE email_pelanggan = 'pelanggan1@gmail.com';
 \end{lstlisting}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{index/output_idx5.png}
-    \caption{Hasil \texttt{EXPLAIN} \textit{Index} 4}
+    \caption{Hasil \texttt{EXPLAIN} \textit{Index} 5}
     \label{fig:idx5}
 \end{figure}
-
-\clearpage
-
-% ============================================================
 % SECTION 10: DEMO APLIKASI WEB
 % ============================================================
 

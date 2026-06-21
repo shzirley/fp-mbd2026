@@ -255,20 +255,11 @@ FROM tiket
 WHERE jadwal_tayang_id_jadwal = 'JD0001'
   AND kursi_id_kursi          = 'KR0001';
 
--- EXPLAIN INDEX 5: jadwal_tayang(waktu_tayang)
+-- EXPLAIN INDEX 5: pelanggan(email_pelanggan)
 EXPLAIN
-SELECT
-    jt.waktu_tayang,
-    f.judul,
-    st.kelas_studio,
-    jt.harga_dasar,
-    cb.nama_cabang
-FROM jadwal_tayang      jt
-JOIN jadwal_tayang_film jtf ON jt.id_jadwal        = jtf.jadwal_tayang_id_jadwal
-JOIN film               f   ON jtf.film_id_film    = f.id_film
-JOIN studio             st  ON jt.studio_id_studio = st.id_studio
-JOIN cabang             cb  ON st.cabang_id_cabang = cb.id_cabang
-ORDER BY jt.waktu_tayang;
+SELECT id_pelanggan, nama_pelanggan, email_pelanggan
+FROM pelanggan
+WHERE email_pelanggan = 'pelanggan1@gmail.com';
 
 -- Menampilkan semua index custom yang terdaftar di database
 SELECT
