@@ -487,6 +487,7 @@
                         kelas_studio: ticket.kelas_studio,
                         waktu_tayang: new Date(ticket.waktu_tayang),
                         tanggal_transaksi: new Date(ticket.tanggal_transaksi),
+                        status_transaksi: ticket.status_transaksi,
                         seats: [],
                         harga_beli_total: 0
                     };
@@ -502,7 +503,9 @@
             const past = [];
 
             Object.values(bookings).forEach(booking => {
-                if (booking.waktu_tayang >= now) {
+                if (booking.status_transaksi === 'Canceled') {
+                    past.push(booking);
+                } else if (booking.waktu_tayang >= now) {
                     upcoming.push(booking);
                 } else {
                     past.push(booking);
@@ -602,7 +605,10 @@
                             <td class="px-lg py-md text-on-surface-variant">${booking.nama_cabang}</td>
                             <td class="px-lg py-md text-on-surface-variant">${priceStr}</td>
                             <td class="px-lg py-md">
-                                <span class="bg-primary/20 text-primary px-md py-1 rounded-full text-label-sm font-label-sm border border-primary/30">Completed</span>
+                                ${booking.status_transaksi === 'Canceled' 
+                                    ? '<span class="bg-error/20 text-error px-md py-1 rounded-full text-label-sm font-label-sm border border-error/30">Canceled</span>' 
+                                    : '<span class="bg-primary/20 text-primary px-md py-1 rounded-full text-label-sm font-label-sm border border-primary/30">Completed</span>'
+                                }
                             </td>
                         </tr>
                     `;

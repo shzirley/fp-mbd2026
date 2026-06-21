@@ -435,10 +435,12 @@ app.get('/api/schedules/:id/seats', async (req, res) => {
   try {
     // 1. Get schedule info
     const [schedules] = await pool.query(
-      `SELECT jt.*, st.kelas_studio, st.nomor_studio, cb.nama_cabang 
+      `SELECT jt.*, st.kelas_studio, st.nomor_studio, cb.nama_cabang, f.judul 
        FROM jadwal_tayang jt 
        JOIN studio st ON jt.studio_id_studio = st.id_studio 
        JOIN cabang cb ON st.cabang_id_cabang = cb.id_cabang
+       LEFT JOIN jadwal_tayang_film jtf ON jt.id_jadwal = jtf.jadwal_tayang_id_jadwal
+       LEFT JOIN film f ON jtf.film_id_film = f.id_film
        WHERE jt.id_jadwal = ?`,
       [req.params.id]
     );
@@ -468,6 +470,9 @@ app.get('/api/schedules/:id/seats', async (req, res) => {
 
     return res.json({
       scheduleId: schedule.id_jadwal,
+      judul: schedule.judul,
+      nama_cabang: schedule.nama_cabang,
+      nomor_studio: schedule.nomor_studio,
       waktu_tayang: schedule.waktu_tayang,
       harga_dasar: schedule.harga_dasar,
       kelas_studio: schedule.kelas_studio,
@@ -518,7 +523,7 @@ app.get('/api/user/:userId/tickets', async (req, res) => {
         k.nomor_kursi, 
         tx.id_transaksi, 
         tx.tanggal_transaksi,
-        c.nama_cabang
+        tx.status_transaksi
       FROM tiket tk
       JOIN jadwal_tayang jt ON tk.jadwal_tayang_id_jadwal = jt.id_jadwal
       JOIN jadwal_tayang_film jtf ON jt.id_jadwal = jtf.jadwal_tayang_id_jadwal
@@ -542,7 +547,7 @@ app.get('/api/user/:userId/tickets', async (req, res) => {
 // POST /api/transactions/:id/cancel
 app.post('/api/transactions/:id/cancel', async (req, res) => {
   try {
-    await pool.query('CALL BatalkanTransaksi(?)', [req.params.id]);
+    await pool.query("UPDATE transaksi SET status_transaksi = 'Canceled' WHERE id_transaksi = ?", [req.params.id]);
     return res.json({ message: 'Transaction cancelled successfully.' });
   } catch (err) {
     console.error(err);
