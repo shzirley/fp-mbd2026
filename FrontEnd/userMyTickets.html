@@ -239,11 +239,16 @@
                 <!-- Right: Actions -->
                 <div class="flex items-center gap-md ml-auto">
                     <!-- Branch Dropdown -->
-                    <button class="hidden sm:flex items-center gap-xs px-md py-1.5 bg-surface-bright/10 rounded-full hover:bg-white/10 transition-all text-label-md border border-outline-variant/20">
-                        <span class="material-symbols-outlined text-primary text-[18px]" data-icon="location_on">location_on</span>
-                        <span>Downtown Grand</span>
-                        <span class="material-symbols-outlined text-[18px]" data-icon="expand_more">expand_more</span>
-                    </button>
+                    <div class="relative inline-block text-left z-50" id="branch-dropdown-container">
+                        <button id="btn-branch-select" class="hidden sm:flex items-center gap-xs px-md py-1.5 bg-surface-bright/10 rounded-full hover:bg-white/10 transition-all text-label-md border border-outline-variant/20">
+                            <span class="material-symbols-outlined text-primary text-[18px]" data-icon="location_on">location_on</span>
+                            <span id="selected-branch-name">Downtown Grand</span>
+                            <span class="material-symbols-outlined text-[18px]" data-icon="expand_more">expand_more</span>
+                        </button>
+                        <div id="branch-dropdown-menu" class="hidden absolute right-0 mt-2 w-64 rounded-xl bg-surface-container-high border border-outline-variant/30 shadow-2xl py-2 z-50 max-h-60 overflow-y-auto backdrop-blur-2xl">
+                            <!-- Items populated dynamically -->
+                        </div>
+                    </div>
                     
                     <button class="p-2 hover:bg-white/5 rounded-full transition-all relative">
                         <span class="material-symbols-outlined text-on-surface-variant">notifications</span>
@@ -280,11 +285,13 @@
         <section class="mb-2xl">
             <div class="flex items-center justify-between mb-lg">
                 <h2 class="text-headline-md font-headline-md text-white">Upcoming Tickets</h2>
-                <span class="bg-primary-container text-white px-md py-1 rounded-full text-label-md font-label-md">2 Bookings</span>
+                <span id="upcoming-badge" class="bg-primary-container text-white px-md py-1 rounded-full text-label-md font-label-md">0 Bookings</span>
             </div>
-            
-            <div class="grid grid-cols-1 gap-lg" id="upcoming-tickets-container">
-                <!-- Dynamic tickets will load here -->
+            <div id="upcoming-tickets-container" class="grid grid-cols-1 gap-lg">
+                <div class="text-center py-12 text-on-surface-variant bg-surface-container rounded-2xl border border-outline-variant/20">
+                    <span class="material-symbols-outlined text-[32px] mb-2 animate-spin">sync</span>
+                    <p>Loading your tickets...</p>
+                </div>
             </div>
         </section>
         <!-- Past Bookings Section -->
@@ -301,27 +308,9 @@
                             <th class="px-lg py-md text-label-sm font-label-sm text-on-surface-variant uppercase">Status</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-outline-variant/20">
-                        <tr class="hover:bg-surface-container-high transition-colors">
-                            <td class="px-lg py-md font-bold text-white">Dilan 1990</td>
-                            <td class="px-lg py-md text-on-surface-variant">Oct 12, 2024</td>
-                            <td class="px-lg py-md text-on-surface-variant">Downtown Cinema 12</td>
-                            <td class="px-lg py-md text-on-surface-variant">Rp 35.000</td>
-                            <td class="px-lg py-md"><span class="bg-primary/20 text-primary px-md py-1 rounded-full text-label-sm font-label-sm border border-primary/30">Completed</span></td>
-                        </tr>
-                        <tr class="hover:bg-surface-container-high transition-colors">
-                            <td class="px-lg py-md font-bold text-white">The Raid</td>
-                            <td class="px-lg py-md text-on-surface-variant">Oct 05, 2024</td>
-                            <td class="px-lg py-md text-on-surface-variant">Northside IMAX</td>
-                            <td class="px-lg py-md text-on-surface-variant">Rp 45.000</td>
-                            <td class="px-lg py-md"><span class="bg-primary/20 text-primary px-md py-1 rounded-full text-label-sm font-label-sm border border-primary/30">Completed</span></td>
-                        </tr>
-                        <tr class="hover:bg-surface-container-high transition-colors">
-                            <td class="px-lg py-md font-bold text-white">Susi Susanti</td>
-                            <td class="px-lg py-md text-on-surface-variant">Sep 28, 2024</td>
-                            <td class="px-lg py-md text-on-surface-variant">Downtown Cinema 12</td>
-                            <td class="px-lg py-md text-on-surface-variant">Rp 18.000</td>
-                            <td class="px-lg py-md"><span class="bg-primary/20 text-primary px-md py-1 rounded-full text-label-sm font-label-sm border border-primary/30">Completed</span></td>
+                    <tbody id="past-bookings-tbody" class="divide-y divide-outline-variant/20">
+                        <tr>
+                            <td colspan="5" class="px-lg py-8 text-center text-on-surface-variant">Loading past bookings...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -333,7 +322,7 @@
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-gutter">
             <div class="col-span-1">
                 <span class="text-headline-md font-headline-md text-primary-container font-extrabold block mb-md">Cinetrack</span>
-                <p class="text-on-surface-variant text-label-sm font-label-sm">© 2024 Cinetrack Logistics &amp; Cinema Systems. All rights reserved.</p>
+                <p class="text-on-surface-variant text-label-sm font-label-sm">&copy; 2024 Cinetrack Logistics &amp; Cinema Systems. All rights reserved.</p>
             </div>
             <div>
                 <h4 class="text-white font-bold mb-md text-label-md">Branch Locations</h4>
@@ -379,33 +368,32 @@
                     onclick="toggleModal('ticket-modal')">
                     <span class="material-symbols-outlined">close</span>
                 </button>
-                <p class="text-white/80 text-label-sm font-label-sm uppercase tracking-widest mb-xs">Cinetrack Digital
-                    Pass</p>
-                <h2 class="text-white text-headline-md font-headline-md">Neon Horizon: Genesis</h2>
+                <p class="text-white/80 text-label-sm font-label-sm uppercase tracking-widest mb-xs">Cinetrack Digital Pass</p>
+                <h2 class="text-white text-headline-md font-headline-md" id="modal-movie-title">Neon Horizon: Genesis</h2>
             </div>
             <div class="p-xl space-y-xl relative ticket-tear border-x border-slate-100">
                 <div class="flex justify-between items-center text-center">
                     <div>
                         <p class="text-label-sm font-label-sm text-slate-400 uppercase">Date</p>
-                        <p class="text-body-md font-body-md font-bold text-slate-800">Oct 24</p>
+                        <p class="text-body-md font-body-md font-bold text-slate-800" id="modal-date">Oct 24</p>
                     </div>
                     <div>
                         <p class="text-label-sm font-label-sm text-slate-400 uppercase">Time</p>
-                        <p class="text-body-md font-body-md font-bold text-slate-800">19:30</p>
+                        <p class="text-body-md font-body-md font-bold text-slate-800" id="modal-time">19:30</p>
                     </div>
                     <div>
                         <p class="text-label-sm font-label-sm text-slate-400 uppercase">Hall</p>
-                        <p class="text-body-md font-body-md font-bold text-slate-800">04</p>
+                        <p class="text-body-md font-body-md font-bold text-slate-800" id="modal-hall">04</p>
                     </div>
                 </div>
                 <div class="flex justify-between items-center text-center">
                     <div>
-                        <p class="text-label-sm font-label-sm text-slate-400 uppercase">Row</p>
-                        <p class="text-body-md font-body-md font-bold text-slate-800">F</p>
+                        <p class="text-label-sm font-label-sm text-slate-400 uppercase">Class</p>
+                        <p class="text-body-md font-body-md font-bold text-slate-800" id="modal-class">Deluxe</p>
                     </div>
                     <div>
                         <p class="text-label-sm font-label-sm text-slate-400 uppercase">Seats</p>
-                        <p class="text-body-md font-body-md font-bold text-slate-800">12, 13</p>
+                        <p class="text-body-md font-body-md font-bold text-slate-800" id="modal-seats">12, 13</p>
                     </div>
                     <div>
                         <p class="text-label-sm font-label-sm text-slate-400 uppercase">Type</p>
@@ -414,17 +402,14 @@
                 </div>
                 <div class="border-t border-dashed border-slate-300 pt-xl flex flex-col items-center">
                     <div class="bg-white p-lg border border-slate-200 rounded-2xl mb-md">
-                        <img alt="QR Code" class="w-48 h-48"
-                            data-alt="A clean and modern QR code generated on a white background with rounded corners. The code represents a digital ticket and is presented within a high-contrast UI context, utilizing sharp edges and clear white space to ensure legibility. The styling is clinical and professional, fitting a high-end cinema ticketing application."
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpkzf3qFzlb_NWVHibY2F3Qcx-8zKQW818EaXhKvcSxLc6LyrRW3PUHroV4Mr6G5RY9HKG1boJp3AnSXcYj66R406kz30WzLNDIg01bnLxQ_GFyGVY5UMOL6IXcmzbwkyfCZ0aQUThFvuiWC568dWY3neE7exe_3G9kK8M7xwtBvGINx70CNJwBFtn0G_Lw5yz9R7-BHsesF_9dKWycdSKDD64rOQObIHrFtMMnipmaDghSP9jlekefc0EiQ-j8sudI_u_Qvz733MT" />
+                        <img alt="QR Code" class="w-48 h-48" id="modal-qr-code"
+                            src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=placeholder" />
                     </div>
-                    <p class="text-label-sm font-label-sm text-slate-500 uppercase tracking-widest font-mono">
-                        CT-990-244100-FX</p>
+                    <p class="text-label-sm font-label-sm text-slate-500 uppercase tracking-widest font-mono" id="modal-tx-id">CT-990-244100-FX</p>
                 </div>
             </div>
             <div class="bg-slate-50 p-lg text-center">
-                <p class="text-label-sm font-label-sm text-slate-500 italic">Please present this QR code at the studio
-                    entrance.</p>
+                <p class="text-label-sm font-label-sm text-slate-500 italic">Please present this QR code at the studio entrance.</p>
             </div>
         </div>
     </div>
@@ -451,28 +436,6 @@
         }
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const userStr = localStorage.getItem('user');
-            if (userStr) {
-                try {
-                    const user = JSON.parse(userStr);
-                    const avatarBtn = document.querySelector('a[title="Logout"]');
-                    if (avatarBtn) {
-                        if (user.picture) {
-                            avatarBtn.innerHTML = `<img alt="User profile" class="w-full h-full object-cover" src="${user.picture}" />`;
-                        } else if (user.name) {
-                            const initials = user.name.substring(0, 2).toUpperCase();
-                            avatarBtn.innerHTML = `<div class="w-full h-full flex items-center justify-center bg-primary-container text-on-primary-container font-bold text-sm">${initials}</div>`;
-                        }
-                    }
-                } catch (e) {
-                    console.error('Error parsing user data', e);
-                }
-            }
-        });
-    </script>
-
-    <script>
         async function cancelTicket(txId) {
             if(!confirm('Are you sure you want to cancel this ticket?')) return;
             try {
@@ -490,103 +453,236 @@
             }
         }
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            const userStr = localStorage.getItem('user');
-            if (!userStr) return;
-            const user = JSON.parse(userStr);
-            const idToUse = user.id_pelanggan || user.id;
-            
-            try {
-                const res = await fetch('/api/user/' + idToUse + '/tickets');
-                const tickets = await res.json();
-                
-                const container = document.getElementById('upcoming-tickets-container');
-                if(!container) return;
-                
-                if(!tickets || tickets.length === 0) {
-                    container.innerHTML = '<p class="text-on-surface-variant">No upcoming tickets found.</p>';
-                    return;
-                }
-                
-                container.innerHTML = '';
-                // Group by transaction ID
-                const txMap = {};
-                tickets.forEach(t => {
-                    if(!txMap[t.id_transaksi]) {
-                        txMap[t.id_transaksi] = {
-                            ...t,
-                            seats: []
-                        };
-                    }
-                    txMap[t.id_transaksi].seats.push(t.nomor_kursi);
-                });
-                
-                Object.values(txMap).forEach(tx => {
-                    const dateObj = new Date(tx.waktu_tayang);
-                    const dateStr = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-                    const timeStr = dateObj.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
-                    
-                    const isVIP = tx.kelas_studio && tx.kelas_studio.toLowerCase() === 'vip';
-                    const badgeClass = isVIP ? 'bg-secondary/20 text-secondary border-secondary/30' : 'bg-surface-container-highest text-on-surface-variant border-outline-variant/30';
-                    const badgeText = isVIP ? 'VIP Experience' : 'Regular';
-                    const borderClass = isVIP ? 'border-l-4 border-secondary hover:border-secondary' : 'hover:border-outline-variant/50 border border-outline-variant/20';
+        // Formatting helpers
+        function formatShowtime(dateObj) {
+            const options = { month: 'short', day: 'numeric' };
+            const dateStr = dateObj.toLocaleDateString('en-US', options);
+            const hours = String(dateObj.getHours()).padStart(2, '0');
+            const minutes = String(dateObj.getMinutes()).padStart(2, '0');
+            return `${dateStr} • ${hours}:${minutes}`;
+        }
 
-                    const card = document.createElement('div');
-                    card.className = `bg-surface-container-high rounded-2xl overflow-hidden flex flex-col lg:flex-row group transition-all shadow-lg ${borderClass}`;
-                    card.innerHTML = `
-                        <div class="w-full lg:w-64 h-48 lg:h-auto overflow-hidden">
-                            <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                alt="${tx.judul_film}"
-                                src="${tx.poster_url || '/assets/posters/default.jpg'}" />
-                        </div>
-                        <div class="flex-grow p-xl flex flex-col md:flex-row">
-                            <div class="flex-grow">
-                                <div class="flex items-center gap-sm mb-base">
-                                    <span class="${badgeClass} px-sm py-0.5 rounded text-label-sm font-label-sm uppercase border">${badgeText}</span>
-                                </div>
-                                <h3 class="text-headline-lg font-headline-lg text-white mb-md">${tx.judul_film}</h3>
-                                <div class="grid grid-cols-2 md:grid-cols-4 gap-xl">
-                                    <div>
-                                        <p class="text-label-sm font-label-sm text-on-surface-variant uppercase">Branch</p>
-                                        <p class="text-body-md font-body-md text-white">${tx.nama_cabang || 'Cinetrack'}</p>
-                                    </div>
-                                    <div>
-                                        <p class="text-label-sm font-label-sm text-on-surface-variant uppercase">Studio</p>
-                                        <p class="text-body-md font-body-md text-white">Studio ${tx.nomor_studio}</p>
-                                    </div>
-                                    <div>
-                                        <p class="text-label-sm font-label-sm text-on-surface-variant uppercase">Date &amp; Time</p>
-                                        <p class="text-body-md font-body-md text-white">${dateStr} • ${timeStr}</p>
-                                    </div>
-                                    <div>
-                                        <p class="text-label-sm font-label-sm text-on-surface-variant uppercase">Seats</p>
-                                        <p class="text-body-md font-body-md text-white font-bold">${tx.seats.join(', ')}</p>
-                                    </div>
-                                </div>
+        function formatPastDate(dateObj) {
+            const options = { month: 'short', day: 'numeric', year: 'numeric' };
+            return dateObj.toLocaleDateString('en-US', options);
+        }
+
+        function formatCurrency(amount) {
+            return 'Rp ' + amount.toLocaleString('id-ID');
+        }
+
+        let allBookings = {};
+
+        function renderTickets(tickets) {
+            const bookings = {};
+            tickets.forEach(ticket => {
+                const txId = ticket.id_transaksi;
+                if (!bookings[txId]) {
+                    bookings[txId] = {
+                        id_transaksi: txId,
+                        judul_film: ticket.judul_film,
+                        poster_url: ticket.poster_url || '/assets/posters/default.jpg',
+                        nama_cabang: ticket.nama_cabang,
+                        nomor_studio: ticket.nomor_studio,
+                        kelas_studio: ticket.kelas_studio,
+                        waktu_tayang: new Date(ticket.waktu_tayang),
+                        tanggal_transaksi: new Date(ticket.tanggal_transaksi),
+                        seats: [],
+                        harga_beli_total: 0
+                    };
+                }
+                bookings[txId].seats.push(ticket.nomor_kursi);
+                bookings[txId].harga_beli_total += parseFloat(ticket.harga_beli);
+            });
+
+            allBookings = bookings;
+
+            const now = new Date();
+            const upcoming = [];
+            const past = [];
+
+            Object.values(bookings).forEach(booking => {
+                if (booking.waktu_tayang >= now) {
+                    upcoming.push(booking);
+                } else {
+                    past.push(booking);
+                }
+            });
+
+            // Update upcoming badge
+            document.getElementById('upcoming-badge').textContent = `${upcoming.length} Booking${upcoming.length !== 1 ? 's' : ''}`;
+
+            // Render upcoming
+            const upcomingContainer = document.getElementById('upcoming-tickets-container');
+            if (upcoming.length === 0) {
+                upcomingContainer.innerHTML = `
+                    <div class="text-center py-12 text-on-surface-variant bg-surface-container rounded-2xl border border-outline-variant/20">
+                        <span class="material-symbols-outlined text-[32px] mb-2">local_activity</span>
+                        <p>No upcoming tickets found. Time to book a movie!</p>
+                    </div>
+                `;
+            } else {
+                upcomingContainer.innerHTML = upcoming.map(booking => {
+                    const dateStr = formatShowtime(booking.waktu_tayang);
+                    const isVip = booking.kelas_studio.toLowerCase().includes('vip') || booking.kelas_studio.toLowerCase().includes('gold') || booking.kelas_studio.toLowerCase().includes('premiere');
+                    const borderClass = isVip ? 'border-l-4 border-secondary hover:border-secondary' : 'hover:border-outline-variant/50 border border-outline-variant/20';
+                    const badgeHtml = isVip 
+                        ? `<span class="bg-secondary/20 text-secondary px-sm py-0.5 rounded text-label-sm font-label-sm uppercase border border-secondary/30">VIP Experience</span>`
+                        : `<span class="bg-surface-container-highest text-on-surface-variant px-sm py-0.5 rounded text-label-sm font-label-sm uppercase border border-outline-variant/30">${booking.kelas_studio}</span>`;
+
+                    return `
+                        <div class="bg-surface-container-high rounded-2xl overflow-hidden flex flex-col lg:flex-row group transition-all shadow-lg ${borderClass}">
+                            <div class="w-full lg:w-48 h-48 lg:h-60 overflow-hidden flex-shrink-0">
+                                <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                    alt="${booking.judul_film}"
+                                    src="${booking.poster_url}"
+                                    onerror="this.src='/assets/posters/default.jpg'" />
                             </div>
-                            <div class="mt-lg md:mt-0 md:ml-xl flex flex-col justify-center items-center md:items-end border-t md:border-t-0 md:border-l border-outline-variant/20 pt-lg md:pt-0 md:pl-xl gap-md">
-                                <button
-                                    class="primary-button flex items-center gap-sm px-xl py-md rounded-xl font-label-md text-label-md w-full md:w-auto justify-center"
-                                    onclick="toggleModal('ticket-modal')">
-                                    <span class="material-symbols-outlined">qr_code_2</span>
-                                    View QR Code
-                                </button>
-                                <button
-                                    class="bg-surface-container border border-error text-error hover:bg-error/10 flex items-center gap-sm px-xl py-md rounded-xl font-label-md text-label-md w-full md:w-auto justify-center transition-colors"
-                                    onclick="cancelTicket('${tx.id_transaksi}')">
-                                    <span class="material-symbols-outlined">cancel</span>
-                                    Cancel Ticket
-                                </button>
+                            <div class="flex-grow p-xl flex flex-col md:flex-row">
+                                <div class="flex-grow">
+                                    <div class="flex items-center gap-sm mb-base">
+                                        ${badgeHtml}
+                                    </div>
+                                    <h3 class="text-headline-lg font-headline-lg text-white mb-md">${booking.judul_film}</h3>
+                                    <div class="grid grid-cols-2 md:grid-cols-4 gap-xl">
+                                        <div>
+                                            <p class="text-label-sm font-label-sm text-on-surface-variant uppercase">Branch</p>
+                                            <p class="text-body-md font-body-md text-white">${booking.nama_cabang}</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-label-sm font-label-sm text-on-surface-variant uppercase">Studio</p>
+                                            <p class="text-body-md font-body-md text-white">Studio ${booking.nomor_studio} (${booking.kelas_studio})</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-label-sm font-label-sm text-on-surface-variant uppercase">Date &amp; Time</p>
+                                            <p class="text-body-md font-body-md text-white">${dateStr}</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-label-sm font-label-sm text-on-surface-variant uppercase">Seats</p>
+                                            <p class="text-body-md font-body-md text-white font-bold">${booking.seats.join(', ')}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-lg md:mt-0 md:ml-xl flex flex-col justify-center items-center md:items-end border-t md:border-t-0 md:border-l border-outline-variant/20 pt-lg md:pt-0 md:pl-xl gap-md">
+                                    <button
+                                        class="primary-button flex items-center gap-sm px-xl py-md rounded-xl font-label-md text-label-md w-full md:w-auto justify-center"
+                                        onclick="showDigitalTicket('${booking.id_transaksi}')">
+                                        <span class="material-symbols-outlined">qr_code_2</span>
+                                        View QR Code
+                                    </button>
+                                    <button
+                                        class="bg-surface-container border border-error text-error hover:bg-error/10 flex items-center gap-sm px-xl py-md rounded-xl font-label-md text-label-md w-full md:w-auto justify-center transition-colors"
+                                        onclick="cancelTicket('${booking.id_transaksi}')">
+                                        <span class="material-symbols-outlined">cancel</span>
+                                        Cancel Ticket
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     `;
-                    container.appendChild(card);
-                });
-            } catch(e) {
-                console.error(e);
+                }).join('');
+            }
+
+            // Render past
+            const pastTbody = document.getElementById('past-bookings-tbody');
+            if (past.length === 0) {
+                pastTbody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="px-lg py-8 text-center text-on-surface-variant">No past bookings found.</td>
+                    </tr>
+                `;
+            } else {
+                pastTbody.innerHTML = past.map(booking => {
+                    const dateStr = formatPastDate(booking.waktu_tayang);
+                    const priceStr = formatCurrency(booking.harga_beli_total);
+                    return `
+                        <tr class="hover:bg-surface-container-high transition-colors">
+                            <td class="px-lg py-md font-bold text-white">${booking.judul_film}</td>
+                            <td class="px-lg py-md text-on-surface-variant">${dateStr}</td>
+                            <td class="px-lg py-md text-on-surface-variant">${booking.nama_cabang}</td>
+                            <td class="px-lg py-md text-on-surface-variant">${priceStr}</td>
+                            <td class="px-lg py-md">
+                                <span class="bg-primary/20 text-primary px-md py-1 rounded-full text-label-sm font-label-sm border border-primary/30">Completed</span>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            }
+        }
+
+        window.showDigitalTicket = function(txId) {
+            const booking = allBookings[txId];
+            if (!booking) return;
+
+            document.getElementById('modal-movie-title').textContent = booking.judul_film;
+            
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            const d = booking.waktu_tayang;
+            const dateStr = `${months[d.getMonth()]} ${d.getDate()}`;
+            const timeStr = `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+            
+            document.getElementById('modal-date').textContent = dateStr;
+            document.getElementById('modal-time').textContent = timeStr;
+            document.getElementById('modal-hall').textContent = String(booking.nomor_studio).padStart(2, '0');
+            document.getElementById('modal-class').textContent = booking.kelas_studio;
+            document.getElementById('modal-seats').textContent = booking.seats.join(', ');
+            document.getElementById('modal-tx-id').textContent = txId;
+            
+            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${txId}`;
+            document.getElementById('modal-qr-code').src = qrUrl;
+
+            toggleModal('ticket-modal');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const userStr = localStorage.getItem('user');
+            if (userStr) {
+                try {
+                    const user = JSON.parse(userStr);
+                    const avatarBtn = document.querySelector('a[title="Logout"]');
+                    if (avatarBtn) {
+                        if (user.picture) {
+                            avatarBtn.innerHTML = `<img alt="User profile" class="w-full h-full object-cover" src="${user.picture}" />`;
+                        } else if (user.name) {
+                            const initials = user.name.substring(0, 2).toUpperCase();
+                            avatarBtn.innerHTML = `<div class="w-full h-full flex items-center justify-center bg-primary-container text-on-primary-container font-bold text-sm">${initials}</div>`;
+                        }
+                    }
+
+                    // Fetch customer tickets
+                    fetch(`/api/user/${user.id}/tickets`)
+                        .then(response => {
+                            if (!response.ok) throw new Error('Network error');
+                            return response.json();
+                        })
+                        .then(tickets => {
+                            renderTickets(tickets);
+                        })
+                        .catch(err => {
+                            console.error('Error fetching tickets:', err);
+                            document.getElementById('upcoming-tickets-container').innerHTML = `
+                                <div class="text-center py-12 text-error bg-surface-container rounded-2xl border border-error-container/20">
+                                    <span class="material-symbols-outlined text-[32px] mb-2 text-primary">error</span>
+                                    <p>Failed to load your tickets. Please check your connection.</p>
+                                </div>
+                            `;
+                            document.getElementById('past-bookings-tbody').innerHTML = `
+                                <tr>
+                                    <td colspan="5" class="px-lg py-8 text-center text-primary">Failed to load past bookings.</td>
+                                </tr>
+                            `;
+                        });
+
+                } catch (e) {
+                    console.error('Error parsing user data', e);
+                }
+            } else {
+                // If not logged in, redirect to login page
+                window.location.href = 'login.html';
             }
         });
     </script>
+    <script src="branch-dropdown.js"></script>
 </body>
 
 </html>
