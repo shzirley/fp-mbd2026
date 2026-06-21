@@ -65,13 +65,16 @@ async function getNextId(prefix, tableName, columnName) {
 // POST /api/auth/google
 app.post('/api/auth/google', async (req, res) => {
   const { credential, role } = req.body;
+  console.log("POST /api/auth/google called. Role requested:", role);
   if (!credential) {
+    console.warn("Google Auth warning: Missing credential payload.");
     return res.status(400).json({ message: 'Missing credential payload.' });
   }
 
   const requestedRole = role || 'user';
 
   try {
+    console.log("Verifying ID token with audience:", process.env.GOOGLE_CLIENT_ID || 'dummy_client_id');
     // Verify Google ID Token
     const ticket = await client.verifyIdToken({
       idToken: credential,
@@ -80,39 +83,50 @@ app.post('/api/auth/google', async (req, res) => {
     const payload = ticket.getPayload();
     const email = payload.email;
     const name = payload.name;
+    console.log("Google token verified successfully. User Email:", email, "Name:", name);
 
     if (requestedRole === 'admin') {
+      console.log("Checking if email belongs to an employee (admin)...");
       // 1. Check if email belongs to an employee (admin)
       const [pegawai] = await pool.query('SELECT id_pegawai, nama_pegawai, jabatan FROM pegawai WHERE email_pegawai = ?', [email]);
       if (pegawai.length > 0) {
+        console.log("Existing employee found:", pegawai[0]);
         const token = jwt.sign({ role: 'admin', id: pegawai[0].id_pegawai }, process.env.JWT_SECRET || 'cinetrack_secret', { expiresIn: '7d' });
         return res.json({ token, role: 'admin', user: { id: pegawai[0].id_pegawai, name: pegawai[0].nama_pegawai, email, jabatan: pegawai[0].jabatan } });
       }
       
+      console.log("Employee not found. Auto-registering new employee...");
       // Auto-register as new employee
       const newId = await getNextId('PG', 'pegawai', 'id_pegawai');
+      console.log("Generated new employee ID:", newId);
       await pool.query(
         'INSERT INTO pegawai (id_pegawai, nama_pegawai, email_pegawai, password, jabatan) VALUES (?, ?, ?, ?, ?)',
         [newId, name, email, 'google_oauth_no_password', 'Staff']
       );
+      console.log("Employee registered successfully in DB.");
       
       const token = jwt.sign({ role: 'admin', id: newId }, process.env.JWT_SECRET || 'cinetrack_secret', { expiresIn: '7d' });
       return res.status(201).json({ token, role: 'admin', user: { id: newId, name, email, jabatan: 'Staff' } });
 
     } else {
+      console.log("Checking if email belongs to a customer...");
       // 2. Check if email belongs to an existing customer
       const [pelanggan] = await pool.query('SELECT id_pelanggan, nama_pelanggan FROM pelanggan WHERE email_pelanggan = ?', [email]);
       if (pelanggan.length > 0) {
+        console.log("Existing customer found:", pelanggan[0]);
         const token = jwt.sign({ role: 'user', id: pelanggan[0].id_pelanggan }, process.env.JWT_SECRET || 'cinetrack_secret', { expiresIn: '7d' });
         return res.json({ token, role: 'user', user: { id: pelanggan[0].id_pelanggan, name: pelanggan[0].nama_pelanggan, email, picture: payload.picture } });
       }
 
+      console.log("Customer not found. Auto-registering new customer...");
       // 3. Auto-register as new customer if not found
       const newId = await getNextId('PL', 'pelanggan', 'id_pelanggan');
+      console.log("Generated new customer ID:", newId);
       await pool.query(
         'INSERT INTO pelanggan (id_pelanggan, nama_pelanggan, email_pelanggan, password) VALUES (?, ?, ?, ?)',
         [newId, name, email, 'google_oauth_no_password']
       );
+      console.log("Customer registered successfully in DB.");
       
       const token = jwt.sign({ role: 'user', id: newId }, process.env.JWT_SECRET || 'cinetrack_secret', { expiresIn: '7d' });
       return res.status(201).json({ token, role: 'user', user: { id: newId, name, email, picture: payload.picture } });
@@ -257,8 +271,58 @@ app.post('/api/auth/signup', async (req, res) => {
 
 // GET /api/movies/now-showing
 app.get('/api/movies/now-showing', async (req, res) => {
+  const { branchId, genre } = req.query;
   try {
-    const [movies] = await pool.query("SELECT * FROM film WHERE status_tayang = 'Now Showing'");
+    let query = `
+      SELECT DISTINCT 
+        f.id_film,
+        f.judul,
+        f.sutradara,
+        f.rating_usia,
+        f.durasi,
+        f.sinopsis,
+        f.status_tayang,
+        f.poster_url,
+        f.rating_score,
+        (SELECT GROUP_CONCAT(g.nama_genre SEPARATOR ', ') 
+         FROM film_genre fg 
+         JOIN genre g ON fg.genre_id_genre = g.id_genre 
+         WHERE fg.film_id_film = f.id_film) AS daftar_genre
+      FROM film f
+    `;
+    
+    const params = [];
+    const conditions = ["f.status_tayang = 'Now Showing'"];
+    
+    if (branchId) {
+      query += `
+        JOIN jadwal_tayang_film jtf ON f.id_film = jtf.film_id_film
+        JOIN jadwal_tayang jt ON jtf.jadwal_tayang_id_jadwal = jt.id_jadwal
+        JOIN studio st ON jt.studio_id_studio = st.id_studio
+      `;
+      conditions.push("st.cabang_id_cabang = ?");
+      params.push(branchId);
+    }
+    
+    if (genre) {
+      conditions.push(`
+        EXISTS (
+          SELECT 1 
+          FROM film_genre fg2 
+          JOIN genre g2 ON fg2.genre_id_genre = g2.id_genre 
+          WHERE fg2.film_id_film = f.id_film AND g2.nama_genre = ?
+        )
+      `);
+      params.push(genre);
+    }
+    
+    if (conditions.length > 0) {
+      query += " WHERE " + conditions.join(" AND ");
+    }
+    
+    query += " ORDER BY f.id_film DESC";
+    
+    const [movies] = await pool.query(query, params);
     return res.json(movies);
   } catch (err) {
     console.error(err);
@@ -447,8 +511,10 @@ app.get('/api/user/:userId/tickets', async (req, res) => {
         tk.harga_beli, 
         jt.waktu_tayang, 
         f.judul AS judul_film, 
+        f.poster_url,
         st.nomor_studio, 
         st.kelas_studio, 
+        cb.nama_cabang,
         k.nomor_kursi, 
         tx.id_transaksi, 
         tx.tanggal_transaksi
@@ -457,6 +523,7 @@ app.get('/api/user/:userId/tickets', async (req, res) => {
       JOIN jadwal_tayang_film jtf ON jt.id_jadwal = jtf.jadwal_tayang_id_jadwal
       JOIN film f ON jtf.film_id_film = f.id_film
       JOIN studio st ON jt.studio_id_studio = st.id_studio
+      JOIN cabang cb ON st.cabang_id_cabang = cb.id_cabang
       JOIN kursi k ON tk.kursi_id_kursi = k.id_kursi
       JOIN transaksi tx ON tk.transaksi_id_transaksi = tx.id_transaksi
       WHERE tx.pelanggan_id_pelanggan = ?
@@ -712,6 +779,28 @@ app.delete('/api/admin/fnb/:id', async (req, res) => {
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: 'Failed to delete item.' });
+  }
+});
+
+// Public GET /api/branches for customer side navbar dropdown
+app.get('/api/branches', async (req, res) => {
+  try {
+    const [branches] = await pool.query('SELECT id_cabang, nama_cabang, alamat FROM cabang ORDER BY nama_cabang ASC');
+    return res.json(branches);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Failed to load branches.' });
+  }
+});
+
+// Public GET /api/genres for customer side filters
+app.get('/api/genres', async (req, res) => {
+  try {
+    const [genres] = await pool.query('SELECT id_genre, nama_genre FROM genre ORDER BY nama_genre ASC');
+    return res.json(genres);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Failed to load genres.' });
   }
 });
 
