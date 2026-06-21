@@ -617,6 +617,57 @@ Penggunaan \texttt{COALESCE(v\_durasi, 0)} memastikan \textit{function} tidak me
     \label{fig:func3}
 \end{figure}
 
+\subsection{\textit{Function} 4: \texttt{CekStatusKursi}}
+
+\textit{Function} keempat bertujuan untuk mengecek apakah sebuah kursi pada jadwal tertentu sudah terjual atau masih tersedia. \textit{Function} ini menerima dua parameter yaitu \texttt{p\_id\_jadwal} dan \texttt{p\_id\_kursi}, kemudian mengembalikan tipe data \texttt{VARCHAR} berupa teks \texttt{Tersedia} atau \texttt{Terjual}.
+
+\textbf{Skenario:} Pada antarmuka aplikasi pemesanan tiket, sistem membutuhkan cara yang sangat cepat dan efisien untuk melakukan *rendering* peta status kursi bagi pelanggan. Dengan menggunakan \textit{function} ini, sistem \textit{frontend} hanya perlu melakukan satu pemanggilan sederhana tanpa harus melakukan kueri \texttt{JOIN} berulang kali secara kompleks di sisi \textit{backend}.
+
+\begin{lstlisting}[style=sql, caption={\textit{Function} 4 --- \texttt{CekStatusKursi}}, label={lst:func4}]
+DELIMITER $$
+CREATE FUNCTION CekStatusKursi(p_id_jadwal CHAR(6), p_id_kursi CHAR(6))
+RETURNS VARCHAR(10)
+DETERMINISTIC
+READS SQL DATA
+BEGIN
+    DECLARE v_count INT;
+    SELECT COUNT(*) INTO v_count
+    FROM tiket
+    WHERE jadwal_tayang_id_jadwal = p_id_jadwal 
+      AND kursi_id_kursi = p_id_kursi;
+      
+    IF v_count > 0 THEN RETURN 'Terjual';
+    ELSE RETURN 'Tersedia';
+    END IF;
+END$$
+DELIMITER ;
+\end{lstlisting}
+
+\subsection{\textit{Function} 5: \texttt{CekDiskonMember}}
+
+\textit{Function} kelima bertujuan untuk menunjang sistem pemberian diskon bagi pelanggan setia. \textit{Function} ini menerima \texttt{p\_id\_pelanggan} dan mengembalikan besaran persentase diskon dalam bentuk desimal (\texttt{DECIMAL(5,2)}).
+
+\textbf{Skenario:} Bioskop ingin mengadakan program \textit{loyalty} (loyalitas pelanggan) di mana pelanggan yang telah melakukan transaksi 3 kali atau lebih berhak mendapatkan potongan harga sebesar 10\%. \textit{Function} ini akan secara otomatis menghitung jumlah transaksi historis pelanggan dari tabel \texttt{transaksi} dan mengembalikan nilai persentase diskon yang berhak didapatkan.
+
+\begin{lstlisting}[style=sql, caption={\textit{Function} 5 --- \texttt{CekDiskonMember}}, label={lst:func5}]
+DELIMITER $$
+CREATE FUNCTION CekDiskonMember(p_id_pelanggan CHAR(6))
+RETURNS DECIMAL(5,2)
+DETERMINISTIC
+READS SQL DATA
+BEGIN
+    DECLARE v_jml_transaksi INT;
+    SELECT COUNT(*) INTO v_jml_transaksi
+    FROM transaksi
+    WHERE pelanggan_id_pelanggan = p_id_pelanggan;
+    
+    IF v_jml_transaksi >= 3 THEN RETURN 10.00;
+    ELSE RETURN 0.00;
+    END IF;
+END$$
+DELIMITER ;
+\end{lstlisting}
+
 \clearpage
 
 % ============================================================
@@ -752,21 +803,50 @@ Gambar berikut menunjukkan perbandingan data stok produk kantin sebelum dan sesu
 \end{figure}
 
 
-% TODO: Bagian ini dikerjakan oleh anggota kelompok lain.
-% Struktur yang disarankan:
-%
-% \subsection{Deskripsi}
-% Jelaskan tujuan stored procedure yang dibuat dalam konteks
-% operasional CineTrack (misalnya: prosedur pembelian tiket,
-% prosedur update stok kantin, dsb.)
-%
-% \subsection{Procedure 1: <NamaProcedure>}
-% - Skenario kebutuhan
-% - Kode SQL (gunakan \begin{lstlisting}[style=sql] ... \end{lstlisting})
-% - Screenshot hasil eksekusi (gunakan \begin{figure}[H] ... \end{figure})
-%
-% \subsection{Procedure 2: <NamaProcedure>}
-% (dst.)
+\subsection{Kasus 4: \textit{BatalkanTransaksi}}
+\textit{Procedure} keempat dibuat untuk menangani skenario operasional pembatalan transaksi oleh pelanggan (\textit{refund}). Alih-alih melakukan serangkaian kueri kompleks secara manual, \textit{procedure} ini akan secara otomatis mengembalikan stok produk kantin ke sistem, menghapus kepemilikan tiket yang terasosiasi agar kursi dapat dibeli kembali, dan mengubah status pembayaran menjadi 'Batal'.
+
+\begin{lstlisting}[style=sql, caption={\textit{Procedure} 4 --- \texttt{BatalkanTransaksi}}, label={lst:proc4}]
+DELIMITER $$
+CREATE PROCEDURE BatalkanTransaksi(IN p_id_transaksi CHAR(6))
+BEGIN
+    DECLARE v_id_pembayaran CHAR(6);
+    
+    SELECT pembayaran_id_pembayaran INTO v_id_pembayaran
+    FROM transaksi WHERE id_transaksi = p_id_transaksi;
+    
+    UPDATE produk_kantin pk
+    JOIN produk_kantin_transaksi pkt ON pk.id_produk = pkt.produk_kantin_id_produk
+    SET pk.stok = pk.stok + pkt.qty
+    WHERE pkt.transaksi_id_transaksi = p_id_transaksi;
+    
+    DELETE FROM tiket WHERE transaksi_id_transaksi = p_id_transaksi;
+    
+    UPDATE pembayaran SET status_pembayaran = 'Batal'
+    WHERE id_pembayaran = v_id_pembayaran;
+END$$
+DELIMITER ;
+\end{lstlisting}
+
+\subsection{Kasus 5: \textit{UpdateStatusFilmHarian}}
+\textit{Procedure} kelima berguna sebagai bentuk pemeliharaan rutin otomatis (\textit{housekeeping}). \textit{Procedure} ini dirancang untuk mengecek seluruh film yang saat ini masih berstatus 'Coming Soon'. Apabila ternyata jadwal tayangnya sudah dijadwalkan pada hari ini (atau terlewat), maka status penayangannya akan otomatis ter-\textit{update} menjadi 'Now Showing'. Hal ini sangat membantu meringankan pekerjaan repetitif para admin.
+
+\begin{lstlisting}[style=sql, caption={\textit{Procedure} 5 --- \texttt{UpdateStatusFilmHarian}}, label={lst:proc5}]
+DELIMITER $$
+CREATE PROCEDURE UpdateStatusFilmHarian()
+BEGIN
+    UPDATE film f
+    SET f.status_tayang = 'Now Showing'
+    WHERE f.status_tayang = 'Coming Soon'
+      AND EXISTS (
+          SELECT 1 FROM jadwal_tayang_film jtf
+          JOIN jadwal_tayang jt ON jtf.jadwal_tayang_id_jadwal = jt.id_jadwal
+          WHERE jtf.film_id_film = f.id_film 
+            AND DATE(jt.waktu_tayang) <= CURDATE()
+      );
+END$$
+DELIMITER ;
+\end{lstlisting}
 
 \clearpage
 
@@ -829,7 +909,6 @@ FOLLOWS trg_cegah_double_booking
 BEGIN
     DECLARE v_harga_dasar DECIMAL(10,2);
     DECLARE v_tarif_tipe DECIMAL(10,2);
-
     SELECT harga_dasar INTO v_harga_dasar
     FROM jadwal_tayang
     WHERE id_jadwal = NEW.jadwal_tayang_id_jadwal;
@@ -890,22 +969,49 @@ Begitu terdapat rekaman transaksi baru, sistem akan memotong jumlah \texttt{stok
 
 
 
-% TODO: Bagian ini dikerjakan oleh anggota kelompok lain.
-% Struktur yang disarankan:
-%
-% \subsection{Deskripsi}
-% Jelaskan tujuan trigger yang dibuat (misalnya: trigger untuk
-% otomatis update stok produk kantin setelah transaksi,
-% trigger untuk mencatat log perubahan harga, dsb.)
-%
-% \subsection{Trigger 1: <NamaTrigger>}
-% - Skenario kebutuhan
-% - Event: BEFORE/AFTER INSERT/UPDATE/DELETE pada tabel apa
-% - Kode SQL
-% - Screenshot hasil eksekusi
-%
-% \subsection{Trigger 2: <NamaTrigger>}
-% (dst.)
+\subsection{Kasus 4: Pencegahan Stok Kantin Minus}
+Sebagai langkah melengkapi sistem inventaris kantin, kasus keempat ini berfokus pada validasi ketersediaan stok yang krusial. \textit{Trigger} diatur untuk mengeksekusi pengecekan \texttt{BEFORE INSERT} pada tabel \texttt{produk\_kantin\_transaksi}. Jika kuantitas pesanan yang diinputkan kasir melebihi sisa stok riil yang ada di gudang kantin, transaksi tersebut akan langsung digagalkan dengan memunculkan pesan \textit{error} kepada operator.
+
+\begin{lstlisting}[style=sql, caption={\textit{Trigger} 4 --- \texttt{Pencegahan Stok Minus}}, label={lst:trg4}]
+DELIMITER $$
+CREATE TRIGGER trg_cegah_stok_minus
+BEFORE INSERT ON produk_kantin_transaksi
+FOR EACH ROW
+BEGIN
+    DECLARE v_sisa_stok INT;
+    SELECT stok INTO v_sisa_stok
+    FROM produk_kantin WHERE id_produk = NEW.produk_kantin_id_produk;
+    
+    IF NEW.qty > v_sisa_stok THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Gagal: Stok kantin tidak mencukupi untuk jumlah yang diminta!';
+    END IF;
+END$$
+DELIMITER ;
+\end{lstlisting}
+
+\subsection{Kasus 5: Pencegahan Jadwal Tayang Bentrok}
+Kasus kelima diimplementasikan untuk menghindari potensi kelalaian staf manajerial saat menyusun jadwal penayangan film (\textit{human error}). \textit{Trigger} ini berjalan otomatis secara \texttt{BEFORE INSERT} pada tabel \texttt{jadwal\_tayang} dan akan mendeteksi apabila jadwal baru yang dimasukkan berdekatan (kurang dari durasi standar 2 jam) dengan penayangan film lain pada studio yang persis sama. Jika terjadi \textit{overlapping}, penjadwalan akan ditolak oleh basis data.
+
+\begin{lstlisting}[style=sql, caption={\textit{Trigger} 5 --- \texttt{Pencegahan Jadwal Bentrok}}, label={lst:trg5}]
+DELIMITER $$
+CREATE TRIGGER trg_cegah_jadwal_bentrok
+BEFORE INSERT ON jadwal_tayang
+FOR EACH ROW
+BEGIN
+    DECLARE v_bentrok INT;
+    SELECT COUNT(*) INTO v_bentrok
+    FROM jadwal_tayang
+    WHERE studio_id_studio = NEW.studio_id_studio
+      AND ABS(TIMESTAMPDIFF(MINUTE, waktu_tayang, NEW.waktu_tayang)) < 120;
+      
+    IF v_bentrok > 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Gagal: Terdapat jadwal tayang yang bentrok (overlap) di studio ini!';
+    END IF;
+END$$
+DELIMITER ;
+\end{lstlisting}
 
 \clearpage
 

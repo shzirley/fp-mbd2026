@@ -226,9 +226,17 @@
         <!-- Main Content Canvas -->
         <main class="py-10 px-10 max-w-[1400px]">
             <!-- Header Section -->
-            <section class="mb-12">
-                <h2 class="text-display-lg font-bold text-on-surface mb-2">Executive Dashboard</h2>
-                <p class="text-on-surface-variant text-body-lg">Real-time cinema network performance and analytics.</p>
+            <section class="mb-12 flex justify-between items-end">
+                <div>
+                    <h2 class="text-display-lg font-bold text-on-surface mb-2">Executive Dashboard</h2>
+                    <p class="text-on-surface-variant text-body-lg">Real-time cinema network performance and analytics.</p>
+                </div>
+                <div>
+                    <button onclick="handleInflation()" class="flex items-center gap-2 px-6 py-3 rounded-xl bg-primary-container text-white hover:brightness-110 transition-all font-bold shadow-lg shadow-primary-container/30 active:scale-95">
+                        <span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+                        Apply Inflation (+10%)
+                    </button>
+                </div>
             </section>
             <!-- Stats Bento Grid -->
             <div class="grid grid-cols-4 gap-gutter mb-gutter">
@@ -401,26 +409,20 @@
                         </div>
                     </div>
                 </div>
-                <!-- Live Branch Performance -->
+                <!-- Studio Revenue -->
                 <div class="glass-card rounded-xl flex flex-col h-full max-h-[700px]">
                     <div class="p-6 border-b border-outline-variant/30">
                         <div class="flex justify-between items-center mb-1">
-                            <h3 class="text-headline-md font-bold">Live Branches</h3>
+                            <h3 class="text-headline-md font-bold">Studio Revenue</h3>
                             <div class="flex items-center gap-1 text-tertiary text-label-sm animate-pulse-soft">
                                 <span class="w-2 h-2 rounded-full bg-tertiary"></span> Live
                             </div>
                         </div>
-                        <p class="text-on-surface-variant text-label-md">Real-time status across 8 locations</p>
+                        <p class="text-on-surface-variant text-label-md">Real-time revenue per studio</p>
                     </div>
-                    <div id="branches-list" class="flex-grow overflow-y-auto custom-scrollbar p-6 space-y-4">
+                    <div id="studios-list" class="flex-grow overflow-y-auto custom-scrollbar p-6 space-y-4">
                         <!-- Populated by JS -->
-                        <p class="text-center text-slate-300">Loading branch data...</p>
-                    </div>
-                    <div class="p-6 border-t border-outline-variant/30">
-                        <button
-                            class="w-full py-4 bg-primary-container text-on-primary-container font-bold rounded-lg hover:opacity-90 transition-opacity active:scale-95 duration-150">
-                            Open Branch Manager
-                        </button>
+                        <p class="text-center text-slate-300">Loading studio data...</p>
                     </div>
                 </div>
             </div>
@@ -456,38 +458,37 @@
                 console.error('Error fetching stats:', err);
             }
 
-            // Fetch Branches Performance
+            // Fetch Studio Revenue
             try {
-                const branchRes = await fetch('/api/admin/branches-performance');
-                const branches = await branchRes.json();
+                const studioRes = await fetch('/api/admin/studios/revenue');
+                const studios = await studioRes.json();
                 
-                const list = document.getElementById('branches-list');
+                const list = document.getElementById('studios-list');
                 list.innerHTML = '';
                 
-                if (branches.length === 0) {
-                    list.innerHTML = '<p class="text-center text-slate-300">No branches found.</p>';
+                if (studios.length === 0) {
+                    list.innerHTML = '<p class="text-center text-slate-300">No studios found.</p>';
                 } else {
-                    branches.forEach(b => {
+                    studios.forEach(s => {
                         const div = document.createElement('div');
                         div.className = 'flex items-center justify-between p-4 rounded-lg bg-surface-container-low hover:bg-surface-variant transition-colors border border-transparent hover:border-outline-variant/30';
                         div.innerHTML = `
                             <div class="flex items-center gap-3">
-                                <div class="w-2 h-10 bg-tertiary rounded-full"></div>
+                                <div class="w-2 h-10 bg-primary rounded-full"></div>
                                 <div>
-                                    <h5 class="text-on-surface font-bold text-label-md">${b.nama_cabang}</h5>
-                                    <p class="text-on-surface-variant text-label-sm">${b.total_studios || 0} Studios</p>
+                                    <h5 class="text-on-surface font-bold text-label-md">${s.nama_cabang}</h5>
+                                    <p class="text-on-surface-variant text-label-sm">Studio ${s.nomor_studio}</p>
                                 </div>
                             </div>
                             <div class="text-right">
-                                <p class="text-on-surface font-bold text-label-md">Rp ${parseFloat(b.total_revenue || 0).toLocaleString('id-ID')}</p>
-                                <span class="text-tertiary text-label-sm">Active</span>
+                                <p class="text-on-surface font-bold text-label-md">Rp ${parseFloat(s.total_pendapatan || 0).toLocaleString('id-ID')}</p>
                             </div>
                         `;
                         list.appendChild(div);
                     });
                 }
             } catch (err) {
-                console.error('Error fetching branches:', err);
+                console.error('Error fetching studios:', err);
             }
 
             // Micro-interaction
@@ -540,6 +541,22 @@
                 alert('Connection error.');
             }
         }
+
+        window.handleInflation = async function() {
+            if (!confirm('Are you sure you want to apply a 10% inflation increase to all movie ticket prices globally?')) return;
+            try {
+                const res = await fetch('/api/admin/inflation', { method: 'POST' });
+                const data = await res.json();
+                if (res.ok) {
+                    alert('Inflation applied successfully. Affected rows: ' + data.affectedRows);
+                } else {
+                    alert('Failed: ' + data.message);
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Connection error.');
+            }
+        };
     </script>
 
 

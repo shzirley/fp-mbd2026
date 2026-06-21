@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html class="dark" lang="en">
 
@@ -166,12 +166,11 @@
                 </a>
             </nav>
             <!-- Bottom sidebar content -->
-            <div class="p-md mt-auto">
+            <div class="p-md mt-auto" id="loyalty-card-container">
                 <div class="bg-surface-container-high/50 p-md rounded-xl border border-outline-variant/10">
-                    <p class="text-label-sm text-on-surface-variant mb-xs">Cinetrack Rewards</p>
+                    <p class="text-label-sm text-on-surface-variant mb-xs">Cinetrack Loyalty</p>
                     <div class="flex items-center gap-xs">
-                        <span class="material-symbols-outlined text-secondary-container text-[18px]" style="font-variation-settings: 'FILL' 1;">stars</span>
-                        <span class="font-bold text-secondary text-label-md">2,450 pts</span>
+                        <span class="text-xs text-on-surface-variant">Log in to view loyalty</span>
                     </div>
                 </div>
             </div>
@@ -404,7 +403,7 @@
                 <li><a class="text-on-surface-variant/60 hover:text-secondary transition-colors text-label-sm font-label-sm"
                         href="#">Support</a></li>
             </ul>
-            <p class="text-on-surface-variant/40 text-label-sm font-label-sm mt-md">┬⌐ 2024 Cinetrack Logistics &amp;
+            <p class="text-on-surface-variant/40 text-label-sm font-label-sm mt-md">© 2024 Cinetrack Logistics &amp;
                 Cinema Systems. All rights reserved.</p>
         </div>
     </footer>
@@ -432,6 +431,35 @@
                             ${user.name.substring(0, 2)}
                         </div>
                     `;
+                }
+
+                // Fetch Loyalty Data
+                if (user.id_pelanggan || user.id) {
+                    try {
+                        const loyRes = await fetch(`/api/user/${user.id_pelanggan || user.id}/loyalty`);
+                        if(loyRes.ok) {
+                            const loyData = await loyRes.json();
+                            const loyaltyContainer = document.getElementById('loyalty-card-container');
+                            if(loyaltyContainer) {
+                                loyaltyContainer.innerHTML = `
+                                    <div class="bg-surface-container-high/50 p-md rounded-xl border border-outline-variant/10">
+                                        <p class="text-label-sm text-on-surface-variant mb-xs">Cinetrack Loyalty</p>
+                                        <div class="flex items-center gap-xs mb-2">
+                                            <span class="material-symbols-outlined text-primary text-[18px]" style="font-variation-settings: 'FILL' 1;">confirmation_number</span>
+                                            <span class="font-bold text-primary-fixed text-label-md">${loyData.totalTickets || 0} Tickets</span>
+                                        </div>
+                                        <div class="flex items-center gap-xs">
+                                            <span class="material-symbols-outlined text-secondary-container text-[18px]" style="font-variation-settings: 'FILL' 1;">discount</span>
+                                            <span class="font-bold text-secondary text-label-sm">${loyData.discount > 0 ? '10% Member Discount' : 'No Discount Yet'}</span>
+                                        </div>
+                                        ${loyData.discount == 0 && loyData.totalTickets < 3 ? '<p class="text-xs text-on-surface-variant mt-1">Buy ' + (3 - (loyData.totalTickets || 0)) + ' more tickets to get 10% discount!</p>' : ''}
+                                    </div>
+                                `;
+                            }
+                        }
+                    } catch(e) {
+                        console.error('Failed to load loyalty', e);
+                    }
                 }
             }
 
@@ -518,7 +546,7 @@
                             </div>
                         </div>
                         <h4 class="font-headline-md text-body-md truncate">${movie.judul}</h4>
-                        <p class="text-label-sm text-on-surface-variant">${movie.rating_usia || 'SU'} ΓÇó ${movie.durasi || 120}m</p>
+                        <p class="text-label-sm text-on-surface-variant">${movie.rating_usia || 'SU'} • ${movie.durasi || 120}m</p>
                     `;
 
                     grid.appendChild(card);

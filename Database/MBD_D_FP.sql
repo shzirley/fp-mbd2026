@@ -1132,5 +1132,147 @@ LEFT JOIN genre g ON fg.genre_id_genre = g.id_genre
 GROUP BY f.id_film;
 
 -- ============================================================
+-- SECTION 11 — Tambahan Khusus Maleka
+-- ============================================================
+-- Mengandung 2 Function, 2 Procedure, dan 2 Trigger baru yang 
+-- belum ada di laporan sebelumnya.
+-- ============================================================
+
+DELIMITER $$
+
+-- ------------------------------------------------------------
+-- 1. FUNCTION: CekStatusKursi
+-- ------------------------------------------------------------
+CREATE FUNCTION CekStatusKursi(p_id_jadwal CHAR(6), p_id_kursi CHAR(6))
+RETURNS VARCHAR(10)
+DETERMINISTIC
+READS SQL DATA
+BEGIN
+    DECLARE v_count INT;
+    SELECT COUNT(*) INTO v_count
+    FROM tiket
+    WHERE jadwal_tayang_id_jadwal = p_id_jadwal 
+      AND kursi_id_kursi = p_id_kursi;
+      
+    IF v_count > 0 THEN
+        RETURN 'Terjual';
+    ELSE
+        RETURN 'Tersedia';
+    END IF;
+END$$
+
+-- ------------------------------------------------------------
+-- 2. FUNCTION: CekDiskonMember
+-- ------------------------------------------------------------
+CREATE FUNCTION CekDiskonMember(p_id_pelanggan CHAR(6))
+RETURNS DECIMAL(5,2)
+DETERMINISTIC
+READS SQL DATA
+BEGIN
+    DECLARE v_jml_transaksi INT;
+    
+    SELECT COUNT(*) INTO v_jml_transaksi
+    FROM transaksi
+    WHERE pelanggan_id_pelanggan = p_id_pelanggan;
+    
+    IF v_jml_transaksi >= 3 THEN
+        RETURN 10.00; -- Diskon 10%
+    ELSE
+        RETURN 0.00;  -- Tidak ada diskon
+    END IF;
+END$$
+
+-- ------------------------------------------------------------
+-- 3. PROCEDURE: BatalkanTransaksi
+-- ------------------------------------------------------------
+CREATE PROCEDURE BatalkanTransaksi(IN p_id_transaksi CHAR(6))
+BEGIN
+    DECLARE v_id_pembayaran CHAR(6);
+    
+    -- Ambil id_pembayaran dari transaksi tersebut
+    SELECT pembayaran_id_pembayaran INTO v_id_pembayaran
+    FROM transaksi
+    WHERE id_transaksi = p_id_transaksi;
+    
+    -- 1. Kembalikan stok produk kantin jika ada
+    UPDATE produk_kantin pk
+    JOIN produk_kantin_transaksi pkt ON pk.id_produk = pkt.produk_kantin_id_produk
+    SET pk.stok = pk.stok + pkt.qty
+    WHERE pkt.transaksi_id_transaksi = p_id_transaksi;
+    
+    -- 2. Hapus tiket yang terkait dengan transaksi tersebut (agar kursi bisa dibeli orang lain)
+    DELETE FROM tiket
+    WHERE transaksi_id_transaksi = p_id_transaksi;
+    
+    -- 3. Ubah status pembayaran menjadi 'Batal'
+    UPDATE pembayaran
+    SET status_pembayaran = 'Batal'
+    WHERE id_pembayaran = v_id_pembayaran;
+    
+END$$
+
+-- ------------------------------------------------------------
+-- 4. PROCEDURE: UpdateStatusFilmHarian
+-- ------------------------------------------------------------
+CREATE PROCEDURE UpdateStatusFilmHarian()
+BEGIN
+    -- Jika film berstatus 'Coming Soon' dan memiliki jadwal tayang <= hari ini,
+    -- ubah statusnya menjadi 'Now Showing'
+    UPDATE film f
+    SET f.status_tayang = 'Now Showing'
+    WHERE f.status_tayang = 'Coming Soon'
+      AND EXISTS (
+          SELECT 1 
+          FROM jadwal_tayang_film jtf
+          JOIN jadwal_tayang jt ON jtf.jadwal_tayang_id_jadwal = jt.id_jadwal
+          WHERE jtf.film_id_film = f.id_film 
+            AND DATE(jt.waktu_tayang) <= CURDATE()
+      );
+END$$
+
+-- ------------------------------------------------------------
+-- 5. TRIGGER: trg_cegah_stok_minus
+-- ------------------------------------------------------------
+CREATE TRIGGER trg_cegah_stok_minus
+BEFORE INSERT ON produk_kantin_transaksi
+FOR EACH ROW
+BEGIN
+    DECLARE v_sisa_stok INT;
+    
+    SELECT stok INTO v_sisa_stok
+    FROM produk_kantin
+    WHERE id_produk = NEW.produk_kantin_id_produk;
+    
+    IF NEW.qty > v_sisa_stok THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Gagal: Stok kantin tidak mencukupi untuk jumlah yang diminta!';
+    END IF;
+END$$
+
+-- ------------------------------------------------------------
+-- 6. TRIGGER: trg_cegah_jadwal_bentrok
+-- ------------------------------------------------------------
+CREATE TRIGGER trg_cegah_jadwal_bentrok
+BEFORE INSERT ON jadwal_tayang
+FOR EACH ROW
+BEGIN
+    DECLARE v_bentrok INT;
+    
+    -- Pengecekan sederhana: Apakah ada jadwal tayang lain di studio yang sama pada jam yang sama
+    -- (Dianggap jadwal tayang biasanya berjarak > 2 jam, kita cek dalam rentang 2 jam)
+    SELECT COUNT(*) INTO v_bentrok
+    FROM jadwal_tayang
+    WHERE studio_id_studio = NEW.studio_id_studio
+      AND ABS(TIMESTAMPDIFF(MINUTE, waktu_tayang, NEW.waktu_tayang)) < 120;
+      
+    IF v_bentrok > 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Gagal: Terdapat jadwal tayang yang bentrok (overlap) di studio ini!';
+    END IF;
+END$$
+
+DELIMITER ;
+
+-- ============================================================
 -- END OF MBD_D_FP.sql
 -- ============================================================
