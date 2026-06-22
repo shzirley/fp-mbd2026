@@ -493,9 +493,9 @@
                             class="font-label-md">Card</span></button></div><button
                     class="w-full flex items-center justify-center gap-2 p-4 border border-surface-container-highest rounded-xl mb-4 hover:bg-surface-variant transition-colors"><span
                         class="material-symbols-outlined">qr_code_scanner</span><span class="font-label-md">E-Wallet /
-                        Gift Card</span></button><button
-                    class="w-full py-4 bg-surface-container-highest text-on-surface-variant font-bold rounded-xl cursor-not-allowed"
-                    disabled="">Complete Transaction</button>
+                        Gift Card</span></button><button id="complete-transaction-btn" onclick="submitPosTransaction()"
+                    class="w-full py-4 bg-primary text-white hover:opacity-90 transition-opacity font-bold rounded-xl"
+                    >Complete Transaction</button>
             </div>
         </aside>
     </main>
@@ -544,6 +544,44 @@
             } catch (err) {
                 console.error(err);
                 alert('Connection error.');
+            }
+        }
+
+        async function submitPosTransaction() {
+            const userStr = localStorage.getItem('user');
+            const user = userStr ? JSON.parse(userStr) : { id: 'PG0001' };
+
+            // For this POS implementation, we simulate selecting dummy seats/items to test the connection.
+            // In a fully dynamic POS, these would be read from the UI state.
+            const payload = {
+                userId: 'PL0001', // Generic walk-in customer ID
+                scheduleId: 'JD0001', // Example schedule
+                seats: ['KR0001', 'KR0002'], // Example seats
+                canteenItems: [], 
+                paymentMethod: 'Cash',
+                totalBill: 135000,
+                employeeId: user.id
+            };
+
+            const confirmTx = confirm(`Process payment of Rp 135,000 for walk-in customer?`);
+            if (!confirmTx) return;
+
+            try {
+                const res = await fetch('/api/checkout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    alert('Transaction completed successfully! Transaction ID: ' + data.transactionId);
+                    window.location.href = 'adminTransactionHistory.html';
+                } else {
+                    alert('Failed to complete transaction: ' + data.message);
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Connection error while completing transaction.');
             }
         }
     </script>

@@ -572,7 +572,7 @@ app.get('/api/user/:id/loyalty', async (req, res) => {
 
 // POST /api/checkout (Process ticket and food booking)
 app.post('/api/checkout', async (req, res) => {
-  const { userId, scheduleId, seats, canteenItems, paymentMethod, totalBill } = req.body;
+  const { userId, scheduleId, seats, canteenItems, paymentMethod, totalBill, employeeId } = req.body;
 
   if (!userId || !scheduleId || !seats || !Array.isArray(seats) || seats.length === 0) {
     return res.status(400).json({ message: 'Invalid checkout parameters.' });
@@ -605,10 +605,11 @@ app.post('/api/checkout', async (req, res) => {
     const discountPercent = parseFloat(discountRes[0].discount) || 0;
     const finalBill = discountPercent > 0 ? totalBill - (totalBill * (discountPercent / 100)) : totalBill;
 
-    // Cashier default employee is PG0001 (Ops Director/Admin)
+    // Use provided employeeId or default to Cashier (PG0001)
+    const activeEmployeeId = employeeId || 'PG0001';
     await connection.query(
       'INSERT INTO transaksi (id_transaksi, tanggal_transaksi, total_tagihan, pelanggan_id_pelanggan, pembayaran_id_pembayaran, pegawai_id_pegawai) VALUES (?, NOW(), ?, ?, ?, ?)',
-      [transactionId, finalBill, userId, paymentId, 'PG0001']
+      [transactionId, finalBill, userId, paymentId, activeEmployeeId]
     );
 
     // 3. Create ticket records (Trigger trg_cegah_double_booking & trg_kalkulasi_harga_tiket will execute)
@@ -738,6 +739,36 @@ app.get('/api/admin/transactions', async (req, res) => {
     const [transactions] = await pool.query(
       `SELECT * FROM vw_transaksi_lengkap ORDER BY tanggal_transaksi DESC`
     );
+
+    for (let trx of transactions) {
+      const [tickets] = await pool.query(
+        'SELECT COUNT(id_tiket) as count FROM tiket WHERE transaksi_id_transaksi = ?', 
+        [trx.id_transaksi]
+      );
+      const [fnb] = await pool.query(
+        'SELECT SUM(qty) as count FROM produk_kantin_transaksi WHERE transaksi_id_transaksi = ?',
+        [trx.id_transaksi]
+      );
+      
+      let items = [];
+      if (tickets[0] && tickets[0].count > 0) items.push(`${tickets[0].count} Ticket(s)`);
+      if (fnb[0] && fnb[0].count > 0) items.push(`${fnb[0].count} F&B Item(s)`);
+      trx.item_summary = items.length > 0 ? items.join(', ') : 'No items';
+
+      // Fetch Branch
+      const [branch] = await pool.query(`
+        SELECT cb.nama_cabang 
+        FROM tiket t
+        JOIN jadwal_tayang jt ON t.jadwal_tayang_id_jadwal = jt.id_jadwal
+        JOIN studio st ON jt.studio_id_studio = st.id_studio
+        JOIN cabang cb ON st.cabang_id_cabang = cb.id_cabang
+        WHERE t.transaksi_id_transaksi = ?
+        LIMIT 1
+      `, [trx.id_transaksi]);
+
+      trx.nama_cabang = branch[0] ? branch[0].nama_cabang : 'Online / All Branch';
+    }
+
     return res.json(transactions);
   } catch (err) {
     console.error(err);

@@ -125,15 +125,26 @@
             const sidebarAvatar = document.querySelector('aside .w-10.h-10');
             if (sidebarAvatar) sidebarAvatar.innerText = user.name.substring(0, 2).toUpperCase();
 
+            let allTransactions = [];
+
             try {
                 const res = await fetch('/api/admin/transactions');
-                const transactions = await res.json();
-                
+                allTransactions = await res.json();
+                renderTransactions(allTransactions);
+            } catch (err) {
+                console.error('Error fetching transactions:', err);
+                const tbody = document.getElementById('transactions-body');
+                tbody.innerHTML = '<p class="text-center text-red-500 py-8">Failed to load transactions.</p>';
+            }
+
+            function renderTransactions(transactions) {
                 const tbody = document.getElementById('transactions-body');
                 tbody.innerHTML = '';
                 
                 if (transactions.length === 0) {
                     tbody.innerHTML = '<p class="text-center text-slate-300 py-8">No transactions found.</p>';
+                    const pageText = document.querySelector('.h-14.border-t.border-white\\/10 .font-label-sm');
+                    if (pageText) pageText.innerText = `Showing 0 entries`;
                     return;
                 }
 
@@ -148,10 +159,10 @@
                     row.innerHTML = `
                         <div class="font-medium text-on-surface">#${trx.id_transaksi}</div>
                         <div class="text-on-surface-variant text-sm">${formattedDate}<br>${formattedTime}</div>
-                        <div class="text-on-surface">${trx.nama_pegawai || 'System'}</div>
+                        <div class="text-on-surface">${trx.nama_cabang || 'Online / All Branch'}</div>
                         <div>
                             <div class="font-medium text-on-surface">${trx.nama_pelanggan || 'Guest'}</div>
-                            <div class="text-on-surface-variant text-sm">Ticket / F&B Items</div>
+                            <div class="text-on-surface-variant text-sm">${trx.item_summary || 'Ticket / F&B Items'}</div>
                         </div>
                         <div class="flex items-center space-x-2 text-on-surface-variant">
                             <span class="material-symbols-outlined text-sm" data-icon="payments">payments</span>
@@ -168,10 +179,68 @@
                     `;
                     tbody.appendChild(row);
                 });
-            } catch (err) {
-                console.error('Error fetching transactions:', err);
-                const tbody = document.getElementById('transactions-body');
-                tbody.innerHTML = '<p class="text-center text-red-500 py-8">Failed to load transactions.</p>';
+
+                const pageText = document.querySelector('.h-14.border-t.border-white\\/10 .font-label-sm');
+                if (pageText) pageText.innerText = `Showing ${transactions.length} entries`;
+            }
+
+            const filterDate = document.getElementById('filter-date');
+            const filterBranch = document.getElementById('filter-branch');
+            const filterPayment = document.getElementById('filter-payment');
+            const filterSearch = document.getElementById('filter-search');
+            const btnClear = document.getElementById('btn-clear-filters');
+
+            function applyFilters() {
+                let filtered = allTransactions;
+
+                if (filterSearch && filterSearch.value) {
+                    const q = filterSearch.value.toLowerCase();
+                    filtered = filtered.filter(t => t.id_transaksi.toLowerCase().includes(q));
+                }
+
+                if (filterPayment && filterPayment.value !== 'All Methods') {
+                    filtered = filtered.filter(t => t.metode_pembayaran === filterPayment.value);
+                }
+
+                if (filterBranch && filterBranch.value !== 'All Branches') {
+                    filtered = filtered.filter(t => {
+                        const b = t.nama_cabang || 'Online / All Branch';
+                        return b.includes(filterBranch.value);
+                    });
+                }
+
+                if (filterDate) {
+                    const now = new Date();
+                    if (filterDate.value === 'Today') {
+                        const todayStr = now.toDateString();
+                        filtered = filtered.filter(t => new Date(t.tanggal_transaksi).toDateString() === todayStr);
+                    } else if (filterDate.value === 'Last 7 Days') {
+                        const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+                        filtered = filtered.filter(t => new Date(t.tanggal_transaksi) >= weekAgo);
+                    } else if (filterDate.value === 'This Month') {
+                        filtered = filtered.filter(t => {
+                            const d = new Date(t.tanggal_transaksi);
+                            return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+                        });
+                    }
+                }
+
+                renderTransactions(filtered);
+            }
+
+            [filterDate, filterBranch, filterPayment, filterSearch].forEach(el => {
+                if(el) el.addEventListener('input', applyFilters);
+                if(el) el.addEventListener('change', applyFilters);
+            });
+
+            if (btnClear) {
+                btnClear.addEventListener('click', () => {
+                    if (filterSearch) filterSearch.value = '';
+                    if (filterBranch) filterBranch.value = 'All Branches';
+                    if (filterPayment) filterPayment.value = 'All Methods';
+                    if (filterDate) filterDate.value = 'All Time';
+                    applyFilters();
+                });
             }
         });
     </script>
@@ -300,9 +369,13 @@
                         <span
                             class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none"
                             data-icon="calendar_today">calendar_today</span>
-                        <input
-                            class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-white/10 rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:glass-card transition-colors"
-                            placeholder="Nov 1, 2023 - Nov 30, 2023" type="text" value="Today">
+                        <select id="filter-date" class="w-full pl-10 pr-8 py-2 bg-surface-container-low border border-white/10 rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:glass-card transition-colors appearance-none">
+                            <option value="All Time">All Time</option>
+                            <option value="Today">Today</option>
+                            <option value="Last 7 Days">Last 7 Days</option>
+                            <option value="This Month">This Month</option>
+                        </select>
+                        <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none" data-icon="expand_more">expand_more</span>
                     </div>
                 </div>
                 <div class="flex flex-col space-y-1 flex-1 min-w-[200px]">
@@ -311,7 +384,7 @@
                         <span
                             class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none"
                             data-icon="storefront">storefront</span>
-                        <select
+                        <select id="filter-branch"
                             class="w-full pl-10 pr-8 py-2 bg-surface-container-low border border-white/10 rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:glass-card transition-colors appearance-none">
                             <option>All Branches</option>
                             <option>Downtown Metro</option>
@@ -329,7 +402,7 @@
                         <span
                             class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none"
                             data-icon="payments">payments</span>
-                        <select
+                        <select id="filter-payment"
                             class="w-full pl-10 pr-8 py-2 bg-surface-container-low border border-white/10 rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:glass-card transition-colors appearance-none">
                             <option>All Methods</option>
                             <option>Credit Card</option>
@@ -348,12 +421,12 @@
                         <span
                             class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none"
                             data-icon="search">search</span>
-                        <input
+                        <input id="filter-search"
                             class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-white/10 rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:glass-card transition-colors"
                             placeholder="Search Txn ID..." type="text">
                     </div>
                 </div>
-                <button
+                <button id="btn-clear-filters"
                     class="bg-surface-variant hover:glass-card/10 text-on-surface px-6 py-2 rounded-lg font-label-md text-label-md border border-white/10 transition-colors h-[42px] flex items-center">
                     Clear Filters
                 </button>
