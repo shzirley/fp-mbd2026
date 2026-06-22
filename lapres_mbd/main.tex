@@ -6,7 +6,7 @@
 \usepackage[bahasa]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath,amssymb}
-\usepackage{lscape}
+\usepackage{pdflscape}
 \usepackage[colorinlistoftodos]{todonotes}
 \usepackage{fancyhdr}
 \usepackage[hidelinks]{hyperref}
@@ -309,41 +309,47 @@ Implementasi basis data CineTrack dilakukan pada MySQL menggunakan database bern
 Berikut adalah lima studi kasus \textit{query} yang diimplementasikan pada basis data CineTrack, masing-masing merepresentasikan kebutuhan informasi nyata dalam operasional bioskop.
 
 \begin{landscape}
-\begin{longtable}{|c|p{3.0cm}|p{5.5cm}|p{12.0cm}|}
+
+\begin{longtable}{|c|p{2.5cm}|p{3.5cm}|p{8.5cm}|p{7.0cm}|}
 \caption{Kasus Query pada Sistem Basis Data CineTrack}
 \label{tab:query_cases} \\
 \hline
-\textbf{No} & \textbf{Kasus} & \textbf{Kebutuhan Informasi} & \textbf{Aljabar Relasional} \\
+\textbf{No} & \textbf{Kasus} & \textbf{Kebutuhan Informasi} & \textbf{Aljabar Relasional} & \textbf{Penjelasan} \\
 \hline
 \endfirsthead
 \hline
-\textbf{No} & \textbf{Kasus} & \textbf{Kebutuhan Informasi} & \textbf{Aljabar Relasional} \\
+\textbf{No} & \textbf{Kasus} & \textbf{Kebutuhan Informasi} & \textbf{Aljabar Relasional} & \textbf{Penjelasan} \\
 \hline
 \endhead
 \hline
-\multicolumn{4}{r}{\textit{(bersambung ke halaman berikutnya)}} \\
+\multicolumn{5}{r}{\textit{(bersambung ke halaman berikutnya)}} \\
 \endfoot
 \hline
 \endlastfoot
 1 & Menampilkan daftar film beserta genre-nya &
 Tim promosi membutuhkan daftar film \textit{Now Showing} beserta genre untuk keperluan pembuatan materi iklan. &
-$\pi_{\texttt{judul,\ status,\ nama\_genre}}\bigl(\sigma_{\texttt{status\_tayang}=\textit{`Now\ Showing'}}(\texttt{film}) \bowtie \texttt{film\_genre} \bowtie \texttt{genre}\bigr)$ \\
+$\pi_{\texttt{judul,\ status,\ nama\_genre}} ( \sigma_{\texttt{status\_tayang}=\textit{`Now\ Showing'}}(\texttt{film}) \allowbreak \bowtie_{\substack{\texttt{film.id\_film =} \\ \texttt{film\_genre.film\_id\_film}}} \texttt{film\_genre} \allowbreak \bowtie_{\substack{\texttt{film\_genre.genre\_id\_genre =} \\ \texttt{genre.id\_genre}}} \texttt{genre} )$ &
+Operasi \textit{selection} ($\sigma$) memilih baris pada relasi \texttt{film} dengan status "Now Showing". Hasilnya digabungkan (\textit{join} $\bowtie$) dengan relasi \texttt{film\_genre} dan \texttt{genre} berdasarkan Foreign Key masing-masing. Terakhir, dilakukan \textit{projection} ($\pi$) untuk menampilkan atribut judul, status tayang, dan nama genre. \\
 \hline
 2 & Menampilkan jadwal tayang lengkap beserta film dan studio &
 Kasir perlu menampilkan jadwal tayang hari ini lengkap dengan nama film, kelas studio, harga dasar, dan cabang kepada pelanggan. &
-$\pi_{\texttt{waktu,\ film,\ kelas,\ harga\_dasar,\ cabang}}\bigl(\texttt{jadwal\_tayang} \bowtie \texttt{jadwal\_tayang\_film} \bowtie \texttt{film} \bowtie \texttt{studio} \bowtie \texttt{cabang}\bigr)$ \\
+$\pi_{\texttt{waktu,\ film,\ kelas,\ harga\_dasar,\ cabang}} ( \texttt{jadwal\_tayang} \allowbreak \bowtie_{\substack{\texttt{jadwal\_tayang.id\_jadwal =} \\ \texttt{jadwal\_tayang\_film.jadwal\_tayang\_id\_jadwal}}} \texttt{jadwal\_tayang\_film} \allowbreak \bowtie_{\substack{\texttt{jadwal\_tayang\_film.film\_id\_film =} \\ \texttt{film.id\_film}}} \texttt{film} \allowbreak \bowtie_{\substack{\texttt{jadwal\_tayang.studio\_id\_studio =} \\ \texttt{studio.id\_studio}}} \texttt{studio} \allowbreak \bowtie_{\substack{\texttt{studio.cabang\_id\_cabang =} \\ \texttt{cabang.id\_cabang}}} \texttt{cabang} )$ &
+Relasi \texttt{jadwal\_tayang} digabungkan (\textit{join} $\bowtie$) secara berantai dengan relasi turunannya hingga \texttt{cabang} berdasarkan relasi Foreign Key terkait. Hasil gabungan tersebut diproyeksikan ($\pi$) untuk menampilkan waktu tayang, judul film, kelas studio, harga dasar, dan lokasi cabang. \\
 \hline
 3 & Menampilkan transaksi dengan total tagihan di atas Rp200.000 &
 Manajer ingin mengidentifikasi transaksi bernilai tinggi untuk analisis pola pembelian pelanggan premium. &
-$\pi_{\texttt{id\_transaksi,\ pelanggan,\ total,\ metode}}\bigl(\sigma_{\texttt{total\_tagihan} > 200000}(\texttt{transaksi}) \bowtie \texttt{pelanggan} \bowtie \texttt{pembayaran}\bigr)$ \\
+$\pi_{\texttt{id\_transaksi,\ pelanggan,\ total,\ metode}} ( \sigma_{\texttt{total\_tagihan} > 200000}(\texttt{transaksi}) \allowbreak \bowtie_{\substack{\texttt{transaksi.pelanggan\_id\_pelanggan =} \\ \texttt{pelanggan.id\_pelanggan}}} \texttt{pelanggan} \allowbreak \bowtie_{\substack{\texttt{transaksi.pembayaran\_id\_pembayaran =} \\ \texttt{pembayaran.id\_pembayaran}}} \texttt{pembayaran} )$ &
+Operasi \textit{selection} ($\sigma$) menyaring relasi \texttt{transaksi} yang memiliki total tagihan $>$ 200000. Relasi hasil saringan ini digabungkan ($\bowtie$) dengan \texttt{pelanggan} dan \texttt{pembayaran} melalui Foreign Key. Kemudian, \textit{projection} ($\pi$) menampilkan ID transaksi, nama pelanggan, total tagihan, dan metode pembayaran. \\
 \hline
 4 & Menampilkan rekap penjualan produk kantin per kategori &
 Manajer kantin memerlukan laporan produk paling laris berdasarkan total \textit{qty} terjual per kategori untuk perencanaan stok mingguan. &
-$\pi_{\texttt{kategori,\ produk,\ SUM(qty),\ SUM(subtotal)}}\bigl(\texttt{produk\_kantin\_transaksi} \bowtie \texttt{produk\_kantin} \bowtie \texttt{kategori}\bigr)$ dengan $\gamma_{\texttt{kategori,\ produk}}$ \\
+$\pi_{\texttt{kategori,\ produk,\ SUM(qty),\ SUM(subtotal)}} ( \texttt{produk\_kantin\_transaksi} \allowbreak \bowtie_{\substack{\texttt{produk\_kantin\_transaksi.produk\_kantin\_id\_produk =} \\ \texttt{produk\_kantin.id\_produk}}} \texttt{produk\_kantin} \allowbreak \bowtie_{\substack{\texttt{produk\_kantin.kategori\_id\_kategori =} \\ \texttt{kategori.id\_kategori}}} \texttt{kategori} )$ dengan $\gamma_{\texttt{kategori,\ produk}}$ &
+Relasi \texttt{produk\_kantin\_transaksi} digabungkan ($\bowtie$) dengan \texttt{produk\_kantin} dan \texttt{kategori} menggunakan Foreign Key. Setelah itu, operasi agregasi ($\gamma$) menghitung total kuantitas (SUM qty) dan pendapatan (SUM subtotal) yang dikelompokkan per kategori dan nama produk, lalu hasilnya diproyeksikan ($\pi$). \\
 \hline
 5 & Menampilkan pelanggan yang belum pernah melakukan transaksi &
 Tim loyalitas ingin mengidentifikasi pelanggan terdaftar yang belum pernah bertransaksi sebagai target kampanye promosi reaktivasi. &
-$\pi_{\texttt{id\_pelanggan,\ nama\_pelanggan}}(\texttt{pelanggan})\ -\ \pi_{\texttt{pelanggan\_id\_pelanggan}}(\texttt{transaksi})$ \\
+$\pi_{\texttt{id\_pelanggan,\ nama\_pelanggan}}(\texttt{pelanggan})\ -\ \pi_{\texttt{pelanggan\_id\_pelanggan}}(\texttt{transaksi})$ &
+Operasi \textit{set difference} ($-$) digunakan untuk memfilter data. \textit{Projection} ($\pi$) pertama mengambil semua pelanggan terdaftar, lalu dikurangi dengan hasil \textit{projection} pelanggan yang sudah ada di relasi \texttt{transaksi}. Sisa data yang dihasilkan adalah pelanggan yang belum pernah bertransaksi. \\
 \hline
 \end{longtable}
 \end{landscape}
@@ -1170,5 +1176,32 @@ WHERE email_pelanggan = 'pelanggan1@gmail.com';
 \end{figure}
 
 \clearpage
+
+% SECTION 10: DEMO APLIKASI WEB
+% ============================================================
+
+\section{Demo Aplikasi Web CineTrack}
+
+Demo web untuk mengimplementasikan fungsionalitas \textit{database} secara utuh dapat dilihat pada link berikut: \url{https://its.id/m/CineTrack}
+
+% ============================================================
+% SECTION 11: KESIMPULAN
+% ============================================================
+
+\section{Kesimpulan}
+
+Berdasarkan perancangan dan implementasi yang telah dilakukan, dapat disimpulkan bahwa:
+
+\begin{enumerate}
+    \item \textbf{Perancangan Basis Data:} Sistem Basis Data CineTrack telah berhasil dirancang melalui tahapan \textit{Conceptual Data Model} (CDM) dan \textit{Physical Data Model} (PDM), serta telah dinormalisasi hingga Bentuk Normal Ketiga (3NF) guna mencegah redundansi dan anomali data.
+
+    \item \textbf{Implementasi Fungsionalitas:} Seluruh aturan bisnis operasional bioskop telah diimplementasikan dengan sukses melalui 5 \textit{Query Cases} untuk pelaporan, 3 \textit{SQL Functions} untuk kalkulasi data baca, 3 \textit{Stored Procedures} untuk modifikasi massal, dan 3 \textit{Triggers} untuk otomatisasi seperti pencegahan \textit{double-booking} kursi.
+
+    \item \textbf{Evaluasi dan Optimasi Kinerja:} Pembuatan \textit{Index} pada kolom-kolom yang sering digunakan untuk \textit{filtering} (\texttt{WHERE}) dan pengurutan (\texttt{ORDER BY}) terbukti secara signifikan meningkatkan kecepatan eksekusi \textit{query}, yang divalidasi melalui hasil \texttt{EXPLAIN}.
+
+    \item \textbf{Pengujian dan Integrasi:} Keseluruhan sistem basis data telah berhasil diuji dan diintegrasikan secara \textit{Full-Stack} ke dalam aplikasi web CineTrack, yang membuktikan bahwa arsitektur basis data yang dibangun \textit{solid}, responsif, dan siap digunakan untuk operasi bioskop berskala multi-cabang.
+\end{enumerate}
+
+\end{document}
 
 \end{document}
