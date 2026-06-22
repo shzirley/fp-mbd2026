@@ -112,12 +112,19 @@
 \tableofcontents
 \listoftables
 \listoffigures
- 
+
 \clearpage
 
-\tableofcontents
-\listoftables
-\listoffigures
+\section*{Pembagian Tugas dan Kontribusi}
+\addcontentsline{toc}{section}{Pembagian Tugas dan Kontribusi}
+
+Penyelesaian Final Project ini merupakan hasil kerja sama tim dengan rincian pembagian tugas dan kontribusi sebagai berikut:
+
+\begin{itemize}
+    \item \textbf{Maleka Ghaniya} (5025241189) : ERD, \textit{Trigger}, \textit{Procedure}, \textit{Backend}
+    \item \textbf{Jorell Ramos Sinaga} (5025241202) : CDM, \textit{Indexing}, \textit{Frontend}
+    \item \textbf{Angela Vania Sugiyono} (5025241226) : PDM, \textit{Query}, \textit{Function}, \textit{DevOps}
+\end{itemize}
 
 \clearpage
 
@@ -515,8 +522,12 @@ END$$
 
 DELIMITER ;
 
--- Contoh pemanggilan:
-SELECT GetTotalTiketByPelanggan('PL0001') AS TotalTiket;
+-- Contoh pemanggilan (Menampilkan total tiket untuk seluruh pelanggan):
+SELECT 
+    id_pelanggan, 
+    nama_pelanggan, 
+    GetTotalTiketByPelanggan(id_pelanggan) AS total_tiket_dibeli
+FROM pelanggan;
 \end{lstlisting}
 
 Parameter \texttt{p\_id\_pelanggan} merupakan parameter input bertipe \texttt{CHAR(6)} dengan prefiks \texttt{p\_} sebagai konvensi penamaan agar tidak ambigu dengan nama kolom tabel. Variabel \texttt{v\_total} dideklarasikan dengan \texttt{DECLARE} untuk menampung hasil \texttt{COUNT}, kemudian diisi menggunakan sintaks \texttt{SELECT INTO}. JOIN ke tabel \texttt{transaksi} diperlukan karena relasi antara \texttt{tiket} dan \texttt{pelanggan} bersifat tidak langsung, melainkan melalui entitas \texttt{transaksi}.
@@ -647,7 +658,25 @@ BEGIN
     END IF;
 END$$
 DELIMITER ;
+
+-- Contoh pemanggilan:
+SELECT CekStatusKursi('JD0001', 'KR0001') AS StatusKursi;
+SELECT CekStatusKursi('JD0001', 'KR0002') AS StatusKursi;
 \end{lstlisting}
+
+Pada uji coba pertama, kita melihat implementasi \texttt{CekStatusKursi} untuk mengecek kursi yang sudah dibeli (\texttt{Terjual}), lalu membandingkannya dengan kursi yang kosong (\texttt{Tersedia}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{function/Function4_Terjual.png}
+    \caption{Uji Coba \textit{Function} 4 --- Kursi Terjual}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{function/function4_tersedia.png}
+    \caption{Uji Coba \textit{Function} 4 --- Kursi Tersedia}
+\end{figure}
 
 \subsection{\textit{Function} 5: \texttt{CekDiskonMember}}
 
@@ -672,7 +701,25 @@ BEGIN
     END IF;
 END$$
 DELIMITER ;
+
+-- Contoh pemanggilan:
+SELECT CekDiskonMember('PL0001') AS DiskonPersen;
+SELECT CekDiskonMember('PL0008') AS DiskonPersen;
 \end{lstlisting}
+
+Pengujian untuk \textit{Function} 5 memvalidasi bahwa pelanggan dengan transaksi kurang dari 3 kali akan mendapatkan nilai diskon sebesar 0\%, sedangkan yang memenuhi syarat mendapatkan 10\%.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{function/function5_pelanggan1trx.png}
+    \caption{Uji Coba \textit{Function} 5 --- Pelanggan 1 Transaksi (0\%)}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{function/function5_pelanggan3trx.png}
+    \caption{Uji Coba \textit{Function} 5 --- Pelanggan 3 Transaksi (10\%)}
+\end{figure}
 
 \clearpage
 
@@ -832,7 +879,18 @@ BEGIN
     WHERE id_pembayaran = v_id_pembayaran;
 END$$
 DELIMITER ;
+
+-- Contoh pemanggilan:
+CALL BatalkanTransaksi('TX0001');
 \end{lstlisting}
+
+Saat prosedur ini dijalankan, perubahan status transaksi menjadi 'Batal' dapat diobservasi secara langsung pada sistem, membuktikan bahwa pengembalian stok dan pembebasan tiket sukses tereksekusi.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{procedure_image/procedure4.png}
+    \caption{Uji Coba \textit{Procedure} 4 --- \texttt{BatalkanTransaksi}}
+\end{figure}
 
 \subsection{Kasus 5: \textit{UpdateStatusFilmHarian}}
 \textit{Procedure} kelima berguna sebagai bentuk pemeliharaan rutin otomatis (\textit{housekeeping}). \textit{Procedure} ini dirancang untuk mengecek seluruh film yang saat ini masih berstatus 'Coming Soon'. Apabila ternyata jadwal tayangnya sudah dijadwalkan pada hari ini (atau terlewat), maka status penayangannya akan otomatis ter-\textit{update} menjadi 'Now Showing'. Hal ini sangat membantu meringankan pekerjaan repetitif para admin.
@@ -852,7 +910,18 @@ BEGIN
       );
 END$$
 DELIMITER ;
+
+-- Contoh pemanggilan:
+CALL UpdateStatusFilmHarian();
 \end{lstlisting}
+
+Gambar di bawah ini mendemonstrasikan status penayangan film yang secara otomatis bergeser dari 'Coming Soon' ke 'Now Showing' usai pemanggilan prosedur pemeliharaan harian ini.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{procedure_image/procedure5.png}
+    \caption{Uji Coba \textit{Procedure} 5 --- \texttt{UpdateStatusFilmHarian}}
+\end{figure}
 
 \clearpage
 
@@ -996,6 +1065,14 @@ END$$
 DELIMITER ;
 \end{lstlisting}
 
+Simulasi pemesanan stok di atas batas kuantitas yang tersedia memicu \textit{trigger} untuk membangkitkan \textit{error message} 'Gagal: Stok kantin tidak mencukupi untuk jumlah yang diminta!', mencegah kebocoran data negatif.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{trigger/Trigger4.png}
+    \caption{Uji Coba \textit{Trigger} 4 --- Pencegahan Stok Minus}
+\end{figure}
+
 \subsection{Kasus 5: Pencegahan Jadwal Tayang Bentrok}
 Kasus kelima diimplementasikan untuk menghindari potensi kelalaian staf manajerial saat menyusun jadwal penayangan film (\textit{human error}). \textit{Trigger} ini berjalan otomatis secara \texttt{BEFORE INSERT} pada tabel \texttt{jadwal\_tayang} dan akan mendeteksi apabila jadwal baru yang dimasukkan berdekatan (kurang dari durasi standar 2 jam) dengan penayangan film lain pada studio yang persis sama. Jika terjadi \textit{overlapping}, penjadwalan akan ditolak oleh basis data.
 
@@ -1019,15 +1096,19 @@ END$$
 DELIMITER ;
 \end{lstlisting}
 
+Simulasi penambahan jadwal tayang yang saling \textit{overlapping} di bawah durasi 2 jam sukses ditolak oleh basis data dengan melemparkan \textit{error} khusus, menjaga konsistensi jadwal tayang studio.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{trigger/trigger5.png}
+    \caption{Uji Coba \textit{Trigger} 5 --- Pencegahan Jadwal Bentrok}
+\end{figure}
+
 \clearpage
 
 % ============================================================
 % SECTION 9: IMPLEMENTASI INDEXING
 % Paste ini ke dalam \section{Implementasi \textit{Indexing}}
-% di main.tex (gantikan blok % TODO yang ada)
-% ============================================================
-
-\section{Implementasi \textit{Indexing}}
 
 \subsection{Deskripsi}
 
@@ -1062,7 +1143,7 @@ Strategi \textit{indexing} pada CineTrack didasarkan pada frekuensi pemakaian ko
 
 \subsection{\textit{Index} 1: \texttt{idx\_film\_status\_tayang}}
 
-\textbf{Skenario:} Query Kasus 1 memfilter tabel \texttt{film} dengan kondisi \texttt{WHERE status\_tayang = 'Now Showing'} untuk keperluan tim promosi. Kolom \texttt{status\_tayang} bukan bagian dari \textit{primary key} maupun \textit{foreign key}, sehingga tanpa index MySQL melakukan \textit{full table scan}. Index pada kolom ini memungkinkan MySQL langsung menunjuk baris yang relevan.
+\textbf{Fungsi:} Query Kasus 1 memfilter tabel \texttt{film} dengan kondisi \texttt{WHERE status\_tayang = 'Now Showing'} untuk keperluan tim promosi. Kolom \texttt{status\_tayang} bukan bagian dari \textit{primary key} maupun \textit{foreign key}, sehingga tanpa index MySQL melakukan \textit{full table scan}. Index pada kolom ini memungkinkan MySQL langsung menunjuk baris yang relevan.
 
 \begin{lstlisting}[style=sql, caption={\textit{Index} 1 --- \texttt{idx\_film\_status\_tayang}}, label={lst:idx1}]
 CREATE INDEX idx_film_status_tayang
@@ -1086,7 +1167,7 @@ ORDER BY f.judul, g.nama_genre;
 
 \subsection{\textit{Index} 2: \texttt{idx\_jtf\_film}}
 
-\textbf{Skenario:} \textit{Primary key} tabel \textit{junction} \texttt{jadwal\_tayang\_film} adalah \textit{composite} (\texttt{jadwal\_tayang\_id\_jadwal}, \texttt{film\_id\_film}). Index BTREE pada PK \textit{composite} hanya efisien untuk \textit{lookup} yang dimulai dari kolom \textbf{pertama} (jadwal). Kolom kedua (\texttt{film\_id\_film}) tidak ter-\textit{cover} sebagai \textit{leading key}, sehingga \textit{reverse lookup}, yang digunakan oleh \textit{Function} \texttt{GetDurasiTayang} dan Query Kasus 2, tetap melakukan \textit{full scan} tanpa index ini.
+\textbf{Fungsi:} \textit{Primary key} tabel \textit{junction} \texttt{\seqsplit{jadwal\_tayang\_film}} adalah \textit{composite} (\texttt{\seqsplit{jadwal\_tayang\_id\_jadwal}}, \texttt{film\_id\_film}). Index BTREE pada PK \textit{composite} hanya efisien untuk \textit{lookup} yang dimulai dari kolom \textbf{pertama} (jadwal). Kolom kedua (\texttt{film\_id\_film}) tidak ter-\textit{cover} sebagai \textit{leading key}, sehingga \textit{reverse lookup}, yang digunakan oleh \textit{Function} \texttt{GetDurasiTayang} dan Query Kasus 2, tetap melakukan \textit{full scan} tanpa index ini.
 
 \begin{lstlisting}[style=sql, caption={\textit{Index} 2 --- \texttt{idx\_jtf\_film}}, label={lst:idx2}]
 CREATE INDEX idx_jtf_film
@@ -1109,7 +1190,7 @@ ORDER BY jt.waktu_tayang;
 
 \subsection{\textit{Index} 3: \texttt{idx\_transaksi\_total\_tagihan}}
 
-\textbf{Skenario:} Query Kasus 3 memfilter tabel \texttt{transaksi} dengan kondisi \texttt{WHERE total\_tagihan > 200000} untuk analisis transaksi bernilai tinggi. Kolom \texttt{total\_tagihan} bertipe \texttt{DECIMAL} dan tidak memiliki index apapun. Index pada kolom numerik menyimpan nilai secara terurut sehingga MySQL dapat langsung melompat ke nilai \textit{threshold} tanpa men-\textit{scan} seluruh tabel.
+\textbf{Fungsi:} Query Kasus 3 memfilter tabel \texttt{transaksi} dengan kondisi \texttt{WHERE total\_tagihan > 200000} untuk analisis transaksi bernilai tinggi. Kolom \texttt{total\_tagihan} bertipe \texttt{DECIMAL} dan tidak memiliki index apapun. Index pada kolom numerik menyimpan nilai secara terurut sehingga MySQL dapat langsung melompat ke nilai \textit{threshold} tanpa men-\textit{scan} seluruh tabel.
 
 \begin{lstlisting}[style=sql, caption={\textit{Index} 3 --- \texttt{idx\_transaksi\_total\_tagihan}}, label={lst:idx3}]
 CREATE INDEX idx_transaksi_total_tagihan
@@ -1170,7 +1251,7 @@ WHERE email_pelanggan = 'pelanggan1@gmail.com';
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{index/output_idx5.png}
+    \includegraphics[width=1\linewidth]{index/output_idx5.jpeg}
     \caption{Hasil \texttt{EXPLAIN} \textit{Index} 5}
     \label{fig:idx5}
 \end{figure}

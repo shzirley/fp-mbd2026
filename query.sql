@@ -1,0 +1,1 @@
+SELECT jt.id_jadwal, st.cabang_id_cabang FROM jadwal_tayang_film jtf JOIN jadwal_tayang jt ON jtf.jadwal_tayang_id_jadwal = jt.id_jadwal JOIN studio st ON jt.studio_id_studio = st.id_studio WHERE jtf.film_id_film = 'FM0001';

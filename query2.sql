@@ -1,0 +1,1 @@
+SELECT DISTINCT f.judul FROM jadwal_tayang_film jtf JOIN jadwal_tayang jt ON jtf.jadwal_tayang_id_jadwal = jt.id_jadwal JOIN studio st ON jt.studio_id_studio = st.id_studio JOIN film f ON jtf.film_id_film = f.id_film WHERE st.cabang_id_cabang = 'CB0003';

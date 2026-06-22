@@ -2349,26 +2349,30 @@ CREATE INDEX idx_tiket_jadwal_kursi
 
 
 -- ============================================================
--- INDEX 5: pelanggan(email_pelanggan)
+-- INDEX 5: jadwal_tayang(waktu_tayang)
 -- ============================================================
 -- Digunakan oleh:
---   • API Auth Login → WHERE email_pelanggan = ?
---   • API Auth Google → WHERE email_pelanggan = ?
---   • API Auth Signup → WHERE email_pelanggan = ?
+--   • Query Kasus 2       → ORDER BY waktu_tayang
+--   • Function GetDurasiTayang (query gabungan) → ORDER BY waktu_tayang
+--   • Procedure TambahJadwalMidnight
+--       → ORDER BY id_jadwal DESC (akses urutan jadwal terbaru)
 --
--- Kolom VARCHAR non-PK tanpa index. Karena email digunakan sebagai
--- pengenal unik untuk autentikasi user (customer) pada web FP CineTrack,
--- pencarian baris berdasarkan email dilakukan pada setiap kali login,
--- signup, maupun autentikasi Google. Indeks UNIQUE BTREE sangat
--- efisien karena menghentikan pencarian begitu email yang cocok ditemukan.
+-- Kolom DATETIME non-PK. Tanpa index, setiap ORDER BY memaksa
+-- MySQL melakukan filesort (pengurutan di memori/disk setelah
+-- full scan). Index BTREE menyimpan DATETIME secara terurut
+-- sehingga ORDER BY dapat memanfaatkan index scan langsung
+-- tanpa filesort — kolom ini diakses oleh 3 komponen berbeda.
 --
--- Jenis: UNIQUE BTREE — optimal untuk pencarian presisi (equality lookup).
+-- Jenis: BTREE — optimal untuk ORDER BY dan range filter DATETIME.
 -- ============================================================
 
-CREATE UNIQUE INDEX idx_pelanggan_email
-    ON pelanggan (email_pelanggan);
+CREATE INDEX idx_jadwal_waktu_tayang
+    ON jadwal_tayang (waktu_tayang);
 
 -- CATATAN: Verifikasi EXPLAIN dipindahkan ke MBD_D_FP_tests.sql
+
+
+-- CATATAN: Verifikasi semua index dipindahkan ke MBD_D_FP_tests.sql
 
 -- ============================================================
 -- SECTION 7 — Database Views
@@ -2573,106 +2577,6 @@ BEGIN
 END$$
 
 DELIMITER ;
-
--- ============================================================
--- INDEX 1: film(status_tayang)
--- ============================================================
-CREATE INDEX idx_film_status_tayang ON film (status_tayang);
-
--- ============================================================
--- INDEX 2: jadwal_tayang_film(film_id_film)
--- ============================================================
-CREATE INDEX idx_jtf_film ON jadwal_tayang_film (film_id_film);
-
--- ============================================================
--- INDEX 3: transaksi(total_tagihan)
--- ============================================================
-CREATE INDEX idx_transaksi_total_tagihan ON transaksi (total_tagihan);
-
--- ============================================================
--- INDEX 4: tiket(jadwal_tayang_id_jadwal, kursi_id_kursi)
--- ============================================================
-CREATE INDEX idx_tiket_jadwal_kursi ON tiket (jadwal_tayang_id_jadwal, kursi_id_kursi);
-
--- ============================================================
--- INDEX 5: pelanggan(email_pelanggan)
--- ============================================================
-CREATE UNIQUE INDEX idx_pelanggan_email ON pelanggan (email_pelanggan);
-
--- ============================================================
--- IMPLEMENTASI SQL VIEW (BERDASARKAN KASUS LAPORAN)
--- ============================================================
-
--- KASUS 1: vw_film_genre (Menampilkan Film beserta Genre-nya)
-CREATE OR REPLACE VIEW vw_film_genre AS
-SELECT 
-    f.id_film, f.judul, f.sutradara, f.rating_usia, f.durasi, 
-    f.sinopsis, f.status_tayang, f.poster_url, f.rating_score,
-    GROUP_CONCAT(g.nama_genre SEPARATOR ', ') AS daftar_genre
-FROM film f
-LEFT JOIN film_genre fg ON f.id_film = fg.film_id_film
-LEFT JOIN genre g ON fg.genre_id_genre = g.id_genre
-GROUP BY f.id_film;
-
--- KASUS 2: vw_detail_jadwal (Menampilkan Jadwal Tayang Lengkap)
-CREATE OR REPLACE VIEW vw_detail_jadwal AS
-SELECT 
-    j.id_jadwal, j.waktu_tayang, j.harga_dasar, 
-    s.id_studio, s.nomor_studio, s.kelas_studio, 
-    c.id_cabang, c.nama_cabang, c.alamat,
-    f.id_film, f.judul, f.durasi,
-    f.poster_url, f.rating_usia, f.status_tayang
-FROM jadwal_tayang j
-JOIN studio s ON j.studio_id_studio = s.id_studio
-JOIN cabang c ON s.cabang_id_cabang = c.id_cabang
-LEFT JOIN jadwal_tayang_film jtf ON j.id_jadwal = jtf.jadwal_tayang_id_jadwal
-LEFT JOIN film f ON jtf.film_id_film = f.id_film;
-
--- KASUS 3: vw_transaksi_vip (Menampilkan Transaksi dengan Total Tagihan di Atas Rp200.000)
-CREATE OR REPLACE VIEW vw_transaksi_vip AS
-SELECT 
-    t.id_transaksi, t.tanggal_transaksi, t.total_tagihan, 
-    pl.id_pelanggan, pl.nama_pelanggan, 
-    pg.id_pegawai, pg.nama_pegawai, 
-    pb.metode_pembayaran, pb.status_pembayaran
-FROM transaksi t
-JOIN pelanggan pl ON t.pelanggan_id_pelanggan = pl.id_pelanggan
-JOIN pegawai pg ON t.pegawai_id_pegawai = pg.id_pegawai
-JOIN pembayaran pb ON t.pembayaran_id_pembayaran = pb.id_pembayaran
-WHERE t.total_tagihan > 200000;
-
--- KASUS 4: vw_rekap_kantin_kategori (Rekap Penjualan Produk Kantin per Kategori)
-CREATE OR REPLACE VIEW vw_rekap_kantin_kategori AS
-SELECT 
-    k.nama_kategori, 
-    SUM(pkt.qty) AS total_item_terjual, 
-    SUM(pkt.subtotal) AS total_pendapatan
-FROM kategori k
-JOIN produk_kantin pk ON k.id_kategori = pk.kategori_id_kategori
-JOIN produk_kantin_transaksi pkt ON pk.id_produk = pkt.produk_kantin_id_produk
-GROUP BY k.id_kategori, k.nama_kategori;
-
--- KASUS 5: vw_pelanggan_idle (Menampilkan Pelanggan yang Belum Pernah Bertransaksi)
-CREATE OR REPLACE VIEW vw_pelanggan_idle AS
-SELECT 
-    pl.id_pelanggan, 
-    pl.nama_pelanggan, 
-    pl.email_pelanggan
-FROM pelanggan pl
-LEFT JOIN transaksi tx ON pl.id_pelanggan = tx.pelanggan_id_pelanggan
-WHERE tx.id_transaksi IS NULL;
-
--- View Pendukung: vw_transaksi_lengkap
-CREATE OR REPLACE VIEW vw_transaksi_lengkap AS
-SELECT 
-    t.id_transaksi, t.tanggal_transaksi, t.total_tagihan, 
-    pl.id_pelanggan, pl.nama_pelanggan, 
-    pg.id_pegawai, pg.nama_pegawai, 
-    pb.metode_pembayaran, pb.status_pembayaran
-FROM transaksi t
-JOIN pelanggan pl ON t.pelanggan_id_pelanggan = pl.id_pelanggan
-JOIN pegawai pg ON t.pegawai_id_pegawai = pg.id_pegawai
-JOIN pembayaran pb ON t.pembayaran_id_pembayaran = pb.id_pembayaran;
 
 -- ============================================================
 -- END OF MBD_D_FP.sql

@@ -1,0 +1,37 @@
+\babel@toc {bahasa}{}\relax 
+\contentsline {figure}{\numberline {1}{\ignorespaces ERD Sistem Basis Data Bioskop CineTrack}}{8}{figure.1}%
+\contentsline {figure}{\numberline {2}{\ignorespaces CDM Sistem Basis Data Bioskop CineTrack}}{9}{figure.2}%
+\contentsline {figure}{\numberline {3}{\ignorespaces PDM Sistem Basis Data Bioskop CineTrack}}{10}{figure.3}%
+\contentsline {figure}{\numberline {4}{\ignorespaces Hasil Query Kasus 1 --- Film \textit {Now Showing} Beserta Genre}}{20}{figure.4}%
+\contentsline {figure}{\numberline {5}{\ignorespaces Hasil Query Kasus 2 --- Jadwal Tayang Lengkap}}{21}{figure.5}%
+\contentsline {figure}{\numberline {6}{\ignorespaces Hasil Query Kasus 3 --- Transaksi di Atas Rp200.000}}{22}{figure.6}%
+\contentsline {figure}{\numberline {7}{\ignorespaces Hasil Query Kasus 4 --- Rekap Penjualan Produk Kantin per Kategori}}{22}{figure.7}%
+\contentsline {figure}{\numberline {8}{\ignorespaces Hasil Query Kasus 5 --- Pelanggan Belum Pernah Bertransaksi}}{23}{figure.8}%
+\contentsline {figure}{\numberline {9}{\ignorespaces Hasil Eksekusi \textit {Function} 1 --- \texttt {GetTotalTiketByPelanggan}}}{25}{figure.9}%
+\contentsline {figure}{\numberline {10}{\ignorespaces Hasil Eksekusi \textit {Function} 2 --- \texttt {GetPendapatanByStudio}}}{26}{figure.10}%
+\contentsline {figure}{\numberline {11}{\ignorespaces Hasil Eksekusi \textit {Function} 3 --- \texttt {GetDurasiTayang}}}{27}{figure.11}%
+\contentsline {figure}{\numberline {12}{\ignorespaces Uji Coba \textit {Function} 4 --- Kursi Terjual}}{28}{figure.12}%
+\contentsline {figure}{\numberline {13}{\ignorespaces Uji Coba \textit {Function} 4 --- Kursi Tersedia}}{29}{figure.13}%
+\contentsline {figure}{\numberline {14}{\ignorespaces Uji Coba \textit {Function} 5 --- Pelanggan 1 Transaksi (0\%)}}{30}{figure.14}%
+\contentsline {figure}{\numberline {15}{\ignorespaces Uji Coba \textit {Function} 5 --- Pelanggan 3 Transaksi (10\%)}}{30}{figure.15}%
+\contentsline {figure}{\numberline {16}{\ignorespaces Harga Tiket Sebelum Eksekusi \texttt {NaikkanHargaInflasi}}}{31}{figure.16}%
+\contentsline {figure}{\numberline {17}{\ignorespaces Harga Makanan Sebelum Eksekusi \texttt {NaikkanHargaInflasi}}}{31}{figure.17}%
+\contentsline {figure}{\numberline {18}{\ignorespaces Harga Tiket Sesudah Eksekusi \texttt {NaikkanHargaInflasi}}}{32}{figure.18}%
+\contentsline {figure}{\numberline {19}{\ignorespaces Harga Makanan Sesudah Eksekusi \texttt {NaikkanHargaInflasi}}}{32}{figure.19}%
+\contentsline {figure}{\numberline {20}{\ignorespaces Hasil Eksekusi \texttt {TambahJadwalMidnight}}}{33}{figure.20}%
+\contentsline {figure}{\numberline {21}{\ignorespaces Stok Kantin Sebelum Eksekusi \texttt {TambahStokKantin}}}{34}{figure.21}%
+\contentsline {figure}{\numberline {22}{\ignorespaces Stok Kantin Sesudah Eksekusi \texttt {TambahStokKantin}}}{34}{figure.22}%
+\contentsline {figure}{\numberline {23}{\ignorespaces Uji Coba \textit {Procedure} 4 --- \texttt {BatalkanTransaksi}}}{35}{figure.23}%
+\contentsline {figure}{\numberline {24}{\ignorespaces Uji Coba \textit {Procedure} 5 --- \texttt {UpdateStatusFilmHarian}}}{36}{figure.24}%
+\contentsline {figure}{\numberline {25}{\ignorespaces Uji Coba \textit {Insert} Tiket Baru (Kondisi Berhasil)}}{37}{figure.25}%
+\contentsline {figure}{\numberline {26}{\ignorespaces Pesan \textit {Error} Saat Terjadi Indikasi \textit {Double Booking}}}{38}{figure.26}%
+\contentsline {figure}{\numberline {27}{\ignorespaces Hasil Kalkulasi Otomatis Harga Tiket pada Basis Data}}{38}{figure.27}%
+\contentsline {figure}{\numberline {28}{\ignorespaces Stok Produk Kantin Sebelum Terjadi Transaksi}}{39}{figure.28}%
+\contentsline {figure}{\numberline {29}{\ignorespaces Stok Produk Kantin Berkurang Secara Otomatis Setelah Transaksi}}{39}{figure.29}%
+\contentsline {figure}{\numberline {30}{\ignorespaces Uji Coba \textit {Trigger} 4 --- Pencegahan Stok Minus}}{40}{figure.30}%
+\contentsline {figure}{\numberline {31}{\ignorespaces Uji Coba \textit {Trigger} 5 --- Pencegahan Jadwal Bentrok}}{41}{figure.31}%
+\contentsline {figure}{\numberline {32}{\ignorespaces Hasil \texttt {EXPLAIN} \textit {Index} 1}}{43}{figure.32}%
+\contentsline {figure}{\numberline {33}{\ignorespaces Hasil \texttt {EXPLAIN} \textit {Index} 2}}{43}{figure.33}%
+\contentsline {figure}{\numberline {34}{\ignorespaces Hasil \texttt {EXPLAIN} \textit {Index} 3}}{44}{figure.34}%
+\contentsline {figure}{\numberline {35}{\ignorespaces Hasil \texttt {EXPLAIN} \textit {Index} 4}}{44}{figure.35}%
+\contentsline {figure}{\numberline {36}{\ignorespaces Hasil \texttt {EXPLAIN} \textit {Index} 5}}{45}{figure.36}%

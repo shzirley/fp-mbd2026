@@ -185,6 +185,32 @@
                 console.error('Error fetching employees:', err);
                 document.getElementById('employees-body').innerHTML = '<tr><td colspan="7" class="py-md px-md text-center text-error">Failed to load employees.</td></tr>';
             }
+
+            // Fetch Idle Customers (Kasus 5)
+            try {
+                const idleRes = await fetch('/api/admin/customers/idle');
+                const idleCustomers = await idleRes.json();
+                const idleTbody = document.getElementById('idle-customers-body');
+                idleTbody.innerHTML = '';
+                
+                if (idleCustomers.length === 0) {
+                    idleTbody.innerHTML = '<tr><td colspan="4" class="py-md px-md text-center text-slate-300">All customers have transactions. Great!</td></tr>';
+                } else {
+                    idleCustomers.forEach((c, idx) => {
+                        const tr = document.createElement('tr');
+                        tr.className = 'table-row-hover transition-colors';
+                        tr.innerHTML = `
+                            <td class="py-md px-md text-slate-300">${idx + 1}</td>
+                            <td class="py-md px-md font-bold text-white">${c.nama_pelanggan}</td>
+                            <td class="py-md px-md text-slate-300">${c.email_pelanggan}</td>
+                            <td class="py-md px-md text-right">
+                                <button class="px-3 py-1 bg-tertiary text-on-tertiary rounded text-label-sm font-bold hover:brightness-110 transition-colors shadow-lg">Kirim Promo</button>
+                            </td>
+                        `;
+                        idleTbody.appendChild(tr);
+                    });
+                }
+            } catch (err) { console.error(err); }
         });
     </script>
     <style>
@@ -389,6 +415,30 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Idle Customers (Kasus 5) -->
+            <div class="mt-xl glass-card border border-white/10 rounded-xl overflow-hidden shadow-sm">
+                <div class="p-6 border-b border-outline-variant/30 flex justify-between items-center bg-surface-container-low">
+                    <h3 class="text-headline-md font-bold text-tertiary">Target Promosi: Pelanggan Idle</h3>
+                    <p class="text-label-md text-on-surface-variant">Pelanggan yang belum pernah bertransaksi</p>
+                </div>
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-surface/30 border-b border-white/10">
+                            <th class="py-sm px-md font-label-md text-label-md text-slate-300 font-semibold w-12">No</th>
+                            <th class="py-sm px-md font-label-md text-label-md text-slate-300 font-semibold">Nama Pelanggan</th>
+                            <th class="py-sm px-md font-label-md text-label-md text-slate-300 font-semibold">Email</th>
+                            <th class="py-sm px-md font-label-md text-label-md text-slate-300 font-semibold text-right">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="idle-customers-body" class="divide-y divide-slate-200">
+                        <tr>
+                            <td colspan="4" class="py-md px-md text-center text-slate-300">Loading idle customers...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
         </div>
     </main>
 

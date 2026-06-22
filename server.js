@@ -259,23 +259,7 @@ app.post('/api/auth/signup', async (req, res) => {
 app.get('/api/movies/now-showing', async (req, res) => {
   const { branchId, genre } = req.query;
   try {
-    let query = `
-      SELECT DISTINCT 
-        f.id_film,
-        f.judul,
-        f.sutradara,
-        f.rating_usia,
-        f.durasi,
-        f.sinopsis,
-        f.status_tayang,
-        f.poster_url,
-        f.rating_score,
-        (SELECT GROUP_CONCAT(g.nama_genre SEPARATOR ', ') 
-         FROM film_genre fg 
-         JOIN genre g ON fg.genre_id_genre = g.id_genre 
-         WHERE fg.film_id_film = f.id_film) AS daftar_genre
-      FROM film f
-    `;
+    let query = "SELECT DISTINCT f.* FROM vw_film_genre f";
     
     const params = [];
     const conditions = ["f.status_tayang = 'Now Showing'"];
@@ -319,7 +303,7 @@ app.get('/api/movies/now-showing', async (req, res) => {
 // GET /api/movies/coming-soon
 app.get('/api/movies/coming-soon', async (req, res) => {
   try {
-    const [movies] = await pool.query("SELECT * FROM film WHERE status_tayang = 'Coming Soon'");
+    const [movies] = await pool.query("SELECT * FROM vw_film_genre WHERE status_tayang = 'Coming Soon'");
     return res.json(movies);
   } catch (err) {
     console.error(err);
@@ -331,7 +315,7 @@ app.get('/api/movies/coming-soon', async (req, res) => {
 // GET /api/movies/all (loads all movies for browse/search)
 app.get('/api/movies/all', async (req, res) => {
   try {
-    const [movies] = await pool.query('SELECT * FROM film');
+    const [movies] = await pool.query('SELECT * FROM vw_film_genre');
     return res.json(movies);
   } catch (err) {
     console.error(err);
@@ -342,20 +326,14 @@ app.get('/api/movies/all', async (req, res) => {
 // GET /api/movies/:id
 app.get('/api/movies/:id', async (req, res) => {
   try {
-    const [movies] = await pool.query('SELECT * FROM film WHERE id_film = ?', [req.params.id]);
+    const [movies] = await pool.query('SELECT * FROM vw_film_genre WHERE id_film = ?', [req.params.id]);
     if (movies.length === 0) {
       return res.status(404).json({ message: 'Movie not found.' });
     }
 
-    // Also get its genres
-    const [genres] = await pool.query(
-      'SELECT g.nama_genre FROM film_genre fg JOIN genre g ON fg.genre_id_genre = g.id_genre WHERE fg.film_id_film = ?',
-      [req.params.id]
-    );
-
     const movieDetails = {
       ...movies[0],
-      genres: genres.map(g => g.nama_genre)
+      genres: movies[0].daftar_genre ? movies[0].daftar_genre.split(', ') : []
     };
 
     return res.json(movieDetails);
@@ -369,22 +347,7 @@ app.get('/api/movies/:id', async (req, res) => {
 app.get('/api/movies/:id/schedules', async (req, res) => {
   try {
     const [schedules] = await pool.query(
-      `SELECT 
-        jt.id_jadwal, 
-        jt.waktu_tayang, 
-        jt.harga_dasar, 
-        st.id_studio,
-        st.nomor_studio, 
-        st.kelas_studio, 
-        cb.id_cabang, 
-        cb.nama_cabang, 
-        cb.alamat
-      FROM jadwal_tayang jt
-      JOIN jadwal_tayang_film jtf ON jt.id_jadwal = jtf.jadwal_tayang_id_jadwal
-      JOIN studio st ON jt.studio_id_studio = st.id_studio
-      JOIN cabang cb ON st.cabang_id_cabang = cb.id_cabang
-      WHERE jtf.film_id_film = ?
-      ORDER BY cb.nama_cabang, jt.waktu_tayang`,
+      `SELECT * FROM vw_detail_jadwal WHERE id_film = ? ORDER BY nama_cabang, waktu_tayang`,
       [req.params.id]
     );
 
@@ -495,6 +458,7 @@ app.get('/api/canteen/items', async (req, res) => {
 
 // GET /api/user/:userId/tickets
 app.get('/api/user/:userId/tickets', async (req, res) => {
+  res.setHeader('Cache-Control', 'no-store');
   try {
     const [tickets] = await pool.query(
       `SELECT 
@@ -533,7 +497,10 @@ app.get('/api/user/:userId/tickets', async (req, res) => {
 // POST /api/transactions/:id/cancel
 app.post('/api/transactions/:id/cancel', async (req, res) => {
   try {
-    await pool.query("UPDATE transaksi SET status_transaksi = 'Canceled' WHERE id_transaksi = ?", [req.params.id]);
+    const [result] = await pool.query("UPDATE transaksi SET status_transaksi = 'Canceled' WHERE id_transaksi = ?", [req.params.id]);
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: 'Transaction not found.' });
+    }
     return res.json({ message: 'Transaction cancelled successfully.' });
   } catch (err) {
     console.error(err);
@@ -728,6 +695,38 @@ app.get('/api/admin/transactions', async (req, res) => {
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: 'Failed to fetch transactions.' });
+  }
+});
+// GET /api/admin/transactions/vip
+app.get('/api/admin/transactions/vip', async (req, res) => {
+  try {
+    const [transactions] = await pool.query('SELECT * FROM vw_transaksi_vip ORDER BY tanggal_transaksi DESC');
+    return res.json(transactions);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Failed to fetch vip transactions.' });
+  }
+});
+
+// GET /api/admin/fnb/sales-by-category
+app.get('/api/admin/fnb/sales-by-category', async (req, res) => {
+  try {
+    const [sales] = await pool.query('SELECT * FROM vw_rekap_kantin_kategori ORDER BY total_pendapatan DESC');
+    return res.json(sales);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Failed to fetch fnb sales.' });
+  }
+});
+
+// GET /api/admin/customers/idle
+app.get('/api/admin/customers/idle', async (req, res) => {
+  try {
+    const [customers] = await pool.query('SELECT * FROM vw_pelanggan_idle ORDER BY nama_pelanggan ASC');
+    return res.json(customers);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Failed to fetch idle customers.' });
   }
 });
 

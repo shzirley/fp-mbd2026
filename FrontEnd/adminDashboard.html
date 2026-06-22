@@ -426,6 +426,29 @@
                     </div>
                 </div>
             </div>
+            <!-- Kasus 3 & 4: VIP Transactions & F&B Categories -->
+            <div class="grid grid-cols-2 gap-gutter mt-gutter">
+                <!-- Kasus 4: F&B Revenue by Category -->
+                <div class="glass-card rounded-xl flex flex-col h-[400px]">
+                    <div class="p-6 border-b border-outline-variant/30 flex justify-between items-center">
+                        <h3 class="text-headline-md font-bold">F&B Category Sales</h3>
+                        <span class="material-symbols-outlined text-primary">fastfood</span>
+                    </div>
+                    <div id="fnb-category-list" class="flex-grow overflow-y-auto custom-scrollbar p-6 space-y-4">
+                        <p class="text-center text-slate-300">Loading F&B categories...</p>
+                    </div>
+                </div>
+                <!-- Kasus 3: VIP Transactions (>200k) -->
+                <div class="glass-card rounded-xl flex flex-col h-[400px]">
+                    <div class="p-6 border-b border-outline-variant/30 flex justify-between items-center">
+                        <h3 class="text-headline-md font-bold">VIP Transactions (> 200k)</h3>
+                        <span class="material-symbols-outlined text-secondary">star</span>
+                    </div>
+                    <div id="vip-transactions-list" class="flex-grow overflow-y-auto custom-scrollbar p-6 space-y-4">
+                        <p class="text-center text-slate-300">Loading VIP transactions...</p>
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
     <script>
@@ -490,6 +513,56 @@
             } catch (err) {
                 console.error('Error fetching studios:', err);
             }
+
+            // Fetch F&B Sales by Category (Kasus 4)
+            try {
+                const fnbRes = await fetch('/api/admin/fnb/sales-by-category');
+                const fnbs = await fnbRes.json();
+                const list = document.getElementById('fnb-category-list');
+                list.innerHTML = '';
+                if (fnbs.length === 0) {
+                    list.innerHTML = '<p class="text-center text-slate-300">No F&B data found.</p>';
+                } else {
+                    fnbs.forEach(f => {
+                        list.innerHTML += `
+                            <div class="flex items-center justify-between p-4 rounded-lg bg-surface-container-low hover:bg-surface-variant transition-colors border border-transparent hover:border-outline-variant/30">
+                                <div>
+                                    <h5 class="text-on-surface font-bold text-label-md">${f.nama_kategori}</h5>
+                                    <p class="text-on-surface-variant text-label-sm">${f.total_item_terjual} items sold</p>
+                                </div>
+                                <div class="text-right text-primary font-bold">
+                                    Rp ${parseFloat(f.total_pendapatan).toLocaleString('id-ID')}
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+            } catch (err) { console.error(err); }
+
+            // Fetch VIP Transactions (Kasus 3)
+            try {
+                const vipRes = await fetch('/api/admin/transactions/vip');
+                const vips = await vipRes.json();
+                const list = document.getElementById('vip-transactions-list');
+                list.innerHTML = '';
+                if (vips.length === 0) {
+                    list.innerHTML = '<p class="text-center text-slate-300">No VIP transactions.</p>';
+                } else {
+                    vips.slice(0, 50).forEach(v => {
+                        list.innerHTML += `
+                            <div class="flex items-center justify-between p-4 rounded-lg bg-surface-container-low hover:bg-surface-variant transition-colors border border-transparent hover:border-outline-variant/30">
+                                <div>
+                                    <h5 class="text-on-surface font-bold text-label-md">${v.id_transaksi} - ${v.nama_pelanggan}</h5>
+                                    <p class="text-on-surface-variant text-label-sm">${new Date(v.tanggal_transaksi).toLocaleString()}</p>
+                                </div>
+                                <div class="text-right text-secondary font-bold">
+                                    Rp ${parseFloat(v.total_tagihan).toLocaleString('id-ID')}
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+            } catch (err) { console.error(err); }
 
             // Micro-interaction
             document.querySelectorAll('a, button').forEach(el => {
