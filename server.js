@@ -382,15 +382,9 @@ app.get('/api/movies/:id/schedules', async (req, res) => {
 // GET /api/schedules/:id/seats
 app.get('/api/schedules/:id/seats', async (req, res) => {
   try {
-    // 1. Get schedule info
+    // 1. Get schedule info (menggunakan vw_detail_jadwal yang mengandung Function 3: GetDurasiTayang)
     const [schedules] = await pool.query(
-      `SELECT jt.*, st.kelas_studio, st.nomor_studio, cb.nama_cabang, f.judul 
-       FROM jadwal_tayang jt 
-       JOIN studio st ON jt.studio_id_studio = st.id_studio 
-       JOIN cabang cb ON st.cabang_id_cabang = cb.id_cabang
-       LEFT JOIN jadwal_tayang_film jtf ON jt.id_jadwal = jtf.jadwal_tayang_id_jadwal
-       LEFT JOIN film f ON jtf.film_id_film = f.id_film
-       WHERE jt.id_jadwal = ?`,
+      `SELECT * FROM vw_detail_jadwal WHERE id_jadwal = ?`,
       [req.params.id]
     );
     if (schedules.length === 0) {
@@ -398,23 +392,21 @@ app.get('/api/schedules/:id/seats', async (req, res) => {
     }
     const schedule = schedules[0];
 
-    // 2. Get all seats for this studio
+    // 2. Get all seats for this studio & check status via SQL (menggunakan Function 4: CekStatusKursi)
     const [seats] = await pool.query(
-      'SELECT id_kursi, nomor_kursi, baris, kolom, tipe_kursi, tarif_tipe FROM kursi WHERE studio_id_studio = ? ORDER BY baris, CAST(kolom AS UNSIGNED), nomor_kursi',
-      [schedule.studio_id_studio]
+      `SELECT 
+         id_kursi, nomor_kursi, baris, kolom, tipe_kursi, tarif_tipe,
+         CekStatusKursi(?, id_kursi) AS status_kursi
+       FROM kursi 
+       WHERE studio_id_studio = ? 
+       ORDER BY baris, CAST(kolom AS UNSIGNED), nomor_kursi`,
+      [req.params.id, schedule.id_studio]
     );
 
-    // 3. Get booked seat IDs for this schedule
-    const [booked] = await pool.query(
-      'SELECT kursi_id_kursi FROM tiket WHERE jadwal_tayang_id_jadwal = ?',
-      [req.params.id]
-    );
-    const bookedIds = new Set(booked.map(b => b.kursi_id_kursi));
-
-    // 4. Map seats with booking status
+    // 4. Map seats with booking status for frontend compatibility
     const seatMap = seats.map(s => ({
       ...s,
-      isBooked: bookedIds.has(s.id_kursi)
+      isBooked: s.status_kursi === 'Terjual'
     }));
 
     return res.json({
@@ -425,6 +417,8 @@ app.get('/api/schedules/:id/seats', async (req, res) => {
       waktu_tayang: schedule.waktu_tayang,
       harga_dasar: schedule.harga_dasar,
       kelas_studio: schedule.kelas_studio,
+      durasi: schedule.durasi,
+      estimasi_selesai: schedule.estimasi_selesai,
       seats: seatMap
     });
   } catch (err) {
