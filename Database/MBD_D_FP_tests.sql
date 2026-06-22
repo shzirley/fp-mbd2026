@@ -272,3 +272,72 @@ FROM information_schema.STATISTICS
 WHERE TABLE_SCHEMA = 'MBD_FP'
   AND INDEX_NAME LIKE 'idx_%'
 ORDER BY TABLE_NAME, INDEX_NAME, SEQ_IN_INDEX;
+
+-- ============================================================
+-- UJI COBA TAMBAHAN KHUSUS MALEKA
+-- ============================================================
+
+-- ------------------------------------------------------------
+-- UJI COBA SQL FUNCTIONS
+-- ------------------------------------------------------------
+
+-- Function 4: CekStatusKursi
+-- Skenario: Mengecek kursi KR0001 di jadwal JD0001 (sudah terjual)
+SELECT CekStatusKursi('JD0001', 'KR0001') AS Status_Kursi_KR0001;
+-- Skenario: Mengecek kursi KR0002 di jadwal JD0001 (tersedia, belum dibeli)
+SELECT CekStatusKursi('JD0001', 'KR0002') AS Status_Kursi_KR0002;
+
+-- Function 5: CekDiskonMember
+-- Skenario: Pelanggan PL0001 memiliki transaksi > 0 (harus dicek berapa banyak)
+SELECT 
+    id_pelanggan, 
+    nama_pelanggan, 
+    CekDiskonMember(id_pelanggan) AS Diskon_Persen
+FROM pelanggan
+LIMIT 5;
+
+-- ------------------------------------------------------------
+-- UJI COBA SQL PROCEDURES
+-- ------------------------------------------------------------
+
+-- Procedure 4: BatalkanTransaksi
+-- Skenario: Membatalkan transaksi TX0002
+-- Cek stok kantin sebelum pembatalan (PK0004 dan PK0010 masing-masing dibeli 1 di TX0002)
+SELECT id_produk, stok FROM produk_kantin WHERE id_produk IN ('PK0004', 'PK0010');
+-- Panggil prosedur pembatalan
+CALL BatalkanTransaksi('TX0002');
+-- Cek stok kantin sesudah pembatalan (harus bertambah 1)
+SELECT id_produk, stok FROM produk_kantin WHERE id_produk IN ('PK0004', 'PK0010');
+-- Cek status tiket (harus kosong / terhapus untuk TX0002)
+SELECT * FROM tiket WHERE transaksi_id_transaksi = 'TX0002';
+-- Cek status pembayaran (harus menjadi 'Batal')
+SELECT pb.id_pembayaran, pb.status_pembayaran 
+FROM transaksi tx 
+JOIN pembayaran pb ON tx.pembayaran_id_pembayaran = pb.id_pembayaran 
+WHERE tx.id_transaksi = 'TX0002';
+
+-- Procedure 5: UpdateStatusFilmHarian
+-- Skenario: Mengubah status 'Coming Soon' yang jadwalnya <= hari ini
+-- Ubah sementara film FM0001 menjadi 'Coming Soon' padahal sudah ada jadwal
+UPDATE film SET status_tayang = 'Coming Soon' WHERE id_film = 'FM0001';
+-- Panggil prosedur
+CALL UpdateStatusFilmHarian();
+-- Cek status film FM0001 (harus kembali menjadi 'Now Showing')
+SELECT id_film, judul, status_tayang FROM film WHERE id_film = 'FM0001';
+
+
+-- ------------------------------------------------------------
+-- UJI COBA SQL TRIGGERS
+-- ------------------------------------------------------------
+
+-- Trigger 4: trg_cegah_stok_minus
+-- Skenario: Mencoba membeli produk kantin melebihi sisa stok (stok PK0001 adalah 50)
+-- PENTING: Jalankan baris di bawah ini secara terpisah untuk melihat pesan error
+-- INSERT INTO produk_kantin_transaksi (produk_kantin_id_produk, transaksi_id_transaksi, qty, subtotal)
+-- VALUES ('PK0001', 'TX0001', 999, 100000);
+
+-- Trigger 5: trg_cegah_jadwal_bentrok
+-- Skenario: Memasukkan jadwal tayang baru di ST0001 pada jam 10:30 (sementara JD0001 tayang 10:00)
+-- PENTING: Jalankan baris di bawah ini secara terpisah untuk melihat pesan error
+-- INSERT INTO jadwal_tayang (id_jadwal, waktu_tayang, harga_dasar, studio_id_studio)
+-- VALUES ('JD9999', '2026-06-10 10:30:00', 50000, 'ST0001');

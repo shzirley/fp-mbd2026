@@ -514,26 +514,53 @@ app.get('/api/user/:userId/tickets', async (req, res) => {
         f.poster_url,
         st.nomor_studio, 
         st.kelas_studio, 
-        cb.nama_cabang,
         k.nomor_kursi, 
         tx.id_transaksi, 
-        tx.tanggal_transaksi
+        tx.tanggal_transaksi,
+        c.nama_cabang
       FROM tiket tk
       JOIN jadwal_tayang jt ON tk.jadwal_tayang_id_jadwal = jt.id_jadwal
       JOIN jadwal_tayang_film jtf ON jt.id_jadwal = jtf.jadwal_tayang_id_jadwal
       JOIN film f ON jtf.film_id_film = f.id_film
       JOIN studio st ON jt.studio_id_studio = st.id_studio
-      JOIN cabang cb ON st.cabang_id_cabang = cb.id_cabang
+      JOIN cabang c ON st.cabang_id_cabang = c.id_cabang
       JOIN kursi k ON tk.kursi_id_kursi = k.id_kursi
       JOIN transaksi tx ON tk.transaksi_id_transaksi = tx.id_transaksi
-      WHERE tx.pelanggan_id_pelanggan = ?
-      ORDER BY tx.tanggal_transaksi DESC`,
+      JOIN pembayaran pb ON tx.pembayaran_id_pembayaran = pb.id_pembayaran
+      WHERE tx.pelanggan_id_pelanggan = ? AND pb.status_pembayaran != 'Batal'
+      ORDER BY jt.waktu_tayang ASC`,
       [req.params.userId]
     );
     return res.json(tickets);
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: 'Failed to load tickets.' });
+  }
+});
+
+// POST /api/transactions/:id/cancel
+app.post('/api/transactions/:id/cancel', async (req, res) => {
+  try {
+    await pool.query('CALL BatalkanTransaksi(?)', [req.params.id]);
+    return res.json({ message: 'Transaction cancelled successfully.' });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Failed to cancel transaction.', error: err.message });
+  }
+});
+
+// GET /api/user/:id/loyalty
+app.get('/api/user/:id/loyalty', async (req, res) => {
+  try {
+    const [totalRes] = await pool.query('SELECT GetTotalTiketByPelanggan(?) AS totalTickets', [req.params.id]);
+    const [discountRes] = await pool.query('SELECT CekDiskonMember(?) AS discount', [req.params.id]);
+    return res.json({
+      totalTickets: totalRes[0].totalTickets,
+      discount: parseFloat(discountRes[0].discount)
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Failed to load loyalty data.' });
   }
 });
 
@@ -550,6 +577,13 @@ app.post('/api/checkout', async (req, res) => {
   try {
     await connection.beginTransaction();
 
+    // Auto-restore missing user due to DB reset to fix FK constraint
+    await connection.query(
+      'INSERT IGNORE INTO pelanggan (id_pelanggan, nama_pelanggan, email_pelanggan) VALUES (?, ?, ?)',
+      [userId, 'Restored User', 'restored@google.com']
+    );
+
+
     // 1. Create a payment record
     const paymentId = await getNextId('PB', 'pembayaran', 'id_pembayaran');
     await connection.query(
@@ -559,10 +593,16 @@ app.post('/api/checkout', async (req, res) => {
 
     // 2. Create the main transaction
     const transactionId = await getNextId('TX', 'transaksi', 'id_transaksi');
+    
+    // Check discount before inserting transaction
+    const [discountRes] = await connection.query('SELECT CekDiskonMember(?) AS discount', [userId]);
+    const discountPercent = parseFloat(discountRes[0].discount) || 0;
+    const finalBill = discountPercent > 0 ? totalBill - (totalBill * (discountPercent / 100)) : totalBill;
+
     // Cashier default employee is PG0001 (Ops Director/Admin)
     await connection.query(
       'INSERT INTO transaksi (id_transaksi, tanggal_transaksi, total_tagihan, pelanggan_id_pelanggan, pembayaran_id_pembayaran, pegawai_id_pegawai) VALUES (?, NOW(), ?, ?, ?, ?)',
-      [transactionId, totalBill, userId, paymentId, 'PG0001']
+      [transactionId, finalBill, userId, paymentId, 'PG0001']
     );
 
     // 3. Create ticket records (Trigger trg_cegah_double_booking & trg_kalkulasi_harga_tiket will execute)
@@ -636,6 +676,29 @@ app.get('/api/admin/dashboard-stats', async (req, res) => {
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: 'Failed to fetch dashboard stats.' });
+  }
+});
+
+// POST /api/admin/inflation
+app.post('/api/admin/inflation', async (req, res) => {
+  const { percentage } = req.body;
+  try {
+    await pool.query('CALL NaikkanHargaInflasi(?)', [percentage || 10]);
+    return res.json({ success: true, message: 'Inflation applied successfully!' });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Failed to apply inflation.' });
+  }
+});
+
+// GET /api/admin/studios/revenue
+app.get('/api/admin/studios/revenue', async (req, res) => {
+  try {
+    const [studios] = await pool.query('SELECT st.id_studio, st.nomor_studio, st.kelas_studio, cb.nama_cabang, GetPendapatanByStudio(st.id_studio) AS revenue FROM studio st JOIN cabang cb ON st.cabang_id_cabang = cb.id_cabang ORDER BY revenue DESC');
+    return res.json(studios);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Failed to load studio revenues.' });
   }
 });
 
@@ -782,6 +845,18 @@ app.delete('/api/admin/fnb/:id', async (req, res) => {
   }
 });
 
+// POST /api/admin/fnb/restock
+app.post('/api/admin/fnb/restock', async (req, res) => {
+  const { id_produk, jumlah } = req.body;
+  try {
+    await pool.query('CALL TambahStokKantin(?, ?)', [id_produk, jumlah]);
+    return res.json({ success: true, message: 'Stock added successfully!' });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Failed to restock item.' });
+  }
+});
+
 // Public GET /api/branches for customer side navbar dropdown
 app.get('/api/branches', async (req, res) => {
   try {
@@ -906,6 +981,17 @@ app.delete('/api/admin/employees/:id', async (req, res) => {
 });
 
 // 5. Schedules CRUD
+app.post('/api/admin/schedules/midnight', async (req, res) => {
+  const { tanggal, harga_dasar, studio_id_studio, film_id_film } = req.body;
+  try {
+    await pool.query('CALL TambahJadwalMidnight(?, ?, ?, ?)', [tanggal, harga_dasar, studio_id_studio, film_id_film]);
+    return res.json({ success: true, message: 'Midnight schedule created successfully!' });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Failed to create midnight schedule.' });
+  }
+});
+
 app.get('/api/admin/schedules', async (req, res) => {
   try {
     const [schedules] = await pool.query(
